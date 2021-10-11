@@ -16,5 +16,13 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
+        <item
+            android:id="@+id/nav_commander"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_commander" />
+        <item
+            android:id="@+id/nav_stamp"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_stamp" />
     </group>
 </menu>

@@ -7,9 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">홈</string>
+    <string name="menu_gallery">어빌리티 스톤 세공 시뮬</string>
+    <string name="menu_slideshow">각인 시뮬</string>
+    <string name="menu_commander">군단장 레이드 정보</string>
+    <string name="menu_stamp">각인</string>
 
     <string name="home_second">Home Second</string>
 </resources>

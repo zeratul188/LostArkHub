@@ -40,4 +40,16 @@
         android:name="com.example.lostarkapplication.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_commander"
+        android:name="com.example.lostarkapplication.ui.commander.CommanderFragment"
+        android:label="@string/menu_commander"
+        tools:layout="@layout/fragment_commander" />
+
+    <fragment
+        android:id="@+id/nav_stamp"
+        android:name="com.example.lostarkapplication.ui.stamp.StampFragment"
+        android:label="@string/menu_stamp"
+        tools:layout="@layout/fragment_stamp" />
 </navigation>
