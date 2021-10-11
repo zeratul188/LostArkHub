@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "468170179065",
+    "project_id": "lostarkhub-cbe60",
+    "storage_bucket": "lostarkhub-cbe60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468170179065:android:e995e5ba4906a82392fd28",
+        "android_client_info": {
+          "package_name": "com.example.lostarkapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468170179065-p0lltu5cio61i95hrcvku5ihrkpb2cq6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lostarkapplication",
+            "certificate_hash": "f359bf404472a8a3fec9fdc3ecb86bd29c5fc183"
+          }
+        },
+        {
+          "client_id": "468170179065-qs45hmi932t0q1jj692du3ajokn7de7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLZpLj5SqApEC1gM12YW5IFwTqkbXQbbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468170179065-qs45hmi932t0q1jj692du3ajokn7de7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
