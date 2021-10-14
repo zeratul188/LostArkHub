@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#333333"
+    android:gravity="center"
+    android:padding="10dp">
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="10dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/stamptool" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/st1"
+            android:id="@+id/imgStamp"/>
+    </FrameLayout>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtName"
+        android:text="각성"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textColor="#FFFFFF"/>
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/buttonstyle"
+        android:layout_gravity="center"
+        android:text="선택"
+        android:id="@+id/btnSelect"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

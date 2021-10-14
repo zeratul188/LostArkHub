@@ -35,6 +35,7 @@
             <ImageView
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:id="@+id/imgStone"
                 android:layout_gravity="center"/>
 
             <ImageView
@@ -52,15 +53,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="스톤을 선택하세요."
+                android:text="스톤을 선택하세요"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"
+                android:id="@+id/txtTitle"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
+                android:id="@+id/txtGrade"
                 android:textColor="#cccccc"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -105,17 +108,43 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textgradientstyle"
-                android:text="-"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:id="@+id/txtBurf1"
-                android:textColor="#ffffff"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:id="@+id/txtBurf1"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"/>
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:src="@drawable/success"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" X "
+                    android:textSize="15sp"
+                    android:textColor="#698BDD"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:id="@+id/txtCount1"
+                    android:textSize="15sp"
+                    android:textColor="#698BDD"
+                    android:paddingRight="15dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,6 +155,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst1"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -133,6 +163,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst2"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -140,6 +171,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst3"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -147,6 +179,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst4"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -154,6 +187,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst5"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -161,12 +195,14 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst6"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/none"
+                    android:visibility="invisible"
                     android:id="@+id/imgFirst7"
                     android:layout_marginRight="7dp"/>
                 <ImageView
@@ -175,6 +211,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst8"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -182,6 +219,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst9"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -189,6 +227,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgFirst10"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 
             </LinearLayout>
@@ -229,17 +268,43 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textgradientstyle"
-                android:text="-"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:id="@+id/txtBurf2"
-                android:textColor="#ffffff"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:id="@+id/txtBurf2"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"/>
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:src="@drawable/success"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" X "
+                    android:textSize="15sp"
+                    android:textColor="#698BDD"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:id="@+id/txtCount2"
+                    android:textSize="15sp"
+                    android:textColor="#698BDD"
+                    android:paddingRight="15dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -250,6 +315,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond1"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -257,6 +323,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond2"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -264,6 +331,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond3"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -271,6 +339,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond4"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -278,6 +347,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond5"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -285,6 +355,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond6"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -292,6 +363,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond7"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -299,6 +371,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond8"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -306,6 +379,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond9"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
@@ -313,6 +387,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/none"
                     android:id="@+id/imgSecond10"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
 
             </LinearLayout>
@@ -360,17 +435,43 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textdeburfgradientstyle"
-                android:text="-"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:id="@+id/txtDeburf"
-                android:textColor="#ffffff"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:id="@+id/txtDeburf"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"/>
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:src="@drawable/deburf_success"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" X "
+                    android:textSize="15sp"
+                    android:textColor="#DD6969"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:id="@+id/txtCount3"
+                    android:textSize="15sp"
+                    android:textColor="#DD6969"
+                    android:paddingRight="15dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -380,70 +481,80 @@
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf1"
+                    android:id="@+id/imgThird1"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf2"
+                    android:id="@+id/imgThird2"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf3"
+                    android:id="@+id/imgThird3"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf4"
+                    android:id="@+id/imgThird4"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf5"
+                    android:id="@+id/imgThird5"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf6"
+                    android:id="@+id/imgThird6"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf7"
+                    android:id="@+id/imgThird7"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf8"
+                    android:id="@+id/imgThird8"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf9"
+                    android:id="@+id/imgThird9"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="16dp"
                     android:src="@drawable/deburf_none"
-                    android:id="@+id/imgDeburf10"
+                    android:id="@+id/imgThird10"
+                    android:visibility="invisible"
                     android:layout_marginRight="7dp"/>
 
             </LinearLayout>

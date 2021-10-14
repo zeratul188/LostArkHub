@@ -24,6 +24,25 @@ public class StampDBAdapter {
         }
     }
 
+    public String[] readData(int number) {
+        if (wb != null) {
+            Sheet sheet = wb.getSheet(0);
+            if (sheet != null) {
+                int colTotal = sheet.getColumns();
+                int rowIndexStart = 0;
+                int rowTotal = sheet.getColumn(colTotal-1).length;
+
+                String[] result = new String[colTotal];
+                for (int col = 0; col < colTotal; col++) {
+                    result[col] = sheet.getCell(col, number).getContents();
+                }
+                return result;
+            }
+        }
+
+        return null;
+    }
+
     public String[] readData(String name) {
         if (wb != null) {
             Sheet sheet = wb.getSheet(0);
