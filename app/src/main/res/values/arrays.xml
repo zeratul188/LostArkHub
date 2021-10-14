@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ability_stone">
+        <item>희귀</item>
+        <item>영웅</item>
+        <item>전설</item>
+        <item>유물</item>
+    </string-array>
+</resources>
