@@ -3,4 +3,8 @@
     <color name="colorPrimary">#222222</color>
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="normal">#2093A8</color>
+    <color name="epic">#9B53D2</color>
+    <color name="legend">#C2873B</color>
+    <color name="exotic">#BF5700</color>
 </resources>

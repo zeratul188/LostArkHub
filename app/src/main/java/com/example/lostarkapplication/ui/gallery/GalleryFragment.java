@@ -1,6 +1,7 @@
 package com.example.lostarkapplication.ui.gallery;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.lostarkapplication.R;
 import com.example.lostarkapplication.database.StampDBAdapter;
+import com.example.lostarkapplication.database.StoneDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,14 +35,18 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private ImageView imgStone, imgBurf1, imgBurf2, imgDeburf;
     private TextView txtTitle, txtGrade, txtBurf1, txtBurf2, txtDeburf, txtPercent, txtCount1, txtCount2, txtCount3;
-    private Button btnChange, btnBurf1, btnBurf2, btnDeburf, btnConfirm;
+    private Button btnChange, btnBurf1, btnBurf2, btnDeburf, btnConfirm, btnReset;
+    private ListView listView;
     private ImageView[] imgFirst = new ImageView[10];
     private ImageView[] imgSecond = new ImageView[10];
     private ImageView[] imgThird = new ImageView[10];
 
     private StampDBAdapter stampDBAdapter;
+    private StoneDBAdapter stoneDBAdapter;
+    private StoneAdapter stoneAdapter;
     private AlertDialog stampDialog, alertDialog;
     private DataNetwork dn;
+    private ArrayList<Stone> stones;
 
     private int max = 0;
     private int burf1 = 0, burf2 = 0, deburf = 0;
@@ -61,6 +67,7 @@ public class GalleryFragment extends Fragment {
         });*/
 
         dn = new DataNetwork();
+        stones = new ArrayList<>();
 
         imgStone = root.findViewById(R.id.imgStone);
         imgBurf1 = root.findViewById(R.id.imgBurf1);
@@ -80,6 +87,8 @@ public class GalleryFragment extends Fragment {
         txtCount2 = root.findViewById(R.id.txtCount2);
         txtCount3 = root.findViewById(R.id.txtCount3);
         btnConfirm = root.findViewById(R.id.btnConfirm);
+        btnReset = root.findViewById(R.id.btnReset);
+        listView = root.findViewById(R.id.listView);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
             imgSecond[i] = root.findViewById(getActivity().getResources().getIdentifier("imgSecond"+(i+1), "id", getActivity().getPackageName()));
@@ -87,6 +96,10 @@ public class GalleryFragment extends Fragment {
         }
 
         stampDBAdapter = new StampDBAdapter(getActivity());
+        stoneAdapter = new StoneAdapter(stones, getActivity());
+        listView.setAdapter(stoneAdapter);
+
+        stoneDBAdapter = new StoneDBAdapter(getActivity());
 
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,24 +163,28 @@ public class GalleryFragment extends Fragment {
                         switch (sprGrade.getSelectedItem().toString()) {
                             case "희귀":
                                 txtTitle.setText("비상의 돌");
+                                txtGrade.setText("희귀");
                                 txtGrade.setTextColor(Color.parseColor("#2093A8"));
                                 imgStone.setImageResource(R.drawable.stone1);
                                 max = 6;
                                 break;
                             case "영웅":
                                 txtTitle.setText("뛰어난 비상의 돌");
+                                txtGrade.setText("영웅");
                                 txtGrade.setTextColor(Color.parseColor("#9B53D2"));
                                 imgStone.setImageResource(R.drawable.stone2);
                                 max = 8;
                                 break;
                             case "전설":
                                 txtTitle.setText("강력한 비상의 돌");
+                                txtGrade.setText("전설");
                                 txtGrade.setTextColor(Color.parseColor("#C2873B"));
                                 imgStone.setImageResource(R.drawable.stone3);
                                 max = 9;
                                 break;
                             case "유물":
                                 txtTitle.setText("고고한 비상의 돌");
+                                txtGrade.setText("유물");
                                 txtGrade.setTextColor(Color.parseColor("#BF5700"));
                                 imgStone.setImageResource(R.drawable.stone4);
                                 max = 10;
@@ -199,6 +216,8 @@ public class GalleryFragment extends Fragment {
                         btnBurf1.setEnabled(true);
                         btnBurf2.setEnabled(true);
                         btnDeburf.setEnabled(true);
+                        btnChange.setEnabled(false);
+                        btnReset.setEnabled(true);
 
                         alertDialog.dismiss();
                     }
@@ -223,7 +242,7 @@ public class GalleryFragment extends Fragment {
                         for (int i = 0; i < 85; i++) {
                             String[] arr = stampDBAdapter.readData(i);
                             Stamp stamp = new Stamp(arr[0], arr[1]);
-                            stamps.add(stamp);
+                            if (!stamp.getName().equals(txtSelectBurf2.getText().toString())) stamps.add(stamp);
                         }
 
                         StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
@@ -279,7 +298,7 @@ public class GalleryFragment extends Fragment {
                         for (int i = 0; i < 85; i++) {
                             String[] arr = stampDBAdapter.readData(i);
                             Stamp stamp = new Stamp(arr[0], arr[1]);
-                            stamps.add(stamp);
+                            if (!stamp.getName().equals(txtSelectBurf1.getText().toString())) stamps.add(stamp);
                         }
 
                         StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
@@ -405,7 +424,10 @@ public class GalleryFragment extends Fragment {
                 burf1++;
                 txtPercent.setText(Integer.toString(percent));
                 if (burf1 == max) btnBurf1.setEnabled(false);
-                if (allMax()) btnConfirm.setEnabled(true);
+                if (allMax()) {
+                    btnConfirm.setEnabled(true);
+                    btnReset.setEnabled(true);
+                }
             }
         });
 
@@ -425,7 +447,10 @@ public class GalleryFragment extends Fragment {
                 burf2++;
                 txtPercent.setText(Integer.toString(percent));
                 if (burf2 == max) btnBurf2.setEnabled(false);
-                if (allMax()) btnConfirm.setEnabled(true);
+                if (allMax()) {
+                    btnConfirm.setEnabled(true);
+                    btnReset.setEnabled(true);
+                }
             }
         });
 
@@ -445,51 +470,117 @@ public class GalleryFragment extends Fragment {
                 deburf++;
                 txtPercent.setText(Integer.toString(percent));
                 if (deburf == max) btnDeburf.setEnabled(false);
-                if (allMax()) btnConfirm.setEnabled(true);
+                if (allMax()) {
+                    btnConfirm.setEnabled(true);
+                    btnReset.setEnabled(true);
+                }
             }
         });
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imgStone.setImageResource(0);
-                txtTitle.setText("스톤을 선택하세요");
-                txtGrade.setText("-");
-                imgBurf1.setImageResource(0);
-                imgBurf2.setImageResource(0);
-                imgDeburf.setImageResource(0);
-                for (int i = 0; i < 10; i++) {
-                    imgFirst[i].setVisibility(View.INVISIBLE);
-                    imgFirst[i].setImageResource(R.drawable.none);
-                    imgSecond[i].setVisibility(View.INVISIBLE);
-                    imgSecond[i].setImageResource(R.drawable.none);
-                    imgThird[i].setVisibility(View.INVISIBLE);
-                    imgThird[i].setImageResource(R.drawable.deburf_none);
-                }
-                txtBurf1.setText("-");
-                txtBurf2.setText("-");
-                txtDeburf.setText("-");
-                btnConfirm.setEnabled(false);
-                txtPercent.setText("75");
-                txtCount1.setText("0");
-                txtCount2.setText("0");
-                txtCount3.setText("0");
+                String[] stamps = new String[3];
+                int[] stamp_cnts = new int[3];
+                stamps[0] = txtBurf1.getText().toString();
+                stamps[1] = txtBurf2.getText().toString();
+                stamps[2] = txtDeburf.getText().toString();
+                stamp_cnts[0] = Integer.parseInt(txtCount1.getText().toString());
+                stamp_cnts[1] = Integer.parseInt(txtCount2.getText().toString());
+                stamp_cnts[2] = Integer.parseInt(txtCount3.getText().toString());
+                Stone stone = new Stone(txtGrade.getText().toString(), stamps, stamp_cnts);
 
-                burf1 = 0;
-                burf2 = 0;
-                deburf = 0;
-                percent = 75;
-                burf1_cnt = 0;
-                burf2_cnt = 0;
-                deburf_cnt = 0;
+                stoneDBAdapter.open();
+                stoneDBAdapter.insertData(stone);
+                stoneDBAdapter.close();
+
+                stones.add(stone);
+                stoneAdapter.notifyDataSetChanged();
+
+                reset();
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset();
             }
         });
 
         return root;
     }
 
+    private void reset() {
+        imgStone.setImageResource(R.drawable.none_stone);
+        txtTitle.setText("스톤을 선택하세요");
+        txtGrade.setText("");
+        imgBurf1.setImageResource(R.drawable.none_stamp);
+        imgBurf2.setImageResource(R.drawable.none_stamp);
+        imgDeburf.setImageResource(R.drawable.none_stamp);
+        for (int i = 0; i < 10; i++) {
+            imgFirst[i].setVisibility(View.INVISIBLE);
+            imgFirst[i].setImageResource(R.drawable.none);
+            imgSecond[i].setVisibility(View.INVISIBLE);
+            imgSecond[i].setImageResource(R.drawable.none);
+            imgThird[i].setVisibility(View.INVISIBLE);
+            imgThird[i].setImageResource(R.drawable.deburf_none);
+        }
+        txtBurf1.setText("-");
+        txtBurf2.setText("-");
+        txtDeburf.setText("-");
+        btnConfirm.setEnabled(false);
+        btnReset.setEnabled(false);
+        txtPercent.setText("75");
+        txtCount1.setText("0");
+        txtCount2.setText("0");
+        txtCount3.setText("0");
+        btnChange.setEnabled(true);
+
+        burf1 = 0;
+        burf2 = 0;
+        deburf = 0;
+        percent = 75;
+        burf1_cnt = 0;
+        burf2_cnt = 0;
+        deburf_cnt = 0;
+    }
+
     private boolean allMax() {
         if (burf1 == max && burf2 == max && deburf == max) return true;
         else return false;
+    }
+
+    public void loadStones() {
+        stones.clear();
+        stoneDBAdapter.open();
+        Cursor cursor = stoneDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String[] stamps = new String[3];
+            int[] stamp_cnts = new int[3];
+            stamps[0] = cursor.getString(2);
+            stamps[1] = cursor.getString(3);
+            stamps[2] = cursor.getString(4);
+            stamp_cnts[0] = cursor.getInt(5);
+            stamp_cnts[1] = cursor.getInt(6);
+            stamp_cnts[2] = cursor.getInt(7);
+            Stone stone = new Stone(cursor.getString(1), stamps, stamp_cnts);
+            stones.add(stone);
+            cursor.moveToNext();
+        }
+        stoneDBAdapter.close();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadStones();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadStones();
     }
 }

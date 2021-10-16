@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/layoutMain"
+    android:background="@drawable/stonehistorystyle1"
+    android:layout_height="match_parent">
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:id="@+id/viewLine"
+        android:layout_marginRight="10dp"
+        android:background="@color/normal"/>
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:id="@+id/imgStone"
+            android:src="@drawable/stone1"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/imagetool" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtName"
+            android:text="[어빌리티 스톤]"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGrade"
+            android:text="[Stone Grade]"
+            android:textSize="14sp"
+            android:textColor="@color/normal"/>
+    </LinearLayout>
+    <TableLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_gravity="center">
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/txtBurf1"
+                android:text="[First Stamp]"
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/success"
+                android:layout_gravity="center"/>
+            <TextView
+                android:text=" X "
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+            <TextView
+                android:id="@+id/txtBurfCnt1"
+                android:text="0"
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/txtBurf2"
+                android:text="[Second Stamp]"
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/success"
+                android:layout_gravity="center"/>
+            <TextView
+                android:text=" X "
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+            <TextView
+                android:id="@+id/txtBurfCnt2"
+                android:text="0"
+                android:textSize="14sp"
+                android:textColor="#698BDD"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/txtBurf3"
+                android:text="[Third Stamp]"
+                android:textSize="14sp"
+                android:textColor="#DD6969"/>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/deburf_success"
+                android:layout_gravity="center"/>
+            <TextView
+                android:text=" X "
+                android:textSize="14sp"
+                android:textColor="#DD6969"/>
+            <TextView
+                android:id="@+id/txtBurfCnt3"
+                android:text="0"
+                android:textSize="14sp"
+                android:textColor="#DD6969"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
