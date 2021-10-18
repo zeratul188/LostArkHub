@@ -36,6 +36,7 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:id="@+id/imgStone"
+                android:src="@drawable/none_stone"
                 android:layout_gravity="center"/>
 
             <ImageView
@@ -65,14 +66,14 @@
                 android:text="-"
                 android:id="@+id/txtGrade"
                 android:textColor="#cccccc"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
         </LinearLayout>
         <Button
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:background="@drawable/buttonstyle"
             android:layout_gravity="center"
-            android:text="변경하기"
+            android:text="제작"
             android:id="@+id/btnChange"
             android:textSize="14sp"
             android:textColor="#FFFFFF"/>
@@ -101,6 +102,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:src="@drawable/none_stamp"
                 android:id="@+id/imgBurf1"/>
         </FrameLayout>
         <LinearLayout
@@ -261,6 +263,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:src="@drawable/none_stamp"
                 android:id="@+id/imgBurf2"/>
         </FrameLayout>
         <LinearLayout
@@ -428,6 +431,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:src="@drawable/none_stamp"
                 android:id="@+id/imgDeburf"/>
         </FrameLayout>
         <LinearLayout
@@ -604,10 +608,25 @@
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:background="@drawable/buttonstyle"
+            android:text="포기하기"
+            android:id="@+id/btnReset"
+            android:textSize="14sp"
+            android:layout_marginRight="10dp"
+            android:textColor="#FFFFFF"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonstyle"
             android:text="결정하기"
             android:id="@+id/btnConfirm"
             android:textSize="14sp"
             android:enabled="false"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/listView"/>
 </LinearLayout>
