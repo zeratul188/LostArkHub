@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:divider="#222222"
         android:id="@+id/listView"/>
     <Button
         android:layout_width="160dp"
