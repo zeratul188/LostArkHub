@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:src="@drawable/nav_background"
+        android:id="@+id/imgEvent"
+        android:scaleType="centerCrop"
+        android:background="@drawable/roundimage"
+        android:layout_marginBottom="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2021년 4월 9일 ~ 2021년 5월 21일"
+        android:id="@+id/txtDate"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="#aaaaaa"/>
+</LinearLayout>

@@ -1,11 +1,17 @@
 package com.example.lostarkapplication.ui.home;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lostarkapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +60,19 @@ public class HomeFragment extends Fragment {
     private TextView txtStartDungeon, txtEndDungeon, txtFirstDungeon, txtSecondDungeon;
     private ImageView imgFirstDungeon, imgSecondDungeon;
 
+    private ListView listUpdate;
+    private ArrayList<Update> updates;
+    private ArrayList<String> update_dates;
+    private ArrayAdapter updateAdapter;
+
+    private RecyclerView listEvent;
+    private EventListAdapter eventAdapter;
+    private ArrayList<Event> events;
+
+    private TextView txtAlarm;
+
     private FirebaseDatabase mDatabase;
-    private DatabaseReference islandReference, bossReference, dungeonReference;
+    private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
 
     @Override
     public void onResume() {
@@ -181,6 +202,63 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        updateReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updates.clear();
+                update_dates.clear();
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String date = data.child("date").getValue().toString();
+                    String url = data.child("url").getValue().toString();
+                    updates.add(new Update(date, url));
+                    update_dates.add(date+" 업데이트 내역");
+                }
+                Collections.reverse(update_dates);
+                Collections.reverse(updates);
+                updateAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                events.clear();
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String startdate = data.child("startdate").getValue().toString();
+                    String enddate = data.child("enddate").getValue().toString();
+                    int number = Integer.parseInt(data.child("number").getValue().toString());
+                    String url = data.child("url").getValue().toString();
+                    events.add(new Event(number, startdate, enddate, url));
+                }
+                eventAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        andReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String alarm = data.getValue().toString();
+                    txtAlarm.setText(alarm);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -220,10 +298,45 @@ public class HomeFragment extends Fragment {
         imgFirstDungeon.setClipToOutline(true);
         imgSecondDungeon.setClipToOutline(true);
 
+        listUpdate = root.findViewById(R.id.listUpdate);
+        updates = new ArrayList<>();
+        update_dates = new ArrayList<>();
+        updateAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, update_dates){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View view = super.getView(position, convertView, parent);
+                TextView tv = (TextView) view.findViewById(android.R.id.text1);
+                tv.setTextColor(Color.WHITE);
+                return view;
+            }
+        };
+        listUpdate.setAdapter(updateAdapter);
+        listUpdate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updates.get(position).getUrl())));
+            }
+        });
+
+        listEvent = root.findViewById(R.id.listEvent);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        listEvent.setLayoutManager(layoutManager);
+        events = new ArrayList<>();
+        eventAdapter = new EventListAdapter(events, getActivity());
+        listEvent.setAdapter(eventAdapter);
+        EventDecoration decoration = new EventDecoration();
+        listEvent.addItemDecoration(decoration);
+
+        txtAlarm = root.findViewById(R.id.txtAlarm);
+
         mDatabase = FirebaseDatabase.getInstance();
         islandReference =mDatabase.getReference("island");
         bossReference = mDatabase.getReference("boss");
         dungeonReference = mDatabase.getReference("dungeon");
+        updateReference = mDatabase.getReference("update");
+        eventReference = mDatabase.getReference("event");
+        andReference = mDatabase.getReference("Andsoon");
 
         return root;
     }
