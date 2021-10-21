@@ -6,4 +6,50 @@
         <item>전설</item>
         <item>유물</item>
     </string-array>
+
+    <string-array name="islands">
+        <item>하모니 섬</item>
+        <item>볼라르 섬</item>
+        <item>고요한 안식의 섬</item>
+        <item>죽음의 협곡</item>
+        <item>포르페</item>
+        <item>블루홀 섬</item>
+        <item>기회의 섬</item>
+        <item>몬테섬</item>
+        <item>수라도</item>
+        <item>메데이아</item>
+        <item>우거진 갈대의 섬</item>
+    </string-array>
+
+    <string-array name="bosses">
+        <item>우르닐</item>
+        <item>어둠의 레기오로스</item>
+        <item>레바노스</item>
+        <item>베르투스</item>
+        <item>헬가이아</item>
+        <item>아카테스</item>
+        <item>루메루스</item>
+        <item>흑야의 요호</item>
+        <item>중갑 나크라세나</item>
+        <item>빙결의 레기오로스</item>
+        <item>타이탈로스</item>
+        <item>벨가누스</item>
+        <item>크로마니움</item>
+        <item>칼벤투스</item>
+        <item>이그렉시온</item>
+        <item>나크라세나</item>
+        <item>용암 크로마니움</item>
+        <item>엘버하스틱</item>
+        <item>홍염의 요호</item>
+        <item>혹한의 헬가이아</item>
+    </string-array>
+
+    <string-array name="dungeon">
+        <item>마수의 골짜기</item>
+        <item>사령술사의 근원</item>
+        <item>비틀린 군주의 회랑</item>
+        <item>몽환궁전 힐데브리뉴</item>
+        <item>탄식의 길</item>
+        <item>추락한 긍지의 용광로</item>
+    </string-array>
 </resources>
