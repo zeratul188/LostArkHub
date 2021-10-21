@@ -167,6 +167,7 @@
                     android:id="@+id/txtBoss1"
                     android:text="[Boss Name]"
                     android:textSize="18sp"
+                    android:gravity="center"
                     android:textColor="#FFCA45"
                     android:layout_marginBottom="7dp"/>
                 <TextView
@@ -224,6 +225,7 @@
                     android:id="@+id/txtBoss2"
                     android:text="[Boss Name]"
                     android:textSize="18sp"
+                    android:gravity="center"
                     android:textColor="#FFCA45"
                     android:layout_marginBottom="7dp"/>
                 <TextView
@@ -279,6 +281,7 @@
                     android:id="@+id/txtBoss3"
                     android:text="[Boss Name]"
                     android:textSize="18sp"
+                    android:gravity="center"
                     android:textColor="#FFCA45"
                     android:layout_marginBottom="7dp"/>
                 <TextView
@@ -308,6 +311,93 @@
                     android:textColor="#AAAAAA"
                     android:layout_marginBottom="4dp"/>
             </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="도전 어비스 던전"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#FFFFFF"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtStartDungeon"
+                android:text="[Dungeon Start Date]"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ~ "
+                android:textSize="16sp"
+                android:gravity="right"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEndDungeon"
+                android:text="[Dungeon End Date]"
+                android:textSize="16sp"
+                android:textColor="#AAAAAA"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="120dp"
+                android:id="@+id/imgFirstDungeon"
+                android:src="@drawable/dg1_1"
+                android:background="@drawable/roundimage"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="5dp"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="120dp"
+                android:id="@+id/imgSecondDungeon"
+                android:src="@drawable/dg1_2"
+                android:background="@drawable/roundimage"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/txtFirstDungeon"
+                android:text="[Dungeon Name]"
+                android:textSize="16sp"
+                android:textColor="#FFCA45"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/txtSecondDungeon"
+                android:text="[Dungeon Name]"
+                android:textSize="16sp"
+                android:textColor="#FFCA45"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

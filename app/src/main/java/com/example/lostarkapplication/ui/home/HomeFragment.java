@@ -21,6 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class HomeFragment extends Fragment {
     private static final int ISLAND_LENGTH = 3;
     private static final int BOSS_LENGTH = 3;
@@ -37,8 +47,11 @@ public class HomeFragment extends Fragment {
     private TextView[] txtStartBoss = new TextView[BOSS_LENGTH];
     private TextView[] txtEndBoss = new TextView[BOSS_LENGTH];
 
+    private TextView txtStartDungeon, txtEndDungeon, txtFirstDungeon, txtSecondDungeon;
+    private ImageView imgFirstDungeon, imgSecondDungeon;
+
     private FirebaseDatabase mDatabase;
-    private DatabaseReference islandReference, bossReference;
+    private DatabaseReference islandReference, bossReference, dungeonReference;
 
     @Override
     public void onResume() {
@@ -96,6 +109,78 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        dungeonReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> dungeons = Arrays.asList(getActivity().getResources().getStringArray(R.array.dungeon));
+                String date = "";
+                int recycle = 0;
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    if (data.getKey().equals("date")) date = data.getValue().toString();
+                    else recycle = Integer.parseInt(data.getValue().toString());
+                }
+                SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+                Date dt = null;
+                try {
+                    dt = fm.parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                Calendar calendar = Calendar.getInstance();
+                if (dt != null) calendar.setTime(dt);
+                DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일");
+                DateFormat input_df = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date before = calendar.getTime();
+                calendar.add(Calendar.DATE, 14);
+                Date after = calendar.getTime();
+                Date now = new Date();
+
+                int compare = now.compareTo(after);
+                if (compare >= 0) {
+                    if (recycle == 3) recycle = 1;
+                    else recycle++;
+                    Map<String, Object> taskMap = new HashMap<>();
+                    taskMap.put("date", input_df.format(after));
+                    taskMap.put("recycle", recycle);
+                    dungeonReference.updateChildren(taskMap);
+                    txtStartDungeon.setText(df.format(after));
+                    calendar.add(Calendar.DATE, 14);
+                    txtEndDungeon.setText(df.format(calendar.getTime()));
+                } else {
+                    txtStartDungeon.setText(df.format(before));
+                    txtEndDungeon.setText(df.format(after));
+                }
+
+                switch (recycle) {
+                    case 1:
+                        imgFirstDungeon.setImageResource(R.drawable.dg1_1);
+                        imgSecondDungeon.setImageResource(R.drawable.dg1_2);
+                        txtFirstDungeon.setText(dungeons.get(0));
+                        txtSecondDungeon.setText(dungeons.get(1));
+                        break;
+                    case 2:
+                        imgFirstDungeon.setImageResource(R.drawable.dg2_1);
+                        imgSecondDungeon.setImageResource(R.drawable.dg2_2);
+                        txtFirstDungeon.setText(dungeons.get(2));
+                        txtSecondDungeon.setText(dungeons.get(3));
+                        break;
+                    case 3:
+                        imgFirstDungeon.setImageResource(R.drawable.dg3_1);
+                        imgSecondDungeon.setImageResource(R.drawable.dg3_2);
+                        txtFirstDungeon.setText(dungeons.get(4));
+                        txtSecondDungeon.setText(dungeons.get(5));
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -124,9 +209,21 @@ public class HomeFragment extends Fragment {
             imgBoss[i].setClipToOutline(true);
         }
 
+        txtStartDungeon = root.findViewById(R.id.txtStartDungeon);
+        txtEndDungeon = root.findViewById(R.id.txtEndDungeon);
+        txtFirstDungeon = root.findViewById(R.id.txtFirstDungeon);
+        txtSecondDungeon = root.findViewById(R.id.txtSecondDungeon);
+        imgFirstDungeon = root.findViewById(R.id.imgFirstDungeon);
+        imgSecondDungeon = root.findViewById(R.id.imgSecondDungeon);
+        imgFirstDungeon.setBackground(round_drawable);
+        imgSecondDungeon.setBackground(round_drawable);
+        imgFirstDungeon.setClipToOutline(true);
+        imgSecondDungeon.setClipToOutline(true);
+
         mDatabase = FirebaseDatabase.getInstance();
         islandReference =mDatabase.getReference("island");
         bossReference = mDatabase.getReference("boss");
+        dungeonReference = mDatabase.getReference("dungeon");
 
         return root;
     }
