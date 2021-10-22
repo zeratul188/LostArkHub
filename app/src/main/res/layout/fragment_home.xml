@@ -147,7 +147,7 @@
             android:layout_height="140dp"
             android:src="@drawable/bs1"
             android:scaleType="centerCrop"
-            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/roundimage"
             android:id="@+id/imgBoss1"/>
         <LinearLayout
