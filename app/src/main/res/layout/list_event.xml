@@ -5,7 +5,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:src="@drawable/nav_background"
+        android:src="@drawable/emptyboss"
         android:id="@+id/imgEvent"
         android:scaleType="centerCrop"
         android:background="@drawable/roundimage"

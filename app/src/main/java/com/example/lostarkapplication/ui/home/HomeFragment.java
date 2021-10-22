@@ -80,10 +80,10 @@ public class HomeFragment extends Fragment {
         islandReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String startdate = "", enddate = "";
+                String startdate = "";
                 for (DataSnapshot data :snapshot.getChildren()) {
                     if (data.getKey().equals("startdate")) startdate = data.getValue().toString();
-                    else if (data.getKey().equals("enddate")) enddate = data.getValue().toString();
+                    else if (data.getKey().equals("enddate")) continue;
                     else {
                         String name = data.child("name").getValue().toString();
                         String award = data.child("award").getValue().toString();
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
                         txtIslandAward[index].setText(award);
                     }
                 }
-                txtIslandDate.setText(startdate+" ~ "+enddate);
+                txtIslandDate.setText(startdate+"에 시작");
             }
 
             @Override
