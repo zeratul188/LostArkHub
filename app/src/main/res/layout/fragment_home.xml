@@ -142,175 +142,134 @@
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@drawable/bs1"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/roundimage"
+            android:id="@+id/imgBoss1"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="100dp"
-                android:src="@drawable/bs1"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/roundimage"
-                android:id="@+id/imgBoss1"/>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="3"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss1"
-                    android:text="[Boss Name]"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="#FFCA45"
-                    android:layout_marginBottom="7dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss1"
-                    android:text="[Start Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEndBoss1"
-                    android:text="[End Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-            </LinearLayout>
+                android:id="@+id/txtBoss1"
+                android:text="[Boss Name]"
+                android:textSize="18sp"
+                android:textColor="#FFCA45"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtStartBoss1"
+                android:text="[Start Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="~"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEndBoss1"
+                android:text="[End Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
         </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@drawable/bs2"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/roundimage"
+            android:id="@+id/imgBoss2"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="100dp"
-                android:src="@drawable/bs2"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/roundimage"
-                android:id="@+id/imgBoss2"/>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="3"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss2"
-                    android:text="[Boss Name]"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="#FFCA45"
-                    android:layout_marginBottom="7dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss2"
-                    android:text="[Start Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEndBoss2"
-                    android:text="[End Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-            </LinearLayout>
+                android:id="@+id/txtBoss2"
+                android:text="[Boss Name]"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:textColor="#FFCA45"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtStartBoss2"
+                android:text="[Start Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="~"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEndBoss2"
+                android:text="[End Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
         </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@drawable/bs3"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/roundimage"
+            android:id="@+id/imgBoss3"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="100dp"
-                android:src="@drawable/bs3"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/roundimage"
-                android:id="@+id/imgBoss3"/>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="3"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss3"
-                    android:text="[Boss Name]"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="#FFCA45"
-                    android:layout_marginBottom="7dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss3"
-                    android:text="[Start Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEndBoss3"
-                    android:text="[End Date]"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_marginBottom="4dp"/>
-            </LinearLayout>
+                android:id="@+id/txtBoss3"
+                android:text="[Boss Name]"
+                android:textSize="18sp"
+                android:layout_marginRight="10dp"
+                android:textColor="#FFCA45"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtStartBoss3"
+                android:text="[Start Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="~"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEndBoss3"
+                android:text="[End Date]"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"/>
         </LinearLayout>
 
         <TextView
