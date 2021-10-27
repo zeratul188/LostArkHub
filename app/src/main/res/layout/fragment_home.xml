@@ -51,73 +51,82 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageView
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imgIsland1"
+                    android:background="@drawable/roundimage"
+                    android:src="@drawable/emptyboss"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtIsland1"
+                    android:background="@drawable/nameroundimage"
+                    android:text="-"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:padding="2dp"
+                    android:textColor="#FFCA45"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/imgIsland1"
-                android:background="@drawable/roundimage"
-                android:src="@drawable/emptyboss"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/imgIsland2"
-                android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/roundimage"
-                android:src="@drawable/emptyboss"/>
-            <ImageView
+                android:layout_marginRight="5dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imgIsland2"
+                    android:background="@drawable/roundimage"
+                    android:src="@drawable/emptyboss"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtIsland2"
+                    android:background="@drawable/nameroundimage"
+                    android:text="-"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:padding="2dp"
+                    android:textColor="#FFCA45"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/imgIsland3"
-                android:background="@drawable/roundimage"
-                android:src="@drawable/emptyboss"/>
+                android:layout_height="80dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imgIsland3"
+                    android:background="@drawable/roundimage"
+                    android:src="@drawable/emptyboss"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtIsland3"
+                    android:background="@drawable/nameroundimage"
+                    android:text="-"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:padding="2dp"
+                    android:textColor="#FFCA45"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIsland1"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#FFCA45"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIsland2"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#FFCA45"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIsland3"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#FFCA45"
-                android:gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:orientation="horizontal">
             <TextView
@@ -376,54 +385,43 @@
                 android:textSize="16sp"
                 android:textColor="#AAAAAA"/>
         </LinearLayout>
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:layout_height="140dp">
             <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="120dp"
-                android:id="@+id/imgFirstDungeon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imgDungeon"
                 android:src="@drawable/emptyboss"
                 android:background="@drawable/roundimage"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="5dp"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="120dp"
-                android:id="@+id/imgSecondDungeon"
-                android:src="@drawable/emptyboss"
-                android:background="@drawable/roundimage"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="5dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/txtFirstDungeon"
-                android:text="-"
-                android:textSize="16sp"
-                android:textColor="#FFCA45"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/txtSecondDungeon"
-                android:text="-"
-                android:textSize="16sp"
-                android:textColor="#FFCA45"/>
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:padding="5dp"
+                android:background="@drawable/nameroundimage">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/txtFirstDungeon"
+                    android:text="-"
+                    android:textSize="16sp"
+                    android:textColor="#FFCA45"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/txtSecondDungeon"
+                    android:text="-"
+                    android:textSize="16sp"
+                    android:textColor="#FFCA45"/>
+            </LinearLayout>
+        </FrameLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

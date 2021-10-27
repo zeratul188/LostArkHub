@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
     private TextView[] txtEndBoss = new TextView[BOSS_LENGTH];
 
     private TextView txtStartDungeon, txtEndDungeon, txtFirstDungeon, txtSecondDungeon;
-    private ImageView imgFirstDungeon, imgSecondDungeon;
+    private ImageView imgDungeon;
 
     private ListView listUpdate;
     private ArrayList<Update> updates;
@@ -177,20 +177,17 @@ public class HomeFragment extends Fragment {
 
                 switch (recycle) {
                     case 1:
-                        imgFirstDungeon.setImageResource(R.drawable.dg1_1);
-                        imgSecondDungeon.setImageResource(R.drawable.dg1_2);
+                        imgDungeon.setImageResource(R.drawable.dg1);
                         txtFirstDungeon.setText(dungeons.get(0));
                         txtSecondDungeon.setText(dungeons.get(1));
                         break;
                     case 2:
-                        imgFirstDungeon.setImageResource(R.drawable.dg2_1);
-                        imgSecondDungeon.setImageResource(R.drawable.dg2_2);
+                        imgDungeon.setImageResource(R.drawable.dg2);
                         txtFirstDungeon.setText(dungeons.get(2));
                         txtSecondDungeon.setText(dungeons.get(3));
                         break;
                     case 3:
-                        imgFirstDungeon.setImageResource(R.drawable.dg3_1);
-                        imgSecondDungeon.setImageResource(R.drawable.dg3_2);
+                        imgDungeon.setImageResource(R.drawable.dg3);
                         txtFirstDungeon.setText(dungeons.get(4));
                         txtSecondDungeon.setText(dungeons.get(5));
                         break;
@@ -291,12 +288,9 @@ public class HomeFragment extends Fragment {
         txtEndDungeon = root.findViewById(R.id.txtEndDungeon);
         txtFirstDungeon = root.findViewById(R.id.txtFirstDungeon);
         txtSecondDungeon = root.findViewById(R.id.txtSecondDungeon);
-        imgFirstDungeon = root.findViewById(R.id.imgFirstDungeon);
-        imgSecondDungeon = root.findViewById(R.id.imgSecondDungeon);
-        imgFirstDungeon.setBackground(round_drawable);
-        imgSecondDungeon.setBackground(round_drawable);
-        imgFirstDungeon.setClipToOutline(true);
-        imgSecondDungeon.setClipToOutline(true);
+        imgDungeon = root.findViewById(R.id.imgDungeon);
+        imgDungeon.setBackground(round_drawable);
+        imgDungeon.setClipToOutline(true);
 
         listUpdate = root.findViewById(R.id.listUpdate);
         updates = new ArrayList<>();
