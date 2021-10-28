@@ -1,211 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@drawable/dialogsytle"
-    android:padding="15dp">
+    android:layout_height="match_parent" android:background="#222222">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="어빌리티 스톤 제작"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@drawable/dialogtitlestyle"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#3581DF"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="10dp">
-
-            <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_gravity="center"
-                android:id="@+id/imgSelectStone"
-                android:src="@drawable/stone1"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/imagetool"/>
-        </FrameLayout>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtName"
-            android:text="비상의 돌"
-            android:layout_gravity="center"
-            android:textSize="23sp"
-            android:textColor="#2093a8"
-            android:textStyle="bold"/>
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
         <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/spinnerstyle"
-            android:orientation="vertical">
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dropdown"
-                android:id="@+id/sprGrade"
-                android:background="#00000000"
-                android:gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/imgSelectStone"
+                    android:src="@drawable/stone1"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/imagetool"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtName"
+                android:text="비상의 돌"
+                android:layout_gravity="center"
+                android:textSize="23sp"
+                android:textColor="#2093a8"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:background="@drawable/spinnerstyle"
+                android:orientation="vertical">
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/sprGrade"
+                    android:background="#00000000"
+                    android:gravity="center"/>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="증가 효과"
-        android:textSize="18sp"
-        android:textColor="#AAAAAA"
-        android:layout_marginBottom="5dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="10dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/stamptool" />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/st1"
-                android:id="@+id/imgSelectBurf1"/>
-        </FrameLayout>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSelectBurf1"
-            android:text="각성"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:textColor="#898DFF"/>
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/buttonstyle"
-            android:layout_gravity="center"
-            android:text="변경"
-            android:id="@+id/btnChange1"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="10dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/stamptool" />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+            android:text="증가 효과"
+            android:textSize="18sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginBottom="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/stamptool" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/st1"
+                    android:id="@+id/imgSelectBurf1"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSelectBurf1"
+                android:text="각성"
+                android:textSize="20sp"
                 android:layout_gravity="center"
-                android:src="@drawable/st2"
-                android:id="@+id/imgSelectBurf2"/>
-        </FrameLayout>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtSelectBurf2"
-            android:text="강령술"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:textColor="#898DFF"/>
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/buttonstyle"
-            android:layout_gravity="center"
-            android:text="변경"
-            android:id="@+id/btnChange2"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"/>
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="증가 효과"
-        android:textSize="18sp"
-        android:textColor="#AAAAAA"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="10dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/stamptool" />
-            <ImageView
-                android:layout_width="40dp"
+                android:textColor="#898DFF"/>
+            <Button
+                android:layout_width="80dp"
                 android:layout_height="40dp"
+                android:background="@drawable/buttonstyle"
                 android:layout_gravity="center"
-                android:src="@drawable/st86"
-                android:id="@+id/imgSelectDeburf"/>
-        </FrameLayout>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+                android:text="변경"
+                android:id="@+id/btnChange1"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSelectDeburf"
-            android:text="공격력 감소"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:textColor="#FF7070"/>
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/stamptool" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/st2"
+                    android:id="@+id/imgSelectBurf2"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSelectBurf2"
+                android:text="강령술"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:textColor="#898DFF"/>
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/buttonstyle"
+                android:layout_gravity="center"
+                android:text="변경"
+                android:id="@+id/btnChange2"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="증가 효과"
+            android:textSize="18sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/stamptool" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/st86"
+                    android:id="@+id/imgSelectDeburf"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSelectDeburf"
+                android:text="공격력 감소"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:textColor="#FF7070"/>
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/buttonstyle"
+                android:layout_gravity="center"
+                android:text="변경"
+                android:id="@+id/btnChange3"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
         <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/buttonstyle"
-            android:layout_gravity="center"
-            android:text="변경"
-            android:id="@+id/btnChange3"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/cancelbuttonstyle"
-            android:text="취소"
-            android:id="@+id/btnCancel"
-            android:textSize="14sp"
-            android:layout_marginRight="10dp"
-            android:textColor="#FFFFFF"/>
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/buttonstyle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/normalbuttonstyle"
             android:text="결정하기"
             android:id="@+id/btnOK"
-            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:layout_marginTop="40dp"
+            android:textColor="#FFFFFF"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/normalbuttonstyle"
+            android:text="취소"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btnCancel"
             android:textSize="14sp"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
