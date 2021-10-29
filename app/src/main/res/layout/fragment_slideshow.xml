@@ -49,7 +49,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/st1"
+                        android:src="@drawable/none_stamp"
                         android:id="@+id/imgStat1"/>
                 </FrameLayout>
                 <Spinner
@@ -86,7 +86,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/st1"
+                        android:src="@drawable/none_stamp"
                         android:id="@+id/imgStat2"/>
                 </FrameLayout>
                 <Spinner
@@ -165,7 +165,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgNeck1"/>
                     </FrameLayout>
                     <Spinner
@@ -202,7 +202,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgNeck2"/>
                     </FrameLayout>
                     <Spinner
@@ -239,7 +239,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgNeck3"/>
                     </FrameLayout>
                     <Spinner
@@ -319,7 +319,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring11"/>
                     </FrameLayout>
                     <Spinner
@@ -356,7 +356,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring12"/>
                     </FrameLayout>
                     <Spinner
@@ -393,7 +393,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring13"/>
                     </FrameLayout>
                     <Spinner
@@ -474,7 +474,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring21"/>
                     </FrameLayout>
                     <Spinner
@@ -511,7 +511,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring22"/>
                     </FrameLayout>
                     <Spinner
@@ -548,7 +548,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgEarring23"/>
                     </FrameLayout>
                     <Spinner
@@ -629,7 +629,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing11"/>
                     </FrameLayout>
                     <Spinner
@@ -666,7 +666,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing12"/>
                     </FrameLayout>
                     <Spinner
@@ -703,7 +703,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing13"/>
                     </FrameLayout>
                     <Spinner
@@ -784,7 +784,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing21"/>
                     </FrameLayout>
                     <Spinner
@@ -821,7 +821,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing22"/>
                     </FrameLayout>
                     <Spinner
@@ -858,7 +858,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgRing23"/>
                     </FrameLayout>
                     <Spinner
@@ -946,7 +946,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgStone1"/>
                     </FrameLayout>
                     <Spinner
@@ -983,7 +983,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgStone2"/>
                     </FrameLayout>
                     <Spinner
@@ -1020,7 +1020,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/st86"
+                            android:src="@drawable/none_stamp"
                             android:id="@+id/imgStone3"/>
                     </FrameLayout>
                     <Spinner

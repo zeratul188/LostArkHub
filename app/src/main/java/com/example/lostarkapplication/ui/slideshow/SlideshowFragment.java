@@ -122,6 +122,8 @@ public class SlideshowFragment extends Fragment {
         }
         ArrayList<String> burfs = new ArrayList<>();
         ArrayList<String> deburfs = new ArrayList<>();
+        burfs.add("없음");
+        deburfs.add("없음");
         for (int i = 0; i < 85; i++) burfs.add(stampDBAdapter.readData(i)[0]);
         for (int i = 85; i < 89; i++) deburfs.add(stampDBAdapter.readData(i)[0]);
         ArrayAdapter<String> burf_adapter = new ArrayAdapter<String>(getActivity(), R.layout.stampitem, burfs);
@@ -136,7 +138,10 @@ public class SlideshowFragment extends Fragment {
             if (i <= 6) equipment_count.add(Integer.toString(i));
             stone_count.add(Integer.toString(i));
         }
-        for (int i = 1; i <= 12; i++) stat_count.add(Integer.toString(i));
+        stat_count.add("3");
+        stat_count.add("6");
+        stat_count.add("9");
+        stat_count.add("12");
         ArrayAdapter<String> equipment_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, equipment_count);
         ArrayAdapter<String> stone_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, stone_count);
         ArrayAdapter<String> stat_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, stat_count);
@@ -248,9 +253,14 @@ public class SlideshowFragment extends Fragment {
             sprNecks[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgNecks[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgNecks[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgNecks[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -261,9 +271,14 @@ public class SlideshowFragment extends Fragment {
             sprEarring1s[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgEarring1s[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -274,9 +289,14 @@ public class SlideshowFragment extends Fragment {
             sprEarring2s[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgEarring2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgEarring2s[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgEarring2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -287,9 +307,14 @@ public class SlideshowFragment extends Fragment {
             sprRing1s[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgRing1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgRing1s[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgRing1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -300,9 +325,14 @@ public class SlideshowFragment extends Fragment {
             sprRing2s[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgRing2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgRing2s[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgRing2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -313,9 +343,14 @@ public class SlideshowFragment extends Fragment {
             sprStones[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgStones[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgStones[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgStones[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -344,9 +379,14 @@ public class SlideshowFragment extends Fragment {
             sprStats[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (index == 2) position += 85;
-                    imgStats[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                     calStamp();
+                    if (position == 0) {
+                        imgStats[index].setImageResource(R.drawable.none_stamp);
+                        return;
+                    }
+                    if (index == 2) position += 85;
+                    position--;
+                    imgStats[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
                 }
 
                 @Override
@@ -535,37 +575,51 @@ public class SlideshowFragment extends Fragment {
             String name;
             int cnt;
             name = sprStats[i].getSelectedItem().toString();
-            cnt = sprStatCnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            cnt = Integer.parseInt(sprStatCnts[i].getSelectedItem().toString());
+            if (!sprStats[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
         }
         for (int i = 0; i < STAMP_LENGTH; i++) {
             String name;
             int cnt;
             name = sprNecks[i].getSelectedItem().toString();
             cnt = sprNeckCnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprNecks[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
             name = sprEarring1s[i].getSelectedItem().toString();
             cnt = sprEarring1Cnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprEarring1s[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
             name = sprEarring2s[i].getSelectedItem().toString();
             cnt = sprEarring2Cnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprEarring2s[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
             name = sprRing1s[i].getSelectedItem().toString();
             cnt = sprRing1Cnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprRing1s[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
             name = sprRing2s[i].getSelectedItem().toString();
             cnt = sprRing2Cnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprRing2s[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
             name = sprStones[i].getSelectedItem().toString();
             cnt = sprStoneCnts[i].getSelectedItemPosition()+1;
-            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
-            else stampMap.put(name, cnt);
+            if (!sprStones[i].getSelectedItem().toString().equals("없음")) {
+                if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+                else stampMap.put(name, cnt);
+            }
         }
 
         stampCals.clear();
