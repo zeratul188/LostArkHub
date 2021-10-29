@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,39 +19,49 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.lostarkapplication.R;
 import com.example.lostarkapplication.database.StampDBAdapter;
 import com.example.lostarkapplication.ui.gallery.Stamp;
+import com.example.lostarkapplication.ui.slideshow.objects.StampCal;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SlideshowFragment extends Fragment {
     private static final int STAMP_LENGTH = 3;
-    
-    private LinearLayout layoutStamp;
+    private static final int STAT_LENGTH = 2;
+
+    private ListView listView;
     private ImageView imgNeck, imgEarring1, imgEarring2, imgRing1, imgRing2;
     private TextView txtNeck, txtEarring1, txtEarring2, txtRing1, txtRing2;
     private ImageView[] imgNecks = new ImageView[STAMP_LENGTH];
     private Spinner[] sprNecks = new Spinner[STAMP_LENGTH];
-    private EditText[] edtNecks = new EditText[STAMP_LENGTH];
+    private Spinner[] sprNeckCnts = new Spinner[STAMP_LENGTH];
     private ImageView[] imgEarring1s = new ImageView[STAMP_LENGTH];
     private Spinner[] sprEarring1s = new Spinner[STAMP_LENGTH];
-    private EditText[] edtEarring1s = new EditText[STAMP_LENGTH];
+    private Spinner[] sprEarring1Cnts = new Spinner[STAMP_LENGTH];
     private ImageView[] imgEarring2s = new ImageView[STAMP_LENGTH];
     private Spinner[] sprEarring2s = new Spinner[STAMP_LENGTH];
-    private EditText[] edtEarring2s = new EditText[STAMP_LENGTH];
+    private Spinner[] sprEarring2Cnts = new Spinner[STAMP_LENGTH];
     private ImageView[] imgRing1s = new ImageView[STAMP_LENGTH];
     private Spinner[] sprRing1s = new Spinner[STAMP_LENGTH];
-    private EditText[] edtRing1s = new EditText[STAMP_LENGTH];
+    private Spinner[] sprRing1Cnts = new Spinner[STAMP_LENGTH];
     private ImageView[] imgRing2s = new ImageView[STAMP_LENGTH];
     private Spinner[] sprRing2s = new Spinner[STAMP_LENGTH];
-    private EditText[] edtRing2s = new EditText[STAMP_LENGTH];
+    private Spinner[] sprRing2Cnts = new Spinner[STAMP_LENGTH];
     private ImageView[] imgStones = new ImageView[STAMP_LENGTH];
     private Spinner[] sprStones = new Spinner[STAMP_LENGTH];
-    private EditText[] edtStones = new EditText[STAMP_LENGTH];
+    private Spinner[] sprStoneCnts = new Spinner[STAMP_LENGTH];
+    private ImageView[] imgStats = new ImageView[STAT_LENGTH];
+    private Spinner[] sprStats = new Spinner[STAT_LENGTH];
+    private Spinner[] sprStatCnts = new Spinner[STAT_LENGTH];
 
     private int neck_index = 0, earring1_index = 0, earring2_index = 0, ring1_index = 0, ring2_index = 0;
 
     private StampDBAdapter stampDBAdapter;
     private ArrayList<Stamp> stamps;
+    private StampCalAdapter stampCalAdapter;
+    private ArrayList<StampCal> stampCals;
+
+    private Map<String, Integer> stampMap;
 
     private SlideshowViewModel slideshowViewModel;
 
@@ -69,7 +78,7 @@ public class SlideshowFragment extends Fragment {
             }
         });*/
 
-        layoutStamp = root.findViewById(R.id.layoutStamp);
+        listView = root.findViewById(R.id.listView);
         imgNeck = root.findViewById(R.id.imgNeck);
         imgEarring1 = root.findViewById(R.id.imgEarring1);
         imgEarring2 = root.findViewById(R.id.imgEarring2);
@@ -83,22 +92,27 @@ public class SlideshowFragment extends Fragment {
         for (int i = 0; i < STAMP_LENGTH; i++) {
             imgNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("imgNeck"+(i+1), "id", getActivity().getPackageName()));
             sprNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeck"+(i+1), "id", getActivity().getPackageName()));
-            edtNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("edtNeck"+(i+1), "id", getActivity().getPackageName()));
             imgEarring1s[i] = root.findViewById(getActivity().getResources().getIdentifier("imgEarring1"+(i+1), "id", getActivity().getPackageName()));
             sprEarring1s[i] = root.findViewById(getActivity().getResources().getIdentifier("sprEarring1"+(i+1), "id", getActivity().getPackageName()));
-            edtEarring1s[i] = root.findViewById(getActivity().getResources().getIdentifier("edtEarring1"+(i+1), "id", getActivity().getPackageName()));
             imgEarring2s[i] = root.findViewById(getActivity().getResources().getIdentifier("imgEarring2"+(i+1), "id", getActivity().getPackageName()));
             sprEarring2s[i] = root.findViewById(getActivity().getResources().getIdentifier("sprEarring2"+(i+1), "id", getActivity().getPackageName()));
-            edtEarring2s[i] = root.findViewById(getActivity().getResources().getIdentifier("edtEarring2"+(i+1), "id", getActivity().getPackageName()));
             imgRing1s[i] = root.findViewById(getActivity().getResources().getIdentifier("imgRing1"+(i+1), "id", getActivity().getPackageName()));
             sprRing1s[i] = root.findViewById(getActivity().getResources().getIdentifier("sprRing1"+(i+1), "id", getActivity().getPackageName()));
-            edtRing1s[i] = root.findViewById(getActivity().getResources().getIdentifier("edtRing1"+(i+1), "id", getActivity().getPackageName()));
             imgRing2s[i] = root.findViewById(getActivity().getResources().getIdentifier("imgRing2"+(i+1), "id", getActivity().getPackageName()));
             sprRing2s[i] = root.findViewById(getActivity().getResources().getIdentifier("sprRing2"+(i+1), "id", getActivity().getPackageName()));
-            edtRing2s[i] = root.findViewById(getActivity().getResources().getIdentifier("edtRing2"+(i+1), "id", getActivity().getPackageName()));
             imgStones[i] = root.findViewById(getActivity().getResources().getIdentifier("imgStone"+(i+1), "id", getActivity().getPackageName()));
             sprStones[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStone"+(i+1), "id", getActivity().getPackageName()));
-            edtStones[i] = root.findViewById(getActivity().getResources().getIdentifier("edtStone"+(i+1), "id", getActivity().getPackageName()));
+            sprNeckCnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeckCnt"+(i+1), "id", getActivity().getPackageName()));
+            sprEarring1Cnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprEarring1Cnt"+(i+1), "id", getActivity().getPackageName()));
+            sprEarring2Cnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprEarring2Cnt"+(i+1), "id", getActivity().getPackageName()));
+            sprRing1Cnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprRing1Cnt"+(i+1), "id", getActivity().getPackageName()));
+            sprRing2Cnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprRing2Cnt"+(i+1), "id", getActivity().getPackageName()));
+            sprStoneCnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStoneCnt"+(i+1), "id", getActivity().getPackageName()));
+        }
+        for (int i = 0; i < STAT_LENGTH; i++) {
+            imgStats[i] = root.findViewById(getActivity().getResources().getIdentifier("imgStat"+(i+1), "id", getActivity().getPackageName()));
+            sprStats[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStat"+(i+1), "id", getActivity().getPackageName()));
+            sprStatCnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStatCnt"+(i+1), "id", getActivity().getPackageName()));
         }
 
         stampDBAdapter = new StampDBAdapter(getActivity());
@@ -114,7 +128,35 @@ public class SlideshowFragment extends Fragment {
         ArrayAdapter<String> deburf_adapter = new ArrayAdapter<String>(getActivity(), R.layout.stampitem, deburfs);
         burf_adapter.setDropDownViewResource(R.layout.stampitem);
         deburf_adapter.setDropDownViewResource(R.layout.stampitem);
+
+        ArrayList<String> equipment_count = new ArrayList<>();
+        ArrayList<String> stone_count = new ArrayList<>();
+        ArrayList<String> stat_count = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            if (i <= 6) equipment_count.add(Integer.toString(i));
+            stone_count.add(Integer.toString(i));
+        }
+        for (int i = 1; i <= 12; i++) stat_count.add(Integer.toString(i));
+        ArrayAdapter<String> equipment_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, equipment_count);
+        ArrayAdapter<String> stone_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, stone_count);
+        ArrayAdapter<String> stat_adapter = new ArrayAdapter<>(getActivity(), R.layout.stampitem, stat_count);
+        equipment_adapter.setDropDownViewResource(R.layout.stampitem);
+        stone_adapter.setDropDownViewResource(R.layout.stampitem);
+        stat_adapter.setDropDownViewResource(R.layout.stampitem);
+
+        stampCals = new ArrayList<>();
+        stampCalAdapter = new StampCalAdapter(getActivity(), stampCals, getActivity());
+        listView.setAdapter(stampCalAdapter);
+
+        stampMap = new HashMap<>();
+
         for (int i = 0; i < 3; i++) {
+            sprNeckCnts[i].setAdapter(equipment_adapter);
+            sprEarring1Cnts[i].setAdapter(equipment_adapter);
+            sprEarring2Cnts[i].setAdapter(equipment_adapter);
+            sprRing1Cnts[i].setAdapter(equipment_adapter);
+            sprRing2Cnts[i].setAdapter(equipment_adapter);
+            sprStoneCnts[i].setAdapter(stone_adapter);
             if (i == 2) {
                 sprStones[i].setAdapter(deburf_adapter);
                 sprRing2s[i].setAdapter(deburf_adapter);
@@ -130,12 +172,85 @@ public class SlideshowFragment extends Fragment {
                 sprNecks[i].setAdapter(burf_adapter);
                 sprEarring2s[i].setAdapter(burf_adapter);
             }
+            sprNeckCnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            sprEarring1Cnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            sprEarring2Cnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            sprRing1Cnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            sprRing2Cnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            sprStoneCnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
             final int index = i;
             sprNecks[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgNecks[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -148,6 +263,7 @@ public class SlideshowFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -160,6 +276,7 @@ public class SlideshowFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgEarring2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -172,6 +289,7 @@ public class SlideshowFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgRing1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -184,6 +302,7 @@ public class SlideshowFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgRing2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -196,6 +315,38 @@ public class SlideshowFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (index == 2) position += 85;
                     imgStones[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
+        for (int i = 0; i < STAT_LENGTH; i++) {
+            sprStatCnts[i].setAdapter(stat_adapter);
+            sprStats[i].setAdapter(burf_adapter);
+            sprStatCnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    calStamp();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            final int index = i;
+            sprStats[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (index == 2) position += 85;
+                    imgStats[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    calStamp();
                 }
 
                 @Override
@@ -376,5 +527,58 @@ public class SlideshowFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void calStamp() {
+        stampMap.clear();
+        for (int i = 0; i < STAT_LENGTH; i++) {
+            String name;
+            int cnt;
+            name = sprStats[i].getSelectedItem().toString();
+            cnt = sprStatCnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+        }
+        for (int i = 0; i < STAMP_LENGTH; i++) {
+            String name;
+            int cnt;
+            name = sprNecks[i].getSelectedItem().toString();
+            cnt = sprNeckCnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+            name = sprEarring1s[i].getSelectedItem().toString();
+            cnt = sprEarring1Cnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+            name = sprEarring2s[i].getSelectedItem().toString();
+            cnt = sprEarring2Cnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+            name = sprRing1s[i].getSelectedItem().toString();
+            cnt = sprRing1Cnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+            name = sprRing2s[i].getSelectedItem().toString();
+            cnt = sprRing2Cnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+            name = sprStones[i].getSelectedItem().toString();
+            cnt = sprStoneCnts[i].getSelectedItemPosition()+1;
+            if (stampMap.containsKey(name)) stampMap.put(name, stampMap.get(name)+cnt);
+            else stampMap.put(name, cnt);
+        }
+
+        stampCals.clear();
+        for (Map.Entry<String, Integer> entry : stampMap.entrySet()) {
+            if (isDeburf(entry.getKey())) stampCals.add(new StampCal(entry.getKey(), entry.getValue()));
+            else stampCals.add(0, new StampCal(entry.getKey(), entry.getValue()));
+        }
+        stampCalAdapter.notifyDataSetChanged();
+    }
+
+    private boolean isDeburf(String name) {
+        String[] args = stampDBAdapter.readData(name);
+        if (args[2].equals("감소")) return true;
+        else return false;
     }
 }

@@ -109,12 +109,12 @@
                 android:textColor="#898DFF"/>
             <Button
                 android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@drawable/buttonstyle"
+                android:layout_height="50dp"
+                android:background="@drawable/smallbuttonstyle"
                 android:layout_gravity="center"
                 android:text="변경"
                 android:id="@+id/btnChange1"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
         <LinearLayout
@@ -147,12 +147,12 @@
                 android:textColor="#898DFF"/>
             <Button
                 android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@drawable/buttonstyle"
+                android:layout_height="50dp"
+                android:background="@drawable/smallbuttonstyle"
                 android:layout_gravity="center"
                 android:text="변경"
                 android:id="@+id/btnChange2"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
         <TextView
@@ -193,12 +193,12 @@
                 android:textColor="#FF7070"/>
             <Button
                 android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@drawable/buttonstyle"
+                android:layout_height="50dp"
+                android:background="@drawable/smallbuttonstyle"
                 android:layout_gravity="center"
                 android:text="변경"
                 android:id="@+id/btnChange3"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
         <Button
