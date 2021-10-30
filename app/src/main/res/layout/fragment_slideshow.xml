@@ -7,12 +7,27 @@
     android:background="#262931"
     android:orientation="vertical"
     tools:context=".ui.slideshow.SlideshowFragment">
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="#1d2026"
-        android:padding="5dp"
-        android:id="@+id/listView"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="현재 각인"
+            android:textSize="18sp"
+            android:padding="15dp"
+            android:background="#191b20"
+            android:textColor="#ffffff"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1d2026"
+            android:padding="5dp"
+            android:id="@+id/listView"/>
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

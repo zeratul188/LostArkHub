@@ -78,8 +78,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             txtDate = itemVIew.findViewById(R.id.txtDate);
             imgEvent = itemVIew.findViewById(R.id.imgEvent);
 
-            GradientDrawable round_drawable = (GradientDrawable) context.getDrawable(R.drawable.roundimage);
-            imgEvent.setClipToOutline(true);
+            //GradientDrawable round_drawable = (GradientDrawable) context.getDrawable(R.drawable.roundimage);
+            //imgEvent.setClipToOutline(true);
 
             itemVIew.setOnClickListener(new View.OnClickListener() {
                 @Override
