@@ -271,8 +271,8 @@ public class HomeFragment extends Fragment {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIslandAward[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIslandAward"+(i+1), "id", getActivity().getPackageName()));
-            imgIsland[i].setBackground(round_drawable);
-            imgIsland[i].setClipToOutline(true);
+            //imgIsland[i].setBackground(round_drawable);
+            //imgIsland[i].setClipToOutline(true);
         }
 
         for (int i = 0; i < BOSS_LENGTH; i++) {
@@ -280,8 +280,8 @@ public class HomeFragment extends Fragment {
             txtBoss[i] = root.findViewById(getActivity().getResources().getIdentifier("txtBoss"+(i+1), "id", getActivity().getPackageName()));
             txtStartBoss[i] = root.findViewById(getActivity().getResources().getIdentifier("txtStartBoss"+(i+1), "id", getActivity().getPackageName()));
             txtEndBoss[i] = root.findViewById(getActivity().getResources().getIdentifier("txtEndBoss"+(i+1), "id", getActivity().getPackageName()));
-            imgBoss[i].setBackground(round_drawable);
-            imgBoss[i].setClipToOutline(true);
+            //imgBoss[i].setBackground(round_drawable);
+            //imgBoss[i].setClipToOutline(true);
         }
 
         txtStartDungeon = root.findViewById(R.id.txtStartDungeon);
@@ -289,8 +289,8 @@ public class HomeFragment extends Fragment {
         txtFirstDungeon = root.findViewById(R.id.txtFirstDungeon);
         txtSecondDungeon = root.findViewById(R.id.txtSecondDungeon);
         imgDungeon = root.findViewById(R.id.imgDungeon);
-        imgDungeon.setBackground(round_drawable);
-        imgDungeon.setClipToOutline(true);
+        //imgDungeon.setBackground(round_drawable);
+        //imgDungeon.setClipToOutline(true);
 
         listUpdate = root.findViewById(R.id.listUpdate);
         updates = new ArrayList<>();

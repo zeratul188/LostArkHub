@@ -30,398 +30,420 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp">
+            android:background="#191b20"
+            android:padding="15dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="모험섬"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textColor="#FFFFFF"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtIslandDate"
                 android:text="-"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textColor="#aaaaaa"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="80dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imgIsland1"
-                    android:background="@drawable/roundimage"
-                    android:src="@drawable/emptyboss"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtIsland1"
-                    android:background="@drawable/nameroundimage"
-                    android:text="-"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:textColor="#FFCA45"
-                    android:layout_gravity="bottom"/>
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="80dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imgIsland2"
-                    android:background="@drawable/roundimage"
-                    android:src="@drawable/emptyboss"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtIsland2"
-                    android:background="@drawable/nameroundimage"
-                    android:text="-"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:textColor="#FFCA45"
-                    android:layout_gravity="bottom"/>
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="80dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imgIsland3"
-                    android:background="@drawable/roundimage"
-                    android:src="@drawable/emptyboss"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtIsland3"
-                    android:background="@drawable/nameroundimage"
-                    android:text="-"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:textColor="#FFCA45"
-                    android:layout_gravity="bottom"/>
-            </FrameLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            android:background="#1d2026"
+            android:paddingBottom="15dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIslandAward1"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:textColor="#AAAAAA"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imgIsland1"
+                        android:background="@drawable/roundimage"
+                        android:src="@drawable/emptyboss"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtIsland1"
+                        android:background="#aa222222"
+                        android:text="-"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imgIsland2"
+                        android:background="@drawable/roundimage"
+                        android:src="@drawable/emptyboss"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtIsland2"
+                        android:background="#aa222222"
+                        android:text="-"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imgIsland3"
+                        android:background="@drawable/roundimage"
+                        android:src="@drawable/emptyboss"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtIsland3"
+                        android:background="#aa222222"
+                        android:text="-"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIslandAward2"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:textColor="#AAAAAA"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/txtIslandAward3"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:textColor="#AAAAAA"/>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward1"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward2"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward3"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textColor="#AAAAAA"/>
+            </LinearLayout>
         </LinearLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="도전 가디언 토벌"
-            android:textSize="22sp"
-            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:background="#191b20"
+            android:padding="15dp"
             android:textColor="#FFFFFF"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="100dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/emptyboss"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/roundimage"
-                    android:id="@+id/imgBoss1"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss1"
-                    android:background="@drawable/nameroundimage"
-                    android:text="-"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:textColor="#FFCA45"
-                    android:layout_gravity="bottom"/>
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_height="100dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/emptyboss"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/roundimage"
-                    android:id="@+id/imgBoss2"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss2"
-                    android:text="-"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:gravity="center"
-                    android:background="@drawable/nameroundimage"
-                    android:layout_gravity="bottom"
-                    android:textColor="#FFCA45"/>
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="100dp"
-                android:layout_marginLeft="5dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/emptyboss"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/roundimage"
-                    android:id="@+id/imgBoss3"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtBoss3"
-                    android:text="-"
-                    android:textSize="18sp"
-                    android:padding="2dp"
-                    android:gravity="center"
-                    android:background="@drawable/nameroundimage"
-                    android:layout_gravity="bottom"
-                    android:textColor="#FFCA45"/>
-            </FrameLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:background="#1d2026"
+            android:paddingBottom="15dp"
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss1"
-                    android:text="-"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"/>
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgBoss1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtBoss1"
+                        android:background="#aa222222"
+                        android:text="-"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgBoss2"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtBoss2"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:gravity="center"
+                        android:background="#aa222222"
+                        android:layout_gravity="bottom"
+                        android:textColor="#FFCA45"/>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgBoss3"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtBoss3"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:padding="2dp"
+                        android:gravity="center"
+                        android:background="#aa222222"
+                        android:layout_gravity="bottom"
+                        android:textColor="#FFCA45"/>
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~ "
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtEndBoss1"
+                        android:id="@+id/txtStartBoss1"
                         android:text="-"
                         android:textSize="14sp"
                         android:textColor="#AAAAAA"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="~ "
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEndBoss1"
+                            android:text="-"
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss2"
-                    android:text="-"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"/>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtStartBoss2"
+                        android:text="-"
+                        android:textSize="14sp"
+                        android:textColor="#AAAAAA"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="~ "
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEndBoss2"
+                            android:text="-"
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical"
                     android:gravity="center">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~ "
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtEndBoss2"
+                        android:id="@+id/txtStartBoss3"
                         android:text="-"
                         android:textSize="14sp"
                         android:textColor="#AAAAAA"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtStartBoss3"
-                    android:text="-"
-                    android:textSize="14sp"
-                    android:textColor="#AAAAAA"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="~ "
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtEndBoss3"
-                        android:text="-"
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="~ "
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEndBoss3"
+                            android:text="-"
+                            android:textSize="14sp"
+                            android:textColor="#AAAAAA"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="도전 어비스 던전"
-            android:textSize="22sp"
-            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            android:background="#191b20"
+            android:padding="15dp"
             android:layout_marginTop="30dp"
             android:textColor="#FFFFFF"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtStartDungeon"
-                android:text="-"
-                android:textSize="16sp"
-                android:gravity="right"
-                android:textColor="#AAAAAA"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" ~ "
-                android:textSize="16sp"
-                android:gravity="right"
-                android:textColor="#AAAAAA"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtEndDungeon"
-                android:text="-"
-                android:textSize="16sp"
-                android:textColor="#AAAAAA"/>
-        </LinearLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="140dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgDungeon"
-                android:src="@drawable/emptyboss"
-                android:background="@drawable/roundimage"
-                android:scaleType="centerCrop"/>
+            android:background="#1d2026"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="bottom"
-                android:padding="5dp"
-                android:background="@drawable/nameroundimage">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/txtFirstDungeon"
+                    android:id="@+id/txtStartDungeon"
                     android:text="-"
                     android:textSize="16sp"
-                    android:textColor="#FFCA45"/>
+                    android:gravity="right"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" ~ "
+                    android:textSize="16sp"
+                    android:gravity="right"
+                    android:textColor="#AAAAAA"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/txtSecondDungeon"
+                    android:id="@+id/txtEndDungeon"
                     android:text="-"
                     android:textSize="16sp"
-                    android:textColor="#FFCA45"/>
+                    android:textColor="#AAAAAA"/>
             </LinearLayout>
-        </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgDungeon"
+                    android:src="@drawable/emptyboss"
+                    android:background="@drawable/roundimage"
+                    android:scaleType="centerCrop"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom"
+                    android:padding="5dp"
+                    android:background="#aa222222">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/txtFirstDungeon"
+                        android:text="-"
+                        android:textSize="16sp"
+                        android:textColor="#FFCA45"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/txtSecondDungeon"
+                        android:text="-"
+                        android:textSize="16sp"
+                        android:textColor="#FFCA45"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -455,6 +477,10 @@
             android:background="#1d2026"
             android:padding="15dp"
             android:textSize="16sp"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"/>
     </LinearLayout>
 </ScrollView>
