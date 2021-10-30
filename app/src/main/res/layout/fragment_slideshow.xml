@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222222"
+    android:background="#262931"
     android:orientation="vertical"
     tools:context=".ui.slideshow.SlideshowFragment">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:background="#1d2026"
+        android:padding="5dp"
         android:id="@+id/listView"/>
     <ScrollView
         android:layout_width="match_parent"
@@ -22,15 +24,21 @@
             android:orientation="vertical">
             <!-- Stat -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="캐릭터 각인"
                 android:textSize="16sp"
+                android:background="#191b20"
+                android:paddingTop="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="30dp"
                 android:textColor="#ffffff"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:background="#1d2026"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -106,16 +114,10 @@
 
 
             <!-- Neck Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="목걸이"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -136,17 +138,17 @@
                     android:layout_height="match_parent"
                     android:text="영웅 목걸이"
                     android:id="@+id/txtNeck"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle1"
-                    android:paddingLeft="10dp"
-                    android:textColor="#9B53D2"/>
+                    android:background="#191b20"
+                    android:paddingLeft="15dp"
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -259,17 +261,10 @@
 
 
             <!-- Earring1 Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="귀걸이1"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -289,18 +284,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="영웅 귀걸이1"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:id="@+id/txtEarring1"
-                    android:textStyle="bold"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle1"
-                    android:paddingLeft="10dp"
-                    android:textColor="#9B53D2"/>
+                    android:background="#191b20"
+                    android:paddingLeft="15dp"
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -414,17 +409,10 @@
 
 
             <!-- Earring2 Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="귀걸이2"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -445,17 +433,17 @@
                     android:layout_height="match_parent"
                     android:text="영웅 귀걸이2"
                     android:id="@+id/txtEarring2"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle1"
+                    android:background="#191b20"
                     android:paddingLeft="10dp"
-                    android:textColor="#9B53D2"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -569,17 +557,10 @@
 
 
             <!-- Ring1 Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="반지1"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -600,17 +581,17 @@
                     android:layout_height="match_parent"
                     android:text="영웅 반지1"
                     android:id="@+id/txtRing1"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle1"
+                    android:background="#191b20"
                     android:paddingLeft="10dp"
-                    android:textColor="#9B53D2"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -724,17 +705,10 @@
 
 
             <!-- Ring2 Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="반지1"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -755,17 +729,17 @@
                     android:layout_height="match_parent"
                     android:text="영웅 반지2"
                     android:id="@+id/txtRing2"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle1"
+                    android:background="#191b20"
                     android:paddingLeft="10dp"
-                    android:textColor="#9B53D2"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -888,14 +862,6 @@
 
 
             <!-- Stone Code -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="어빌리티 스톤"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -917,17 +883,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="어빌리티 스톤"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:gravity="center|left"
-                    android:background="@drawable/equipmentstyle3"
+                    android:background="#191b20"
                     android:paddingLeft="10dp"
-                    android:textColor="#BF5700"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:padding="15dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"

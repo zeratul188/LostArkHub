@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="#222222"
+    android:background="#262931"
     tools:context=".ui.home.HomeFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -423,57 +423,38 @@
             </LinearLayout>
         </FrameLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="업데이트 내역"
             android:textSize="22sp"
-            android:layout_marginBottom="10dp"
+            android:background="#191b20"
+            android:padding="15dp"
             android:layout_marginTop="30dp"
             android:textColor="#FFFFFF"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/top_line"/>
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="200dp"
+            android:background="#1d2026"
+            android:padding="5dp"
+            android:divider="#00000000"
             android:id="@+id/listUpdate"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/bottom_line"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="로스트아크허브 공지사항"
+            android:padding="15dp"
             android:textSize="22sp"
-            android:layout_marginBottom="10dp"
+            android:background="#191b20"
             android:layout_marginTop="30dp"
             android:textColor="#FFFFFF"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/top_line"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtAlarm"
-            android:gravity="center"
             android:text="-"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:background="#1d2026"
+            android:padding="15dp"
             android:textSize="16sp"
             android:textColor="#ffffff"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="50dp"
-            android:src="@drawable/bottom_line"/>
     </LinearLayout>
 </ScrollView>

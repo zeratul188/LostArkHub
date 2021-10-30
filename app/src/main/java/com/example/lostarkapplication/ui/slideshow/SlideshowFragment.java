@@ -405,26 +405,18 @@ public class SlideshowFragment extends Fragment {
                     case 0:
                         imgNeck.setImageResource(R.drawable.neck_0);
                         txtNeck.setText("영웅 목걸이");
-                        txtNeck.setTextColor(Color.parseColor("#9B53D2"));
-                        txtNeck.setBackgroundResource(R.drawable.equipmentstyle1);
                         break;
                     case 1:
                         imgNeck.setImageResource(R.drawable.neck_1);
                         txtNeck.setText("전설 목걸이");
-                        txtNeck.setTextColor(Color.parseColor("#C2873B"));
-                        txtNeck.setBackgroundResource(R.drawable.equipmentstyle2);
                         break;
                     case 2:
                         imgNeck.setImageResource(R.drawable.neck_2);
                         txtNeck.setText("유물 목걸이");
-                        txtNeck.setTextColor(Color.parseColor("#BF5700"));
-                        txtNeck.setBackgroundResource(R.drawable.equipmentstyle3);
                         break;
                     case 3:
                         imgNeck.setImageResource(R.drawable.neck_3);
                         txtNeck.setText("고대 목걸이");
-                        txtNeck.setTextColor(Color.parseColor("#F5E4B8"));
-                        txtNeck.setBackgroundResource(R.drawable.equipmentstyle4);
                         break;
                 }
             }
@@ -439,26 +431,18 @@ public class SlideshowFragment extends Fragment {
                     case 0:
                         imgEarring1.setImageResource(R.drawable.earring1_0);
                         txtEarring1.setText("영웅 귀걸이1");
-                        txtEarring1.setTextColor(Color.parseColor("#9B53D2"));
-                        txtEarring1.setBackgroundResource(R.drawable.equipmentstyle1);
                         break;
                     case 1:
                         imgEarring1.setImageResource(R.drawable.earring1_1);
                         txtEarring1.setText("전설 귀걸이1");
-                        txtEarring1.setTextColor(Color.parseColor("#C2873B"));
-                        txtEarring1.setBackgroundResource(R.drawable.equipmentstyle2);
                         break;
                     case 2:
                         imgEarring1.setImageResource(R.drawable.earring1_2);
                         txtEarring1.setText("유물 귀걸이1");
-                        txtEarring1.setTextColor(Color.parseColor("#BF5700"));
-                        txtEarring1.setBackgroundResource(R.drawable.equipmentstyle3);
                         break;
                     case 3:
                         imgEarring1.setImageResource(R.drawable.earring1_3);
                         txtEarring1.setText("고대 귀걸이1");
-                        txtEarring1.setTextColor(Color.parseColor("#F5E4B8"));
-                        txtEarring1.setBackgroundResource(R.drawable.equipmentstyle4);
                         break;
                 }
             }
@@ -473,26 +457,18 @@ public class SlideshowFragment extends Fragment {
                     case 0:
                         imgEarring2.setImageResource(R.drawable.earring2_0);
                         txtEarring2.setText("영웅 귀걸이2");
-                        txtEarring2.setTextColor(Color.parseColor("#9B53D2"));
-                        txtEarring2.setBackgroundResource(R.drawable.equipmentstyle1);
                         break;
                     case 1:
                         imgEarring2.setImageResource(R.drawable.earring2_1);
                         txtEarring2.setText("전설 귀걸이2");
-                        txtEarring2.setTextColor(Color.parseColor("#C2873B"));
-                        txtEarring2.setBackgroundResource(R.drawable.equipmentstyle2);
                         break;
                     case 2:
                         imgEarring2.setImageResource(R.drawable.earring2_2);
                         txtEarring2.setText("유물 귀걸이2");
-                        txtEarring2.setTextColor(Color.parseColor("#BF5700"));
-                        txtEarring2.setBackgroundResource(R.drawable.equipmentstyle3);
                         break;
                     case 3:
                         imgEarring2.setImageResource(R.drawable.earring2_3);
                         txtEarring2.setText("고대 귀걸이2");
-                        txtEarring2.setTextColor(Color.parseColor("#F5E4B8"));
-                        txtEarring2.setBackgroundResource(R.drawable.equipmentstyle4);
                         break;
                 }
             }
@@ -507,26 +483,18 @@ public class SlideshowFragment extends Fragment {
                     case 0:
                         imgRing1.setImageResource(R.drawable.ring1_0);
                         txtRing1.setText("영웅 반지1");
-                        txtRing1.setTextColor(Color.parseColor("#9B53D2"));
-                        txtRing1.setBackgroundResource(R.drawable.equipmentstyle1);
                         break;
                     case 1:
                         imgRing1.setImageResource(R.drawable.ring1_1);
                         txtRing1.setText("전설 반지1");
-                        txtRing1.setTextColor(Color.parseColor("#C2873B"));
-                        txtRing1.setBackgroundResource(R.drawable.equipmentstyle2);
                         break;
                     case 2:
                         imgRing1.setImageResource(R.drawable.ring1_2);
                         txtRing1.setText("유물 반지1");
-                        txtRing1.setTextColor(Color.parseColor("#BF5700"));
-                        txtRing1.setBackgroundResource(R.drawable.equipmentstyle3);
                         break;
                     case 3:
                         imgRing1.setImageResource(R.drawable.ring1_3);
                         txtRing1.setText("고대 반지1");
-                        txtRing1.setTextColor(Color.parseColor("#F5E4B8"));
-                        txtRing1.setBackgroundResource(R.drawable.equipmentstyle4);
                         break;
                 }
             }
@@ -541,26 +509,18 @@ public class SlideshowFragment extends Fragment {
                     case 0:
                         imgRing2.setImageResource(R.drawable.ring2_0);
                         txtRing2.setText("영웅 반지2");
-                        txtRing2.setTextColor(Color.parseColor("#9B53D2"));
-                        txtRing2.setBackgroundResource(R.drawable.equipmentstyle1);
                         break;
                     case 1:
                         imgRing2.setImageResource(R.drawable.ring2_1);
                         txtRing2.setText("전설 반지2");
-                        txtRing2.setTextColor(Color.parseColor("#C2873B"));
-                        txtRing2.setBackgroundResource(R.drawable.equipmentstyle2);
                         break;
                     case 2:
                         imgRing2.setImageResource(R.drawable.ring2_2);
                         txtRing2.setText("유물 반지2");
-                        txtRing2.setTextColor(Color.parseColor("#BF5700"));
-                        txtRing2.setBackgroundResource(R.drawable.equipmentstyle3);
                         break;
                     case 3:
                         imgRing2.setImageResource(R.drawable.ring2_3);
                         txtRing2.setText("고대 반지2");
-                        txtRing2.setTextColor(Color.parseColor("#F5E4B8"));
-                        txtRing2.setBackgroundResource(R.drawable.equipmentstyle4);
                         break;
                 }
             }
