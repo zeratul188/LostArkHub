@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtName"
+            android:text="[Preset Name]"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="저장 날짜"
+            android:textSize="16sp"
+            android:textColor="#777777"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDate"
+            android:text="[Date]"
+            android:textSize="16sp"
+            android:textColor="#aaaaaa"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_delete_black_24dp"
+        android:id="@+id/imgDelete"
+        android:padding="15dp"
+        android:background="#B33C3C"/>
+</LinearLayout>

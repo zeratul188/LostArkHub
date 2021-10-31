@@ -1,27 +1,46 @@
 package com.example.lostarkapplication.ui.slideshow;
 
+import androidx.appcompat.app.AlertDialog;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.lostarkapplication.R;
+import com.example.lostarkapplication.database.Earring1DBAdapter;
+import com.example.lostarkapplication.database.Earring2DBAdapter;
+import com.example.lostarkapplication.database.EquipmentDBAdapter;
+import com.example.lostarkapplication.database.EquipmentStoneDBAdapter;
+import com.example.lostarkapplication.database.NeckDBAdapter;
+import com.example.lostarkapplication.database.Ring1DBAdapter;
+import com.example.lostarkapplication.database.Ring2DBAdapter;
 import com.example.lostarkapplication.database.StampDBAdapter;
+import com.example.lostarkapplication.database.StatDBAdapter;
 import com.example.lostarkapplication.ui.gallery.Stamp;
+import com.example.lostarkapplication.ui.slideshow.objects.Accessory;
+import com.example.lostarkapplication.ui.slideshow.objects.Equipment;
 import com.example.lostarkapplication.ui.slideshow.objects.StampCal;
+import com.example.lostarkapplication.ui.slideshow.objects.Stat;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +72,7 @@ public class SlideshowFragment extends Fragment {
     private ImageView[] imgStats = new ImageView[STAT_LENGTH];
     private Spinner[] sprStats = new Spinner[STAT_LENGTH];
     private Spinner[] sprStatCnts = new Spinner[STAT_LENGTH];
+    private Button btnPreset;
 
     private int neck_index = 0, earring1_index = 0, earring2_index = 0, ring1_index = 0, ring2_index = 0;
 
@@ -60,6 +80,17 @@ public class SlideshowFragment extends Fragment {
     private ArrayList<Stamp> stamps;
     private StampCalAdapter stampCalAdapter;
     private ArrayList<StampCal> stampCals;
+
+    private NeckDBAdapter neckDBAdapter;
+    private Earring1DBAdapter earring1DBAdapter;
+    private Earring2DBAdapter earring2DBAdapter;
+    private Ring1DBAdapter ring1DBAdapter;
+    private Ring2DBAdapter ring2DBAdapter;
+    private EquipmentStoneDBAdapter equipmentStoneDBAdapter;
+    private EquipmentDBAdapter equipmentDBAdapter;
+    private StatDBAdapter statDBAdapter;
+
+    private AlertDialog alertDialog;
 
     private Map<String, Integer> stampMap;
 
@@ -89,6 +120,7 @@ public class SlideshowFragment extends Fragment {
         txtEarring2 = root.findViewById(R.id.txtEarring2);
         txtRing1 = root.findViewById(R.id.txtRing1);
         txtRing2 = root.findViewById(R.id.txtRing2);
+        btnPreset = root.findViewById(R.id.btnPreset);
         for (int i = 0; i < STAMP_LENGTH; i++) {
             imgNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("imgNeck"+(i+1), "id", getActivity().getPackageName()));
             sprNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeck"+(i+1), "id", getActivity().getPackageName()));
@@ -153,6 +185,388 @@ public class SlideshowFragment extends Fragment {
         stampCalAdapter = new StampCalAdapter(getActivity(), stampCals, getActivity());
         listView.setAdapter(stampCalAdapter);
 
+        neckDBAdapter = new NeckDBAdapter(getActivity());
+        earring1DBAdapter = new Earring1DBAdapter(getActivity());
+        earring2DBAdapter = new Earring2DBAdapter(getActivity());
+        ring1DBAdapter = new Ring1DBAdapter(getActivity());
+        ring2DBAdapter = new Ring2DBAdapter(getActivity());
+        equipmentStoneDBAdapter = new EquipmentStoneDBAdapter(getActivity());
+        equipmentDBAdapter = new EquipmentDBAdapter(getActivity());
+        statDBAdapter = new StatDBAdapter(getActivity());
+
+        btnPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.equipment_preset_layout, null);
+
+                ListView listView = view.findViewById(R.id.listView);
+                Button btnSave = view.findViewById(R.id.btnSave);
+                EditText edtName = view.findViewById(R.id.edtName);
+
+                ArrayList<Equipment> equipments = new ArrayList<>();
+
+                PresetAdapter presetAdapter = new PresetAdapter(getActivity(), equipments);
+                listView.setAdapter(presetAdapter);
+                refreshPreset(equipments, presetAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String grade;
+                        String[] stamps = new String[3];
+                        int[] cnts = new int[3];
+                        Cursor  cursor;
+                        
+                        //neck
+                        neckDBAdapter.open();
+                        cursor = neckDBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprNecks[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprNeckCnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprNecks[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprNeckCnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        switch (grade) {
+                            case "영웅":
+                                imgNeck.setImageResource(R.drawable.neck_0);
+                                txtNeck.setText("영웅 목걸이");
+                                break;
+                            case "전설":
+                                imgNeck.setImageResource(R.drawable.neck_1);
+                                txtNeck.setText("전설 목걸이");
+                                break;
+                            case "유물":
+                                imgNeck.setImageResource(R.drawable.neck_2);
+                                txtNeck.setText("유물 목걸이");
+                                break;
+                            case "고대":
+                                imgNeck.setImageResource(R.drawable.neck_3);
+                                txtNeck.setText("고대 목걸이");
+                                break;
+                        }
+                        neckDBAdapter.close();
+                        
+                        
+                        //earring1
+                        earring1DBAdapter.open();
+                        cursor = earring1DBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprEarring1s[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprEarring1Cnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprEarring1s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprEarring1Cnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        switch (grade) {
+                            case "영웅":
+                                imgEarring1.setImageResource(R.drawable.earring1_0);
+                                txtEarring1.setText("영웅 귀걸이1");
+                                break;
+                            case "전설":
+                                imgEarring1.setImageResource(R.drawable.earring1_1);
+                                txtEarring1.setText("전설 귀걸이1");
+                                break;
+                            case "유물":
+                                imgEarring1.setImageResource(R.drawable.earring1_2);
+                                txtEarring1.setText("유물 귀걸이1");
+                                break;
+                            case "고대":
+                                imgEarring1.setImageResource(R.drawable.earring1_3);
+                                txtEarring1.setText("고대 귀걸이1");
+                                break;
+                        }
+                        earring1DBAdapter.close();
+                        
+                        
+                        //earring2
+                        earring2DBAdapter.open();
+                        cursor = earring2DBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprEarring2s[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprEarring2Cnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprEarring2s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprEarring2Cnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        switch (grade) {
+                            case "영웅":
+                                imgEarring2.setImageResource(R.drawable.earring2_0);
+                                txtEarring2.setText("영웅 귀걸이2");
+                                break;
+                            case "전설":
+                                imgEarring2.setImageResource(R.drawable.earring2_1);
+                                txtEarring2.setText("전설 귀걸이2");
+                                break;
+                            case "유물":
+                                imgEarring2.setImageResource(R.drawable.earring2_2);
+                                txtEarring2.setText("유물 귀걸이2");
+                                break;
+                            case "고대":
+                                imgEarring2.setImageResource(R.drawable.earring2_3);
+                                txtEarring2.setText("고대 귀걸이2");
+                                break;
+                        }
+                        earring2DBAdapter.close();
+                        
+                        //ring1
+                        ring1DBAdapter.open();
+                        cursor = ring1DBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprRing1s[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprRing1Cnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprRing1s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprRing1Cnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        switch (grade) {
+                            case "영웅":
+                                imgRing1.setImageResource(R.drawable.ring1_0);
+                                txtRing1.setText("영웅 반지1");
+                                break;
+                            case "전설":
+                                imgRing1.setImageResource(R.drawable.ring1_1);
+                                txtRing1.setText("전설 반지1");
+                                break;
+                            case "유물":
+                                imgRing1.setImageResource(R.drawable.ring1_2);
+                                txtRing1.setText("유물 반지1");
+                                break;
+                            case "고대":
+                                imgRing1.setImageResource(R.drawable.ring1_3);
+                                txtRing1.setText("고대 반지1");
+                                break;
+                        }
+                        ring1DBAdapter.close();
+                        
+                        //Ring2
+                        ring2DBAdapter.open();
+                        cursor = ring2DBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprRing2s[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprRing2Cnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprRing2s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprRing2Cnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        switch (grade) {
+                            case "영웅":
+                                imgRing2.setImageResource(R.drawable.ring2_0);
+                                txtRing2.setText("영웅 반지2");
+                                break;
+                            case "전설":
+                                imgRing2.setImageResource(R.drawable.ring2_1);
+                                txtRing2.setText("전설 반지2");
+                                break;
+                            case "유물":
+                                imgRing2.setImageResource(R.drawable.ring2_2);
+                                txtRing2.setText("유물 반지2");
+                                break;
+                            case "고대":
+                                imgRing2.setImageResource(R.drawable.ring2_3);
+                                txtRing2.setText("고대 반지2");
+                                break;
+                        }
+                        ring2DBAdapter.close();
+                        
+                        //stone
+                        equipmentStoneDBAdapter.open();
+                        cursor = equipmentStoneDBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(5+i);
+
+                            if (i != 2) {
+                                sprStones[i].setSelection(burfs.indexOf(stamps[i]));
+                                sprStoneCnts[i].setSelection(cnts[i]-1);
+                            } else {
+                                sprStones[i].setSelection(deburfs.indexOf(stamps[i]));
+                                sprStoneCnts[i].setSelection(cnts[i]-1);
+                            }
+                        }
+                        equipmentStoneDBAdapter.close();
+
+                        //stat
+                        statDBAdapter.open();
+                        cursor = statDBAdapter.fetchData(equipments.get(position).getIndex());
+                        cursor.moveToFirst();
+                        grade = cursor.getString(1);
+                        for (int i = 0; i < STAT_LENGTH; i++) {
+                            stamps[i] = cursor.getString(2+i);
+                            cnts[i] = cursor.getInt(4+i);
+
+                            sprStats[i].setSelection(burfs.indexOf(stamps[i]));
+                            switch (cnts[i]) {
+                                case 3:
+                                    sprStatCnts[i].setSelection(0);
+                                    break;
+                                case 6:
+                                    sprStatCnts[i].setSelection(1);
+                                    break;
+                                case 9:
+                                    sprStatCnts[i].setSelection(2);
+                                    break;
+                                case 12:
+                                    sprStatCnts[i].setSelection(3);
+                                    break;
+                            }
+
+                        }
+                        statDBAdapter.close();
+
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (edtName.getText().toString().equals("")) {
+                            Toast.makeText(getActivity(), "프리셋 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        String grade;
+                        String[] stamps = new String[3];
+                        int[] cnts = new int[3];
+
+                        //Neck
+                        grade = getGrade(neck_index);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprNecks[i].getSelectedItem().toString();
+                            cnts[i] = sprNeckCnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory neck = new Accessory(grade, stamps, cnts);
+                        neckDBAdapter.open();
+                        neckDBAdapter.insertData(neck);
+                        neckDBAdapter.close();
+
+                        //Earring1
+                        grade = getGrade(earring1_index);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprEarring1s[i].getSelectedItem().toString();
+                            cnts[i] = sprEarring1Cnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory earring1 = new Accessory(grade, stamps, cnts);
+                        earring1DBAdapter.open();
+                        earring1DBAdapter.insertData(earring1);
+                        earring1DBAdapter.close();
+
+                        //Earring2
+                        grade = getGrade(earring2_index);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprEarring2s[i].getSelectedItem().toString();
+                            cnts[i] = sprEarring2Cnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory earring2 = new Accessory(grade, stamps, cnts);
+                        earring2DBAdapter.open();
+                        earring2DBAdapter.insertData(earring2);
+                        earring2DBAdapter.close();
+
+                        //Ring1
+                        grade = getGrade(ring1_index);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprRing1s[i].getSelectedItem().toString();
+                            cnts[i] = sprRing1Cnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory ring1 = new Accessory(grade, stamps, cnts);
+                        ring1DBAdapter.open();
+                        ring1DBAdapter.insertData(ring1);
+                        ring1DBAdapter.close();
+
+                        //Ring2
+                        grade = getGrade(ring2_index);
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprRing2s[i].getSelectedItem().toString();
+                            cnts[i] = sprRing2Cnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory ring2 = new Accessory(grade, stamps, cnts);
+                        ring2DBAdapter.open();
+                        ring2DBAdapter.insertData(ring2);
+                        ring2DBAdapter.close();
+
+                        //Stone
+                        grade = "null";
+                        for (int i = 0; i < STAMP_LENGTH; i++) {
+                            stamps[i] = sprStones[i].getSelectedItem().toString();
+                            cnts[i] = sprStoneCnts[i].getSelectedItemPosition()+1;
+                        }
+                        Accessory stone = new Accessory(grade, stamps, cnts);
+                        equipmentStoneDBAdapter.open();
+                        equipmentStoneDBAdapter.insertData(stone);
+                        equipmentStoneDBAdapter.close();
+
+                        //Stat
+                        stamps = new String[2];
+                        cnts = new int[2];
+                        grade = "null";
+                        for (int i = 0; i < STAT_LENGTH; i++) {
+                            stamps[i] = sprStats[i].getSelectedItem().toString();
+                            cnts[i] = Integer.parseInt(sprStatCnts[i].getSelectedItem().toString());
+                        }
+                        Stat stat = new Stat(grade, stamps, cnts);
+                        statDBAdapter.open();
+                        statDBAdapter.insertData(stat);
+                        statDBAdapter.close();
+
+                        String name = edtName.getText().toString();
+                        Date now = new Date();
+                        SimpleDateFormat format = new SimpleDateFormat( "yyyy년 MM월 dd일 HH시 mm분");
+                        String date = format.format(now);
+                        equipmentDBAdapter.open();
+                        equipmentDBAdapter.insertData(name, date);
+                        equipmentDBAdapter.close();
+
+                        refreshPreset(equipments, presetAdapter);
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         stampMap = new HashMap<>();
 
         for (int i = 0; i < 3; i++) {
@@ -162,6 +576,12 @@ public class SlideshowFragment extends Fragment {
             sprRing1Cnts[i].setAdapter(equipment_adapter);
             sprRing2Cnts[i].setAdapter(equipment_adapter);
             sprStoneCnts[i].setAdapter(stone_adapter);
+            sprStones[i].setAdapter(burf_adapter);
+            sprRing2s[i].setAdapter(burf_adapter);
+            sprRing1s[i].setAdapter(burf_adapter);
+            sprEarring1s[i].setAdapter(burf_adapter);
+            sprNecks[i].setAdapter(burf_adapter);
+            sprEarring2s[i].setAdapter(burf_adapter);
             if (i == 2) {
                 sprStones[i].setAdapter(deburf_adapter);
                 sprRing2s[i].setAdapter(deburf_adapter);
@@ -169,13 +589,6 @@ public class SlideshowFragment extends Fragment {
                 sprEarring1s[i].setAdapter(deburf_adapter);
                 sprNecks[i].setAdapter(deburf_adapter);
                 sprEarring2s[i].setAdapter(deburf_adapter);
-            } else {
-                sprStones[i].setAdapter(burf_adapter);
-                sprRing2s[i].setAdapter(burf_adapter);
-                sprRing1s[i].setAdapter(burf_adapter);
-                sprEarring1s[i].setAdapter(burf_adapter);
-                sprNecks[i].setAdapter(burf_adapter);
-                sprEarring2s[i].setAdapter(burf_adapter);
             }
             sprNeckCnts[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -588,6 +1001,37 @@ public class SlideshowFragment extends Fragment {
             else stampCals.add(0, new StampCal(entry.getKey(), entry.getValue()));
         }
         stampCalAdapter.notifyDataSetChanged();
+    }
+    
+    private void refreshPreset(ArrayList<Equipment> equipments, PresetAdapter presetAdapter) {
+        equipments.clear();
+        equipmentDBAdapter.open();
+        Cursor cursor = equipmentDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int index = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String date = cursor.getString(2);
+            Equipment equipment = new Equipment(index, name, date);
+            equipments.add(equipment);
+            cursor.moveToNext();
+        }
+        equipmentDBAdapter.close();
+        presetAdapter.notifyDataSetChanged();
+    }
+    
+    private String getGrade(int index) {
+        switch (index) {
+            case 0:
+                return "영웅";
+            case 1:
+                return "전설";
+            case 2:
+                return "유물";
+            case 3:
+                return "고대";
+        }
+        return "null";
     }
 
     private boolean isDeburf(String name) {

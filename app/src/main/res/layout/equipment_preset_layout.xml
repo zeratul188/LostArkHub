@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="각인 계산서 프리셋"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@drawable/dialogtitlestyle"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#3581DF"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:divider="#20ffffff"
+        android:dividerHeight="1dp"
+        android:id="@+id/listView"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtName"
+        android:hint="프리셋 이름을 입력하세요."
+        android:textSize="18sp"
+        android:background="#1d2026"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#666666"
+        android:layout_margin="10dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/normalbuttonstyle"
+        android:text="저장"
+        android:id="@+id/btnSave"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

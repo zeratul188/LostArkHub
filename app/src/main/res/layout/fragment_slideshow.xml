@@ -13,14 +13,29 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="현재 각인"
-            android:textSize="18sp"
-            android:padding="15dp"
-            android:background="#191b20"
-            android:textColor="#ffffff"/>
+            android:orientation="horizontal"
+            android:background="#191b20">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="현재 각인"
+                android:textSize="18sp"
+                android:padding="15dp"
+                android:textColor="#ffffff"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/titlebuttonstyle"
+                android:text="프리셋"
+                android:textSize="18sp"
+                android:id="@+id/btnPreset"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
+        
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -87,9 +102,9 @@
                     android:id="@+id/sprStatCnt1"/>
             </LinearLayout>
             <View
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#40ffffff"
+                android:background="#20ffffff"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
             <LinearLayout
@@ -197,11 +212,11 @@
                         android:id="@+id/sprNeckCnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -234,11 +249,11 @@
                         android:id="@+id/sprNeckCnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -344,11 +359,11 @@
                         android:id="@+id/sprEarring1Cnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -381,11 +396,11 @@
                         android:id="@+id/sprEarring1Cnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -492,11 +507,11 @@
                         android:id="@+id/sprEarring2Cnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -529,11 +544,11 @@
                         android:id="@+id/sprEarring2Cnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -640,11 +655,11 @@
                         android:id="@+id/sprRing1Cnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -677,11 +692,11 @@
                         android:id="@+id/sprRing1Cnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -788,11 +803,11 @@
                         android:id="@+id/sprRing2Cnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -825,11 +840,11 @@
                         android:id="@+id/sprRing2Cnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -942,11 +957,11 @@
                         android:id="@+id/sprStoneCnt1"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -979,11 +994,11 @@
                         android:id="@+id/sprStoneCnt2"/>
                 </LinearLayout>
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="#40ffffff"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#20ffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"

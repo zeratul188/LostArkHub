@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:fillViewport="true"
     android:background="#262931"
+    android:id="@+id/scrollView"
     tools:context=".ui.home.HomeFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,194 +18,143 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이벤트"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listEvent"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="200dp"
             android:scrollbars="horizontal"/>
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="#191b20"
-            android:padding="15dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="모험섬"
-                android:textSize="20sp"
-                android:textColor="#FFFFFF"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtIslandDate"
-                android:text="-"
-                android:textSize="15sp"
-                android:textColor="#aaaaaa"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
+            android:text="모험섬"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#FFFFFF"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#1d2026"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="90dp">
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        android:id="@+id/imgIsland1"
-                        android:src="@drawable/emptyboss"/>
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/imageopacitygradientstyle"/>
-                </FrameLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgIsland1"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtIsland1"
+                        android:background="#aa222222"
                         android:text="-"
-                        android:textSize="18sp"
-                        android:textColor="#FFCA45"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="보상"
-                        android:layout_marginTop="5dp"
-                        android:textSize="14sp"
-                        android:textColor="#888888"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:id="@+id/txtIslandAward1"
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#20ffffff"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="90dp">
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        android:id="@+id/imgIsland2"
-                        android:src="@drawable/emptyboss"/>
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/imageopacitygradientstyle"/>
-                </FrameLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgIsland2"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtIsland2"
+                        android:background="#aa222222"
                         android:text="-"
-                        android:textSize="18sp"
-                        android:textColor="#FFCA45"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="보상"
-                        android:layout_marginTop="5dp"
-                        android:textSize="14sp"
-                        android:textColor="#888888"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:id="@+id/txtIslandAward2"
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#20ffffff"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="90dp">
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        android:id="@+id/imgIsland3"
-                        android:src="@drawable/emptyboss"/>
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/imageopacitygradientstyle"/>
-                </FrameLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
+                        android:src="@drawable/emptyboss"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"
+                        android:id="@+id/imgIsland3"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtIsland3"
+                        android:background="#aa222222"
                         android:text="-"
-                        android:textSize="18sp"
-                        android:textColor="#FFCA45"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="보상"
-                        android:layout_marginTop="5dp"
-                        android:textSize="14sp"
-                        android:textColor="#888888"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:id="@+id/txtIslandAward3"
-                        android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
-                </LinearLayout>
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:padding="2dp"
+                        android:textColor="#FFCA45"
+                        android:layout_gravity="bottom"/>
+                </FrameLayout>
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward1"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward2"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/txtIslandAward3"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtIslandDate"
+                android:text="-"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:textColor="#aaaaaa"/>
             <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -316,7 +267,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="도전 가디언 토벌"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"/>
@@ -348,7 +299,7 @@
                         android:background="#aa222222"
                         android:text="-"
                         android:gravity="center"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:padding="2dp"
                         android:textColor="#FFCA45"
                         android:layout_gravity="bottom"/>
@@ -369,7 +320,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/txtBoss2"
                         android:text="-"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:padding="2dp"
                         android:gravity="center"
                         android:background="#aa222222"
@@ -392,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/txtBoss3"
                         android:text="-"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:padding="2dp"
                         android:gravity="center"
                         android:background="#aa222222"
@@ -512,7 +463,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="도전 어비스 던전"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"/>
@@ -594,7 +545,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="업데이트 내역"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:background="#191b20"
             android:padding="15dp"
             android:layout_marginTop="30dp"
@@ -611,7 +562,7 @@
             android:layout_height="wrap_content"
             android:text="로스트아크허브 공지사항"
             android:padding="15dp"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:background="#191b20"
             android:layout_marginTop="30dp"
             android:textColor="#FFFFFF"/>

@@ -1,37 +1,36 @@
 package com.example.lostarkapplication.ui.slideshow.objects;
 
 public class Equipment {
-    private String grade;
-    private String[] stamps = new String[3];
-    private int[] cnts = new int[3];
+    private String name, date;
+    private int index;
 
-    public Equipment(String grade, String[] stamps, int[] cnts) {
-        this.grade = grade;
-        this.stamps = stamps;
-        this.cnts = cnts;
+    public Equipment(int index, String name, String date) {
+        this.index = index;
+        this.name = name;
+        this.date = date;
     }
 
-    public String getGrade() {
-        return grade;
+    public int getIndex() {
+        return index;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public String[] getStamps() {
-        return stamps;
+    public String getName() {
+        return name;
     }
 
-    public void setStamps(String[] stamps) {
-        this.stamps = stamps;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int[] getCnts() {
-        return cnts;
+    public String getDate() {
+        return date;
     }
 
-    public void setCnts(int[] cnts) {
-        this.cnts = cnts;
+    public void setDate(String date) {
+        this.date = date;
     }
 }

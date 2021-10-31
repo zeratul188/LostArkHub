@@ -6,12 +6,14 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,7 @@ public class HomeFragment extends Fragment {
     private static final int BOSS_LENGTH = 3;
 
     private HomeViewModel homeViewModel;
+    private ScrollView scrollView;
 
     private ImageView[] imgIsland = new ImageView[ISLAND_LENGTH];
     private TextView[] txtIsland = new TextView[ISLAND_LENGTH];
@@ -266,6 +269,8 @@ public class HomeFragment extends Fragment {
 
         GradientDrawable round_drawable = (GradientDrawable) getActivity().getDrawable(R.drawable.roundimage);
 
+        scrollView = root.findViewById(R.id.scrollView);
+
         txtIslandDate = root.findViewById(R.id.txtIslandDate);
         for (int i = 0; i < ISLAND_LENGTH; i++) {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
@@ -310,6 +315,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updates.get(position).getUrl())));
+            }
+        });
+        listUpdate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scrollView.requestDisallowInterceptTouchEvent(true);
+                return false;
             }
         });
 

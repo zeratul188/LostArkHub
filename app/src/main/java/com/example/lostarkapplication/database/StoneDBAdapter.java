@@ -88,7 +88,15 @@ public class StoneDBAdapter {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3}, null, null, null, null, null);
     }
 
+    public Cursor fetchData(int rowID) {
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3}, "_id = "+rowID, null, null, null, null);
+    }
+
     public boolean deleteAllData() {
         return sqlDB.delete(DATABASE_TABLE, null, null) > 0;
+    }
+
+    public boolean deleteData(int rowID) {
+        return sqlDB.delete(DATABASE_TABLE, "_id = "+rowID, null) > 0;
     }
 }
