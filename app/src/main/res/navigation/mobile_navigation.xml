@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.lostarkapplication.ui.home.HomeFragment"
+        android:name="com.lostark.lostarkapplication.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="com.example.lostarkapplication.ui.home.HomeSecondFragment"
+        android:name="com.lostark.lostarkapplication.ui.home.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -31,25 +31,25 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.lostarkapplication.ui.gallery.GalleryFragment"
+        android:name="com.lostark.lostarkapplication.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.lostarkapplication.ui.slideshow.SlideshowFragment"
+        android:name="com.lostark.lostarkapplication.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_commander"
-        android:name="com.example.lostarkapplication.ui.commander.CommanderFragment"
+        android:name="com.lostark.lostarkapplication.ui.commander.CommanderFragment"
         android:label="@string/menu_commander"
         tools:layout="@layout/fragment_commander" />
 
     <fragment
         android:id="@+id/nav_stamp"
-        android:name="com.example.lostarkapplication.ui.stamp.StampFragment"
+        android:name="com.lostark.lostarkapplication.ui.stamp.StampFragment"
         android:label="@string/menu_stamp"
         tools:layout="@layout/fragment_stamp" />
 </navigation>

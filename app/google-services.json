@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:468170179065:android:e995e5ba4906a82392fd28",
         "android_client_info": {
-          "package_name": "com.example.lostarkapplication"
+          "package_name": "com.lostark.lostarkapplication"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "468170179065-p0lltu5cio61i95hrcvku5ihrkpb2cq6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lostarkapplication",
+            "package_name": "com.lostark.lostarkapplication",
             "certificate_hash": "f359bf404472a8a3fec9fdc3ecb86bd29c5fc183"
           }
         },
