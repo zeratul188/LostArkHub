@@ -85,22 +85,17 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String startdate = "";
                 for (DataSnapshot data :snapshot.getChildren()) {
-                    if (data.getKey().equals("startdate")) startdate = data.getValue().toString();
-                    else if (data.getKey().equals("enddate")) continue;
-                    else {
-                        String name = data.child("name").getValue().toString();
-                        String award = data.child("award").getValue().toString();
-                        String image = data.child("image").getValue().toString();
-                        int index = 0;
-                        if (data.getKey().equals("first_island")) index = 0;
-                        else if (data.getKey().equals("second_island")) index = 1;
-                        else index = 2;
-                        imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
-                        txtIsland[index].setText(name);
-                        txtIslandAward[index].setText(award);
-                    }
+                    String name = data.child("name").getValue().toString();
+                    String award = data.child("award").getValue().toString();
+                    String image = data.child("image").getValue().toString();
+                    int index = 0;
+                    if (data.getKey().equals("first_island")) index = 0;
+                    else if (data.getKey().equals("second_island")) index = 1;
+                    else index = 2;
+                    imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
+                    txtIsland[index].setText(name);
+                    txtIslandAward[index].setText(award);
                 }
-                txtIslandDate.setText(startdate+"에 시작");
             }
 
             @Override
@@ -108,6 +103,31 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        Calendar calendar = Calendar.getInstance();
+        //Test Start
+        //calendar.set(Calendar.DAY_OF_MONTH, 4);
+        //calendar.set(Calendar.HOUR_OF_DAY, 23);
+        //Test End
+        Date now = calendar.getTime();
+        DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일");
+        DateFormat hourFormat = new SimpleDateFormat("HH");
+        int now_hour = Integer.parseInt(hourFormat.format(now));
+        int next_island_hour = 0;
+        if (now_hour < 11) next_island_hour = 11;
+        else if (now_hour >= 11 && now_hour < 13) next_island_hour = 13;
+        else if (now_hour >= 13 && now_hour < 19) next_island_hour = 19;
+        else if (now_hour >= 19 && now_hour < 21) next_island_hour = 21;
+        else if (now_hour >= 21 && now_hour < 23) next_island_hour = 23;
+        else {
+            calendar.add(Calendar.DATE,1);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) next_island_hour = 9;
+            else next_island_hour = 11;
+        }
+        Date result_date = calendar.getTime();
+        String result = df.format(result_date);
+        result += " "+next_island_hour+"시에 시작";
+        txtIslandDate.setText(result);
 
         bossReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

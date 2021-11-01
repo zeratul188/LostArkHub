@@ -205,7 +205,7 @@ public class SlideshowFragment extends Fragment {
 
                 ArrayList<Equipment> equipments = new ArrayList<>();
 
-                PresetAdapter presetAdapter = new PresetAdapter(getActivity(), equipments);
+                PresetAdapter presetAdapter = new PresetAdapter(getActivity(), equipments, getActivity());
                 listView.setAdapter(presetAdapter);
                 refreshPreset(equipments, presetAdapter);
 
@@ -451,6 +451,7 @@ public class SlideshowFragment extends Fragment {
                         }
                         statDBAdapter.close();
 
+                        Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -555,6 +556,8 @@ public class SlideshowFragment extends Fragment {
                         equipmentDBAdapter.close();
 
                         refreshPreset(equipments, presetAdapter);
+                        Toast.makeText(getActivity(), "프리셋을 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                        edtName.setText("");
                     }
                 });
 

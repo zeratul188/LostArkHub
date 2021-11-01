@@ -1,6 +1,7 @@
 package com.example.lostarkapplication.ui.gallery;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
@@ -40,6 +44,7 @@ public class GalleryFragment extends Fragment {
     private ImageView[] imgFirst = new ImageView[10];
     private ImageView[] imgSecond = new ImageView[10];
     private ImageView[] imgThird = new ImageView[10];
+    private LinearLayout layoutHistory;
 
     private StampDBAdapter stampDBAdapter;
     private StoneDBAdapter stoneDBAdapter;
@@ -47,6 +52,8 @@ public class GalleryFragment extends Fragment {
     private AlertDialog stampDialog, alertDialog;
     private DataNetwork dn;
     private ArrayList<Stone> stones;
+
+    private SharedPreferences pref;
 
     private int max = 0;
     private int burf1 = 0, burf2 = 0, deburf = 0;
@@ -89,6 +96,7 @@ public class GalleryFragment extends Fragment {
         btnConfirm = root.findViewById(R.id.btnConfirm);
         btnReset = root.findViewById(R.id.btnReset);
         listView = root.findViewById(R.id.listView);
+        layoutHistory = root.findViewById(R.id.layoutHistory);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
             imgSecond[i] = root.findViewById(getActivity().getResources().getIdentifier("imgSecond"+(i+1), "id", getActivity().getPackageName()));
@@ -99,6 +107,7 @@ public class GalleryFragment extends Fragment {
         stoneAdapter = new StoneAdapter(stones, getActivity());
         listView.setAdapter(stoneAdapter);
 
+        pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         stoneDBAdapter = new StoneDBAdapter(getActivity());
 
         btnChange.setOnClickListener(new View.OnClickListener() {
@@ -582,5 +591,7 @@ public class GalleryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         loadStones();
+        if (!pref.getBoolean("stone_history", false)) layoutHistory.setVisibility(View.VISIBLE);
+        else layoutHistory.setVisibility(View.GONE);
     }
 }
