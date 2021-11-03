@@ -1,22 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#262931"
+    android:padding="10dp"
     tools:context=".ui.gallery.GalleryFragment">
 
     <TextView
-        android:id="@+id/text_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
+        android:background="#191b20"
+        android:padding="15dp"
+        android:text="검색"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textColor="#FFFFFF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1d2026"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgbtnFilter"
+            android:src="@drawable/filter"
+            android:scaleType="centerCrop"
+            android:padding="15dp"
+            android:background="@drawable/settingbuttonstyle"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/edtSearch"
+            android:background="@drawable/customeditstyle"
+            android:hint="각인 이름을 입력하세요."
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"/>
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgbtnSearch"
+            android:src="@drawable/ic_search_black_24dp"
+            android:scaleType="centerCrop"
+            android:padding="12dp"
+            android:background="@drawable/settingbuttonstyle"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#191b20"
+        android:padding="15dp"
+        android:text="검색 결과"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1d2026"
+        android:id="@+id/listView"/>
+</LinearLayout>
