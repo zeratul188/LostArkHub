@@ -1,6 +1,7 @@
 package com.lostark.lostarkapplication.ui.stamp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,17 @@ import com.lostark.lostarkapplication.ui.stamp.objects.StampList;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class StampListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<StampList> stampLists;
+    private SharedPreferences pref;
 
     public StampListAdapter(Context context, ArrayList<StampList> stampLists) {
         this.context = context;
         this.stampLists = stampLists;
+        pref = context.getSharedPreferences("setting_file", MODE_PRIVATE);
     }
 
     public ArrayList<StampList> getStampLists() {
@@ -69,9 +74,15 @@ public class StampListAdapter extends BaseAdapter {
         if (txtType.getText().toString().equals("감소")) txtName.setTextColor(Color.parseColor("#e66363"));
         else txtName.setTextColor(Color.parseColor("#5ba5d4"));
 
-        imgbtnEye.setImageResource(context.getResources().getIdentifier("open_eye", "drawable", context.getPackageName()));
-        stampLists.get(position).setOpen(false);
-        layoutContent.setVisibility(View.GONE);
+        if (pref.getBoolean("stamp_open", false)) {
+            imgbtnEye.setImageResource(context.getResources().getIdentifier("close_eye", "drawable", context.getPackageName()));
+            stampLists.get(position).setOpen(true);
+            layoutContent.setVisibility(View.VISIBLE);
+        } else {
+            imgbtnEye.setImageResource(context.getResources().getIdentifier("open_eye", "drawable", context.getPackageName()));
+            stampLists.get(position).setOpen(false);
+            layoutContent.setVisibility(View.GONE);
+        }
 
         imgbtnEye.setOnClickListener(new View.OnClickListener() {
             @Override

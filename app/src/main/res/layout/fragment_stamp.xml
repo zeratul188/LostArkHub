@@ -29,7 +29,7 @@
             android:id="@+id/imgbtnFilter"
             android:src="@drawable/filter"
             android:scaleType="centerCrop"
-            android:padding="15dp"
+            android:padding="17dp"
             android:background="@drawable/settingbuttonstyle"/>
         <EditText
             android:layout_width="0dp"

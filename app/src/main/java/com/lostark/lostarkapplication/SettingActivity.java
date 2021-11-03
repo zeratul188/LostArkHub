@@ -27,7 +27,7 @@ import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
 public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset;
-    private CheckBox chkStoneHistory;
+    private CheckBox chkStoneHistory, chkStampListOpen;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -53,6 +53,7 @@ public class SettingActivity extends AppCompatActivity {
         btnDeletePreset = findViewById(R.id.btnDeletePreset);
         btnDeleteStone = findViewById(R.id.btnDeleteStone);
         chkStoneHistory = findViewById(R.id.chkStoneHistory);
+        chkStampListOpen = findViewById(R.id.chkStampListOpen);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -67,11 +68,20 @@ public class SettingActivity extends AppCompatActivity {
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
         chkStoneHistory.setChecked(pref.getBoolean("stone_history", false));
+        chkStampListOpen.setChecked(pref.getBoolean("stamp_open", false));
 
         chkStoneHistory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("stone_history", isChecked);
+                editor.commit();
+            }
+        });
+
+        chkStampListOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("stamp_open", isChecked);
                 editor.commit();
             }
         });

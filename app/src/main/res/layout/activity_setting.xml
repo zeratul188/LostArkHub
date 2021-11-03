@@ -83,6 +83,39 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="각인"
+        android:textSize="18sp"
+        android:background="#191b20"
+        android:textColor="#ffffff"
+        android:layout_marginTop="25dp"
+        android:padding="15dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#1d2026">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="각인 내용 펼치기"
+                android:textSize="18sp"
+                android:textColor="#ffffff"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:buttonTint="#6794BA"
+                android:id="@+id/chkStampListOpen"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="앱 정보"
         android:textSize="18sp"
         android:background="#191b20"
@@ -94,6 +127,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#1d2026">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_update_24"
+            android:drawablePadding="20dp"
+            android:background="@drawable/settingbuttonstyle"
+            android:padding="20dp"
+            android:text="업데이트 확인"
+            android:textSize="18sp"
+            android:id="@+id/btnCheckUpdate"
+            android:gravity="left"
+            android:textColor="#ffffff"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

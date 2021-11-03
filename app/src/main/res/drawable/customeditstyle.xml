@@ -13,7 +13,7 @@
     </item>
     <item android:state_focused="false">
         <shape>
-            <solid android:color="#2A2E37"/>
+            <solid android:color="#353A45"/>
         </shape>
     </item>
 </selector>

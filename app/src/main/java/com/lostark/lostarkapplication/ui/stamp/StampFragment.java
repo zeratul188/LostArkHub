@@ -60,24 +60,7 @@ public class StampFragment extends Fragment {
         imgbtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtSearch.getText().toString().equals("")) {
-                    adapter.setStampLists(stampLists);
-                    adapter.notifyDataSetChanged();
-                    return;
-                }
-
-                searchList = (ArrayList<StampList>) stampLists.clone();
-                String[] strs = edtSearch.getText().toString().split(" ");
-                for (int i = 0; i < searchList.size(); i++) {
-                    for (String str : strs) {
-                        if (searchList.get(i).getName().indexOf(str) == -1) {
-                            searchList.remove(i);
-                            i--;
-                            break;
-                        }
-                    }
-                }
-                adapter.setStampLists(searchList);
+                searchProcess();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -136,6 +119,9 @@ public class StampFragment extends Fragment {
                                 stampLists.add(new StampList(content[0], content[1], content[2], levels));
                             }
                         }
+
+                        searchProcess();
+
                         adapter.notifyDataSetChanged();
                         stampChecklist.setIncrease(chkIncrease.isChecked());
                         stampChecklist.setDecrease(chkDecrease.isChecked());
@@ -167,5 +153,32 @@ public class StampFragment extends Fragment {
         listView.setAdapter(adapter);
 
         return root;
+    }
+
+    private void searchProcess() {
+        if (edtSearch.getText().toString().equals("")) {
+            adapter.setStampLists(stampLists);
+            adapter.notifyDataSetChanged();
+            return;
+        }
+
+        searchList = (ArrayList<StampList>) stampLists.clone();
+        String[] strs = edtSearch.getText().toString().split(" ");
+        for (int i = 0; i < searchList.size(); i++) {
+            for (String str : strs) {
+                if (searchList.get(i).getName().indexOf(str) == -1) {
+                    searchList.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        adapter.setStampLists(searchList);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
