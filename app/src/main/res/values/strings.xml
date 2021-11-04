@@ -11,7 +11,7 @@
     <string name="menu_gallery">어빌리티 스톤 세공 시뮬</string>
     <string name="menu_slideshow">각인 계산서</string>
     <string name="menu_commander">숙제</string>
-    <string name="menu_stamp">각인</string>
+    <string name="menu_stamp">각인 효과</string>
 
     <string name="home_second">Home Second</string>
 </resources>

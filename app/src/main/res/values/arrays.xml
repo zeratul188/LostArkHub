@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="job">
+        <item>버서커</item>
+        <item>디스트로이어</item>
+        <item>워로드</item>
+        <item>홀리나이트</item>
+        <item>배틀마스터</item>
+        <item>인파이터</item>
+        <item>기공사</item>
+        <item>창술사</item>
+        <item>스트라이커</item>
+        <item>데빌헌터</item>
+        <item>블래스터</item>
+        <item>호크아이</item>
+        <item>스카우터</item>
+        <item>건슬링어</item>
+        <item>아르카나</item>
+        <item>서머너</item>
+        <item>바드</item>
+        <item>소서리스</item>
+        <item>데모닉</item>
+        <item>블레이드</item>
+        <item>리퍼</item>
+    </string-array>
+
     <string-array name="ability_stone">
         <item>희귀</item>
         <item>영웅</item>

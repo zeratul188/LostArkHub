@@ -1,9 +1,12 @@
 package com.lostark.lostarkapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +18,11 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.database.Earring1DBAdapter;
 import com.lostark.lostarkapplication.database.Earring2DBAdapter;
 import com.lostark.lostarkapplication.database.EquipmentDBAdapter;
@@ -26,7 +34,7 @@ import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
 public class SettingActivity extends AppCompatActivity {
-    private Button btnDeleteStone, btnDeletePreset;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate;
     private CheckBox chkStoneHistory, chkStampListOpen;
 
     private NeckDBAdapter neckDBAdapter;
@@ -43,6 +51,9 @@ public class SettingActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +65,7 @@ public class SettingActivity extends AppCompatActivity {
         btnDeleteStone = findViewById(R.id.btnDeleteStone);
         chkStoneHistory = findViewById(R.id.chkStoneHistory);
         chkStampListOpen = findViewById(R.id.chkStampListOpen);
+        btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -69,6 +81,56 @@ public class SettingActivity extends AppCompatActivity {
         editor = pref.edit();
         chkStoneHistory.setChecked(pref.getBoolean("stone_history", false));
         chkStampListOpen.setChecked(pref.getBoolean("stamp_open", false));
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+
+        btnCheckUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String version = null;
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            if (data.getKey().equals("version")) {
+                                version = data.getValue().toString();
+                            }
+                        }
+                        View view = getLayoutInflater().inflate(R.layout.onedialog, null);
+
+                        TextView txtContent = view.findViewById(R.id.txtContent);
+                        Button btnOK = view.findViewById(R.id.btnOK);
+
+                        if (version != null) {
+                            if (version.equals(getVersion())) txtContent.setText("이미 최신 버전입니다.");
+                            else txtContent.setText("신규 버전 : "+version+"\n\n신규 버전이 있습니다.");
+                        } else txtContent.setText("데이터를 불어올 수 없습니다. 인터넷을 확인해주세요.");
+
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                        builder.setView(view);
+
+                        alertDialog = builder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog.show();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
 
         chkStoneHistory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -188,6 +250,15 @@ public class SettingActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private String getVersion() {
+        String version = null;
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
+        return version;
     }
 
     @Override

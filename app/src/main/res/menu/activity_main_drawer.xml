@@ -16,10 +16,10 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/nav_stamp_simul_icon"
             android:title="@string/menu_slideshow" />
-        <!--<item
+        <item
             android:id="@+id/nav_commander"
             android:icon="@drawable/nav_boss_icon"
-            android:title="@string/menu_commander" />-->
+            android:title="@string/menu_commander" />
         <item
             android:id="@+id/nav_stamp"
             android:icon="@drawable/nav_stamp_icon"
