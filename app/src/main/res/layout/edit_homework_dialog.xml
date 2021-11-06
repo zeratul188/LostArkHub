@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="숙제 수정"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@drawable/dialogtitlestyle"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#3581DF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="숙제 이름"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#aaaaaa"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customeditstyle"
+            android:padding="10dp"
+            android:id="@+id/edtHomework"
+            android:hint="숙제 이름"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_marginBottom="20dp"
+            android:textColorHint="#777777"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="갯수"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#aaaaaa"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customeditstyle"
+            android:padding="10dp"
+            android:id="@+id/edtCount"
+            android:hint="0 ~ 10"
+            android:inputType="numberDecimal"
+            android:textSize="18sp"
+            android:maxLength="2"
+            android:textColor="#ffffff"
+            android:textColorHint="#777777"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnReset"
+            android:background="@drawable/restbuttonstyle"
+            android:text="초기화"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDelete"
+            android:background="@drawable/nobuttonstyle"
+            android:text="삭제"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnEdit"
+            android:background="@drawable/yesbuttonstyle"
+            android:text="수정"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+</LinearLayout>

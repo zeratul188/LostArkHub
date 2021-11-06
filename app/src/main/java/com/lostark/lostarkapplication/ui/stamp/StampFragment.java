@@ -16,9 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.StampDBAdapter;
+import com.lostark.lostarkapplication.ui.stamp.objects.Filter;
 import com.lostark.lostarkapplication.ui.stamp.objects.StampChecklist;
 import com.lostark.lostarkapplication.ui.stamp.objects.StampList;
 
@@ -30,12 +33,15 @@ public class StampFragment extends Fragment {
     private ImageButton imgbtnFilter, imgbtnSearch;
     private EditText edtSearch;
     private ListView listView;
+    private RecyclerView listFilter;
 
     private StampDBAdapter stampDBAdapter;
     private StampListAdapter adapter;
     private ArrayList<StampList> stampLists, searchList;
     private AlertDialog alertDialog;
     private StampChecklist stampChecklist;
+    private ArrayList<Filter> filters;
+    private FilterAdapter filterAdapter;
 
     private StampViewModel homeViewModel;
 
@@ -56,6 +62,15 @@ public class StampFragment extends Fragment {
         imgbtnSearch = root.findViewById(R.id.imgbtnSearch);
         edtSearch = root.findViewById(R.id.edtSearch);
         listView = root.findViewById(R.id.listView);
+        listFilter = root.findViewById(R.id.listFilter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        listFilter.setLayoutManager(layoutManager);
+        filters = new ArrayList<>();
+        filterAdapter = new FilterAdapter(filters, getActivity(), stampChecklist, StampFragment.this);
+        listFilter.setAdapter(filterAdapter);
+        FilterDecoration decoration = new FilterDecoration();
+        listFilter.addItemDecoration(decoration);
 
         imgbtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +143,24 @@ public class StampFragment extends Fragment {
                         boolean[] isCheckClass = new boolean[CLASS_LENGTH];
                         for (int i = 0; i < CLASS_LENGTH; i++) isCheckClass[i] = chkClasses[i].isChecked();
                         stampChecklist.setIsClasses(isCheckClass);
+
+                        filterAdapter.setChecklist(stampChecklist);
+
+                        filters.clear();
+                        if (chkIncrease.isChecked()) filters.add(new Filter(chkIncrease.getText().toString(), chkIncrease, -1));
+                        if (chkDecrease.isChecked()) filters.add(new Filter(chkDecrease.getText().toString(), chkDecrease, -1));
+                        for (int i = 0; i < chkClasses.length; i++) {
+                            if (chkClasses[i].isChecked()) {
+                                filters.add(new Filter(chkClasses[i].getText().toString(), chkClasses[i], i));
+                            }
+                        }
+                        if (!filters.isEmpty()) {
+                            listFilter.setVisibility(View.VISIBLE);
+                            filterAdapter.notifyDataSetChanged();
+                        } else {
+                            listFilter.setVisibility(View.GONE);
+                        }
+
                         alertDialog.dismiss();
                     }
                 });
@@ -174,6 +207,34 @@ public class StampFragment extends Fragment {
             }
         }
         adapter.setStampLists(searchList);
+    }
+
+    public void refreshData(StampChecklist checklist) {
+        stampLists.clear();
+        ArrayList<String> filter_list = new ArrayList<>();
+        if (checklist.isIncrease()) filter_list.add("공통");
+        if (checklist.isDecrease()) filter_list.add("감소");
+        for (Filter filter : filterAdapter.getFilters()) if (filter.getChkBox().isChecked()) filter_list.add(filter.getChkBox().getText().toString());
+
+        for (int i = 0; i < stampDBAdapter.getSize(); i++) {
+            String[] content = stampDBAdapter.readData(i);
+            if (filter_list.contains(content[2])) {
+                String[] levels = new String[3];
+                for (int j = 0; j < levels.length; j++) levels[j] = content[3+j];
+                stampLists.add(new StampList(content[0], content[1], content[2], levels));
+            }
+        }
+        if (stampLists.isEmpty()) {
+            for (int i = 0; i < stampDBAdapter.getSize(); i++) {
+                String[] content = stampDBAdapter.readData(i);
+                String[] levels = new String[3];
+                for (int j = 0; j < levels.length; j++) levels[j] = content[3+j];
+                stampLists.add(new StampList(content[0], content[1], content[2], levels));
+            }
+        }
+        adapter.notifyDataSetChanged();
+        if (filterAdapter.getFilters().isEmpty()) listFilter.setVisibility(View.GONE);
+        else listFilter.setVisibility(View.VISIBLE);
     }
 
     @Override

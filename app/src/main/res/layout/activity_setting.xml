@@ -87,6 +87,61 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="숙제"
+            android:textSize="18sp"
+            android:background="#191b20"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="#1d2026">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="알림"
+                    android:textSize="18sp"
+                    android:textColor="#ffffff"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:buttonTint="#6794BA"
+                    android:id="@+id/chkAlarm"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="알림 울리는 시간"
+                    android:padding="20dp"
+                    android:gravity="center|left"
+                    android:textSize="18sp"
+                    android:textColor="#ffffff"/>
+                <Spinner
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sprAlarm"
+                    android:spinnerMode="dropdown"
+                    android:background="#00000000"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="각인 효과"
             android:textSize="18sp"
             android:background="#191b20"

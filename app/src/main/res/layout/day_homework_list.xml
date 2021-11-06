@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#1d2026">
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_notifications_black_24dp"
+        android:scaleType="centerCrop"
+        android:background="@null"
+        android:id="@+id/imgbtnAlarm"
+        android:padding="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/txtName"
+        android:text="[Day Homework Name]"
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center"
+        android:text="[Now]"
+        android:id="@+id/txtNow"
+        android:textSize="16sp"
+        android:textColor="#DD5D15"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:textColor="#aaaaaa"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[Max]"
+        android:layout_gravity="center"
+        android:id="@+id/txtMax"
+        android:textSize="16sp"
+        android:textColor="#aaaaaa"/>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_arrow_upward_black_24dp"
+        android:id="@+id/imgbtnUp"
+        android:scaleType="centerCrop"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/homeworkbuttonstyle"/>
+</LinearLayout>

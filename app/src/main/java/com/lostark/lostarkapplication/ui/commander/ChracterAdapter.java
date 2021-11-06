@@ -2,6 +2,7 @@ package com.lostark.lostarkapplication.ui.commander;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +22,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.lostark.lostarkapplication.R;
+import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +34,7 @@ public class ChracterAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Chracter> chracters;
     private ChracterListDBAdapter chracterListDBAdapter;
+    private ChracterDBAdapter chracterDBAdapter;
     private AlertDialog alertDialog;
     private Activity activity;
     private List<String> jobs;
@@ -67,6 +72,7 @@ public class ChracterAdapter extends BaseAdapter {
         ImageButton imgbtnNotication = convertView.findViewById(R.id.imgbtnNotication);
         ImageButton imgbtnDelete = convertView.findViewById(R.id.imgbtnDelete);
         ImageView imgBackground = convertView.findViewById(R.id.imgBackground);
+        LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
 
         jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
 
@@ -77,6 +83,15 @@ public class ChracterAdapter extends BaseAdapter {
         else imgbtnNotication.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         int index = jobs.indexOf(chracters.get(position).getJob());
         imgBackground.setImageResource(context.getResources().getIdentifier("jb"+(index+1), "drawable", context.getPackageName()));
+
+        layoutMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChecklistActivity.class);
+                intent.putExtra("chracter_name", chracters.get(position).getName());
+                context.startActivity(intent);
+            }
+        });
 
         imgbtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +122,19 @@ public class ChracterAdapter extends BaseAdapter {
                             int rowID = cursor.getInt(0);
                             String name = cursor.getString(1);
                             if (name.equals(chracters.get(position).getName())) {
+                                chracterDBAdapter = new ChracterDBAdapter(context, "CHRACTER"+chracterListDBAdapter.getRowID(name));
+                                chracterDBAdapter.open();
+                                chracterDBAdapter.dropTable();
+                                String db_path = "/data/data/"+context.getPackageName();
+                                String db_name = "LOSTARKHUB_CHRACTER"+chracterListDBAdapter.getRowID(name);
+                                String db_full_path = db_path+"/databases/"+db_name;
+                                File file = new File(db_full_path);
+                                if (!file.delete()) Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                db_name= "LOSTARKHUB_CHRACTER"+chracterListDBAdapter.getRowID(name)+"-journal";
+                                db_full_path = db_path+"/databases/"+db_name;
+                                file = new File(db_full_path);
+                                if (!file.delete()) Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                chracterDBAdapter.close();
                                 chracterListDBAdapter.deleteData(rowID);
                                 break;
                             }

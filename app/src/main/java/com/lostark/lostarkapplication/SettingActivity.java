@@ -12,9 +12,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +36,12 @@ import com.lostark.lostarkapplication.database.Ring2DBAdapter;
 import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
+import java.util.ArrayList;
+
 public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate;
-    private CheckBox chkStoneHistory, chkStampListOpen;
+    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm;
+    private Spinner sprAlarm;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -66,6 +72,8 @@ public class SettingActivity extends AppCompatActivity {
         chkStoneHistory = findViewById(R.id.chkStoneHistory);
         chkStampListOpen = findViewById(R.id.chkStampListOpen);
         btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
+        chkAlarm = findViewById(R.id.chkAlarm);
+        sprAlarm = findViewById(R.id.sprAlarm);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -84,6 +92,34 @@ public class SettingActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
+
+        ArrayList<String> times = new ArrayList<>();
+        for (int i = 0; i < 24; i++) times.add(Integer.toString(i));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.job_item, times);
+        sprAlarm.setAdapter(adapter);
+        sprAlarm.setSelection(pref.getInt("setting_hour", 22));
+
+        chkAlarm.setChecked(pref.getBoolean("alarm", false));
+        chkAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("alarm", isChecked);
+            }
+        });
+
+        sprAlarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int time = Integer.parseInt(sprAlarm.getSelectedItem().toString());
+                editor.putInt("setting_hour", time);
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         btnCheckUpdate.setOnClickListener(new View.OnClickListener() {
             @Override

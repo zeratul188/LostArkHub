@@ -26,6 +26,10 @@ public class StampChecklist {
         isDecrease = decrease;
     }
 
+    public void setClass(int position, boolean result) {
+        isClasses[position] = result;
+    }
+
     public boolean[] getIsClasses() {
         return isClasses;
     }

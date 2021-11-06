@@ -76,4 +76,35 @@
         <item>탄식의 길</item>
         <item>추락한 긍지의 용광로</item>
     </string-array>
+
+    <string-array name="day_homework">
+        <item>가디언 토벌</item>
+        <item>카오스 던전</item>
+        <item>에포나 일일 의뢰</item>
+        <item>카오스 게이트</item>
+        <item>필드 보스</item>
+        <item>모험섬</item>
+        <item>생명의 기운 소모</item>
+        <item>원정대 영지 파견 및 관리</item>
+        <item>NPC 호감도</item>
+        <item>길드 출석</item>
+        <item>비탄의 섬</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="week_homework">
+        <item>어비스 던전</item>
+        <item>도전 어비스 던전</item>
+        <item>도전 가디언 토벌</item>
+        <item>어비스 레이드 - 아르고스</item>
+        <item>군단장 레이드 - 발탄</item>
+        <item>군단장 레이드 - 비아키스</item>
+        <item>군단장 레이드 - 쿠크세이튼</item>
+        <item>군단장 레이드 - 아브렐슈드</item>
+        <item>유령선</item>
+        <item>에포나 주간 의뢰</item>
+        <item>길드 토벌전</item>
+        <item>혼돈의 사선</item>
+        <item>기타</item>
+    </string-array>
 </resources>

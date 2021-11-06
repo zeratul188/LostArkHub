@@ -1,16 +1,23 @@
 package com.lostark.lostarkapplication;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +36,12 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mReference;
 
     private AlertDialog alertDialog = null;
+
+    private AlarmManager alarmManager;
+    private GregorianCalendar gregorianCalendar;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
+    private NotificationManager notificationManager;
+    NotificationCompat.Builder builder;
+    NotificationManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +125,60 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        pref = getSharedPreferences("setting_file", MODE_PRIVATE);
+        editor = pref.edit();
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        gregorianCalendar = new GregorianCalendar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*if (pref.getBoolean("alarm", false)) {
+            int year = pref.getInt("year", -1);
+            int month = pref.getInt("month", -1);
+            int day = pref.getInt("day", -1);
+            int hour = pref.getInt("hour", -1);
+            if (year != -1) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.HOUR_OF_DAY, pref.getInt("setting_hour", 22));
+
+                startAlarm(calendar);
+            } else {
+                editor.putInt("year", Calendar.YEAR);
+                editor.putInt("month", Calendar.MONTH+1);
+                editor.putInt("day", Calendar.DAY_OF_MONTH);
+                editor.putInt("hour", Calendar.HOUR_OF_DAY);
+                editor.commit();
+            }
+        } else {
+            cancelAlarm();
+        }*/
+    }
+
+    private void cancelAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        alarmManager.cancel(pendingIntent);
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 
     private String getVersion() {

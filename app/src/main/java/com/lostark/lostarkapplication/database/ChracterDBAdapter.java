@@ -21,11 +21,12 @@ public class ChracterDBAdapter {
     public static final String KEY_MAX = "MAX";
     public static final String KEY_ALARM = "ALARM";
 
-    private static final String DATABASE_CREATE = "create table CHRACTERLIST (_id integer primary key, " +
-            "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null);";
-
     private String databaseName;
     private String databaseTable;
+
+    private String databaseCreate = "create table "+databaseTable+" (_id integer primary key, " +
+            "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null);";
+
     private static final int DATABASE_VERSION = 2;
     private Context mCtx;
 
@@ -40,17 +41,19 @@ public class ChracterDBAdapter {
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         Context mCtx = null;
-        String table = null;
+        String table = null, create = null;
 
         DatabaseHelper(Context context, String table, String database) {
             super(context, database, null, DATABASE_VERSION);
             this.mCtx = context;
             this.table = table;
+            create = "create table "+table+" (_id integer primary key, " +
+                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null);";
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DATABASE_CREATE);
+            db.execSQL(create);
         }
 
         @Override
@@ -63,6 +66,7 @@ public class ChracterDBAdapter {
     }
 
     public ChracterDBAdapter open() throws SQLException {
+        System.out.println("Opened");
         myDBHelper = new DatabaseHelper(mCtx, databaseTable, databaseName);
         sqlDB = myDBHelper.getWritableDatabase();
         return this;
@@ -82,6 +86,38 @@ public class ChracterDBAdapter {
         return sqlDB.insert(databaseTable, null, values);
     }
 
+    public boolean changeAlarm(String name, boolean isAlarm) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_ALARM, Boolean.toString(isAlarm));
+        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
+    public boolean resetData(String type) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NOW, 0);
+        sqlDB.update(databaseTable, values, "TYPE = ?", new String[] {type});
+        return true;
+    }
+
+    public boolean changeNow(String name, int now) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NOW, now);
+        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
+    public boolean changeData(String name, Checklist checklist) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, checklist.getName());
+        values.put(KEY_TYPE, checklist.getType());
+        values.put(KEY_NOW, checklist.getNow());
+        values.put(KEY_MAX, checklist.getMax());
+        values.put(KEY_ALARM, Boolean.toString(checklist.isAlarm()));
+        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
     public Cursor fetchAllData() {
         return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
     }
@@ -96,5 +132,13 @@ public class ChracterDBAdapter {
 
     public boolean deleteData(int rowID) {
         return sqlDB.delete(databaseTable, "_id = "+rowID, null) > 0;
+    }
+
+    public boolean deleteData(String name) {
+        return sqlDB.delete(databaseTable, "NAME = '"+name+"'", null) > 0;
+    }
+
+    public void dropTable() {
+        sqlDB.execSQL("DROP TABLE IF EXISTS "+databaseTable);
     }
 }

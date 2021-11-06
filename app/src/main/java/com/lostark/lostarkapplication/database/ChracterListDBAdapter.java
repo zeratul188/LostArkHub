@@ -77,9 +77,11 @@ public class ChracterListDBAdapter {
     }
 
     public boolean changeAlarm(String name, boolean isAlarm) {
-        ContentValues values = new ContentValues();
+        String sql = "UPDATE "+DATABASE_TABLE+" SET ALARM='"+Boolean.toString(isAlarm)+"' WHERE NAME='"+name+"'";
+        sqlDB.execSQL(sql);
+        /*ContentValues values = new ContentValues();
         values.put(KEY_ALARM, isAlarm);
-        sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
+        sqlDB.update(DATABASE_TABLE, values, "NAME = '?'", new String[] {name});*/
         return true;
     }
 
@@ -90,6 +92,17 @@ public class ChracterListDBAdapter {
         values.put(KEY_LEVEL, level);
         sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
         return true;
+    }
+
+    public int getRowID(String name) {
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM}, "NAME = '"+name+"'", null, null, null, null);
+        cursor.moveToFirst();
+        int result = 0;
+        while (!cursor.isAfterLast()) {
+            result = cursor.getInt(0);
+            cursor.moveToNext();
+        }
+        return result;
     }
 
     public Cursor fetchAllData() {

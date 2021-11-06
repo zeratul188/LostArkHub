@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#1d2026"
-        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="60dp"
@@ -51,12 +50,21 @@
             android:padding="12dp"
             android:background="@drawable/settingbuttonstyle"/>
     </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="#1d2026"
+        android:padding="10dp"
+        android:scrollbars="horizontal"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#191b20"
         android:padding="15dp"
         android:text="검색 결과"
+        android:layout_marginTop="20dp"
         android:textSize="20sp"
         android:textColor="#FFFFFF"/>
     <ListView
