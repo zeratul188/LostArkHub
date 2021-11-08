@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:background="#1d2026"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="60dp"
@@ -57,21 +58,13 @@
                     android:textColor="#2093a8"
                     android:textStyle="bold"/>
 
-                <LinearLayout
-                    android:layout_width="70dp"
-                    android:layout_height="40dp"
-                    android:padding="5dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/spinnerstyle"
-                    android:orientation="vertical">
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:spinnerMode="dropdown"
-                        android:id="@+id/sprGrade"
-                        android:background="#00000000"
-                        android:gravity="center"/>
-                </LinearLayout>
+                <Spinner
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/sprGrade"
+                    android:background="#00000000"
+                    android:gravity="center"/>
 
             </LinearLayout>
 

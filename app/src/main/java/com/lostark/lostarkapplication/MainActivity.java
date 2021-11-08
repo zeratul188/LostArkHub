@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         setting_calendar.set(Calendar.MONTH, month-1);
         setting_calendar.set(Calendar.DAY_OF_MONTH, day);
         setting_calendar.set(Calendar.HOUR_OF_DAY, 6);
+        setting_calendar.set(Calendar.MINUTE, 0);
+        setting_calendar.set(Calendar.SECOND, 0);
 
         /*Toast.makeText(getApplicationContext(), "Year : "+setting_calendar.get(Calendar.YEAR)
                 +"Month : "+(setting_calendar.get(Calendar.MONTH)+1)
@@ -214,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
         if (isAlarm) {
             Calendar now_cal = Calendar.getInstance();
             now_cal.set(Calendar.HOUR_OF_DAY, set_time);
+            now_cal.set(Calendar.MINUTE, 0);
+            now_cal.set(Calendar.SECOND, 0);
             startAlarm(now_cal);
         }
     }

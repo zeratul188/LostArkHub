@@ -110,6 +110,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("alarm", isChecked);
+                editor.commit();
             }
         });
 
