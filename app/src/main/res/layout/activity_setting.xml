@@ -90,7 +90,6 @@
             android:text="숙제"
             android:textSize="18sp"
             android:background="#191b20"
-            android:visibility="gone"
             android:textColor="#ffffff"
             android:layout_marginTop="25dp"
             android:padding="15dp"/>
@@ -98,7 +97,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
             android:background="#1d2026">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,11 +197,32 @@
                 android:id="@+id/btnCheckUpdate"
                 android:gravity="left"
                 android:textColor="#ffffff"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_refresh_black_24dp"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                android:padding="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="날짜 초기화"
+                android:textSize="18sp"
+                android:id="@+id/btnResetDate"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="앱 버전 : 1.1"
+                android:text="앱 버전 : 1.1.1"
                 android:padding="15dp"
+                android:textColor="#ffffff"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="다음 초기화 날짜 : 0년 0월 0일 오전 6시"
+                android:padding="15dp"
+                android:id="@+id/txtResetDate"
                 android:textColor="#ffffff"
                 android:textSize="16sp"/>
         </LinearLayout>

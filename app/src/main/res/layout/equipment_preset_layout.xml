@@ -35,13 +35,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/normalbuttonstyle"
+        android:background="@drawable/yesbuttonstyle"
         android:text="저장"
         android:id="@+id/btnSave"
         android:textSize="18sp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp"
         android:textColor="#FFFFFF"/>
 </LinearLayout>

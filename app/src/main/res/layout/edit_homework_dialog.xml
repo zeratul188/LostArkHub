@@ -52,7 +52,7 @@
             android:background="@drawable/customeditstyle"
             android:padding="10dp"
             android:id="@+id/edtCount"
-            android:hint="0 ~ 10"
+            android:hint="0 ~ 99"
             android:inputType="numberDecimal"
             android:textSize="18sp"
             android:maxLength="2"

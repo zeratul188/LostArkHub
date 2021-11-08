@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lostark.lostarkapplication.database.ChracterDBAdapter;
+import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -57,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
-    private NotificationManager notificationManager;
-    NotificationCompat.Builder builder;
-    NotificationManager manager;
+    private ChracterListDBAdapter chracterListDBAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
+        chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
+
+        pref = getSharedPreferences("setting_file", MODE_PRIVATE);
+        editor = pref.edit();
 
         mReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -128,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        gregorianCalendar = new GregorianCalendar();
     }
 
     @Override
@@ -159,6 +161,61 @@ public class MainActivity extends AppCompatActivity {
         } else {
             cancelAlarm();
         }*/
+
+        int year = pref.getInt("year", -1);
+        int month = pref.getInt("month", -1);
+        int day = pref.getInt("day", -1);
+
+        Calendar setting_calendar = Calendar.getInstance();
+        setting_calendar.set(Calendar.YEAR, year);
+        setting_calendar.set(Calendar.MONTH, month-1);
+        setting_calendar.set(Calendar.DAY_OF_MONTH, day);
+        setting_calendar.set(Calendar.HOUR_OF_DAY, 6);
+
+        /*Toast.makeText(getApplicationContext(), "Year : "+setting_calendar.get(Calendar.YEAR)
+                +"Month : "+(setting_calendar.get(Calendar.MONTH)+1)
+                +"Day : "+setting_calendar.get(Calendar.DAY_OF_MONTH)
+                +"Hour : "+setting_calendar.get(Calendar.HOUR_OF_DAY), Toast.LENGTH_SHORT).show();*/
+
+        Calendar now = Calendar.getInstance();
+
+        chracterListDBAdapter.open();
+        if (year != -1) {
+            if (setting_calendar.compareTo(now) == -1) {
+                Cursor cursor = chracterListDBAdapter.fetchAllData();
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    int rowID = cursor.getInt(0);
+                    ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
+                    chracterDBAdapter.open();
+                    chracterDBAdapter.resetData("일일");
+                    chracterDBAdapter.close();
+                    cursor.moveToNext();
+                }
+                setting_calendar.add(Calendar.DATE, 1);
+                Toast.makeText(getApplicationContext(), "오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+            editor.putInt("year", setting_calendar.get(Calendar.YEAR));
+            editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);
+            editor.putInt("day", setting_calendar.get(Calendar.DAY_OF_MONTH));
+            editor.commit();
+        } else {
+            editor.putInt("year", now.get(Calendar.YEAR));
+            editor.putInt("month", now.get(Calendar.MONTH)+1);
+            editor.putInt("day", now.get(Calendar.DAY_OF_MONTH));
+            editor.commit();
+        }
+        chracterListDBAdapter.close();
+
+        boolean isAlarm = pref.getBoolean("alarm", false);
+        int set_time = pref.getInt("setting_hour", 22);
+
+        cancelAlarm();
+        if (isAlarm) {
+            Calendar now_cal = Calendar.getInstance();
+            now_cal.set(Calendar.HOUR_OF_DAY, set_time);
+            startAlarm(now_cal);
+        }
     }
 
     private void cancelAlarm() {
@@ -174,11 +231,35 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
+        String content = "";
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int rowID = cursor.getInt(0);
+            String name = cursor.getString(1);
+            ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
+            chracterDBAdapter.open();
+            Cursor chracterCursor = chracterDBAdapter.fetchAllData();
+            chracterCursor.moveToFirst();
+            while (!chracterCursor.isAfterLast()) {
+                String type = chracterCursor.getString(2);
+                int now = chracterCursor.getInt(3);
+                int max = chracterCursor.getInt(4);
+                if (max > now && type.equals("일일")) content += name+"   ";
+                chracterCursor.moveToNext();
+            }
+            chracterDBAdapter.close();
+            cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        if (!content.equals("")) alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        else alarmManager.cancel(pendingIntent);
     }
 
     private String getVersion() {

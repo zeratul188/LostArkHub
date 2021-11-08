@@ -155,7 +155,7 @@ public class DayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
+        /*pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
 
         int year = pref.getInt("year", -1);
@@ -182,8 +182,9 @@ public class DayFragment extends Fragment {
             editor.putInt("day", Calendar.DAY_OF_MONTH);
             editor.putInt("hour", Calendar.HOUR_OF_DAY);
             editor.commit();
-        }
+        }*/
 
+        checklists.clear();
         chracterDBAdapter.open();
         Cursor cursor = chracterDBAdapter.fetchAllData();
         cursor.moveToFirst();

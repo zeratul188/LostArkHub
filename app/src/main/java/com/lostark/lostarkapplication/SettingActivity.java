@@ -37,11 +37,13 @@ import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SettingActivity extends AppCompatActivity {
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate;
     private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm;
     private Spinner sprAlarm;
+    private TextView txtResetDate;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -73,7 +75,9 @@ public class SettingActivity extends AppCompatActivity {
         chkStampListOpen = findViewById(R.id.chkStampListOpen);
         btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
         chkAlarm = findViewById(R.id.chkAlarm);
+        btnResetDate = findViewById(R.id.btnResetDate);
         sprAlarm = findViewById(R.id.sprAlarm);
+        txtResetDate = findViewById(R.id.txtResetDate);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -93,9 +97,11 @@ public class SettingActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
 
+        txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
+
         ArrayList<String> times = new ArrayList<>();
         for (int i = 0; i < 24; i++) times.add(Integer.toString(i));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.job_item, times);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.time_item, times);
         sprAlarm.setAdapter(adapter);
         sprAlarm.setSelection(pref.getInt("setting_hour", 22));
 
@@ -104,6 +110,49 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("alarm", isChecked);
+            }
+        });
+
+        btnResetDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("정말로 다음 초기화 날짜를 오늘로 초기화하시겠습니까?\n초기화하게되면 숙제가 모두 횟수가 0으로 초기화가 될것입니다.");
+                btnOK.setText("초기화");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Calendar now = Calendar.getInstance();
+                        editor.putInt("year", now.get(Calendar.YEAR));
+                        editor.putInt("month", now.get(Calendar.MONTH)+1);
+                        editor.putInt("day", now.get(Calendar.DAY_OF_MONTH));
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT).show();
+                        txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
             }
         });
 

@@ -25,6 +25,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1d2026"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -49,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="3dp"
             android:orientation="vertical">
 
             <TextView
@@ -70,8 +72,8 @@
         </LinearLayout>
         <Button
             android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/smallbuttonstyle"
+            android:layout_height="match_parent"
+            android:background="@drawable/restbuttonstyle"
             android:layout_gravity="center"
             android:text="제작"
             android:id="@+id/btnChange"
@@ -91,7 +93,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1d2026"
-        android:padding="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -243,8 +244,8 @@
             </LinearLayout>
             <Button
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:background="@drawable/smallbuttonstyle"
+                android:layout_height="match_parent"
+                android:background="@drawable/yesbuttonstyle"
                 android:layout_gravity="center"
                 android:text="세공"
                 android:id="@+id/btnBurf1"
@@ -256,7 +257,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <FrameLayout
                 android:layout_width="60dp"
@@ -404,8 +404,8 @@
             </LinearLayout>
             <Button
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:background="@drawable/smallbuttonstyle"
+                android:layout_height="match_parent"
+                android:background="@drawable/yesbuttonstyle"
                 android:layout_gravity="center"
                 android:text="세공"
                 android:layout_marginLeft="5dp"
@@ -428,7 +428,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1d2026"
-        android:padding="10dp"
         android:orientation="horizontal">
         <FrameLayout
             android:layout_width="60dp"
@@ -576,8 +575,8 @@
         </LinearLayout>
         <Button
             android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:background="@drawable/smallbuttonstyle"
+            android:layout_height="match_parent"
+            android:background="@drawable/yesbuttonstyle"
             android:layout_gravity="center"
             android:text="세공"
             android:id="@+id/btnDeburf"
@@ -590,27 +589,36 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
+        android:background="#1d2026"
+        android:paddingLeft="10dp"
         android:layout_marginTop="20dp">
-        <TextView
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtPercent"
-            android:text="75"
-            android:textSize="30sp"
-            android:textColor="#FFFFFF"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textSize="30sp"
-            android:textColor="#FFFFFF"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="세공확률"
-            android:textSize="15sp"
-            android:textColor="#888888"
-            android:layout_marginLeft="5dp"/>
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txtPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="75"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textSize="30sp"
+                android:textColor="#FFFFFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="세공확률"
+                android:textSize="15sp"
+                android:textColor="#888888"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -618,17 +626,16 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:background="@drawable/smallbuttonstyle"
+            android:background="@drawable/nobuttonstyle"
             android:text="포기하기"
             android:id="@+id/btnReset"
             android:textSize="16sp"
             android:enabled="false"
-            android:layout_marginRight="10dp"
             android:textColor="#FFFFFF"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:background="@drawable/smallbuttonstyle"
+            android:background="@drawable/yesbuttonstyle"
             android:text="결정하기"
             android:id="@+id/btnConfirm"
             android:textSize="16sp"
@@ -637,23 +644,23 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/layoutHistory"
+        android:layout_marginTop="20dp"
+        android:background="#1d2026"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="어빌리티 스톤 세공 내역"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:background="#191b20"
             android:padding="10dp"
-            android:layout_marginTop="20dp"
             android:textColor="#FFFFFF"/>
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#1d2026"
+            android:layout_height="match_parent"
             android:id="@+id/listView"/>
     </LinearLayout>
 </LinearLayout>

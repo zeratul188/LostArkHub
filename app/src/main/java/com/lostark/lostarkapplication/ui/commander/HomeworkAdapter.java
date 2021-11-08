@@ -82,7 +82,7 @@ public class HomeworkAdapter extends BaseAdapter {
                 Button btnReset = dialog_view.findViewById(R.id.btnReset);
 
                 edtHomework.setHint(checklists.get(position).getName());
-                edtCount.setHint(checklists.get(position).getMax()+" (0~10)");
+                edtCount.setHint(checklists.get(position).getMax()+" (0~99)");
 
                 btnReset.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -3,8 +3,10 @@ package com.lostark.lostarkapplication;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -14,11 +16,16 @@ public class NotificationHelper extends ContextWrapper {
     public static final String channelID = "channelID";
     public static final String channelNm = "channelNm";
 
+   /* private String noti_content = "";
+
+    public void setNoti_content(String noti_content) {
+        this.noti_content = noti_content;
+    }*/
+
     private NotificationManager notiManager;
 
     public NotificationHelper(Context base) {
         super(base);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannels();
     }
 
@@ -39,10 +46,13 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification() {
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelID);
-        builder.setContentTitle("알람 제목");
-        builder.setContentText("알람 내용");
-        builder.setSmallIcon(R.drawable.app_icon);
+        builder.setContentTitle("숙제 알림");
+        //builder.setContentText(noti_content);
+        builder.setContentText("숙제를 안한 캐릭터가 있습니다.");
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentIntent(pendingIntent);
         return builder;
     }
 }
