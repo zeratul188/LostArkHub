@@ -94,10 +94,52 @@ public class ChracterDBAdapter {
     }
 
     public boolean resetData(String type) {
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(1);
+            int now = cursor.getInt(3);
+            int max = cursor.getInt(4);
+            if (name.equals("카오스 던전")) {
+                if (max-now > 0) {
+                    Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='카던 휴식'", null, null, null, null);
+                    dungeonCursor.moveToFirst();
+                    int undo_now = dungeonCursor.getInt(3);
+                    int result = undo_now+(max-now);
+                    if (result > 10) result = 10;
+                    ContentValues values = new ContentValues();
+                    values.put(KEY_NOW, result);
+                    sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"카던 휴식"});
+                }
+            } else if (name.equals("가디언 토벌")) {
+                if (max-now > 0) {
+                    Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='가디언 휴식'", null, null, null, null);
+                    bossCursor.moveToFirst();
+                    int undo_now = bossCursor.getInt(3);
+                    int result = undo_now+(max-now);
+                    if (result > 10) result = 10;
+                    ContentValues values = new ContentValues();
+                    values.put(KEY_NOW, result);
+                    sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"가디언 휴식"});
+                }
+            }
+            cursor.moveToNext();
+        }
         ContentValues values = new ContentValues();
         values.put(KEY_NOW, 0);
         sqlDB.update(databaseTable, values, "TYPE = ?", new String[] {type});
         return true;
+    }
+
+    public boolean isSame(String name) {
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String find = cursor.getString(1);
+            if (find.equals(name)) return true;
+            cursor.moveToNext();
+        }
+        return false;
     }
 
     public boolean changeNow(String name, int now) {

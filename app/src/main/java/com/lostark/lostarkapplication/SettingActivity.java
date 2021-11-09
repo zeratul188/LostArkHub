@@ -41,7 +41,7 @@ import java.util.Calendar;
 
 public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate;
-    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm;
+    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm;
     private Spinner sprAlarm;
     private TextView txtResetDate;
 
@@ -78,6 +78,7 @@ public class SettingActivity extends AppCompatActivity {
         btnResetDate = findViewById(R.id.btnResetDate);
         sprAlarm = findViewById(R.id.sprAlarm);
         txtResetDate = findViewById(R.id.txtResetDate);
+        chkHomeworkAlarm = findViewById(R.id.chkHomeworkAlarm);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -110,6 +111,15 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("alarm", isChecked);
+                editor.commit();
+            }
+        });
+
+        chkHomeworkAlarm.setChecked(pref.getBoolean("homework_alarm", false));
+        chkHomeworkAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("homework_alarm", isChecked);
                 editor.commit();
             }
         });

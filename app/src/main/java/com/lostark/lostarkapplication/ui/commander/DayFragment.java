@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class DayFragment extends Fragment {
     private TextView txtDungeonRest, txtBossRest;
     private ProgressBar progressDungeon, progressBoss;
     private Button btnRest, btnAdd;
+    private LinearLayout layoutDungeon, layoutBoss;
 
     private String name;
     private ChracterDBAdapter chracterDBAdapter;
@@ -67,6 +69,8 @@ public class DayFragment extends Fragment {
         progressBoss = root.findViewById(R.id.progressBoss);
         btnRest = root.findViewById(R.id.btnRest);
         btnAdd = root.findViewById(R.id.btnAdd);
+        layoutDungeon = root.findViewById(R.id.layoutDungeon);
+        layoutBoss = root.findViewById(R.id.layoutBoss);
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         chracterListDBAdapter.open();
@@ -77,6 +81,106 @@ public class DayFragment extends Fragment {
         homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), true);
         listView.setAdapter(homeworkAdapter);
 
+        homeworkAdapter.setDungeonPackage(layoutDungeon, txtDungeonRest, progressDungeon);
+        homeworkAdapter.setBossPackage(layoutBoss, txtBossRest, progressBoss);
+
+        pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
+        editor = pref.edit();
+
+        layoutDungeon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getActivity().getLayoutInflater().inflate(R.layout.rest_edit_dialog, null);
+
+                SeekBar seekRest = view.findViewById(R.id.seekRest);
+                TextView txtRest = view.findViewById(R.id.txtRest);
+                Button btnEdit = view.findViewById(R.id.btnEdit);
+
+                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        txtRest.setText(Integer.toString(progress*10));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chracterDBAdapter.open();
+                        chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
+                        chracterDBAdapter.close();
+                        onResume();
+                        Toast.makeText(getActivity(), "카오스 던전 휴식 게이지를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        layoutBoss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getActivity().getLayoutInflater().inflate(R.layout.rest_edit_dialog, null);
+
+                SeekBar seekRest = view.findViewById(R.id.seekRest);
+                TextView txtRest = view.findViewById(R.id.txtRest);
+                Button btnEdit = view.findViewById(R.id.btnEdit);
+
+                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        txtRest.setText(Integer.toString(progress*10));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chracterDBAdapter.open();
+                        chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
+                        chracterDBAdapter.close();
+                        onResume();
+                        Toast.makeText(getActivity(), "카오스 던전 휴식 게이지를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,21 +188,54 @@ public class DayFragment extends Fragment {
 
                 Spinner sprList = view.findViewById(R.id.sprList);
                 LinearLayout layoutAndsoon = view.findViewById(R.id.layoutAndsoon);
+                LinearLayout layoutRest = view.findViewById(R.id.layoutRest);
                 EditText edtHomework  = view.findViewById(R.id.edtHomework);
                 EditText edtCount = view.findViewById(R.id.edtCount);
                 Button btnAdd = view.findViewById(R.id.btnAdd);
+                SeekBar seekRest = view.findViewById(R.id.seekRest);
+                TextView txtRest = view.findViewById(R.id.txtRest);
 
                 List<String> days = Arrays.asList(getActivity().getResources().getStringArray(R.array.day_homework));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, days);
                 sprList.setAdapter(adapter);
 
+                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        txtRest.setText(Integer.toString(progress*10));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
+                chracterDBAdapter.open();
+                btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString()));
+                chracterDBAdapter.close();
+
                 sprList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        chracterDBAdapter.open();
+                        btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString()));
+                        chracterDBAdapter.close();
                         if (sprList.getItemAtPosition(position).toString().equals("기타")) layoutAndsoon.setVisibility(View.VISIBLE);
                         else {
                             edtHomework.setText("");
                             layoutAndsoon.setVisibility(View.GONE);
+                            if (sprList.getItemAtPosition(position).toString().equals("카오스 던전") || sprList.getItemAtPosition(position).toString().equals("가디언 토벌")) layoutRest.setVisibility(View.VISIBLE);
+                            else {
+                                txtRest.setText("0");
+                                seekRest.setProgress(0);
+                                layoutRest.setVisibility(View.GONE);
+                            }
                         }
                     }
 
@@ -130,9 +267,26 @@ public class DayFragment extends Fragment {
                             cursor.moveToNext();
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
-                        Checklist checklist = new Checklist(name, "일일", 0, max, true);
-                        checklists.add(checklist);
+                        Checklist checklist = new Checklist(name, "일일", 0, max, !pref.getBoolean("homework_alarm", true));
+                        checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
+                        if (name.equals("카오스 던전")) {
+                            layoutDungeon.setVisibility(View.VISIBLE);
+                            int progress = seekRest.getProgress();
+                            progressDungeon.setProgress(progress);
+                            txtDungeonRest.setText(Integer.toString(progress*10));
+                            Checklist restList = new Checklist("카던 휴식", "휴식게이지", progress, 10, false);
+                            checklists.add(restList);
+                            chracterDBAdapter.insertData(restList);
+                        } else if (name.equals("가디언 토벌")) {
+                            layoutBoss.setVisibility(View.VISIBLE);
+                            int progress = seekRest.getProgress();
+                            progressBoss.setProgress(progress);
+                            txtBossRest.setText(Integer.toString(progress*10));
+                            Checklist restList = new Checklist("가디언 휴식", "휴식게이지", progress, 10, false);
+                            checklists.add(restList);
+                            chracterDBAdapter.insertData(restList);
+                        }
                         chracterDBAdapter.close();
                         Toast.makeText(getActivity(), name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT).show();
                         homeworkAdapter.notifyDataSetChanged();
@@ -185,17 +339,30 @@ public class DayFragment extends Fragment {
         }*/
 
         checklists.clear();
+        layoutDungeon.setVisibility(View.GONE);
+        layoutBoss.setVisibility(View.GONE);
         chracterDBAdapter.open();
         Cursor cursor = chracterDBAdapter.fetchAllData();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            if (cursor.getString(2).equals("일일")) {
+            if (cursor.getString(2).equals("일일") || cursor.getString(2).equals("휴식게이지")) {
                 String name = cursor.getString(1);
                 String type = cursor.getString(2);
                 int now = cursor.getInt(3);
                 int max = cursor.getInt(4);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                checklists.add(new Checklist(name, type, now, max, isAlarm));
+                if (type.equals("일일")) checklists.add(0, new Checklist(name, type, now, max, isAlarm));
+                else checklists.add(new Checklist(name, type, now, max, isAlarm));
+                if (name.equals("카던 휴식")) {
+                    layoutDungeon.setVisibility(View.VISIBLE);
+                    progressDungeon.setProgress(now);
+                    txtDungeonRest.setText(Integer.toString(now*10));
+                }
+                if (name.equals("가디언 휴식")) {
+                    layoutBoss.setVisibility(View.VISIBLE);
+                    progressBoss.setProgress(now);
+                    txtBossRest.setText(Integer.toString(now*10));
+                }
             }
             cursor.moveToNext();
         }

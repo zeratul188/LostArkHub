@@ -13,11 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/box_style"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:padding="15dp"
+        android:id="@+id/layoutDungeon"
+        android:layout_margin="10dp"
         android:visibility="gone"
+        android:padding="15dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtDungeonRest"
-                android:text="100"
+                android:text="NONE"
                 android:textColor="#E6803A"
                 android:textSize="16sp"/>
             <TextView
@@ -55,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:progress="20"
-            android:max="100"
+            android:progress="0"
+            android:max="10"
             android:progressDrawable="@drawable/progress_style"
             android:id="@+id/progressDungeon"/>
     </LinearLayout>
@@ -66,6 +65,7 @@
         android:background="@drawable/box_style"
         android:padding="15dp"
         android:visibility="gone"
+        android:id="@+id/layoutBoss"
         android:layout_margin="10dp"
         android:orientation="vertical">
         <LinearLayout
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtBossRest"
-                android:text="100"
+                android:text="NONE"
                 android:textColor="#E6803A"
                 android:textSize="16sp"/>
             <TextView
@@ -104,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:progress="70"
-            android:max="100"
+            android:progress="0"
+            android:max="10"
             android:progressDrawable="@drawable/progress_style"
             android:id="@+id/progressBoss"/>
     </LinearLayout>

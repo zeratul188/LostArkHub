@@ -215,9 +215,11 @@ public class MainActivity extends AppCompatActivity {
         cancelAlarm();
         if (isAlarm) {
             Calendar now_cal = Calendar.getInstance();
+
             now_cal.set(Calendar.HOUR_OF_DAY, set_time);
             now_cal.set(Calendar.MINUTE, 0);
             now_cal.set(Calendar.SECOND, 0);
+
             startAlarm(now_cal);
         }
     }
@@ -242,15 +244,17 @@ public class MainActivity extends AppCompatActivity {
         while (!cursor.isAfterLast()) {
             int rowID = cursor.getInt(0);
             String name = cursor.getString(1);
+            boolean isAlarm = Boolean.parseBoolean(cursor.getString(4));
             ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
             chracterDBAdapter.open();
             Cursor chracterCursor = chracterDBAdapter.fetchAllData();
             chracterCursor.moveToFirst();
-            while (!chracterCursor.isAfterLast()) {
+            while (!chracterCursor.isAfterLast() && isAlarm) {
                 String type = chracterCursor.getString(2);
                 int now = chracterCursor.getInt(3);
                 int max = chracterCursor.getInt(4);
-                if (max > now && type.equals("일일")) content += name+"   ";
+                boolean isChracterAlarm = Boolean.parseBoolean(chracterCursor.getString(5));
+                if (max > now && type.equals("일일") && isChracterAlarm) content += name;
                 chracterCursor.moveToNext();
             }
             chracterDBAdapter.close();
