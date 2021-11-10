@@ -177,6 +177,7 @@ public class WeekFragment extends Fragment {
             editor.commit();
         }
 
+        checklists.clear();
         chracterDBAdapter.open();
         Cursor cursor = chracterDBAdapter.fetchAllData();
         cursor.moveToFirst();

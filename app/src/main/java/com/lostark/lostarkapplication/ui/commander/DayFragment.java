@@ -267,7 +267,7 @@ public class DayFragment extends Fragment {
                             cursor.moveToNext();
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
-                        Checklist checklist = new Checklist(name, "일일", 0, max, !pref.getBoolean("homework_alarm", true));
+                        Checklist checklist = new Checklist(name, "일일", 0, max, !pref.getBoolean("homework_alarm", false));
                         checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
                         if (name.equals("카오스 던전")) {

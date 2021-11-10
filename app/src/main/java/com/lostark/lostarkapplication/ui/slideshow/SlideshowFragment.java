@@ -48,7 +48,7 @@ public class SlideshowFragment extends Fragment {
     private static final int STAMP_LENGTH = 3;
     private static final int STAT_LENGTH = 2;
 
-    private ListView listView;
+    private ListView listView, listStampSetting;
     private ImageView imgNeck, imgEarring1, imgEarring2, imgRing1, imgRing2;
     private TextView txtNeck, txtEarring1, txtEarring2, txtRing1, txtRing2;
     private ImageView[] imgNecks = new ImageView[STAMP_LENGTH];
@@ -72,7 +72,7 @@ public class SlideshowFragment extends Fragment {
     private ImageView[] imgStats = new ImageView[STAT_LENGTH];
     private Spinner[] sprStats = new Spinner[STAT_LENGTH];
     private Spinner[] sprStatCnts = new Spinner[STAT_LENGTH];
-    private Button btnPreset;
+    private Button btnPreset, btnStampSetting;
 
     private int neck_index = 0, earring1_index = 0, earring2_index = 0, ring1_index = 0, ring2_index = 0;
 
@@ -121,6 +121,8 @@ public class SlideshowFragment extends Fragment {
         txtRing1 = root.findViewById(R.id.txtRing1);
         txtRing2 = root.findViewById(R.id.txtRing2);
         btnPreset = root.findViewById(R.id.btnPreset);
+        listStampSetting = root.findViewById(R.id.listStampSetting);
+        btnStampSetting = root.findViewById(R.id.btnStampSetting);
         for (int i = 0; i < STAMP_LENGTH; i++) {
             imgNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("imgNeck"+(i+1), "id", getActivity().getPackageName()));
             sprNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeck"+(i+1), "id", getActivity().getPackageName()));

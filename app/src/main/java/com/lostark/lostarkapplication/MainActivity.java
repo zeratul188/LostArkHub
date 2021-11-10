@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
                     chracterDBAdapter.open();
                     chracterDBAdapter.resetData("일일");
+                    if (setting_calendar.get(Calendar.DAY_OF_WEEK) == 4) chracterDBAdapter.resetWeek("주간");
                     chracterDBAdapter.close();
                     cursor.moveToNext();
                 }

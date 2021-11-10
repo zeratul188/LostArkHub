@@ -131,6 +131,13 @@ public class ChracterDBAdapter {
         return true;
     }
 
+    public boolean resetWeek(String type) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NOW, 0);
+        sqlDB.update(databaseTable, values, "TYPE = ?", new String[] {type});
+        return true;
+    }
+
     public boolean isSame(String name) {
         Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
         cursor.moveToFirst();
