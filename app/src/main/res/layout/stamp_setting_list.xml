@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="70dp" android:background="#2a2c35"
-    android:gravity="center">
+    android:layout_height="match_parent" android:background="#2a2c35"
+    android:padding="5dp">
     <FrameLayout
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
         android:layout_marginRight="10dp">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/stamptool" />
+            android:src="@drawable/stamptool"/>
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/st1"
+            android:src="@drawable/none_stamp"
             android:id="@+id/imgStamp"/>
     </FrameLayout>
     <TextView
@@ -26,17 +24,17 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/txtName"
-        android:text="각성"
-        android:textSize="20sp"
         android:layout_gravity="center"
-        android:textColor="#FFFFFF"/>
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/yesbuttonstyle"
+        android:text="[Stamp Name]"
+        android:textSize="18sp"
+        android:textColor="#ffffff"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chkSelect"
         android:layout_gravity="center"
-        android:text="선택"
-        android:id="@+id/btnSelect"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"/>
+        android:checked="true"
+        android:buttonTint="#6794BA"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"/>
 </LinearLayout>

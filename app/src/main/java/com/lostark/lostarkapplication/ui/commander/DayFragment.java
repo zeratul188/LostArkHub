@@ -31,7 +31,6 @@ import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;

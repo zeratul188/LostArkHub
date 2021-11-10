@@ -3,12 +3,12 @@ package com.lostark.lostarkapplication.ui.stamp;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -31,7 +31,7 @@ public class StampFragment extends Fragment {
     private static final int CLASS_LENGTH = 21;
 
     private ImageButton imgbtnFilter, imgbtnSearch;
-    private EditText edtSearch;
+    private ClearEditText edtSearch;
     private ListView listView;
     private RecyclerView listFilter;
 
@@ -71,6 +71,19 @@ public class StampFragment extends Fragment {
         listFilter.setAdapter(filterAdapter);
         FilterDecoration decoration = new FilterDecoration();
         listFilter.addItemDecoration(decoration);
+
+        edtSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        searchProcess();
+                        adapter.notifyDataSetChanged();
+                        return true;
+                }
+                return false;
+            }
+        });
 
         imgbtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

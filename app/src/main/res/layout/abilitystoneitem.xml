@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/txtSpinnerItem"
     android:padding="10dp"
-    android:textSize="22sp" android:background="#363B45"
+    android:textSize="20sp" android:background="#363B45"
     android:gravity="center"
     android:textColor="#FFFFFF">
 </TextView>

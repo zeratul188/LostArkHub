@@ -30,7 +30,7 @@
             android:scaleType="centerCrop"
             android:padding="17dp"
             android:background="@drawable/settingbuttonstyle"/>
-        <EditText
+        <com.lostark.lostarkapplication.ui.stamp.ClearEditText
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

@@ -80,6 +80,7 @@ public class HomeworkAdapter extends BaseAdapter {
         TextView txtMax = convertView.findViewById(R.id.txtMax);
         ImageButton imgbtnUp = convertView.findViewById(R.id.imgbtnUp);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
+        ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
 
         txtName.setText(checklists.get(position).getName());
         txtNow.setText(Integer.toString(checklists.get(position).getNow()));
@@ -88,6 +89,8 @@ public class HomeworkAdapter extends BaseAdapter {
         else imgbtnAlarm.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         if (checklists.get(position).getNow() >= checklists.get(position).getMax()) imgbtnUp.setEnabled(false);
         else imgbtnUp.setEnabled(true);
+        progressBar.setMax(checklists.get(position).getMax());
+        progressBar.setProgress(checklists.get(position).getNow());
 
         if (checklists.get(position).getType().equals("주간")) imgbtnAlarm.setVisibility(View.INVISIBLE);
         

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.lostark.lostarkapplication.ui.slideshow.objects.Accessory;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Equipment;
 import com.lostark.lostarkapplication.ui.slideshow.objects.StampCal;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Stat;
+import com.lostark.lostarkapplication.ui.stamp.objects.StampSetting;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,14 +75,16 @@ public class SlideshowFragment extends Fragment {
     private ImageView[] imgStats = new ImageView[STAT_LENGTH];
     private Spinner[] sprStats = new Spinner[STAT_LENGTH];
     private Spinner[] sprStatCnts = new Spinner[STAT_LENGTH];
-    private Button btnPreset, btnStampSetting;
+    private Button btnPreset, btnStampSetting, btnReset;
+    private ScrollView scrollView;
 
     private int neck_index = 0, earring1_index = 0, earring2_index = 0, ring1_index = 0, ring2_index = 0;
 
     private StampDBAdapter stampDBAdapter;
-    private ArrayList<Stamp> stamps;
+    private ArrayList<Stamp> stamps, apply_stamps;
     private StampCalAdapter stampCalAdapter;
     private ArrayList<StampCal> stampCals;
+    private ApplyStampAdapter stampAdapter;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -123,6 +128,8 @@ public class SlideshowFragment extends Fragment {
         btnPreset = root.findViewById(R.id.btnPreset);
         listStampSetting = root.findViewById(R.id.listStampSetting);
         btnStampSetting = root.findViewById(R.id.btnStampSetting);
+        scrollView = root.findViewById(R.id.scrollView);
+        btnReset = root.findViewById(R.id.btnReset);
         for (int i = 0; i < STAMP_LENGTH; i++) {
             imgNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("imgNeck"+(i+1), "id", getActivity().getPackageName()));
             sprNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeck"+(i+1), "id", getActivity().getPackageName()));
@@ -148,6 +155,17 @@ public class SlideshowFragment extends Fragment {
             sprStats[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStat"+(i+1), "id", getActivity().getPackageName()));
             sprStatCnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStatCnt"+(i+1), "id", getActivity().getPackageName()));
         }
+
+        apply_stamps = new ArrayList<>();
+        stampAdapter = new ApplyStampAdapter(getActivity(), apply_stamps);
+        listStampSetting.setAdapter(stampAdapter);
+        listStampSetting.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scrollView.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         stampDBAdapter = new StampDBAdapter(getActivity());
         stamps = new ArrayList<>();
@@ -196,6 +214,130 @@ public class SlideshowFragment extends Fragment {
         equipmentDBAdapter = new EquipmentDBAdapter(getActivity());
         statDBAdapter = new StatDBAdapter(getActivity());
 
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("초기화하면 프리셋에 저장되어 있는 데이터를 제외하고 모든 정보가 초기화됩니다.\n초기화하시겠습니까?");
+                btnOK.setText("초기화");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        apply_stamps.clear();
+                        listStampSetting.setVisibility(View.GONE);
+                        for (int i = 0; i < 3; i++) {
+                            if (i < 2) {
+                                sprStones[i].setAdapter(burf_adapter);
+                                sprRing2s[i].setAdapter(burf_adapter);
+                                sprRing1s[i].setAdapter(burf_adapter);
+                                sprEarring1s[i].setAdapter(burf_adapter);
+                                sprNecks[i].setAdapter(burf_adapter);
+                                sprEarring2s[i].setAdapter(burf_adapter);
+                                sprStats[i].setAdapter(burf_adapter);
+                                sprStats[i].setSelection(0);
+                            }
+                            sprStones[i].setSelection(0);
+                            sprRing2s[i].setSelection(0);
+                            sprRing1s[i].setSelection(0);
+                            sprEarring1s[i].setSelection(0);
+                            sprNecks[i].setSelection(0);
+                            sprEarring2s[i].setSelection(0);
+                        }
+                        Toast.makeText(getActivity(), "정보가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        btnStampSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.stamp_setting_dialog, null);
+
+                ListView listStamps = view.findViewById(R.id.listStamps);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                ArrayList<StampSetting> settings = new ArrayList<>();
+                for (int i = 0; i < 85; i++) settings.add(new StampSetting(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1], false));
+                StampSettingAdapter settingAdapter = new StampSettingAdapter(getActivity(), settings);
+                listStamps.setAdapter(settingAdapter);
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ArrayList<String> stamp_names = new ArrayList<>();
+                        stamp_names.add("없음");
+                        apply_stamps.clear();
+                        for (StampSetting setting : settings) {
+                            if (setting.isActivate()) {
+                                apply_stamps.add(new Stamp(setting.getName(), setting.getImage()));
+                                stamp_names.add(setting.getName());
+                            }
+                        }
+                        stampAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "각인을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        if (apply_stamps.isEmpty()) {
+                            listStampSetting.setVisibility(View.GONE);
+                            for (int i = 0; i < 2; i++) {
+                                sprStones[i].setAdapter(burf_adapter);
+                                sprRing2s[i].setAdapter(burf_adapter);
+                                sprRing1s[i].setAdapter(burf_adapter);
+                                sprEarring1s[i].setAdapter(burf_adapter);
+                                sprNecks[i].setAdapter(burf_adapter);
+                                sprEarring2s[i].setAdapter(burf_adapter);
+                                sprStats[i].setAdapter(burf_adapter);
+                            }
+                        } else {
+                            listStampSetting.setVisibility(View.VISIBLE);
+                            ArrayAdapter<String> setting_adapter = new ArrayAdapter<String>(getActivity(), R.layout.stampitem, stamp_names);
+                            setting_adapter.setDropDownViewResource(R.layout.stampitem);
+                            for (int i = 0; i < 2; i++) {
+                                sprStones[i].setAdapter(setting_adapter);
+                                sprRing2s[i].setAdapter(setting_adapter);
+                                sprRing1s[i].setAdapter(setting_adapter);
+                                sprEarring1s[i].setAdapter(setting_adapter);
+                                sprNecks[i].setAdapter(setting_adapter);
+                                sprEarring2s[i].setAdapter(setting_adapter);
+                                sprStats[i].setAdapter(setting_adapter);
+                            }
+                            
+                        }
+                        
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         btnPreset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,6 +356,18 @@ public class SlideshowFragment extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        for (int i = 0; i < 2; i++) {
+                            sprStones[i].setAdapter(burf_adapter);
+                            sprRing2s[i].setAdapter(burf_adapter);
+                            sprRing1s[i].setAdapter(burf_adapter);
+                            sprEarring1s[i].setAdapter(burf_adapter);
+                            sprNecks[i].setAdapter(burf_adapter);
+                            sprEarring2s[i].setAdapter(burf_adapter);
+                            sprStats[i].setAdapter(burf_adapter);
+                        }
+                        apply_stamps.clear();
+                        stampAdapter.notifyDataSetChanged();
+
                         String grade;
                         String[] stamps = new String[3];
                         int[] cnts = new int[3];
@@ -676,9 +830,12 @@ public class SlideshowFragment extends Fragment {
                         imgNecks[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgNecks[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprNecks[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgNecks[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override
@@ -694,9 +851,15 @@ public class SlideshowFragment extends Fragment {
                         imgEarring1s[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprEarring1s[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
+                    /*if (index == 2) position += 85;
                     position--;
-                    imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    imgEarring1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));*/
                 }
 
                 @Override
@@ -712,9 +875,12 @@ public class SlideshowFragment extends Fragment {
                         imgEarring2s[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgEarring2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprEarring2s[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgEarring2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override
@@ -730,9 +896,12 @@ public class SlideshowFragment extends Fragment {
                         imgRing1s[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgRing1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprRing1s[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgRing1s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override
@@ -748,9 +917,12 @@ public class SlideshowFragment extends Fragment {
                         imgRing2s[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgRing2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprRing2s[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgRing2s[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override
@@ -766,9 +938,12 @@ public class SlideshowFragment extends Fragment {
                         imgStones[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgStones[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprStones[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgStones[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override
@@ -802,9 +977,12 @@ public class SlideshowFragment extends Fragment {
                         imgStats[index].setImageResource(R.drawable.none_stamp);
                         return;
                     }
-                    if (index == 2) position += 85;
-                    position--;
-                    imgStats[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(position).getImage(), "drawable", getActivity().getPackageName()));
+                    for (int i = 0; i < stamps.size(); i++) {
+                        if (sprStats[index].getSelectedItem().toString().equals(stamps.get(i).getName())) {
+                            imgStats[index].setImageResource(getActivity().getResources().getIdentifier(stamps.get(i).getImage(), "drawable", getActivity().getPackageName()));
+                            break;
+                        }
+                    }
                 }
 
                 @Override

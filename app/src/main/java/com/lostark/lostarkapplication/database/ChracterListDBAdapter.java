@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.lostark.lostarkapplication.ui.commander.Chracter;
-import com.lostark.lostarkapplication.ui.gallery.Stone;
 
 import static android.content.ContentValues.TAG;
 
