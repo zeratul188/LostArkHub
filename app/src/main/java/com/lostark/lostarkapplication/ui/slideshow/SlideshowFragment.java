@@ -255,6 +255,13 @@ public class SlideshowFragment extends Fragment {
                             sprEarring1s[i].setSelection(0);
                             sprNecks[i].setSelection(0);
                             sprEarring2s[i].setSelection(0);
+                            sprNeckCnts[i].setSelection(0);
+                            sprEarring1Cnts[i].setSelection(0);
+                            sprEarring2Cnts[i].setSelection(0);
+                            sprRing1Cnts[i].setSelection(0);
+                            sprRing2Cnts[i].setSelection(0);
+                            sprStoneCnts[i].setSelection(0);
+                            if (i < 2) sprStatCnts[i].setSelection(0);
                         }
                         Toast.makeText(getActivity(), "정보가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
@@ -297,6 +304,24 @@ public class SlideshowFragment extends Fragment {
                             }
                         }
                         stampAdapter.notifyDataSetChanged();
+                        final int SETTING_LENGTH = 2;
+                        String[] necks = new String[SETTING_LENGTH];
+                        String[] earring1s = new String[SETTING_LENGTH];
+                        String[] earring2s = new String[SETTING_LENGTH];
+                        String[] ring1s = new String[SETTING_LENGTH];
+                        String[] ring2s = new String[SETTING_LENGTH];
+                        String[] stones = new String[SETTING_LENGTH];
+                        String[] stats = new String[SETTING_LENGTH];
+                        for (int i = 0; i < SETTING_LENGTH; i++) {
+                            necks[i] = sprNecks[i].getSelectedItem().toString();
+                            earring1s[i] = sprEarring1s[i].getSelectedItem().toString();
+                            earring2s[i] = sprEarring2s[i].getSelectedItem().toString();
+                            ring1s[i] = sprRing1s[i].getSelectedItem().toString();
+                            ring2s[i] = sprRing2s[i].getSelectedItem().toString();
+                            stones[i] = sprStones[i].getSelectedItem().toString();
+                            stats[i] = sprStats[i].getSelectedItem().toString();
+                        }
+                        
                         Toast.makeText(getActivity(), "각인을 설정하였습니다.", Toast.LENGTH_SHORT).show();
                         if (apply_stamps.isEmpty()) {
                             listStampSetting.setVisibility(View.GONE);
@@ -308,6 +333,13 @@ public class SlideshowFragment extends Fragment {
                                 sprNecks[i].setAdapter(burf_adapter);
                                 sprEarring2s[i].setAdapter(burf_adapter);
                                 sprStats[i].setAdapter(burf_adapter);
+                                if (burfs.contains(necks[i])) sprNecks[i].setSelection(burfs.indexOf(necks[i]));
+                                if (burfs.contains(earring1s[i])) sprEarring1s[i].setSelection(burfs.indexOf(earring1s[i]));
+                                if (burfs.contains(earring2s[i])) sprEarring2s[i].setSelection(burfs.indexOf(earring2s[i]));
+                                if (burfs.contains(ring1s[i])) sprRing1s[i].setSelection(burfs.indexOf(ring1s[i]));
+                                if (burfs.contains(ring2s[i])) sprRing2s[i].setSelection(burfs.indexOf(ring2s[i]));
+                                if (burfs.contains(stones[i])) sprStones[i].setSelection(burfs.indexOf(stones[i]));
+                                if (burfs.contains(stats[i])) sprStats[i].setSelection(burfs.indexOf(stats[i]));
                             }
                         } else {
                             listStampSetting.setVisibility(View.VISIBLE);
@@ -321,6 +353,13 @@ public class SlideshowFragment extends Fragment {
                                 sprNecks[i].setAdapter(setting_adapter);
                                 sprEarring2s[i].setAdapter(setting_adapter);
                                 sprStats[i].setAdapter(setting_adapter);
+                                if (stamp_names.contains(necks[i])) sprNecks[i].setSelection(stamp_names.indexOf(necks[i]));
+                                if (stamp_names.contains(earring1s[i])) sprEarring1s[i].setSelection(stamp_names.indexOf(earring1s[i]));
+                                if (stamp_names.contains(earring2s[i])) sprEarring2s[i].setSelection(stamp_names.indexOf(earring2s[i]));
+                                if (stamp_names.contains(ring1s[i])) sprRing1s[i].setSelection(stamp_names.indexOf(ring1s[i]));
+                                if (stamp_names.contains(ring2s[i])) sprRing2s[i].setSelection(stamp_names.indexOf(ring2s[i]));
+                                if (stamp_names.contains(stones[i])) sprStones[i].setSelection(stamp_names.indexOf(stones[i]));
+                                if (stamp_names.contains(stats[i])) sprStats[i].setSelection(stamp_names.indexOf(stats[i]));
                             }
                             
                         }
@@ -607,6 +646,7 @@ public class SlideshowFragment extends Fragment {
                         }
                         statDBAdapter.close();
 
+                        listStampSetting.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
