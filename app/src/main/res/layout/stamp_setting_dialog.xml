@@ -19,12 +19,27 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:id="@+id/listStamps"/>
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/yesbuttonstyle"
-        android:text="설정"
-        android:id="@+id/btnOK"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"/>
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nobuttonstyle"
+            android:text="초기화"
+            android:id="@+id/btnReset"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yesbuttonstyle"
+            android:text="설정"
+            android:id="@+id/btnOK"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
 </LinearLayout>

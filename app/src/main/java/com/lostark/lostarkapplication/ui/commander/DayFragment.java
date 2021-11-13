@@ -216,17 +216,19 @@ public class DayFragment extends Fragment {
                 });
 
                 chracterDBAdapter.open();
-                btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString()));
+                btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString(), "일일"));
                 chracterDBAdapter.close();
 
                 sprList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         chracterDBAdapter.open();
-                        btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString()));
+                        btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString(), "일일"));
                         chracterDBAdapter.close();
-                        if (sprList.getItemAtPosition(position).toString().equals("기타")) layoutAndsoon.setVisibility(View.VISIBLE);
-                        else {
+                        if (sprList.getItemAtPosition(position).toString().equals("기타")) {
+                            layoutAndsoon.setVisibility(View.VISIBLE);
+                            layoutRest.setVisibility(View.GONE);
+                        } else {
                             edtHomework.setText("");
                             layoutAndsoon.setVisibility(View.GONE);
                             if (sprList.getItemAtPosition(position).toString().equals("카오스 던전") || sprList.getItemAtPosition(position).toString().equals("가디언 토벌")) layoutRest.setVisibility(View.VISIBLE);

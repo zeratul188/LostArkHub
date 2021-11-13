@@ -95,7 +95,7 @@ public class SlideshowFragment extends Fragment {
     private EquipmentDBAdapter equipmentDBAdapter;
     private StatDBAdapter statDBAdapter;
 
-    private AlertDialog alertDialog;
+    private AlertDialog alertDialog, alertDialog2;
 
     private Map<String, Integer> stampMap;
 
@@ -285,11 +285,30 @@ public class SlideshowFragment extends Fragment {
 
                 ListView listStamps = view.findViewById(R.id.listStamps);
                 Button btnOK = view.findViewById(R.id.btnOK);
+                Button btnReset = view.findViewById(R.id.btnReset);
 
                 ArrayList<StampSetting> settings = new ArrayList<>();
                 for (int i = 0; i < 85; i++) settings.add(new StampSetting(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1], false));
+                for (int i = 0; i < settings.size(); i++) {
+                    for (int j = 0; j < apply_stamps.size(); j++) {
+                        if (apply_stamps.get(j).getName().equals(settings.get(i).getName())) {
+                            settings.get(i).setActivate(true);
+                        }
+                    }
+                }
                 StampSettingAdapter settingAdapter = new StampSettingAdapter(getActivity(), settings);
                 listStamps.setAdapter(settingAdapter);
+
+                btnReset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 0; i < settings.size(); i++) {
+                            if (settings.get(i).isActivate()) settings.get(i).toggle();
+                        }
+                        settingAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "각인을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -395,260 +414,290 @@ public class SlideshowFragment extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        for (int i = 0; i < 2; i++) {
-                            sprStones[i].setAdapter(burf_adapter);
-                            sprRing2s[i].setAdapter(burf_adapter);
-                            sprRing1s[i].setAdapter(burf_adapter);
-                            sprEarring1s[i].setAdapter(burf_adapter);
-                            sprNecks[i].setAdapter(burf_adapter);
-                            sprEarring2s[i].setAdapter(burf_adapter);
-                            sprStats[i].setAdapter(burf_adapter);
-                        }
-                        apply_stamps.clear();
-                        stampAdapter.notifyDataSetChanged();
+                        View dialog_view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
 
-                        String grade;
-                        String[] stamps = new String[3];
-                        int[] cnts = new int[3];
-                        Cursor  cursor;
-                        
-                        //neck
-                        neckDBAdapter.open();
-                        cursor = neckDBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
+                        TextView txtContent = dialog_view.findViewById(R.id.txtContent);
+                        Button btnCancel = dialog_view.findViewById(R.id.btnCancel);
+                        Button btnOK = dialog_view.findViewById(R.id.btnOK);
 
-                            if (i != 2) {
-                                sprNecks[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprNeckCnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprNecks[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprNeckCnts[i].setSelection(cnts[i]-1);
+                        txtContent.setText("프리셋을 적용하면 현재 적용된 각인세팅이 덮어씌워집니다.\n프리셋을 적용하시겠습니까?");
+                        btnOK.setText("적용");
+
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog2.dismiss();
                             }
-                        }
-                        switch (grade) {
-                            case "영웅":
-                                imgNeck.setImageResource(R.drawable.neck_0);
-                                txtNeck.setText("영웅 목걸이");
-                                break;
-                            case "전설":
-                                imgNeck.setImageResource(R.drawable.neck_1);
-                                txtNeck.setText("전설 목걸이");
-                                break;
-                            case "유물":
-                                imgNeck.setImageResource(R.drawable.neck_2);
-                                txtNeck.setText("유물 목걸이");
-                                break;
-                            case "고대":
-                                imgNeck.setImageResource(R.drawable.neck_3);
-                                txtNeck.setText("고대 목걸이");
-                                break;
-                        }
-                        neckDBAdapter.close();
-                        
-                        
-                        //earring1
-                        earring1DBAdapter.open();
-                        cursor = earring1DBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
+                        });
 
-                            if (i != 2) {
-                                sprEarring1s[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprEarring1Cnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprEarring1s[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprEarring1Cnts[i].setSelection(cnts[i]-1);
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                for (int i = 0; i < 2; i++) {
+                                    sprStones[i].setAdapter(burf_adapter);
+                                    sprRing2s[i].setAdapter(burf_adapter);
+                                    sprRing1s[i].setAdapter(burf_adapter);
+                                    sprEarring1s[i].setAdapter(burf_adapter);
+                                    sprNecks[i].setAdapter(burf_adapter);
+                                    sprEarring2s[i].setAdapter(burf_adapter);
+                                    sprStats[i].setAdapter(burf_adapter);
+                                }
+                                apply_stamps.clear();
+                                stampAdapter.notifyDataSetChanged();
+
+                                String grade;
+                                String[] stamps = new String[3];
+                                int[] cnts = new int[3];
+                                Cursor  cursor;
+
+                                //neck
+                                neckDBAdapter.open();
+                                cursor = neckDBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprNecks[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprNeckCnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprNecks[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprNeckCnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                switch (grade) {
+                                    case "영웅":
+                                        imgNeck.setImageResource(R.drawable.neck_0);
+                                        txtNeck.setText("영웅 목걸이");
+                                        break;
+                                    case "전설":
+                                        imgNeck.setImageResource(R.drawable.neck_1);
+                                        txtNeck.setText("전설 목걸이");
+                                        break;
+                                    case "유물":
+                                        imgNeck.setImageResource(R.drawable.neck_2);
+                                        txtNeck.setText("유물 목걸이");
+                                        break;
+                                    case "고대":
+                                        imgNeck.setImageResource(R.drawable.neck_3);
+                                        txtNeck.setText("고대 목걸이");
+                                        break;
+                                }
+                                neckDBAdapter.close();
+
+
+                                //earring1
+                                earring1DBAdapter.open();
+                                cursor = earring1DBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprEarring1s[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprEarring1Cnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprEarring1s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprEarring1Cnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                switch (grade) {
+                                    case "영웅":
+                                        imgEarring1.setImageResource(R.drawable.earring1_0);
+                                        txtEarring1.setText("영웅 귀걸이1");
+                                        break;
+                                    case "전설":
+                                        imgEarring1.setImageResource(R.drawable.earring1_1);
+                                        txtEarring1.setText("전설 귀걸이1");
+                                        break;
+                                    case "유물":
+                                        imgEarring1.setImageResource(R.drawable.earring1_2);
+                                        txtEarring1.setText("유물 귀걸이1");
+                                        break;
+                                    case "고대":
+                                        imgEarring1.setImageResource(R.drawable.earring1_3);
+                                        txtEarring1.setText("고대 귀걸이1");
+                                        break;
+                                }
+                                earring1DBAdapter.close();
+
+
+                                //earring2
+                                earring2DBAdapter.open();
+                                cursor = earring2DBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprEarring2s[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprEarring2Cnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprEarring2s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprEarring2Cnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                switch (grade) {
+                                    case "영웅":
+                                        imgEarring2.setImageResource(R.drawable.earring2_0);
+                                        txtEarring2.setText("영웅 귀걸이2");
+                                        break;
+                                    case "전설":
+                                        imgEarring2.setImageResource(R.drawable.earring2_1);
+                                        txtEarring2.setText("전설 귀걸이2");
+                                        break;
+                                    case "유물":
+                                        imgEarring2.setImageResource(R.drawable.earring2_2);
+                                        txtEarring2.setText("유물 귀걸이2");
+                                        break;
+                                    case "고대":
+                                        imgEarring2.setImageResource(R.drawable.earring2_3);
+                                        txtEarring2.setText("고대 귀걸이2");
+                                        break;
+                                }
+                                earring2DBAdapter.close();
+
+                                //ring1
+                                ring1DBAdapter.open();
+                                cursor = ring1DBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprRing1s[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprRing1Cnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprRing1s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprRing1Cnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                switch (grade) {
+                                    case "영웅":
+                                        imgRing1.setImageResource(R.drawable.ring1_0);
+                                        txtRing1.setText("영웅 반지1");
+                                        break;
+                                    case "전설":
+                                        imgRing1.setImageResource(R.drawable.ring1_1);
+                                        txtRing1.setText("전설 반지1");
+                                        break;
+                                    case "유물":
+                                        imgRing1.setImageResource(R.drawable.ring1_2);
+                                        txtRing1.setText("유물 반지1");
+                                        break;
+                                    case "고대":
+                                        imgRing1.setImageResource(R.drawable.ring1_3);
+                                        txtRing1.setText("고대 반지1");
+                                        break;
+                                }
+                                ring1DBAdapter.close();
+
+                                //Ring2
+                                ring2DBAdapter.open();
+                                cursor = ring2DBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprRing2s[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprRing2Cnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprRing2s[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprRing2Cnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                switch (grade) {
+                                    case "영웅":
+                                        imgRing2.setImageResource(R.drawable.ring2_0);
+                                        txtRing2.setText("영웅 반지2");
+                                        break;
+                                    case "전설":
+                                        imgRing2.setImageResource(R.drawable.ring2_1);
+                                        txtRing2.setText("전설 반지2");
+                                        break;
+                                    case "유물":
+                                        imgRing2.setImageResource(R.drawable.ring2_2);
+                                        txtRing2.setText("유물 반지2");
+                                        break;
+                                    case "고대":
+                                        imgRing2.setImageResource(R.drawable.ring2_3);
+                                        txtRing2.setText("고대 반지2");
+                                        break;
+                                }
+                                ring2DBAdapter.close();
+
+                                //stone
+                                equipmentStoneDBAdapter.open();
+                                cursor = equipmentStoneDBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAMP_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(5+i);
+
+                                    if (i != 2) {
+                                        sprStones[i].setSelection(burfs.indexOf(stamps[i]));
+                                        sprStoneCnts[i].setSelection(cnts[i]-1);
+                                    } else {
+                                        sprStones[i].setSelection(deburfs.indexOf(stamps[i]));
+                                        sprStoneCnts[i].setSelection(cnts[i]-1);
+                                    }
+                                }
+                                equipmentStoneDBAdapter.close();
+
+                                //stat
+                                statDBAdapter.open();
+                                cursor = statDBAdapter.fetchData(equipments.get(position).getIndex());
+                                cursor.moveToFirst();
+                                grade = cursor.getString(1);
+                                for (int i = 0; i < STAT_LENGTH; i++) {
+                                    stamps[i] = cursor.getString(2+i);
+                                    cnts[i] = cursor.getInt(4+i);
+
+                                    sprStats[i].setSelection(burfs.indexOf(stamps[i]));
+                                    switch (cnts[i]) {
+                                        case 3:
+                                            sprStatCnts[i].setSelection(0);
+                                            break;
+                                        case 6:
+                                            sprStatCnts[i].setSelection(1);
+                                            break;
+                                        case 9:
+                                            sprStatCnts[i].setSelection(2);
+                                            break;
+                                        case 12:
+                                            sprStatCnts[i].setSelection(3);
+                                            break;
+                                    }
+
+                                }
+                                statDBAdapter.close();
+
+                                listStampSetting.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                                alertDialog2.dismiss();
                             }
-                        }
-                        switch (grade) {
-                            case "영웅":
-                                imgEarring1.setImageResource(R.drawable.earring1_0);
-                                txtEarring1.setText("영웅 귀걸이1");
-                                break;
-                            case "전설":
-                                imgEarring1.setImageResource(R.drawable.earring1_1);
-                                txtEarring1.setText("전설 귀걸이1");
-                                break;
-                            case "유물":
-                                imgEarring1.setImageResource(R.drawable.earring1_2);
-                                txtEarring1.setText("유물 귀걸이1");
-                                break;
-                            case "고대":
-                                imgEarring1.setImageResource(R.drawable.earring1_3);
-                                txtEarring1.setText("고대 귀걸이1");
-                                break;
-                        }
-                        earring1DBAdapter.close();
-                        
-                        
-                        //earring2
-                        earring2DBAdapter.open();
-                        cursor = earring2DBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
+                        });
 
-                            if (i != 2) {
-                                sprEarring2s[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprEarring2Cnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprEarring2s[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprEarring2Cnts[i].setSelection(cnts[i]-1);
-                            }
-                        }
-                        switch (grade) {
-                            case "영웅":
-                                imgEarring2.setImageResource(R.drawable.earring2_0);
-                                txtEarring2.setText("영웅 귀걸이2");
-                                break;
-                            case "전설":
-                                imgEarring2.setImageResource(R.drawable.earring2_1);
-                                txtEarring2.setText("전설 귀걸이2");
-                                break;
-                            case "유물":
-                                imgEarring2.setImageResource(R.drawable.earring2_2);
-                                txtEarring2.setText("유물 귀걸이2");
-                                break;
-                            case "고대":
-                                imgEarring2.setImageResource(R.drawable.earring2_3);
-                                txtEarring2.setText("고대 귀걸이2");
-                                break;
-                        }
-                        earring2DBAdapter.close();
-                        
-                        //ring1
-                        ring1DBAdapter.open();
-                        cursor = ring1DBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setView(dialog_view);
 
-                            if (i != 2) {
-                                sprRing1s[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprRing1Cnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprRing1s[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprRing1Cnts[i].setSelection(cnts[i]-1);
-                            }
-                        }
-                        switch (grade) {
-                            case "영웅":
-                                imgRing1.setImageResource(R.drawable.ring1_0);
-                                txtRing1.setText("영웅 반지1");
-                                break;
-                            case "전설":
-                                imgRing1.setImageResource(R.drawable.ring1_1);
-                                txtRing1.setText("전설 반지1");
-                                break;
-                            case "유물":
-                                imgRing1.setImageResource(R.drawable.ring1_2);
-                                txtRing1.setText("유물 반지1");
-                                break;
-                            case "고대":
-                                imgRing1.setImageResource(R.drawable.ring1_3);
-                                txtRing1.setText("고대 반지1");
-                                break;
-                        }
-                        ring1DBAdapter.close();
-                        
-                        //Ring2
-                        ring2DBAdapter.open();
-                        cursor = ring2DBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
-
-                            if (i != 2) {
-                                sprRing2s[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprRing2Cnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprRing2s[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprRing2Cnts[i].setSelection(cnts[i]-1);
-                            }
-                        }
-                        switch (grade) {
-                            case "영웅":
-                                imgRing2.setImageResource(R.drawable.ring2_0);
-                                txtRing2.setText("영웅 반지2");
-                                break;
-                            case "전설":
-                                imgRing2.setImageResource(R.drawable.ring2_1);
-                                txtRing2.setText("전설 반지2");
-                                break;
-                            case "유물":
-                                imgRing2.setImageResource(R.drawable.ring2_2);
-                                txtRing2.setText("유물 반지2");
-                                break;
-                            case "고대":
-                                imgRing2.setImageResource(R.drawable.ring2_3);
-                                txtRing2.setText("고대 반지2");
-                                break;
-                        }
-                        ring2DBAdapter.close();
-                        
-                        //stone
-                        equipmentStoneDBAdapter.open();
-                        cursor = equipmentStoneDBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAMP_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(5+i);
-
-                            if (i != 2) {
-                                sprStones[i].setSelection(burfs.indexOf(stamps[i]));
-                                sprStoneCnts[i].setSelection(cnts[i]-1);
-                            } else {
-                                sprStones[i].setSelection(deburfs.indexOf(stamps[i]));
-                                sprStoneCnts[i].setSelection(cnts[i]-1);
-                            }
-                        }
-                        equipmentStoneDBAdapter.close();
-
-                        //stat
-                        statDBAdapter.open();
-                        cursor = statDBAdapter.fetchData(equipments.get(position).getIndex());
-                        cursor.moveToFirst();
-                        grade = cursor.getString(1);
-                        for (int i = 0; i < STAT_LENGTH; i++) {
-                            stamps[i] = cursor.getString(2+i);
-                            cnts[i] = cursor.getInt(4+i);
-
-                            sprStats[i].setSelection(burfs.indexOf(stamps[i]));
-                            switch (cnts[i]) {
-                                case 3:
-                                    sprStatCnts[i].setSelection(0);
-                                    break;
-                                case 6:
-                                    sprStatCnts[i].setSelection(1);
-                                    break;
-                                case 9:
-                                    sprStatCnts[i].setSelection(2);
-                                    break;
-                                case 12:
-                                    sprStatCnts[i].setSelection(3);
-                                    break;
-                            }
-
-                        }
-                        statDBAdapter.close();
-
-                        listStampSetting.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
+                        alertDialog2 = builder.create();
+                        alertDialog2.setCancelable(false);
+                        alertDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog2.show();
                     }
                 });
 

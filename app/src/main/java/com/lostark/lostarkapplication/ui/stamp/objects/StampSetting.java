@@ -10,6 +10,11 @@ public class StampSetting {
         this.isActivate = isActivate;
     }
 
+    public void toggle() {
+        if (isActivate) isActivate = false;
+        else isActivate = true;
+    }
+
     public String getName() {
         return name;
     }

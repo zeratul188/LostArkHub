@@ -183,6 +183,8 @@ public class ChracterAdapter extends BaseAdapter {
                 EditText edtLevel = view.findViewById(R.id.edtLevel);
                 Spinner sprJob = view.findViewById(R.id.sprJob);
                 Button btnEdit = view.findViewById(R.id.btnEdit);
+                Button btnNameCopy = view.findViewById(R.id.btnNameCopy);
+                Button btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
 
                 jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.job_item, jobs);
@@ -193,6 +195,20 @@ public class ChracterAdapter extends BaseAdapter {
 
                 edtName.setHint(chracters.get(position).getName());
                 edtLevel.setHint(Integer.toString(chracters.get(position).getLevel()));
+
+                btnNameCopy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        edtName.setText(chracters.get(position).getName());
+                    }
+                });
+
+                btnLevelCopy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        edtLevel.setText(Integer.toString(chracters.get(position).getLevel()));
+                    }
+                });
 
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override

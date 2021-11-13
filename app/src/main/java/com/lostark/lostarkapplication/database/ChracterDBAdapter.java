@@ -137,8 +137,8 @@ public class ChracterDBAdapter {
         return true;
     }
 
-    public boolean isSame(String name) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
+    public boolean isSame(String name, String type) {
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "TYPE='"+type+"'", null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String find = cursor.getString(1);

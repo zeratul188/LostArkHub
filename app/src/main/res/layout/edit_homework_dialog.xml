@@ -28,17 +28,31 @@
             android:textSize="14sp"
             android:layout_marginBottom="5dp"
             android:textColor="#aaaaaa"/>
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/customeditstyle"
-            android:padding="10dp"
-            android:id="@+id/edtHomework"
-            android:hint="숙제 이름"
-            android:textSize="18sp"
-            android:textColor="#ffffff"
             android:layout_marginBottom="20dp"
-            android:textColorHint="#777777"/>
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/customeditstyle"
+                android:padding="10dp"
+                android:id="@+id/edtHomework"
+                android:hint="숙제 이름"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textColorHint="#777777"/>
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/yesbuttonstyle"
+                android:text="복사"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:id="@+id/btnNameCopy"/>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,18 +60,32 @@
             android:textSize="14sp"
             android:layout_marginBottom="5dp"
             android:textColor="#aaaaaa"/>
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/customeditstyle"
-            android:padding="10dp"
-            android:id="@+id/edtCount"
-            android:hint="0 ~ 99"
-            android:inputType="numberDecimal"
-            android:textSize="18sp"
-            android:maxLength="2"
-            android:textColor="#ffffff"
-            android:textColorHint="#777777"/>
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/customeditstyle"
+                android:padding="10dp"
+                android:id="@+id/edtCount"
+                android:hint="0 ~ 99"
+                android:inputType="numberDecimal"
+                android:textSize="18sp"
+                android:maxLength="2"
+                android:textColor="#ffffff"
+                android:textColorHint="#777777"/>
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/yesbuttonstyle"
+                android:text="복사"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:id="@+id/btnCountCopy"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

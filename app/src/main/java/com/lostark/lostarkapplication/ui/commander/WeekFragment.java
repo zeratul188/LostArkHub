@@ -83,9 +83,16 @@ public class WeekFragment extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, days);
                 sprList.setAdapter(adapter);
 
+                chracterDBAdapter.open();
+                btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString(), "주간"));
+                chracterDBAdapter.close();
+
                 sprList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        chracterDBAdapter.open();
+                        btnAdd.setEnabled(!chracterDBAdapter.isSame(sprList.getSelectedItem().toString(), "주간"));
+                        chracterDBAdapter.close();
                         if (sprList.getItemAtPosition(position).toString().equals("기타")) layoutAndsoon.setVisibility(View.VISIBLE);
                         else {
                             edtHomework.setText("");
