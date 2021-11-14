@@ -24,5 +24,9 @@
             android:id="@+id/nav_stamp"
             android:icon="@drawable/nav_stamp_icon"
             android:title="@string/menu_stamp" />
+        <item
+            android:id="@+id/nav_chracter"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/menu_chracter" />
     </group>
 </menu>

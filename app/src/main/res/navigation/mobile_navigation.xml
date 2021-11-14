@@ -52,4 +52,10 @@
         android:name="com.lostark.lostarkapplication.ui.stamp.StampFragment"
         android:label="@string/menu_stamp"
         tools:layout="@layout/fragment_stamp" />
+
+    <fragment
+        android:id="@+id/nav_chracter"
+        android:name="com.lostark.lostarkapplication.ui.chracter.ChracterFragment"
+        android:label="@string/menu_chracter"
+        tools:layout="@layout/fragment_chracter" />
 </navigation>

@@ -103,23 +103,64 @@ public class ChracterDBAdapter {
                 if (max-now > 0) {
                     Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='카던 휴식'", null, null, null, null);
                     dungeonCursor.moveToFirst();
-                    int undo_now = dungeonCursor.getInt(3);
-                    int result = undo_now+(max-now);
-                    if (result > 10) result = 10;
-                    ContentValues values = new ContentValues();
-                    values.put(KEY_NOW, result);
-                    sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"카던 휴식"});
+                    if (dungeonCursor.getCount() == 0) {
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NAME, "카던 휴식");
+                        values.put(KEY_TYPE, "휴식게이지");
+                        values.put(KEY_NOW, 0);
+                        values.put(KEY_MAX, 10);
+                        values.put(KEY_ALARM, false);
+                        sqlDB.insert(databaseTable, null, values);
+                    } else {
+                        int undo_now = dungeonCursor.getInt(3);
+                        int result = undo_now+(max-now);
+                        if (result > 10) result = 10;
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NOW, result);
+                        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"카던 휴식"});
+                    }
                 }
             } else if (name.equals("가디언 토벌")) {
                 if (max-now > 0) {
                     Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='가디언 휴식'", null, null, null, null);
                     bossCursor.moveToFirst();
-                    int undo_now = bossCursor.getInt(3);
-                    int result = undo_now+(max-now);
-                    if (result > 10) result = 10;
-                    ContentValues values = new ContentValues();
-                    values.put(KEY_NOW, result);
-                    sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"가디언 휴식"});
+                    if (bossCursor.getCount() == 0) {
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NAME, "가디언 휴식");
+                        values.put(KEY_TYPE, "휴식게이지");
+                        values.put(KEY_NOW, 0);
+                        values.put(KEY_MAX, 10);
+                        values.put(KEY_ALARM, false);
+                        sqlDB.insert(databaseTable, null, values);
+                    } else {
+                        int undo_now = bossCursor.getInt(3);
+                        int result = undo_now+(max-now);
+                        if (result > 10) result = 10;
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NOW, result);
+                        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"가디언 휴식"});
+                    }
+                }
+            } else if (name.equals("에포나 일일 의뢰")) {
+                if (max-now > 0) {
+                    Cursor questCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='에포나 휴식'", null, null, null, null);
+                    questCursor.moveToFirst();
+                    if (questCursor.getCount() == 0) {
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NAME, "에포나 휴식");
+                        values.put(KEY_TYPE, "휴식게이지");
+                        values.put(KEY_NOW, 0);
+                        values.put(KEY_MAX, 10);
+                        values.put(KEY_ALARM, false);
+                        sqlDB.insert(databaseTable, null, values);
+                    } else {
+                        int undo_now = questCursor.getInt(3);
+                        int result = undo_now+(max-now);
+                        if (result > 10) result = 10;
+                        ContentValues values = new ContentValues();
+                        values.put(KEY_NOW, result);
+                        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {"에포나 휴식"});
+                    }
                 }
             }
             cursor.moveToNext();

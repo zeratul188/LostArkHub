@@ -13,6 +13,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/box_style"
+        android:id="@+id/layoutQuest"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:padding="15dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="에포나 의뢰 휴식 게이지"
+                android:textColor="#ffffff"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtQuestRest"
+                android:text="NONE"
+                android:textColor="#E6803A"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textColor="#aaaaaa"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textColor="#aaaaaa"
+                android:textSize="16sp"/>
+        </LinearLayout>
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progress="0"
+            android:max="10"
+            android:progressDrawable="@drawable/progress_style"
+            android:id="@+id/progressQuest"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_style"
         android:id="@+id/layoutDungeon"
         android:layout_margin="10dp"
         android:visibility="gone"

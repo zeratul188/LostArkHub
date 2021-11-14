@@ -29,7 +29,7 @@ public class HomeworkAdapter extends BaseAdapter {
     private Activity activity;
     private boolean isDay = true;
     
-    private RestPackage dungeonPackage, bossPackage;
+    private RestPackage dungeonPackage, bossPackage, questPackage;
 
     private AlertDialog alertDialog, diag_alertDialog;
 
@@ -41,6 +41,13 @@ public class HomeworkAdapter extends BaseAdapter {
         this.isDay = isDay;
         dungeonPackage = new RestPackage();
         bossPackage = new RestPackage();
+        questPackage = new RestPackage();
+    }
+    
+    public void setQuestPackage(LinearLayout layout, TextView txtView, ProgressBar progressBar) {
+        questPackage.setLayout(layout);
+        questPackage.setProgressBar(progressBar);
+        questPackage.setTxtView(txtView);
     }
     
     public void setDungeonPackage(LinearLayout layout, TextView txtView, ProgressBar progressBar) {
@@ -183,6 +190,14 @@ public class HomeworkAdapter extends BaseAdapter {
                                         chracterDBAdapter.open();
                                         chracterDBAdapter.deleteData("가디언 휴식");
                                         chracterDBAdapter.close();
+                                    } else if (name.equals("에포나 일일 의뢰") && checklists.get(i).getName().equals("에포나 휴식")) {
+                                        checklists.remove(i);
+                                        questPackage.setText("0");
+                                        questPackage.setProgress(0);
+                                        questPackage.setVisible(View.GONE);
+                                        chracterDBAdapter.open();
+                                        chracterDBAdapter.deleteData("에포나 휴식");
+                                        chracterDBAdapter.close();
                                     }
                                 }
                                 diag_alertDialog.dismiss();
@@ -272,6 +287,15 @@ public class HomeworkAdapter extends BaseAdapter {
                             chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
                             bossPackage.setProgress(checklists.get(i).getNow());
                             bossPackage.setText(Integer.toString(checklists.get(i).getNow()*10));
+                        }
+                    }
+                } else if (checklists.get(position).getName().equals("에포나 일일 의뢰")) {
+                    for (int i = 0; i < checklists.size(); i++) {
+                        if (checklists.get(i).getName().equals("에포나 휴식")) {
+                            if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                            chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
+                            questPackage.setProgress(checklists.get(i).getNow());
+                            questPackage.setText(Integer.toString(checklists.get(i).getNow()*10));
                         }
                     }
                 }

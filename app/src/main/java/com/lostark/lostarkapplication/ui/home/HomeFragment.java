@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         //Test Start
         //calendar.set(Calendar.DAY_OF_MONTH, 4);
+        //calendar.set(Calendar.DAY_OF_MONTH, 14);
         //calendar.set(Calendar.HOUR_OF_DAY, 23);
         //Test End
         Date now = calendar.getTime();
@@ -111,7 +112,11 @@ public class HomeFragment extends Fragment {
         DateFormat hourFormat = new SimpleDateFormat("HH");
         int now_hour = Integer.parseInt(hourFormat.format(now));
         int next_island_hour = 0;
-        if (now_hour < 11) next_island_hour = 11;
+        if (now_hour < 9) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) next_island_hour = 9;
+            else next_island_hour = 11;
+        }
+        else if (now_hour >= 9 && now_hour < 11) next_island_hour = 11;
         else if (now_hour >= 11 && now_hour < 13) next_island_hour = 13;
         else if (now_hour >= 13 && now_hour < 19) next_island_hour = 19;
         else if (now_hour >= 19 && now_hour < 21) next_island_hour = 21;
