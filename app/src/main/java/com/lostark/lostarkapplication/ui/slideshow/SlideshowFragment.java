@@ -38,11 +38,13 @@ import com.lostark.lostarkapplication.ui.gallery.Stamp;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Accessory;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Equipment;
 import com.lostark.lostarkapplication.ui.slideshow.objects.StampCal;
+import com.lostark.lostarkapplication.ui.slideshow.objects.StampCalComparator;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Stat;
 import com.lostark.lostarkapplication.ui.stamp.objects.StampSetting;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -1267,11 +1269,15 @@ public class SlideshowFragment extends Fragment {
             }
         }
 
+        ArrayList<StampCal> deburfList = new ArrayList<>();
         stampCals.clear();
         for (Map.Entry<String, Integer> entry : stampMap.entrySet()) {
-            if (isDeburf(entry.getKey())) stampCals.add(new StampCal(entry.getKey(), entry.getValue()));
-            else stampCals.add(0, new StampCal(entry.getKey(), entry.getValue()));
+            if (isDeburf(entry.getKey())) deburfList.add(new StampCal(entry.getKey(), entry.getValue()));
+            else stampCals.add(new StampCal(entry.getKey(), entry.getValue()));
         }
+        Collections.sort(stampCals, new StampCalComparator());
+        Collections.sort(deburfList, new StampCalComparator());
+        for (StampCal stampCal : deburfList) stampCals.add(stampCal);
         stampCalAdapter.notifyDataSetChanged();
     }
     

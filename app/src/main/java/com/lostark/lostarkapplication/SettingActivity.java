@@ -43,7 +43,7 @@ public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate;
     private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm;
     private Spinner sprAlarm;
-    private TextView txtResetDate;
+    private TextView txtResetDate, txtVersion;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -79,6 +79,7 @@ public class SettingActivity extends AppCompatActivity {
         sprAlarm = findViewById(R.id.sprAlarm);
         txtResetDate = findViewById(R.id.txtResetDate);
         chkHomeworkAlarm = findViewById(R.id.chkHomeworkAlarm);
+        txtVersion = findViewById(R.id.txtVersion);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -99,6 +100,7 @@ public class SettingActivity extends AppCompatActivity {
         mReference = mDatabase.getReference();
 
         txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
+        txtVersion.setText("앱 버전 : "+getVersion());
 
         ArrayList<String> times = new ArrayList<>();
         for (int i = 0; i < 24; i++) times.add(Integer.toString(i));

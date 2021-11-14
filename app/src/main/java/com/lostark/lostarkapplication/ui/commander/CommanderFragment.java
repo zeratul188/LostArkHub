@@ -25,6 +25,7 @@ import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CommanderFragment extends Fragment {
@@ -91,6 +92,7 @@ public class CommanderFragment extends Fragment {
                         chracterListDBAdapter.insertData(new Chracter(name, job, level, true));
                         characters.add(new Chracter(name, job, level, true));
                         chracterListDBAdapter.close();
+                        Collections.sort(characters, new ChracterComparator());
                         chracterAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), name+"을 추가하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
@@ -124,6 +126,7 @@ public class CommanderFragment extends Fragment {
             characters.add(new Chracter(name, job, level, isAlarm));
             cursor.moveToNext();
         }
+        Collections.sort(characters, new ChracterComparator());
         chracterListDBAdapter.close();
         chracterAdapter.notifyDataSetChanged();
     }
