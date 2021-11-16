@@ -32,14 +32,12 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginRight="10dp">
-
             <ImageView
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:id="@+id/imgStone"
                 android:src="@drawable/none_stone"
                 android:layout_gravity="center"/>
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

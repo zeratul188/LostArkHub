@@ -58,4 +58,10 @@
         android:name="com.lostark.lostarkapplication.ui.chracter.ChracterFragment"
         android:label="@string/menu_chracter"
         tools:layout="@layout/fragment_chracter" />
+
+    <fragment
+        android:id="@+id/nav_skill"
+        android:name="com.lostark.lostarkapplication.ui.skill.SkillFragment"
+        android:label="@string/menu_skill"
+        tools:layout="@layout/fragment_skill" />
 </navigation>

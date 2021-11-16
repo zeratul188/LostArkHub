@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:id="@+id/imgSkill"
+                android:src="@drawable/close_eye"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/imagetool" />
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtName"
+            android:text="Skill Name"
+            android:textSize="22sp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="스킬 세부 사항"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:background="#191b20"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#1d2026">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+            <TableRow
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="재사용 대기 시간 : "
+                    android:textColor="#aaaaaa"
+                    android:textSize="16sp"
+                    android:textAlignment="textEnd"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:text="9999초"
+                    android:id="@+id/txtTime"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"/>
+            </TableRow>
+            <TableRow
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="무력화 : "
+                    android:textColor="#aaaaaa"
+                    android:textSize="16sp"
+                    android:textAlignment="textEnd"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:text="최상"
+                    android:id="@+id/txtStrike"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"/>
+            </TableRow>
+            <TableRow
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="공격 타입 : "
+                    android:textColor="#aaaaaa"
+                    android:textSize="16sp"
+                    android:textAlignment="textEnd"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:text="헤드 어택, 카운터"
+                    android:id="@+id/txtAttackType"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="부위 파괴 : "
+                    android:textColor="#aaaaaa"
+                    android:textSize="16sp"
+                    android:textAlignment="textEnd"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:text="레벨 2"
+                    android:id="@+id/txtDestroyLevel"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"/>
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtContent"
+            android:text="Skill Content"
+            android:textSize="16sp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+</LinearLayout>

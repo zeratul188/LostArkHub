@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="스킬 포인트 설정"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@drawable/dialogtitlestyle"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#3581DF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스킬 포인트"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#aaaaaa"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customeditstyle"
+            android:padding="10dp"
+            android:id="@+id/edtSkillPoint"
+            android:hint="0 ~ 9999"
+            android:inputType="numberDecimal"
+            android:textSize="18sp"
+            android:maxLength="4"
+            android:textColor="#ffffff"
+            android:textColorHint="#777777"/>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSetting"
+        android:background="@drawable/yesbuttonstyle"
+        android:text="설정"
+        android:padding="15dp"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"/>
+</LinearLayout>
