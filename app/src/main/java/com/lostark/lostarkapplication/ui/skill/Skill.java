@@ -1,9 +1,13 @@
 package com.lostark.lostarkapplication.ui.skill;
 
+import android.graphics.Bitmap;
+
 public class Skill {
     private String name, strike, attack_type, destroy_level, content, url;
     private int level, max_level, time, rune;
     private int[] tripods;
+    private Bitmap[] tripodBitmaps = new Bitmap[3];
+    private Bitmap runeBitmap = null;
 
     public Skill(String name, String strike, String attack_type, String destroy_level, String content, String url, int level, int max_level, int time, int[] tripods, int rune) {
         this.name = name;
@@ -17,6 +21,22 @@ public class Skill {
         this.time = time;
         this.tripods = tripods;
         this.rune = rune;
+    }
+
+    public Bitmap[] getTripodBitmaps() {
+        return tripodBitmaps;
+    }
+
+    public void setTripodBitmaps(Bitmap[] tripodBitmaps) {
+        this.tripodBitmaps = tripodBitmaps;
+    }
+
+    public Bitmap getRuneBitmap() {
+        return runeBitmap;
+    }
+
+    public void setRuneBitmap(Bitmap runeBitmap) {
+        this.runeBitmap = runeBitmap;
     }
 
     public int getRune() {

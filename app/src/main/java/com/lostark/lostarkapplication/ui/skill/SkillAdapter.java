@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,13 +38,25 @@ public class SkillAdapter extends BaseAdapter {
     private DataNetwork dataNetwork;
     private Activity activity;
 
+    private ImageView[] imgTripods;
+    private ImageView imgRune;
+
     private RuneDBAdapter runeDBAdapter;
 
     private Bitmap[] bitmaps;
     private AlertDialog alertDialog;
     private int job_index = 9999;
 
+    private boolean isShow = false;
+
     private int[] checklist = new int[3];
+
+    final Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            // 원래 하려던 동작 (UI변경 작업 등)
+            notifyDataSetChanged();
+        }
+    };
 
     public SkillAdapter(ArrayList<Skill> skills, Context context, DataNetwork dataNetwork, Activity activity) {
         this.skills = skills;
@@ -50,6 +64,14 @@ public class SkillAdapter extends BaseAdapter {
         this.dataNetwork = dataNetwork;
         this.activity = activity;
         runeDBAdapter = new RuneDBAdapter(activity);
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 
     public int getJob_index() {
@@ -96,9 +118,9 @@ public class SkillAdapter extends BaseAdapter {
         ImageButton imgbtnDecrease = convertView.findViewById(R.id.imgbtnDecrease);
         LinearLayout layoutNeedSkillPoint = convertView.findViewById(R.id.layoutNeedSkillPoint);
         LinearLayout layoutSetting = convertView.findViewById(R.id.layoutSetting);
-        ImageView[] imgTripods = new ImageView[3];
+        imgTripods = new ImageView[3];
         TextView txtRune = convertView.findViewById(R.id.txtRune);
-        ImageView imgRune = convertView.findViewById(R.id.imgRune);
+        imgRune = convertView.findViewById(R.id.imgRune);
         ImageView imgRuneBackground = convertView.findViewById(R.id.imgRuneBackground);
         for (int i = 0; i < imgTripods.length; i++) imgTripods[i] = convertView.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1), "id", context.getPackageName()));
 
@@ -125,6 +147,19 @@ public class SkillAdapter extends BaseAdapter {
             }
         }
 
+        if (skills.get(position).getRuneBitmap() != null) {
+            imgRune.setImageBitmap(skills.get(position).getRuneBitmap());
+        } else {
+            imgRune.setImageResource(R.drawable.ic_add_black_24dp);
+        }
+
+        if (skills.get(position).getTripodBitmaps() != null) {
+            for (int i = 0; i < 3; i++) {
+                if (skills.get(position).getTripodBitmaps()[i] != null) imgTripods[i].setImageBitmap(skills.get(position).getTripodBitmaps()[i]);
+                else imgTripods[i].setImageResource(R.drawable.close_eye);
+            }
+        }
+
         if (job_index != 9999) {
             JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(activity, job_index+1);
             int first = 0, second = 0, third = 0;
@@ -134,19 +169,22 @@ public class SkillAdapter extends BaseAdapter {
                     switch (Integer.parseInt(args[1])) {
                         case 1:
                             if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
-                                new DownloadFilesTask(imgTripods[0], skills.get(position).getTripods()[0]).execute(args[4]);
+                                //new DownloadFilesTask(imgTripods[0], position, 0).execute(args[4]);
+                                new TripodDownloadFilesTask(position, 0).execute(args[4]);
                             }
                             first++;
                             break;
                         case 2:
                             if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
-                                new DownloadFilesTask(imgTripods[1], skills.get(position).getTripods()[1]).execute(args[4]);
+                                //new DownloadFilesTask(imgTripods[1], position, 1).execute(args[4]);
+                                new TripodDownloadFilesTask(position, 1).execute(args[4]);
                             }
                             second++;
                             break;
                         case 3:
                             if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
-                                new DownloadFilesTask(imgTripods[2], skills.get(position).getTripods()[2]).execute(args[4]);
+                                //new DownloadFilesTask(imgTripods[2], position, 2).execute(args[4]);
+                                new TripodDownloadFilesTask(position, 2).execute(args[4]);
                             }
                             third++;
                             break;
@@ -163,7 +201,7 @@ public class SkillAdapter extends BaseAdapter {
         if (skills.get(position).getRune() < runeDBAdapter.getSize()) {
             String[] args = runeDBAdapter.readData(skills.get(position).getRune());
             int grade = Integer.parseInt(args[1]);
-            new RuneDownloadFilesTask(imgRune, 0).execute(args[3]);
+            new RuneDownloadFilesTask(position).execute(args[3]);
             switch (grade) {
                 case 1:
                     txtRune.setTextColor(Color.parseColor("#8dbe46"));
@@ -253,7 +291,7 @@ public class SkillAdapter extends BaseAdapter {
                 TextView txtDestroyLevel = view.findViewById(R.id.txtDestroyLevel);
                 TextView txtContent = view.findViewById(R.id.txtContent);
 
-                new DownloadFilesTask(imgSkill, 0).execute(skills.get(position).getUrl());
+                new DownloadFilesTask(imgSkill).execute(skills.get(position).getUrl());
                 txtName.setText(skills.get(position).getName());
                 txtTime.setText(skills.get(position).getTime()+"초");
                 txtStrike.setText(skills.get(position).getStrike());
@@ -363,7 +401,7 @@ public class SkillAdapter extends BaseAdapter {
                         switch (Integer.parseInt(args[1])) {
                             case 1:
                                 if (first < 3) {
-                                    new DownloadFilesTask(imgTripod[0][first], 0).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[0][first]).execute(args[4]);
                                     txtTripod[0][first].setText(args[2]);
                                     txtTripodContent[0][first].setText(args[3]);
                                     first++;
@@ -371,7 +409,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 2:
                                 if (second < 3) {
-                                    new DownloadFilesTask(imgTripod[1][second], 0).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[1][second]).execute(args[4]);
                                     txtTripod[1][second].setText(args[2]);
                                     txtTripodContent[1][second].setText(args[3]);
                                     second++;
@@ -379,7 +417,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 3:
                                 if (third < 2) {
-                                    new DownloadFilesTask(imgTripod[2][third], 0).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[2][third]).execute(args[4]);
                                     txtTripod[2][third].setText(args[2]);
                                     txtTripodContent[2][third].setText(args[3]);
                                     third++;
@@ -410,6 +448,7 @@ public class SkillAdapter extends BaseAdapter {
                         notifyDataSetChanged();
                         Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
+                        new SleepNotifyThread().start();
                     }
                 });
 
@@ -466,13 +505,22 @@ public class SkillAdapter extends BaseAdapter {
         return false;
     }
 
-    private class RuneDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
         private ImageView imgView;
-        private int tripod;
 
-        public RuneDownloadFilesTask(ImageView imgView, int tripod) {
+        public DownloadFilesTask(ImageView imgView) {
             this.imgView = imgView;
-            this.tripod = tripod;
+        }
+
+        public DownloadFilesTask() {
+        }
+
+        public ImageView getImgView() {
+            return imgView;
+        }
+
+        public void setImgView(ImageView imgView) {
+            this.imgView = imgView;
         }
 
         @Override
@@ -499,18 +547,15 @@ public class SkillAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            if (tripod != 99) imgView.setImageBitmap(result);
-            else imgView.setImageResource(R.drawable.ic_add_black_24dp);
+            imgView.setImageBitmap(result);
         }
     }
 
-    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
-        private ImageView imgView;
-        private int tripod;
+    private class RuneDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        private int position;
 
-        public DownloadFilesTask(ImageView imgView, int tripod) {
-            this.imgView = imgView;
-            this.tripod = tripod;
+        public RuneDownloadFilesTask(int position) {
+            this.position = position;
         }
 
         @Override
@@ -537,8 +582,58 @@ public class SkillAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            if (tripod != 4) imgView.setImageBitmap(result);
-            else imgView.setImageResource(R.drawable.close_eye);
+            skills.get(position).setRuneBitmap(result);
+        }
+    }
+
+    private class TripodDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        private int position, index;
+
+        public TripodDownloadFilesTask(int position, int index) {
+            this.position = position;
+            this.index = index;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // doInBackground 에서 받아온 total 값 사용 장소
+            Bitmap[] temp = skills.get(position).getTripodBitmaps();
+            temp[index] = result;
+            skills.get(position).setTripodBitmaps(temp);
+        }
+    }
+
+    private class SleepNotifyThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                SleepNotifyThread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Message msg = handler.obtainMessage();
+            handler.sendMessage(msg);
         }
     }
 

@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,13 @@ public class SkillFragment extends Fragment {
 
     private Bitmap[] bitmaps;
     private boolean isLoaded = false;
+
+    final Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            // 원래 하려던 동작 (UI변경 작업 등)
+            skillAdapter.notifyDataSetChanged();
+        }
+    };
 
     @Nullable
     @Override
@@ -196,6 +205,7 @@ public class SkillFragment extends Fragment {
 
                                 Toast.makeText(getActivity(), "프리셋을 적용하였습니다.", Toast.LENGTH_SHORT).show();
                                 skillAdapter.notifyDataSetChanged();
+                                new SleepNotifyThread().start();
                                 alertDialog2.dismiss();
                                 alertDialog.dismiss();
                             }
@@ -336,6 +346,7 @@ public class SkillFragment extends Fragment {
                     skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods, 99));
                 }
                 skillAdapter.setBitmaps(null);
+                skillAdapter.setShow(true);
                 skillAdapter.setJob_index(position);
                 skillAdapter.notifyDataSetChanged();
 
@@ -463,6 +474,19 @@ public class SkillFragment extends Fragment {
                 skillAdapter.setBitmaps(bitmaps);
                 skillAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private class SleepNotifyThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Message msg = handler.obtainMessage();
+            handler.sendMessage(msg);
         }
     }
 

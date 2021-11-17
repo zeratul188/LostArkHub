@@ -39,6 +39,7 @@ import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -205,10 +206,15 @@ public class SettingActivity extends AppCompatActivity {
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
                             int rowID = cursor.getInt(0);
-                            skillDBAdapter = new SkillDBAdapter(getApplicationContext(), Integer.toString(rowID));
+                            /*skillDBAdapter = new SkillDBAdapter(getApplicationContext(), Integer.toString(rowID));
                             skillDBAdapter.open();
                             skillDBAdapter.dropTable();
-                            skillDBAdapter.close();
+                            skillDBAdapter.close();*/
+                            String db_path = "/data/data/"+getPackageName();
+                            String db_name = "LOSTARKHUB_SKILL"+rowID;
+                            String db_fulll_path = db_path+"/databases/"+db_name;
+                            File dbFile = new File(db_fulll_path);
+                            if (!dbFile.delete()) Toast.makeText(getApplicationContext(), "삭제에 실패했습니다. ("+rowID+")", Toast.LENGTH_SHORT).show();
                             cursor.moveToNext();
                         }
                         skillPresetDBAdapter.deleteAllData();
