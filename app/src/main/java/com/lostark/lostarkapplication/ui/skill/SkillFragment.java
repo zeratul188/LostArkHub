@@ -92,7 +92,7 @@ public class SkillFragment extends Fragment {
             String content = args[6];
             String url = args[7];
             int[] tripods = {4, 4, 4};
-            skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods));
+            skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods, 99));
         }
         skillAdapter = new SkillAdapter(skills, getActivity(), dataNetwork, getActivity());
         skillAdapter.setJob_index(0);
@@ -120,7 +120,7 @@ public class SkillFragment extends Fragment {
                     String content = args[6];
                     String url = args[7];
                     int[] tripods = {4, 4, 4};
-                    skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods));
+                    skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods, 99));
                 }
                 skillAdapter.setBitmaps(null);
                 skillAdapter.setJob_index(position);

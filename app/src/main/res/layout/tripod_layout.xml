@@ -67,7 +67,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod11"
                             android:background="@drawable/tripod_background"
@@ -106,7 +106,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod12"
                             android:background="@drawable/tripod_background"
@@ -145,7 +145,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod13"
                             android:background="@drawable/tripod_background"
@@ -215,7 +215,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod21"
                             android:background="@drawable/tripod_background"
@@ -254,7 +254,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod22"
                             android:background="@drawable/tripod_background"
@@ -293,7 +293,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod23"
                             android:background="@drawable/tripod_background"
@@ -363,7 +363,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod31"
                             android:background="@drawable/tripod_background"
@@ -402,7 +402,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@drawable/st1"
+                            android:src="@drawable/ic_add_black_24dp"
                             android:padding="2dp"
                             android:id="@+id/imgTripod32"
                             android:background="@drawable/tripod_background"

@@ -9,11 +9,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.JobTripodDBAdapter;
+import com.lostark.lostarkapplication.database.RuneDBAdapter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,6 +36,8 @@ public class SkillAdapter extends BaseAdapter {
     private DataNetwork dataNetwork;
     private Activity activity;
 
+    private RuneDBAdapter runeDBAdapter;
+
     private Bitmap[] bitmaps;
     private AlertDialog alertDialog;
     private int job_index = 9999;
@@ -44,6 +49,7 @@ public class SkillAdapter extends BaseAdapter {
         this.context = context;
         this.dataNetwork = dataNetwork;
         this.activity = activity;
+        runeDBAdapter = new RuneDBAdapter(activity);
     }
 
     public int getJob_index() {
@@ -90,6 +96,11 @@ public class SkillAdapter extends BaseAdapter {
         ImageButton imgbtnDecrease = convertView.findViewById(R.id.imgbtnDecrease);
         LinearLayout layoutNeedSkillPoint = convertView.findViewById(R.id.layoutNeedSkillPoint);
         LinearLayout layoutSetting = convertView.findViewById(R.id.layoutSetting);
+        ImageView[] imgTripods = new ImageView[3];
+        TextView txtRune = convertView.findViewById(R.id.txtRune);
+        ImageView imgRune = convertView.findViewById(R.id.imgRune);
+        ImageView imgRuneBackground = convertView.findViewById(R.id.imgRuneBackground);
+        for (int i = 0; i < imgTripods.length; i++) imgTripods[i] = convertView.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1), "id", context.getPackageName()));
 
         if (bitmaps != null) imgSkill.setImageBitmap(bitmaps[position]);
         else imgSkill.setImageResource(R.drawable.close_eye);
@@ -113,6 +124,122 @@ public class SkillAdapter extends BaseAdapter {
                 stack++;
             }
         }
+
+        if (job_index != 9999) {
+            JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(activity, job_index+1);
+            int first = 0, second = 0, third = 0;
+            for (int i = 0; i < jobTripodDBAdapter.getSize(); i++) {
+                String[] args = jobTripodDBAdapter.readData(i);
+                if (Integer.parseInt(args[0]) == position+1) {
+                    switch (Integer.parseInt(args[1])) {
+                        case 1:
+                            if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
+                                new DownloadFilesTask(imgTripods[0]).execute(args[4]);
+                            }
+                            first++;
+                            break;
+                        case 2:
+                            if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
+                                new DownloadFilesTask(imgTripods[1]).execute(args[4]);
+                            }
+                            second++;
+                            break;
+                        case 3:
+                            if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
+                                new DownloadFilesTask(imgTripods[2]).execute(args[4]);
+                            }
+                            third++;
+                            break;
+                    }
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                if (skills.get(position).getTripods()[i] == 4) {
+                    imgTripods[i].setImageResource(R.drawable.close_eye);
+                }
+            }
+        }
+
+        if (skills.get(position).getRune() < runeDBAdapter.getSize()) {
+            String[] args = runeDBAdapter.readData(skills.get(position).getRune());
+            int grade = Integer.parseInt(args[1]);
+            new DownloadFilesTask(imgRune).execute(args[3]);
+            switch (grade) {
+                case 1:
+                    txtRune.setTextColor(Color.parseColor("#8dbe46"));
+                    imgRuneBackground.setImageResource(R.drawable.rune1);
+                    txtRune.setText("고급 ");
+                    break;
+                case 2:
+                    txtRune.setTextColor(Color.parseColor("#3b6fa7"));
+                    imgRuneBackground.setImageResource(R.drawable.rune2);
+                    txtRune.setText("희귀 ");
+                    break;
+                case 3:
+                    txtRune.setTextColor(Color.parseColor("#9056c3"));
+                    imgRuneBackground.setImageResource(R.drawable.rune3);
+                    txtRune.setText("영웅 ");
+                    break;
+                case 4:
+                    txtRune.setTextColor(Color.parseColor("#c1751d"));
+                    imgRuneBackground.setImageResource(R.drawable.rune4);
+                    txtRune.setText("전설 ");
+                    break;
+            }
+            txtRune.setText(txtRune.getText().toString()+args[0]+" 룬");
+        } else {
+            txtRune.setTextColor(Color.parseColor("#FFFFFF"));
+            imgRuneBackground.setImageResource(R.drawable.rune0);
+            imgRune.setImageResource(R.drawable.ic_add_black_24dp);
+            txtRune.setText("");
+        }
+
+
+        imgRune.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View dialog_view = activity.getLayoutInflater().inflate(R.layout.rune_dialog, null);
+
+                ListView listView = dialog_view.findViewById(R.id.listView);
+                Button btnDelete = dialog_view.findViewById(R.id.btnDelete);
+
+                ArrayList<Rune> runes = new ArrayList<>();
+                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                    String[] args = runeDBAdapter.readData(i);
+                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1])));
+                }
+                RuneAdapter runeAdapter = new RuneAdapter(context, runes);
+                listView.setAdapter(runeAdapter);
+
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        skills.get(position).setRune(99);
+                        Toast.makeText(context, "룬을 제거하였습니다.", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        skills.get(position).setRune(i);
+                        Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setView(dialog_view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         imgSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

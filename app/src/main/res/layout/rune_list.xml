@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2a2c35">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/imgRuneBackground"
+                android:src="@drawable/rune0"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/imgRune"
+                android:src="@drawable/close_eye"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/imagetool" />
+        </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRune"
+            android:text="Rune Name"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2F343E"
+        android:padding="10dp"
+        android:id="@+id/txtContent"
+        android:text="Rune Content"
+        android:textSize="16sp"
+        android:textColor="#ffffff"/>
+</LinearLayout>

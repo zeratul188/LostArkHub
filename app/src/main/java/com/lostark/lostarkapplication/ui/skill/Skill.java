@@ -2,10 +2,10 @@ package com.lostark.lostarkapplication.ui.skill;
 
 public class Skill {
     private String name, strike, attack_type, destroy_level, content, url;
-    private int level, max_level, time;
+    private int level, max_level, time, rune;
     private int[] tripods;
 
-    public Skill(String name, String strike, String attack_type, String destroy_level, String content, String url, int level, int max_level, int time, int[] tripods) {
+    public Skill(String name, String strike, String attack_type, String destroy_level, String content, String url, int level, int max_level, int time, int[] tripods, int rune) {
         this.name = name;
         this.strike = strike;
         this.attack_type = attack_type;
@@ -16,6 +16,15 @@ public class Skill {
         this.max_level = max_level;
         this.time = time;
         this.tripods = tripods;
+        this.rune = rune;
+    }
+
+    public int getRune() {
+        return rune;
+    }
+
+    public void setRune(int rune) {
+        this.rune = rune;
     }
 
     public String getStrike() {
