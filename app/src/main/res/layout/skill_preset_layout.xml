@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="각인 계산서 프리셋"
+        android:text="스킬 시뮬레이터 프리셋"
         android:textStyle="bold"
         android:textColor="#ffffff"
         android:textSize="18sp"

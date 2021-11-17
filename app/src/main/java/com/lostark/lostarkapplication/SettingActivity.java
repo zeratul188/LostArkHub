@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ import com.lostark.lostarkapplication.database.EquipmentStoneDBAdapter;
 import com.lostark.lostarkapplication.database.NeckDBAdapter;
 import com.lostark.lostarkapplication.database.Ring1DBAdapter;
 import com.lostark.lostarkapplication.database.Ring2DBAdapter;
+import com.lostark.lostarkapplication.database.SkillDBAdapter;
+import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
@@ -40,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SettingActivity extends AppCompatActivity {
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset;
     private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion;
@@ -54,6 +57,9 @@ public class SettingActivity extends AppCompatActivity {
     private EquipmentDBAdapter equipmentDBAdapter;
     private StatDBAdapter statDBAdapter;
     private StoneDBAdapter stoneDBAdapter;
+
+    private SkillDBAdapter skillDBAdapter;
+    private SkillPresetDBAdapter skillPresetDBAdapter;
     
     private AlertDialog alertDialog;
     private SharedPreferences pref;
@@ -80,6 +86,7 @@ public class SettingActivity extends AppCompatActivity {
         txtResetDate = findViewById(R.id.txtResetDate);
         chkHomeworkAlarm = findViewById(R.id.chkHomeworkAlarm);
         txtVersion = findViewById(R.id.txtVersion);
+        btnDeleteSkillPreset = findViewById(R.id.btnDeleteSkillPreset);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -90,6 +97,8 @@ public class SettingActivity extends AppCompatActivity {
         equipmentStoneDBAdapter = new EquipmentStoneDBAdapter(getApplicationContext());
         equipmentDBAdapter = new EquipmentDBAdapter(getApplicationContext());
         statDBAdapter = new StatDBAdapter(getApplicationContext());
+
+        skillPresetDBAdapter = new SkillPresetDBAdapter(getApplicationContext());
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
@@ -155,6 +164,57 @@ public class SettingActivity extends AppCompatActivity {
                         editor.commit();
                         Toast.makeText(getApplicationContext(), "현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT).show();
                         txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        btnDeleteSkillPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("스킬 시뮬레이션 프리셋을 모두 삭제하시겠습니까?");
+                btnOK.setText("삭제");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        skillPresetDBAdapter.open();
+                        Cursor cursor = skillPresetDBAdapter.fetchAllData();
+                        cursor.moveToFirst();
+                        while (!cursor.isAfterLast()) {
+                            int rowID = cursor.getInt(0);
+                            skillDBAdapter = new SkillDBAdapter(getApplicationContext(), Integer.toString(rowID));
+                            skillDBAdapter.open();
+                            skillDBAdapter.dropTable();
+                            skillDBAdapter.close();
+                            cursor.moveToNext();
+                        }
+                        skillPresetDBAdapter.deleteAllData();
+                        skillPresetDBAdapter.close();
+
+                        Toast.makeText(getApplicationContext(), "모든 스킬 프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });

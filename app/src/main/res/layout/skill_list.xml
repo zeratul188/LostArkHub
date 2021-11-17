@@ -81,8 +81,6 @@
             android:layout_height="70dp"
             android:id="@+id/imgTripod"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:src="@drawable/skill1"/>
         <LinearLayout
             android:layout_width="40dp"

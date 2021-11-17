@@ -406,6 +406,7 @@ public class SlideshowFragment extends Fragment {
                 ListView listView = view.findViewById(R.id.listView);
                 Button btnSave = view.findViewById(R.id.btnSave);
                 EditText edtName = view.findViewById(R.id.edtName);
+                TextView txtLimit = view.findViewById(R.id.txtLimit);
 
                 ArrayList<Equipment> equipments = new ArrayList<>();
 
@@ -703,6 +704,12 @@ public class SlideshowFragment extends Fragment {
                     }
                 });
 
+                neckDBAdapter.open();
+                if (neckDBAdapter.getCount() >= 30) btnSave.setEnabled(false);
+                else btnSave.setEnabled(true);
+                txtLimit.setText("("+neckDBAdapter.getCount()+"/30)");
+                neckDBAdapter.close();
+
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -805,6 +812,12 @@ public class SlideshowFragment extends Fragment {
                         refreshPreset(equipments, presetAdapter);
                         Toast.makeText(getActivity(), "프리셋을 저장하였습니다.", Toast.LENGTH_SHORT).show();
                         edtName.setText("");
+
+                        neckDBAdapter.open();
+                        if (neckDBAdapter.getCount() >= 30) btnSave.setEnabled(false);
+                        else btnSave.setEnabled(true);
+                        txtLimit.setText("("+neckDBAdapter.getCount()+"/30)");
+                        neckDBAdapter.close();
                     }
                 });
 

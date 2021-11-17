@@ -1,6 +1,7 @@
 package com.lostark.lostarkapplication.ui.skill;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,6 +30,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.JobDBAdapter;
+import com.lostark.lostarkapplication.database.SkillDBAdapter;
+import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -50,9 +53,13 @@ public class SkillFragment extends Fragment {
     private ArrayList<Skill> skills;
     private SkillAdapter skillAdapter;
     private DataNetwork dataNetwork;
-    private AlertDialog alertDialog;
+    private AlertDialog alertDialog, alertDialog2;
+
+    private SkillPresetDBAdapter skillPresetDBAdapter;
+    private SkillDBAdapter skillDBAdapter;
 
     private Bitmap[] bitmaps;
+    private boolean isLoaded = false;
 
     @Nullable
     @Override
@@ -74,6 +81,8 @@ public class SkillFragment extends Fragment {
         dataNetwork.setSkillpoint(0);
         dataNetwork.setTxtView(txtSkillPoint);
         dataNetwork.setProgressBar(progressSkill);
+
+        skillPresetDBAdapter = new SkillPresetDBAdapter(getActivity());
 
         List<String> jobs = Arrays.asList(getActivity().getResources().getStringArray(R.array.job));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.job_skill_item, jobs);
@@ -104,6 +113,210 @@ public class SkillFragment extends Fragment {
             else new DownloadFilesTask(i, false).execute(skills.get(i).getUrl());
         }
 
+        btnPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.skill_preset_layout, null);
+
+                ListView listView = view.findViewById(R.id.listView);
+                EditText edtName = view.findViewById(R.id.edtName);
+                TextView txtLimit = view.findViewById(R.id.txtLimit);
+                Button btnSave = view.findViewById(R.id.btnSave);
+
+                ArrayList<SkillPresetList> presets = new ArrayList<>();
+                skillPresetDBAdapter.open();
+                Cursor cursor = skillPresetDBAdapter.fetchAllData();
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    int rowID = cursor.getInt(0);
+                    String name = cursor.getString(1);
+                    String job = cursor.getString(2);
+                    int skill_point = cursor.getInt(3);
+                    int max = cursor.getInt(4);
+                    presets.add(new SkillPresetList(name, job, rowID, skill_point, max));
+                    cursor.moveToNext();
+                }
+                txtLimit.setText("("+skillPresetDBAdapter.getCount()+"/30)");
+                if (skillPresetDBAdapter.getCount() >= 30) btnSave.setEnabled(false);
+                else btnSave.setEnabled(true);
+                skillPresetDBAdapter.close();
+                PresetAdapter presetAdapter = new PresetAdapter(presets, getActivity(), getActivity());
+                listView.setAdapter(presetAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        View dialog_view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                        TextView txtContent = dialog_view.findViewById(R.id.txtContent);
+                        Button btnOK = dialog_view.findViewById(R.id.btnOK);
+                        Button btnCancel = dialog_view.findViewById(R.id.btnCancel);
+
+                        txtContent.setText("기존 스킬 시뮬레이션에 프리셋 정보를 덮어씌웁니다. 적용하시겠습니까?");
+                        btnOK.setText("적용");
+
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog2.dismiss();
+                            }
+                        });
+
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                isLoaded = true;
+                                skillDBAdapter = new SkillDBAdapter(getActivity(), Integer.toString(presets.get(position).getId()));
+
+                                sprJob.setSelection(jobs.indexOf(presets.get(position).getJob()));
+                                dataNetwork.setSkillpoint(presets.get(position).getSkillpoint());
+                                dataNetwork.setMax(presets.get(position).getMax());
+                                txtSkillPoint.setText(presets.get(position).getSkillpoint()+"/"+presets.get(position).getMax());
+                                progressSkill.setMax(presets.get(position).getMax());
+                                progressSkill.setProgress(presets.get(position).getSkillpoint());
+
+                                skillDBAdapter.open();
+                                Cursor cursor = skillDBAdapter.fetchAllData();
+                                cursor.moveToFirst();
+                                while (!cursor.isAfterLast()) {
+                                    for (int i = 0; i < skills.size(); i++) {
+                                        if (skills.get(i).getName().equals(cursor.getString(1))) {
+                                            skills.get(i).setLevel(cursor.getInt(2));
+                                            skills.get(i).setRune(cursor.getInt(3));
+                                            int[] tripods = {cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)};
+                                            skills.get(i).setTripods(tripods);
+                                            break;
+                                        }
+                                    }
+                                    cursor.moveToNext();
+                                }
+                                skillDBAdapter.close();
+
+                                txtPresetName.setText(presets.get(position).getName());
+
+                                Toast.makeText(getActivity(), "프리셋을 적용하였습니다.", Toast.LENGTH_SHORT).show();
+                                skillAdapter.notifyDataSetChanged();
+                                alertDialog2.dismiss();
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setView(dialog_view);
+
+                        alertDialog2 = builder.create();
+                        alertDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog2.show();
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (edtName.getText().toString().equals("")) {
+                            Toast.makeText(getActivity(), "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        String name = edtName.getText().toString();
+                        String job = sprJob.getSelectedItem().toString();
+                        int skill_point = dataNetwork.getSkillpoint();
+                        int max = dataNetwork.getMax();
+
+                        skillPresetDBAdapter.open();
+                        skillPresetDBAdapter.insertData(name, job, skill_point, max);
+                        Cursor cursor = skillPresetDBAdapter.fetchAllData();
+                        cursor.moveToFirst();
+                        int last_rowID = 0;
+                        while (!cursor.isAfterLast()) {
+                            int rowID = cursor.getInt(0);
+                            if (rowID > last_rowID) last_rowID = rowID;
+                            cursor.moveToNext();
+                        }
+                        skillPresetDBAdapter.close();
+
+                        skillDBAdapter = new SkillDBAdapter(getActivity(), Integer.toString(last_rowID));
+                        skillDBAdapter.open();
+                        for (Skill skill : skills) {
+                            String skill_name = skill.getName();
+                            int now = skill.getLevel();
+                            int rune = skill.getRune();
+                            int[] tripods = skill.getTripods();
+                            skillDBAdapter.insertData(new SkillPreset(skill_name, now, rune, tripods));
+                        }
+                        skillDBAdapter.close();
+
+                        presets.add(new SkillPresetList(name, job, last_rowID, skill_point, max));
+                        presetAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "프리셋을 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnOK = view.findViewById(R.id.btnOK);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+
+                txtContent.setText("스킬을 초기화하시겠습니까?");
+                btnOK.setText("초기화");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        skills.clear();
+                        jobDBAdapter = new JobDBAdapter(getActivity(), sprJob.getSelectedItemPosition()+1);
+                        for (int i = 0; i < jobDBAdapter.getSize(); i++) {
+                            String[] args = jobDBAdapter.readData(i);
+                            String name = args[0];
+                            int max_level = Integer.parseInt(args[1]);
+                            int time = Integer.parseInt(args[2]);
+                            String strike = args[3];
+                            String attack_type = args[4];
+                            String destory_level = args[5];
+                            String content = args[6];
+                            String url = args[7];
+                            int[] tripods = {4, 4, 4};
+                            skills.add(new Skill(name, strike, attack_type, destory_level, content, url, 1, max_level, time, tripods, 99));
+                        }
+                        skillAdapter.notifyDataSetChanged();
+                        dataNetwork.setSkillpoint(dataNetwork.getMax());
+                        txtSkillPoint.setText(dataNetwork.getSkillpoint()+"/"+dataNetwork.getMax());
+                        progressSkill.setProgress(dataNetwork.getSkillpoint());
+                        txtPresetName.setText("적용된 프리셋이 없음");
+                        Toast.makeText(getActivity(), "스킬 포인트를 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         sprJob.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -132,9 +345,30 @@ public class SkillFragment extends Fragment {
                     else new DownloadFilesTask(i, false).execute(skills.get(i).getUrl());
                 }
 
-                dataNetwork.setSkillpoint(dataNetwork.getMax());
+                if (!isLoaded) dataNetwork.setSkillpoint(dataNetwork.getMax());
                 txtSkillPoint.setText(dataNetwork.getSkillpoint()+"/"+dataNetwork.getMax());
                 progressSkill.setProgress(dataNetwork.getSkillpoint());
+
+                if (isLoaded) {
+                    skillDBAdapter.open();
+                    Cursor cursor = skillDBAdapter.fetchAllData();
+                    cursor.moveToFirst();
+                    while (!cursor.isAfterLast()) {
+                        for (int i = 0; i < skills.size(); i++) {
+                            if (skills.get(i).getName().equals(cursor.getString(1))) {
+                                skills.get(i).setLevel(cursor.getInt(2));
+                                skills.get(i).setRune(cursor.getInt(3));
+                                int[] tripods = {cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)};
+                                skills.get(i).setTripods(tripods);
+                                break;
+                            }
+                        }
+                        cursor.moveToNext();
+                    }
+                    skillDBAdapter.close();
+                    isLoaded = false;
+                    return;
+                }
             }
 
             @Override
