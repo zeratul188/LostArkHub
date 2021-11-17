@@ -22,6 +22,7 @@ import com.lostark.lostarkapplication.database.ClassDBAdapter;
 import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -101,13 +102,19 @@ public class PresetAdapter extends BaseAdapter {
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SkillDBAdapter skillDBAdapter = new SkillDBAdapter(context, Integer.toString(presets.get(position).getId()));
+                        //SkillDBAdapter skillDBAdapter = new SkillDBAdapter(context, Integer.toString(presets.get(position).getId()));
                         skillPresetDBAdapter.open();
                         skillPresetDBAdapter.deleteData(presets.get(position).getId());
                         skillPresetDBAdapter.close();
-                        skillDBAdapter.open();
+                        /*skillDBAdapter.open();
                         skillDBAdapter.dropTable();
-                        skillDBAdapter.close();
+                        skillDBAdapter.close();*/
+                        String db_path = "/data/data/"+context.getPackageName();
+                        String db_name = "LOSTARKHUB_SKILL"+presets.get(position).getId();
+                        String db_fulll_path = db_path+"/databases/"+db_name;
+                        File dbFile = new File(db_fulll_path);
+                        if (dbFile.delete()) Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(context, "프리셋을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                         presets.remove(position);
                         notifyDataSetChanged();
                         Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();

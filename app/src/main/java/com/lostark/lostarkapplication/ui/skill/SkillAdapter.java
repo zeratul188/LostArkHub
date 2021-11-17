@@ -134,19 +134,19 @@ public class SkillAdapter extends BaseAdapter {
                     switch (Integer.parseInt(args[1])) {
                         case 1:
                             if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
-                                new DownloadFilesTask(imgTripods[0]).execute(args[4]);
+                                new DownloadFilesTask(imgTripods[0], skills.get(position).getTripods()[0]).execute(args[4]);
                             }
                             first++;
                             break;
                         case 2:
                             if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
-                                new DownloadFilesTask(imgTripods[1]).execute(args[4]);
+                                new DownloadFilesTask(imgTripods[1], skills.get(position).getTripods()[1]).execute(args[4]);
                             }
                             second++;
                             break;
                         case 3:
                             if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
-                                new DownloadFilesTask(imgTripods[2]).execute(args[4]);
+                                new DownloadFilesTask(imgTripods[2], skills.get(position).getTripods()[2]).execute(args[4]);
                             }
                             third++;
                             break;
@@ -163,7 +163,7 @@ public class SkillAdapter extends BaseAdapter {
         if (skills.get(position).getRune() < runeDBAdapter.getSize()) {
             String[] args = runeDBAdapter.readData(skills.get(position).getRune());
             int grade = Integer.parseInt(args[1]);
-            new DownloadFilesTask(imgRune).execute(args[3]);
+            new RuneDownloadFilesTask(imgRune, 0).execute(args[3]);
             switch (grade) {
                 case 1:
                     txtRune.setTextColor(Color.parseColor("#8dbe46"));
@@ -253,7 +253,7 @@ public class SkillAdapter extends BaseAdapter {
                 TextView txtDestroyLevel = view.findViewById(R.id.txtDestroyLevel);
                 TextView txtContent = view.findViewById(R.id.txtContent);
 
-                new DownloadFilesTask(imgSkill).execute(skills.get(position).getUrl());
+                new DownloadFilesTask(imgSkill, 0).execute(skills.get(position).getUrl());
                 txtName.setText(skills.get(position).getName());
                 txtTime.setText(skills.get(position).getTime()+"초");
                 txtStrike.setText(skills.get(position).getStrike());
@@ -363,7 +363,7 @@ public class SkillAdapter extends BaseAdapter {
                         switch (Integer.parseInt(args[1])) {
                             case 1:
                                 if (first < 3) {
-                                    new DownloadFilesTask(imgTripod[0][first]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[0][first], 0).execute(args[4]);
                                     txtTripod[0][first].setText(args[2]);
                                     txtTripodContent[0][first].setText(args[3]);
                                     first++;
@@ -371,7 +371,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 2:
                                 if (second < 3) {
-                                    new DownloadFilesTask(imgTripod[1][second]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[1][second], 0).execute(args[4]);
                                     txtTripod[1][second].setText(args[2]);
                                     txtTripodContent[1][second].setText(args[3]);
                                     second++;
@@ -379,7 +379,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 3:
                                 if (third < 2) {
-                                    new DownloadFilesTask(imgTripod[2][third]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripod[2][third], 0).execute(args[4]);
                                     txtTripod[2][third].setText(args[2]);
                                     txtTripodContent[2][third].setText(args[3]);
                                     third++;
@@ -466,11 +466,13 @@ public class SkillAdapter extends BaseAdapter {
         return false;
     }
 
-    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+    private class RuneDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
         private ImageView imgView;
+        private int tripod;
 
-        public DownloadFilesTask(ImageView imgView) {
+        public RuneDownloadFilesTask(ImageView imgView, int tripod) {
             this.imgView = imgView;
+            this.tripod = tripod;
         }
 
         @Override
@@ -497,7 +499,46 @@ public class SkillAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            imgView.setImageBitmap(result);
+            if (tripod != 99) imgView.setImageBitmap(result);
+            else imgView.setImageResource(R.drawable.ic_add_black_24dp);
+        }
+    }
+
+    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        private ImageView imgView;
+        private int tripod;
+
+        public DownloadFilesTask(ImageView imgView, int tripod) {
+            this.imgView = imgView;
+            this.tripod = tripod;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // doInBackground 에서 받아온 total 값 사용 장소
+            if (tripod != 4) imgView.setImageBitmap(result);
+            else imgView.setImageResource(R.drawable.close_eye);
         }
     }
 
