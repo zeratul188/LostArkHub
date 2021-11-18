@@ -265,6 +265,7 @@ public class SkillAdapter extends BaseAdapter {
                         skills.get(position).setRune(i);
                         Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
+                        new SleepNotifyThread().start();
                         alertDialog.dismiss();
                     }
                 });

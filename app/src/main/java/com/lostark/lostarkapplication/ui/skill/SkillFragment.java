@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.JobDBAdapter;
+import com.lostark.lostarkapplication.database.JobTripodDBAdapter;
 import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 
@@ -200,6 +201,37 @@ public class SkillFragment extends Fragment {
                                     cursor.moveToNext();
                                 }
                                 skillDBAdapter.close();
+
+                                JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(getActivity(), sprJob.getSelectedItemPosition()+1);
+                                int first = 0, second = 0, third = 0;
+                                for (int i = 0; i < jobTripodDBAdapter.getSize(); i++) {
+                                    String[] args = jobTripodDBAdapter.readData(i);
+                                    if (Integer.parseInt(args[0]) == position+1) {
+                                        switch (Integer.parseInt(args[1])) {
+                                            case 1:
+                                                if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
+                                                    //new DownloadFilesTask(imgTripods[0], position, 0).execute(args[4]);
+                                                    new TripodDownloadFilesTask(position, 0).execute(args[4]);
+                                                }
+                                                first++;
+                                                break;
+                                            case 2:
+                                                if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
+                                                    //new DownloadFilesTask(imgTripods[1], position, 1).execute(args[4]);
+                                                    new TripodDownloadFilesTask(position, 1).execute(args[4]);
+                                                }
+                                                second++;
+                                                break;
+                                            case 3:
+                                                if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
+                                                    //new DownloadFilesTask(imgTripods[2], position, 2).execute(args[4]);
+                                                    new TripodDownloadFilesTask(position, 2).execute(args[4]);
+                                                }
+                                                third++;
+                                                break;
+                                        }
+                                    }
+                                }
 
                                 txtPresetName.setText(presets.get(position).getName());
 
@@ -487,6 +519,44 @@ public class SkillFragment extends Fragment {
             }
             Message msg = handler.obtainMessage();
             handler.sendMessage(msg);
+        }
+    }
+
+    private class TripodDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        private int position, index;
+
+        public TripodDownloadFilesTask(int position, int index) {
+            this.position = position;
+            this.index = index;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // doInBackground 에서 받아온 total 값 사용 장소
+            Bitmap[] temp = skills.get(position).getTripodBitmaps();
+            temp[index] = result;
+            skills.get(position).setTripodBitmaps(temp);
         }
     }
 
