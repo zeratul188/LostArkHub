@@ -40,6 +40,7 @@ import com.lostark.lostarkapplication.ui.slideshow.objects.Equipment;
 import com.lostark.lostarkapplication.ui.slideshow.objects.StampCal;
 import com.lostark.lostarkapplication.ui.slideshow.objects.StampCalComparator;
 import com.lostark.lostarkapplication.ui.slideshow.objects.Stat;
+import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 import com.lostark.lostarkapplication.ui.stamp.objects.StampSetting;
 
 import java.text.SimpleDateFormat;
@@ -405,7 +406,7 @@ public class SlideshowFragment extends Fragment {
 
                 ListView listView = view.findViewById(R.id.listView);
                 Button btnSave = view.findViewById(R.id.btnSave);
-                EditText edtName = view.findViewById(R.id.edtName);
+                ClearEditText edtName = view.findViewById(R.id.edtName);
                 TextView txtLimit = view.findViewById(R.id.txtLimit);
 
                 ArrayList<Equipment> equipments = new ArrayList<>();

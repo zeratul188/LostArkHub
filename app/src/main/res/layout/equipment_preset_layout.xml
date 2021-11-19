@@ -15,13 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#3581DF"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtLimit"
+        android:text="(0/30)"
+        android:textSize="14sp"
+        android:layout_gravity="right"
+        android:textColor="#aaaaaa"
+        android:padding="5dp"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:divider="#20ffffff"
         android:dividerHeight="1dp"
         android:id="@+id/listView"/>
-    <EditText
+    <com.lostark.lostarkapplication.ui.stamp.ClearEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edtName"
@@ -30,17 +39,7 @@
         android:background="#1d2026"
         android:padding="10dp"
         android:textColor="#ffffff"
-        android:textColorHint="#666666"
-        android:layout_margin="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtLimit"
-        android:text="(0/30)"
-        android:textSize="20sp"
-        android:layout_gravity="right"
-        android:textColor="#aaaaaa"
-        android:padding="5dp"/>
+        android:textColorHint="#666666"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -48,6 +47,5 @@
         android:text="저장"
         android:id="@+id/btnSave"
         android:textSize="18sp"
-        android:layout_marginTop="10dp"
         android:textColor="#FFFFFF"/>
 </LinearLayout>

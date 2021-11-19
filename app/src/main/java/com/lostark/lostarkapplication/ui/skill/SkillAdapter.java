@@ -315,11 +315,13 @@ public class SkillAdapter extends BaseAdapter {
             layoutSetting.setVisibility(View.GONE);
             layoutNeedSkillPoint.setVisibility(View.GONE);
             imgTripod.setVisibility(View.GONE);
+            for (ImageView imgView : imgTripods) imgView.setVisibility(View.GONE);
             txtSkillName.setTextColor(Color.parseColor("#FE6E0E"));
         } else {
             layoutSetting.setVisibility(View.VISIBLE);
             layoutNeedSkillPoint.setVisibility(View.VISIBLE);
             imgTripod.setVisibility(View.VISIBLE);
+            for (ImageView imgView : imgTripods) imgView.setVisibility(View.VISIBLE);
             txtSkillName.setTextColor(Color.parseColor("#FFFFFF"));
         }
 

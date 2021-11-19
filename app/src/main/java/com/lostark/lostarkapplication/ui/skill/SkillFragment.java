@@ -35,6 +35,7 @@ import com.lostark.lostarkapplication.database.JobDBAdapter;
 import com.lostark.lostarkapplication.database.JobTripodDBAdapter;
 import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
+import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -129,7 +130,7 @@ public class SkillFragment extends Fragment {
                 View view = getLayoutInflater().inflate(R.layout.skill_preset_layout, null);
 
                 ListView listView = view.findViewById(R.id.listView);
-                EditText edtName = view.findViewById(R.id.edtName);
+                ClearEditText edtName = view.findViewById(R.id.edtName);
                 TextView txtLimit = view.findViewById(R.id.txtLimit);
                 Button btnSave = view.findViewById(R.id.btnSave);
 
@@ -290,6 +291,7 @@ public class SkillFragment extends Fragment {
 
                         presets.add(new SkillPresetList(name, job, last_rowID, skill_point, max));
                         presetAdapter.notifyDataSetChanged();
+                        edtName.setText("");
                         Toast.makeText(getActivity(), "프리셋을 추가하였습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
