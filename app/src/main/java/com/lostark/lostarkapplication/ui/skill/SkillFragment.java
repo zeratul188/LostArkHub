@@ -154,6 +154,8 @@ public class SkillFragment extends Fragment {
                 PresetAdapter presetAdapter = new PresetAdapter(presets, getActivity(), getActivity());
                 listView.setAdapter(presetAdapter);
 
+
+
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -423,6 +425,14 @@ public class SkillFragment extends Fragment {
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skillAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "새로 고침하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        txtSkillPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = getLayoutInflater().inflate(R.layout.skillpoint_setting_dialog, null);

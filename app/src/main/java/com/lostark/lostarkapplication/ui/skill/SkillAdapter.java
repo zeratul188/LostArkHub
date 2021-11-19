@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,7 +139,7 @@ public class SkillAdapter extends BaseAdapter {
         else if (getBetween(skills.get(position).getLevel(), 10, 12)) need_point = 6;
         else need_point = 9999;
 
-        if (need_point == 9999) txtNeedSkillPoint.setText("MAX");
+        if (need_point == 9999 || (skills.get(position).getMax_level() == 10 && skills.get(position).getLevel() == 10)) txtNeedSkillPoint.setText("MAX");
         else txtNeedSkillPoint.setText(Integer.toString(need_point));
 
         int stack = 0;
@@ -240,14 +242,59 @@ public class SkillAdapter extends BaseAdapter {
 
                 ListView listView = dialog_view.findViewById(R.id.listView);
                 Button btnDelete = dialog_view.findViewById(R.id.btnDelete);
+                RadioGroup rgGrade = dialog_view.findViewById(R.id.rgGrade);
+                RadioButton[] rdoRune = new RadioButton[5];
+                for (int i = 0; i < rdoRune.length; i++) {
+                    rdoRune[i] = dialog_view.findViewById(context.getResources().getIdentifier("rdoRune"+(i+1), "id", context.getPackageName()));
+                }
 
                 ArrayList<Rune> runes = new ArrayList<>();
                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                     String[] args = runeDBAdapter.readData(i);
-                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1])));
+                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
                 }
                 RuneAdapter runeAdapter = new RuneAdapter(context, runes);
                 listView.setAdapter(runeAdapter);
+
+                rgGrade.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        runes.clear();
+                        switch (checkedId) {
+                            case R.id.rdoRune1:
+                                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                                    String[] args = runeDBAdapter.readData(i);
+                                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                }
+                                break;
+                            case R.id.rdoRune2:
+                                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                                    String[] args = runeDBAdapter.readData(i);
+                                    if (Integer.parseInt(args[1]) == 4) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                }
+                                break;
+                            case R.id.rdoRune3:
+                                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                                    String[] args = runeDBAdapter.readData(i);
+                                    if (Integer.parseInt(args[1]) == 3) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                }
+                                break;
+                            case R.id.rdoRune4:
+                                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                                    String[] args = runeDBAdapter.readData(i);
+                                    if (Integer.parseInt(args[1]) == 2) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                }
+                                break;
+                            case R.id.rdoRune5:
+                                for (int i = 0; i < runeDBAdapter.getSize(); i++) {
+                                    String[] args = runeDBAdapter.readData(i);
+                                    if (Integer.parseInt(args[1]) == 1) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                }
+                                break;
+                        }
+                        runeAdapter.notifyDataSetChanged();
+                    }
+                });
 
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -262,7 +309,7 @@ public class SkillAdapter extends BaseAdapter {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        skills.get(position).setRune(i);
+                        skills.get(position).setRune(runes.get(i).getIndex());
                         Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         new SleepNotifyThread().start();

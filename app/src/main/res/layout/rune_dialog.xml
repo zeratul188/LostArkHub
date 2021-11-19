@@ -15,6 +15,73 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#3581DF"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rgGrade"
+        android:orientation="horizontal">
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdoRune1"
+            android:checked="true"
+            android:button="@null"
+            android:background="@drawable/rune_grade_style"
+            android:padding="10dp"
+            android:text="전체"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdoRune2"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/rune_grade_style"
+            android:padding="10dp"
+            android:text="전설"
+            android:textColor="#c1751d"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdoRune3"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/rune_grade_style"
+            android:padding="10dp"
+            android:text="영웅"
+            android:textColor="#9056c3"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdoRune4"
+            android:button="@null"
+            android:text="희귀"
+            android:gravity="center"
+            android:background="@drawable/rune_grade_style"
+            android:padding="10dp"
+            android:textColor="#3b6fa7"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdoRune5"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/rune_grade_style"
+            android:padding="10dp"
+            android:text="고급"
+            android:textColor="#8dbe46"
+            android:textSize="16sp"/>
+    </RadioGroup>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="400dp"
