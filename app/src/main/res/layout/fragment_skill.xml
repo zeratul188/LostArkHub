@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
         android:background="#191b20">
         <TextView
             android:layout_width="0dp"
@@ -29,6 +28,15 @@
             android:id="@+id/btnPreset"
             android:textColor="#ffffff"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스킬포인트(0/0)를 클릭하면 스킬 포인트를 설정하실 수 있습니다."
+        android:textColor="#44aa44"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="12sp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +62,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:dividerHeight="5dp"
+        android:divider="#2A2D35"
         android:background="#1d2026"
         android:id="@+id/listView"/>
     <LinearLayout
@@ -97,7 +106,7 @@
                 android:id="@+id/progressSkill"/>
         </LinearLayout>
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/nobuttonstyle"
             android:text="초기화"

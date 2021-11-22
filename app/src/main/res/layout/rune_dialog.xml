@@ -86,8 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:id="@+id/listView"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:dividerHeight="5dp"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,6 +95,5 @@
         android:text="제거"
         android:padding="15dp"
         android:textSize="18sp"
-        android:layout_marginTop="10dp"
         android:textColor="#ffffff"/>
 </LinearLayout>
