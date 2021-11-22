@@ -53,7 +53,7 @@ public class JobTripodDBAdapter {
         return null;
     }
 
-    public String[] readData(String name) {
+    public String[] readData(String name, int index) {
         if (wb != null) {
             Sheet sheet = wb.getSheet(0);
             if (sheet != null) {
@@ -61,13 +61,19 @@ public class JobTripodDBAdapter {
                 int rowIndexStart = 0;
                 int rowTotal = sheet.getColumn(colTotal-1).length;
 
+                int now = 0;
+
                 for (int row = rowIndexStart; row < rowTotal; row++) {
                     if (name.equals(sheet.getCell(0, row).getContents())) {
-                        String[] result = new String[colTotal];
-                        for (int col = 0; col < colTotal; col++) {
-                            result[col] = sheet.getCell(col, row).getContents();
+                        if (now == index) {
+                            String[] result = new String[colTotal];
+                            for (int col = 0; col < colTotal; col++) {
+                                result[col] = sheet.getCell(col, row).getContents();
+                            }
+                            return result;
+                        } else {
+                            now++;
                         }
-                        return result;
                     }
                 }
             }

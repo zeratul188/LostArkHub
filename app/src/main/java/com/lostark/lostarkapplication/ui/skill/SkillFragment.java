@@ -566,9 +566,13 @@ public class SkillFragment extends Fragment {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            Bitmap[] temp = skills.get(position).getTripodBitmaps();
-            temp[index] = result;
-            skills.get(position).setTripodBitmaps(temp);
+            try {
+                Bitmap[] temp = skills.get(position).getTripodBitmaps();
+                temp[index] = result;
+                skills.get(position).setTripodBitmaps(temp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

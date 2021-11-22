@@ -172,21 +172,21 @@ public class SkillAdapter extends BaseAdapter {
                         case 1:
                             if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
                                 //new DownloadFilesTask(imgTripods[0], position, 0).execute(args[4]);
-                                new TripodDownloadFilesTask(position, 0).execute(args[4]);
+                                if (skills.get(position).getTripodBitmaps()[0] == null) new TripodDownloadFilesTask(position, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             first++;
                             break;
                         case 2:
                             if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
                                 //new DownloadFilesTask(imgTripods[1], position, 1).execute(args[4]);
-                                new TripodDownloadFilesTask(position, 1).execute(args[4]);
+                                if (skills.get(position).getTripodBitmaps()[1] == null) new TripodDownloadFilesTask(position, 1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             second++;
                             break;
                         case 3:
                             if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
                                 //new DownloadFilesTask(imgTripods[2], position, 2).execute(args[4]);
-                                new TripodDownloadFilesTask(position, 2).execute(args[4]);
+                                if (skills.get(position).getTripodBitmaps()[2] == null) new TripodDownloadFilesTask(position, 2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             third++;
                             break;
@@ -203,7 +203,7 @@ public class SkillAdapter extends BaseAdapter {
         if (skills.get(position).getRune() < runeDBAdapter.getSize()) {
             String[] args = runeDBAdapter.readData(skills.get(position).getRune());
             int grade = Integer.parseInt(args[1]);
-            new RuneDownloadFilesTask(position).execute(args[3]);
+            if (skills.get(position).getRuneBitmap() == null) new RuneDownloadFilesTask(position).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[3]);
             switch (grade) {
                 case 1:
                     txtRune.setTextColor(Color.parseColor("#8dbe46"));
@@ -310,6 +310,7 @@ public class SkillAdapter extends BaseAdapter {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         skills.get(position).setRune(runes.get(i).getIndex());
+                        skills.get(position).setRuneBitmap(null);
                         Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         new SleepNotifyThread().start();
@@ -495,6 +496,7 @@ public class SkillAdapter extends BaseAdapter {
                             checklist[2] = 4;
                         }
                         skills.get(position).setTripods(checklist);
+                        skills.get(position).setTripodBitmaps(new Bitmap[3]);
                         notifyDataSetChanged();
                         Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
@@ -632,7 +634,11 @@ public class SkillAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            skills.get(position).setRuneBitmap(result);
+            try {
+                skills.get(position).setRuneBitmap(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -668,9 +674,13 @@ public class SkillAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
-            Bitmap[] temp = skills.get(position).getTripodBitmaps();
-            temp[index] = result;
-            skills.get(position).setTripodBitmaps(temp);
+            try {
+                Bitmap[] temp = skills.get(position).getTripodBitmaps();
+                temp[index] = result;
+                skills.get(position).setTripodBitmaps(temp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
