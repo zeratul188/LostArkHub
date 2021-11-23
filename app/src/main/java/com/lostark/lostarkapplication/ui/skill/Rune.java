@@ -2,14 +2,23 @@ package com.lostark.lostarkapplication.ui.skill;
 
 public class Rune {
     private String name, content, url;
-    private int grade, index;
+    private int grade, index, count;
 
-    public Rune(String name, String content, String url, int grade, int index) {
+    public Rune(String name, String content, String url, int grade, int index, int count) {
         this.name = name;
         this.content = content;
         this.url = url;
         this.grade = grade;
         this.index = index;
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getIndex() {

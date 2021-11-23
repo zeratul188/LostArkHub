@@ -622,19 +622,19 @@
             android:layout_weight="1"
             android:layout_height="0dp"/>
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:background="@drawable/nobuttonstyle"
-            android:text="포기하기"
+            android:text="포기"
             android:id="@+id/btnReset"
             android:textSize="16sp"
             android:enabled="false"
             android:textColor="#FFFFFF"/>
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:background="@drawable/yesbuttonstyle"
-            android:text="결정하기"
+            android:text="결정"
             android:id="@+id/btnConfirm"
             android:textSize="16sp"
             android:enabled="false"

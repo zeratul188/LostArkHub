@@ -183,8 +183,8 @@ public class ChracterAdapter extends BaseAdapter {
                 EditText edtLevel = view.findViewById(R.id.edtLevel);
                 Spinner sprJob = view.findViewById(R.id.sprJob);
                 Button btnEdit = view.findViewById(R.id.btnEdit);
-                Button btnNameCopy = view.findViewById(R.id.btnNameCopy);
-                Button btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
+                ImageButton btnNameCopy = view.findViewById(R.id.btnNameCopy);
+                ImageButton btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
 
                 jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.job_item, jobs);

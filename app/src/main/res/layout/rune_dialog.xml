@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="룬 설정"
+        android:text="룬 선택"
         android:textStyle="bold"
         android:textColor="#ffffff"
         android:textSize="18sp"

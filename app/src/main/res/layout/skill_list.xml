@@ -115,7 +115,7 @@
             android:padding="2dp"
             android:id="@+id/imgTripod1"
             android:background="@drawable/tripod_background"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="10dp"/>
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -123,7 +123,7 @@
             android:padding="2dp"
             android:id="@+id/imgTripod2"
             android:background="@drawable/tripod_background"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="10dp"/>
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"

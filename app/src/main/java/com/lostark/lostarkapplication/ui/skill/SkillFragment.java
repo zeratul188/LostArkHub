@@ -165,7 +165,7 @@ public class SkillFragment extends Fragment {
                         Button btnOK = dialog_view.findViewById(R.id.btnOK);
                         Button btnCancel = dialog_view.findViewById(R.id.btnCancel);
 
-                        txtContent.setText("기존 스킬 시뮬레이션에 프리셋 정보를 덮어씌웁니다. 적용하시겠습니까?");
+                        txtContent.setText("\""+presets.get(position).getName()+"\"을 기존 스킬 시뮬레이션에 프리셋 정보를 덮어씌웁니다. 적용하시겠습니까?");
                         btnOK.setText("적용");
 
                         btnCancel.setOnClickListener(new View.OnClickListener() {

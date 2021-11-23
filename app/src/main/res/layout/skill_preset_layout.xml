@@ -15,21 +15,26 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#3581DF"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtLimit"
-        android:text="(0/30)"
-        android:textSize="14sp"
-        android:layout_gravity="right"
-        android:textColor="#aaaaaa"
-        android:padding="5dp"/>
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:divider="#20ffffff"
-        android:dividerHeight="1dp"
-        android:id="@+id/listView"/>
+        android:layout_height="400dp">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#20ffffff"
+            android:dividerHeight="1dp"
+            android:id="@+id/listView"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLimit"
+            android:text="(0/30)"
+            android:textSize="14sp"
+            android:layout_gravity="right"
+            android:background="#40000000"
+            android:textColor="#aaaaaa"
+            android:padding="5dp"/>
+    </FrameLayout>
     <com.lostark.lostarkapplication.ui.stamp.ClearEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

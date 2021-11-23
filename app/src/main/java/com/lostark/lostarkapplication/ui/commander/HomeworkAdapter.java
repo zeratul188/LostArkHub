@@ -111,8 +111,8 @@ public class HomeworkAdapter extends BaseAdapter {
                 Button btnDelete = dialog_view.findViewById(R.id.btnDelete);
                 Button btnEdit = dialog_view.findViewById(R.id.btnEdit);
                 Button btnReset = dialog_view.findViewById(R.id.btnReset);
-                Button btnNameCopy = dialog_view.findViewById(R.id.btnNameCopy);
-                Button btnCountCopy = dialog_view.findViewById(R.id.btnCountCopy);
+                ImageButton btnNameCopy = dialog_view.findViewById(R.id.btnNameCopy);
+                ImageButton btnCountCopy = dialog_view.findViewById(R.id.btnCountCopy);
 
                 edtHomework.setHint(checklists.get(position).getName());
                 edtCount.setHint(checklists.get(position).getMax()+" (0~99)");

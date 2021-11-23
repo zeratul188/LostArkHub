@@ -55,8 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
-            <TableRow
-                android:layout_marginBottom="5dp">
+            <TableRow>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -69,11 +68,12 @@
                     android:layout_weight="2"
                     android:text="9999초"
                     android:id="@+id/txtTime"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#fe6e0e"
                     android:textSize="16sp"/>
             </TableRow>
             <TableRow
-                android:layout_marginBottom="5dp">
+                android:id="@+id/trStrike"
+                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -86,11 +86,12 @@
                     android:layout_weight="2"
                     android:text="최상"
                     android:id="@+id/txtStrike"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#fe6e0e"
                     android:textSize="16sp"/>
             </TableRow>
             <TableRow
-                android:layout_marginBottom="5dp">
+                android:id="@+id/trAttackType"
+                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -103,10 +104,12 @@
                     android:layout_weight="2"
                     android:text="헤드 어택, 카운터"
                     android:id="@+id/txtAttackType"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#fe6e0e"
                     android:textSize="16sp"/>
             </TableRow>
-            <TableRow>
+            <TableRow
+                android:id="@+id/trDestroyLevel"
+                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -119,7 +122,7 @@
                     android:layout_weight="2"
                     android:text="레벨 2"
                     android:id="@+id/txtDestroyLevel"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#fe6e0e"
                     android:textSize="16sp"/>
             </TableRow>
         </TableLayout>

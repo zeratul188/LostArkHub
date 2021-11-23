@@ -44,13 +44,11 @@
                 android:textSize="18sp"
                 android:textColor="#ffffff"
                 android:textColorHint="#777777"/>
-            <Button
-                android:layout_width="80dp"
+            <ImageButton
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/yesbuttonstyle"
-                android:text="복사"
-                android:textSize="18sp"
-                android:textColor="#ffffff"
+                android:src="@drawable/ic_content_copy_black_24dp"
                 android:id="@+id/btnNameCopy"/>
         </LinearLayout>
         <TextView
@@ -78,13 +76,11 @@
                 android:textColor="#ffffff"
                 android:textColorHint="#777777"
                 android:inputType="numberDecimal"/>
-            <Button
-                android:layout_width="80dp"
+            <ImageButton
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/yesbuttonstyle"
-                android:text="복사"
-                android:textSize="18sp"
-                android:textColor="#ffffff"
+                android:src="@drawable/ic_content_copy_black_24dp"
                 android:id="@+id/btnLevelCopy"/>
         </LinearLayout>
         <TextView

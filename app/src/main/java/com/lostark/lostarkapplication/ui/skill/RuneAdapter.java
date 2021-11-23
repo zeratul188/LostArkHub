@@ -50,6 +50,7 @@ public class RuneAdapter extends BaseAdapter {
         ImageView imgRuneBackground = view.findViewById(R.id.imgRuneBackground);
         ImageView imgRune = view.findViewById(R.id.imgRune);
         TextView txtRune = view.findViewById(R.id.txtRune);
+        TextView txtCount = view.findViewById(R.id.txtCount);
         TextView txtContent = view.findViewById(R.id.txtContent);
 
         new DownloadFilesTask(imgRune).execute(runes.get(i).getUrl());
@@ -82,6 +83,7 @@ public class RuneAdapter extends BaseAdapter {
 
         if (runes.get(i).getGrade() > 0 && runes.get(i).getGrade() < 5) txtRune.setText(txtRune.getText().toString()+runes.get(i).getName()+" 룬");
         txtContent.setText(runes.get(i).getContent());
+        txtCount.setText(Integer.toString(runes.get(i).getCount()));
 
         return view;
     }

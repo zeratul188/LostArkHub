@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -251,7 +252,13 @@ public class SkillAdapter extends BaseAdapter {
                 ArrayList<Rune> runes = new ArrayList<>();
                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                     String[] args = runeDBAdapter.readData(i);
-                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                    int count = 0;
+                    for (Skill skill : skills) {
+                        if (skill.getRune() == i) {
+                            count++;
+                        }
+                    }
+                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                 }
                 RuneAdapter runeAdapter = new RuneAdapter(context, runes);
                 listView.setAdapter(runeAdapter);
@@ -264,31 +271,61 @@ public class SkillAdapter extends BaseAdapter {
                             case R.id.rdoRune1:
                                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                                     String[] args = runeDBAdapter.readData(i);
-                                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                    int count = 0;
+                                    for (Skill skill : skills) {
+                                        if (skill.getRune() == i) {
+                                            count++;
+                                        }
+                                    }
+                                    runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                                 }
                                 break;
                             case R.id.rdoRune2:
                                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                                     String[] args = runeDBAdapter.readData(i);
-                                    if (Integer.parseInt(args[1]) == 4) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                    int count = 0;
+                                    for (Skill skill : skills) {
+                                        if (skill.getRune() == i) {
+                                            count++;
+                                        }
+                                    }
+                                    if (Integer.parseInt(args[1]) == 4) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                                 }
                                 break;
                             case R.id.rdoRune3:
                                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                                     String[] args = runeDBAdapter.readData(i);
-                                    if (Integer.parseInt(args[1]) == 3) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                    int count = 0;
+                                    for (Skill skill : skills) {
+                                        if (skill.getRune() == i) {
+                                            count++;
+                                        }
+                                    }
+                                    if (Integer.parseInt(args[1]) == 3) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                                 }
                                 break;
                             case R.id.rdoRune4:
                                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                                     String[] args = runeDBAdapter.readData(i);
-                                    if (Integer.parseInt(args[1]) == 2) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                    int count = 0;
+                                    for (Skill skill : skills) {
+                                        if (skill.getRune() == i) {
+                                            count++;
+                                        }
+                                    }
+                                    if (Integer.parseInt(args[1]) == 2) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                                 }
                                 break;
                             case R.id.rdoRune5:
                                 for (int i = 0; i < runeDBAdapter.getSize(); i++) {
                                     String[] args = runeDBAdapter.readData(i);
-                                    if (Integer.parseInt(args[1]) == 1) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i));
+                                    int count = 0;
+                                    for (Skill skill : skills) {
+                                        if (skill.getRune() == i) {
+                                            count++;
+                                        }
+                                    }
+                                    if (Integer.parseInt(args[1]) == 1) runes.add(new Rune(args[0], args[2], args[3], Integer.parseInt(args[1]), i, count));
                                 }
                                 break;
                         }
@@ -339,13 +376,19 @@ public class SkillAdapter extends BaseAdapter {
                 TextView txtAttackType = view.findViewById(R.id.txtAttackType);
                 TextView txtDestroyLevel = view.findViewById(R.id.txtDestroyLevel);
                 TextView txtContent = view.findViewById(R.id.txtContent);
+                TableRow trStrike = view.findViewById(R.id.trStrike);
+                TableRow trAttackType = view.findViewById(R.id.trAttackType);
+                TableRow trDestroyLevel = view.findViewById(R.id.trDestroyLevel);
 
                 new DownloadFilesTask(imgSkill).execute(skills.get(position).getUrl());
                 txtName.setText(skills.get(position).getName());
                 txtTime.setText(skills.get(position).getTime()+"초");
-                txtStrike.setText(skills.get(position).getStrike());
-                txtAttackType.setText(skills.get(position).getAttack_type());
-                txtDestroyLevel.setText(skills.get(position).getDestroy_level());
+                if (skills.get(position).getStrike().equals("-")) trStrike.setVisibility(View.GONE);
+                else txtStrike.setText(skills.get(position).getStrike());
+                if (skills.get(position).getAttack_type().equals("-")) trAttackType.setVisibility(View.GONE);
+                else txtAttackType.setText(skills.get(position).getAttack_type());
+                if (skills.get(position).getDestroy_level().equals("-")) trDestroyLevel.setVisibility(View.GONE);
+                else txtDestroyLevel.setText(skills.get(position).getDestroy_level());
                 txtContent.setText(skills.get(position).getContent());
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -381,7 +424,7 @@ public class SkillAdapter extends BaseAdapter {
         imgTripod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getBetween(skills.get(position).getLevel(), 1, 3)) {
+                if (getBetween(skills.get(position).getLevel(), 1, 4)) {
                     Toast.makeText(context, "스킬 레벨이 낮아 트라이포드를 설정하실 수 없습니다. (최소 레벨 : 4)", Toast.LENGTH_SHORT).show();
                     return;
                 }

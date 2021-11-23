@@ -30,7 +30,8 @@
                 android:src="@drawable/imagetool" />
         </FrameLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/txtRune"
             android:text="Rune Name"
@@ -38,6 +39,22 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:textColor="#ffffff"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용 중 : "
+            android:layout_gravity="center"
+            android:textColor="#aaaaaa"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtCount"
+            android:text="0"
+            android:layout_gravity="center"
+            android:textColor="#fe6e0e"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -46,7 +63,9 @@
         android:padding="10dp"
         android:id="@+id/txtContent"
         android:text="Rune Content"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:textSize="16sp"
         android:textColor="#ffffff"/>
 </LinearLayout>
