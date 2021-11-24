@@ -239,11 +239,22 @@ public class SkillAdapter extends BaseAdapter {
         imgRune.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int cnt = 0;
+                for (Skill skill : skills) if (skill.getRune() != 99) cnt++;
+                if (cnt >= 8 && skills.get(position).getRune() == 99) {
+                    Toast.makeText(context, "더 이상 룬을 설정하실 수 없습니다. (최대 8개까지 설정 가능)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 View dialog_view = activity.getLayoutInflater().inflate(R.layout.rune_dialog, null);
 
                 ListView listView = dialog_view.findViewById(R.id.listView);
                 Button btnDelete = dialog_view.findViewById(R.id.btnDelete);
                 RadioGroup rgGrade = dialog_view.findViewById(R.id.rgGrade);
+                TextView txtLimit = dialog_view.findViewById(R.id.txtLimit);
+
+                txtLimit.setText("("+cnt+"/8)");
+
                 RadioButton[] rdoRune = new RadioButton[5];
                 for (int i = 0; i < rdoRune.length; i++) {
                     rdoRune[i] = dialog_view.findViewById(context.getResources().getIdentifier("rdoRune"+(i+1), "id", context.getPackageName()));
