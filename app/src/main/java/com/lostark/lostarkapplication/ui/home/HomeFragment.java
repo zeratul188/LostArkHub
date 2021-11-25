@@ -128,8 +128,6 @@ public class HomeFragment extends Fragment {
                             });
                             position++;
                         }
-
-                        Toast.makeText(getActivity(), "Arrays : "+arr, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
