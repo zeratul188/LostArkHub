@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +24,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.lostark.lostarkapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,7 +57,9 @@ public class HomeFragment extends Fragment {
 
     private ImageView[] imgIsland = new ImageView[ISLAND_LENGTH];
     private TextView[] txtIsland = new TextView[ISLAND_LENGTH];
-    private TextView[] txtIslandAward = new TextView[ISLAND_LENGTH];
+    //private TextView[] txtIslandAward = new TextView[ISLAND_LENGTH];
+    private SquareImageView[][] imgIslandAwards = new SquareImageView[3][8];
+    private LinearLayout[] layoutIsland = new LinearLayout[3];
     private TextView txtIslandDate;
 
     private ImageView[] imgBoss = new ImageView[BOSS_LENGTH];
@@ -72,6 +81,8 @@ public class HomeFragment extends Fragment {
 
     private TextView txtAlarm;
 
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
     private FirebaseDatabase mDatabase;
     private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
 
@@ -82,6 +93,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String startdate = "";
+                List<String> list = Arrays.asList(getResources().getStringArray(R.array.awards));
                 for (DataSnapshot data :snapshot.getChildren()) {
                     String name = data.child("name").getValue().toString();
                     String award = data.child("award").getValue().toString();
@@ -92,7 +104,33 @@ public class HomeFragment extends Fragment {
                     else index = 2;
                     imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
                     txtIsland[index].setText(name);
-                    txtIslandAward[index].setText(award);
+                    //txtIslandAward[index].setText(award);
+                    String[] awards = award.split("\\|");
+                    if (awards.length > 4) layoutIsland[index].setVisibility(View.VISIBLE);
+                    else layoutIsland[index].setVisibility(View.GONE);
+                    int position = 0;
+                    String arr = "";
+                    for (int i = 0; i < awards.length; i++) {
+                        arr += awards[i]+"   ";
+                        final int now_index = index;
+                        final int now_position = position;
+                        if (list.indexOf(awards[i]) != -1) {
+                            storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Glide.with(getActivity()).load(uri).into(imgIslandAwards[now_index][now_position]);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    imgIslandAwards[now_index][now_position].setImageResource(R.drawable.close_eye);
+                                }
+                            });
+                            position++;
+                        }
+
+                        Toast.makeText(getActivity(), "Arrays : "+arr, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -298,9 +336,13 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < ISLAND_LENGTH; i++) {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIsland"+(i+1), "id", getActivity().getPackageName()));
-            txtIslandAward[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIslandAward"+(i+1), "id", getActivity().getPackageName()));
+            //txtIslandAward[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIslandAward"+(i+1), "id", getActivity().getPackageName()));
             //imgIsland[i].setBackground(round_drawable);
             //imgIsland[i].setClipToOutline(true);
+            layoutIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("layoutIsland"+(i+1), "id", getActivity().getPackageName()));
+            for (int j = 0; j < imgIslandAwards[i].length; j++) {
+                imgIslandAwards[i][j] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1)+"_"+(j+1), "id", getActivity().getPackageName()));
+            }
         }
 
         for (int i = 0; i < BOSS_LENGTH; i++) {
@@ -359,6 +401,8 @@ public class HomeFragment extends Fragment {
 
         txtAlarm = root.findViewById(R.id.txtAlarm);
 
+        storage = FirebaseStorage.getInstance("gs://lostarkhub-cbe60.appspot.com/");
+        storageRef = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance();
         islandReference =mDatabase.getReference("island");
         bossReference = mDatabase.getReference("boss");

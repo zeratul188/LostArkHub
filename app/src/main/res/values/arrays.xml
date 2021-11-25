@@ -107,4 +107,31 @@
         <item>혼돈의 사선</item>
         <item>기타</item>
     </string-array>
+
+    <string-array name="awards">
+        <item>골드</item>
+        <item>실링</item>
+        <item>대양의 주화 상자</item>
+        <item>카드 팩</item>
+        <item>영혼의 잎사귀</item>
+        <item>섬의 마음</item>
+        <item>인연의 돌</item>
+        <item>해적 주화</item>
+        <item>크림스네일의 동전</item>
+        <item>선혈의 조각</item>
+        <item>조사용 토끼발 망치</item>
+        <item>천상의 하모니</item>
+        <item>황혼의 레퀴엠</item>
+        <item>비밀지도</item>
+        <item>희귀 수호 룬</item>
+        <item>영웅 수호 룬</item>
+        <item>영웅 풍요 룬</item>
+        <item>모험물 : 환영나비</item>
+        <item>모험물 : 죽은 자의 눈</item>
+        <item>모험물 : 의문의 상자</item>
+        <item>아드린느 카드</item>
+        <item>수신 아포라스 카드</item>
+        <item>탈 것 : 붉은 갈기 늑대</item>
+    </string-array>
+
 </resources>
