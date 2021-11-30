@@ -82,6 +82,70 @@
                 android:src="@drawable/ic_content_copy_black_24dp"
                 android:id="@+id/btnCountCopy"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutSelect"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="세부 내용"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/listSelect"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:id="@+id/layoutRest">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="휴식 게이지"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekRest"
+                android:progressDrawable="@drawable/seek_style"
+                android:thumbTint="#92C52D"
+                android:layout_marginTop="10dp"
+                android:progress="0"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginRight="-10dp"
+                android:max="10"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtRest"
+                    android:textColor="#92C52D"
+                    android:text="0"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#aaaaaa"
+                    android:text=" / 100"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

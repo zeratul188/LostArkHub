@@ -24,10 +24,10 @@
             android:id="@+id/nav_stamp"
             android:icon="@drawable/nav_stamp_icon"
             android:title="@string/menu_stamp" />
-        <item
+        <!--<item
             android:id="@+id/nav_chracter"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="@string/menu_chracter" />
+            android:title="@string/menu_chracter" />-->
         <item
             android:id="@+id/nav_skill"
             android:icon="@drawable/ic_streetview_black_24dp"

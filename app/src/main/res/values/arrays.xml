@@ -103,6 +103,8 @@
         <item>군단장 레이드 - 아브렐슈드</item>
         <item>유령선</item>
         <item>에포나 주간 의뢰</item>
+        <item>한밤중의 서커스 리허설</item>
+        <item>몽환의 아스탤지어 데자뷰</item>
         <item>길드 토벌전</item>
         <item>혼돈의 사선</item>
         <item>기타</item>
@@ -134,4 +136,14 @@
         <item>탈 것 : 붉은 갈기 늑대</item>
     </string-array>
 
+    <string-array name="servers">
+        <item>루페온</item>
+        <item>카마인</item>
+        <item>카제로스</item>
+        <item>카단</item>
+        <item>아브렐슈드</item>
+        <item>실리안</item>
+        <item>아만</item>
+        <item>니나브</item>
+    </string-array>
 </resources>

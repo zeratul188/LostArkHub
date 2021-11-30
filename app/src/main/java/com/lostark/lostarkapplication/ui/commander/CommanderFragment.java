@@ -1,5 +1,6 @@
 package com.lostark.lostarkapplication.ui.commander;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,12 +22,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lostark.lostarkapplication.R;
+import com.lostark.lostarkapplication.database.BossDBAdapter;
+import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
+import com.lostark.lostarkapplication.database.DungeonDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CommanderFragment extends Fragment {
 
@@ -69,11 +75,16 @@ public class CommanderFragment extends Fragment {
                 EditText edtName = view.findViewById(R.id.edtName);
                 EditText edtLevel = view.findViewById(R.id.edtLevel);
                 Spinner sprJob = view.findViewById(R.id.sprJob);
+                Spinner sprServer = view.findViewById(R.id.sprServer);
                 Button btnAdd = view.findViewById(R.id.btnAdd);
 
                 List<String> jobs = Arrays.asList(getActivity().getResources().getStringArray(R.array.job));
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, jobs);
-                sprJob.setAdapter(adapter);
+                ArrayAdapter<String> jobAdapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, jobs);
+                sprJob.setAdapter(jobAdapter);
+
+                List<String> servers = Arrays.asList(getActivity().getResources().getStringArray(R.array.servers));
+                ArrayAdapter<String> serverAdapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, servers);
+                sprServer.setAdapter(serverAdapter);
 
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -88,12 +99,101 @@ public class CommanderFragment extends Fragment {
                         chracterListDBAdapter.open();
                         String name = edtName.getText().toString();
                         String job = sprJob.getSelectedItem().toString();
+                        String server = sprServer.getSelectedItem().toString();
                         int level = Integer.parseInt(edtLevel.getText().toString());
-                        chracterListDBAdapter.insertData(new Chracter(name, job, level, true));
-                        characters.add(new Chracter(name, job, level, true));
+                        chracterListDBAdapter.insertData(new Chracter(name, job, server, level, true));
+                        characters.add(new Chracter(name, job, server, level, true));
                         chracterListDBAdapter.close();
                         Collections.sort(characters, new ChracterComparator());
                         chracterAdapter.notifyDataSetChanged();
+
+                        SharedPreferences pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
+                        if (pref.getBoolean("auto_create_homework", true)) {
+                            boolean isAlarm = !pref.getBoolean("homework_alarm", false);
+                            chracterListDBAdapter.open();
+                            ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+                            chracterListDBAdapter.close();
+                            chracterDBAdapter.open();
+                            chracterDBAdapter.insertData(new Checklist("에포나 주간 의뢰", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("에포나 일일 의뢰", "일일", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("에포나 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            if (level >= 325 && level < 1415) {
+                                int now;
+                                if (level >= 915 && level < 1325) now = 3;
+                                else now = 2;
+                                chracterDBAdapter.insertData(new Checklist("어비스 던전", "주간", "", 0, now, isAlarm));
+                            }
+                            if (level >= 915) {
+                                chracterDBAdapter.insertData(new Checklist("도전 어비스 던전", "주간", "", 0, 2, isAlarm));
+                            }
+                            if (level >= 415) {
+                                chracterDBAdapter.insertData(new Checklist("도전 가디언 토벌", "주간", "", 0, 3, isAlarm));
+                            }
+                            if (level >= 1370 && level < 1475) {
+                                chracterDBAdapter.insertData(new Checklist("어비스 레이드 - 아르고스", "주간", "", 0, 3, isAlarm));
+                            }
+                            if (level >= 1415) {
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 발탄", "주간", "", 0, 2, isAlarm));
+                            }
+                            if (level >= 1430) {
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 비아키스", "주간", "", 0, 3, isAlarm));
+                            }
+                            if (level >= 1475) {
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 쿠크세이튼", "주간", "", 0, 3, isAlarm));
+                            }
+                            if (level >= 1490) {
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 아브렐슈드", "주간", "", 0, 6, isAlarm));
+                            }
+                            if (level >= 1385) {
+                                chracterDBAdapter.insertData(new Checklist("한밤중의 서커스 리허설", "주간", "", 0, 3, isAlarm));
+                            }
+                            if (level >= 1430) {
+                                chracterDBAdapter.insertData(new Checklist("몽환의 아스탤지어 데자뷰", "주간", "", 0, 4, isAlarm));
+                            }
+                            DungeonDBAdapter dungeonDBAdapter = new DungeonDBAdapter(getActivity());
+                            if (level >= 1560) {
+                                String[] args = dungeonDBAdapter.readData(dungeonDBAdapter.getSize()-1);
+                                String content = args[0]+" : "+args[1];
+                                chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            } else {
+                                for (int i = 0; i < dungeonDBAdapter.getSize(); i++) {
+                                    String[] args = dungeonDBAdapter.readData(i);
+                                    int min_level = Integer.parseInt(args[2]);
+                                    if (level < min_level) {
+                                        if (i == 0) break;
+                                        String[] results = dungeonDBAdapter.readData(i-1);
+                                        String content = results[0]+" : "+results[1];
+                                        chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
+                                        chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                        break;
+                                    }
+                                }
+                            }
+                            BossDBAdapter bossDBAdapter = new BossDBAdapter(getActivity());
+                            if (level >= 1540) {
+                                String[] args = bossDBAdapter.readData(bossDBAdapter.getSize()-1);
+                                String content = args[1]+" : "+args[0];
+                                chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            } else {
+                                for (int i = 0; i < bossDBAdapter.getSize(); i++) {
+                                    String[] args = bossDBAdapter.readData(i);
+                                    int min_level = Integer.parseInt(args[2]);
+                                    if (level < min_level) {
+                                        if (i == 0) break;
+                                        String[] results = bossDBAdapter.readData(i-1);
+                                        String content = results[1]+" : "+results[0];
+                                        chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
+                                        chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                        break;
+                                    }
+                                }
+                            }
+
+                            chracterDBAdapter.close();
+                        }
+
                         Toast.makeText(getActivity(), name+"을 추가하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
@@ -122,8 +222,9 @@ public class CommanderFragment extends Fragment {
             String name = cursor.getString(1);
             String job = cursor.getString(2);
             int level = cursor.getInt(3);
+            String server = cursor.getString(5);
             boolean isAlarm = Boolean.parseBoolean(cursor.getString(4));
-            characters.add(new Chracter(name, job, level, isAlarm));
+            characters.add(new Chracter(name, job, server, level, isAlarm));
             cursor.moveToNext();
         }
         Collections.sort(characters, new ChracterComparator());

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSelect"
+        android:text="[Select Content]"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:padding="10dp"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chkSelect"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:buttonTint="#6794BA"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"/>
+</LinearLayout>

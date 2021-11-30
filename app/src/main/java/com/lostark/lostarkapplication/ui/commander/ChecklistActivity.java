@@ -16,6 +16,7 @@ public class ChecklistActivity extends AppCompatActivity {
     private RadioButton rdoDayMenu, rdoWeekMenu;
 
     private String name;
+    private int level;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -29,6 +30,7 @@ public class ChecklistActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name = getIntent().getStringExtra("chracter_name");
+        level = getIntent().getIntExtra("chracter_level", 0);
         setTitle(name);
 
         fragmentManager = getSupportFragmentManager();
@@ -36,6 +38,11 @@ public class ChecklistActivity extends AppCompatActivity {
         weekFragment = new WeekFragment(name);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.layoutFrame, dayFragment).commitAllowingStateLoss();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("level", level);
+        dayFragment.setArguments(bundle);
+        weekFragment.setArguments(bundle);
 
         rgMenu = findViewById(R.id.rgMenu);
         rdoDayMenu = findViewById(R.id.rdoDayMenu);

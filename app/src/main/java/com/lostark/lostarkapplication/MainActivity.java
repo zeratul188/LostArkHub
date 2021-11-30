@@ -83,49 +83,51 @@ public class MainActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
+        if (!pref.getBoolean("update_alarm", false)) {
+            mReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        mReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String version = null;
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    if (data.getKey().equals("version")) {
-                        version = data.getValue().toString();
+                    String version = null;
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        if (data.getKey().equals("version")) {
+                            version = data.getValue().toString();
+                        }
+                    }
+
+                    if (version != null) {
+                        if (!getVersion().equals(version)) {
+                            View view = getLayoutInflater().inflate(R.layout.onedialog, null);
+
+                            TextView txtContent = view.findViewById(R.id.txtContent);
+                            Button btnOK = view.findViewById(R.id.btnOK);
+
+                            txtContent.setText("현재 버전 : "+getVersion()+"\n최신 버전 : "+version+"\n\n최신 버전이 있습니다.");
+
+                            btnOK.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                }
+                            });
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setView(view);
+
+                            alertDialog = builder.create();
+                            alertDialog.setCancelable(false);
+                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            alertDialog.show();
+                        }
                     }
                 }
 
-                if (version != null) {
-                    if (!getVersion().equals(version)) {
-                        View view = getLayoutInflater().inflate(R.layout.onedialog, null);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                        TextView txtContent = view.findViewById(R.id.txtContent);
-                        Button btnOK = view.findViewById(R.id.btnOK);
-
-                        txtContent.setText("현재 버전 : "+getVersion()+"\n최신 버전 : "+version+"\n\n최신 버전이 있습니다.");
-
-                        btnOK.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                alertDialog.dismiss();
-                            }
-                        });
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setView(view);
-
-                        alertDialog = builder.create();
-                        alertDialog.setCancelable(false);
-                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        alertDialog.show();
-                    }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
+        }
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
@@ -191,7 +193,12 @@ public class MainActivity extends AppCompatActivity {
                     chracterDBAdapter.close();
                     cursor.moveToNext();
                 }
-                setting_calendar.add(Calendar.DATE, 1);
+                Calendar now_calendar = Calendar.getInstance();
+                now_calendar.set(Calendar.HOUR_OF_DAY, 6);
+                now_calendar.set(Calendar.MINUTE, 0);
+                now_calendar.set(Calendar.SECOND, 0);
+                now_calendar.add(Calendar.DATE, 1);
+                setting_calendar = now_calendar;
                 Toast.makeText(getApplicationContext(), "오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));

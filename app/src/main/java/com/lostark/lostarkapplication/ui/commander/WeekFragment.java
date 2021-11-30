@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
@@ -35,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class WeekFragment extends Fragment {
     private ListView listView;
-    private Button btnAdd;
+    private FloatingActionButton fabAdd;
 
     private ChracterDBAdapter chracterDBAdapter;
     private ChracterListDBAdapter chracterListDBAdapter;
@@ -57,7 +58,7 @@ public class WeekFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_week, container, false);
 
         listView = root.findViewById(R.id.listView);
-        btnAdd = root.findViewById(R.id.btnAdd);
+        fabAdd = root.findViewById(R.id.fabAdd);
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         chracterListDBAdapter.open();
@@ -68,7 +69,7 @@ public class WeekFragment extends Fragment {
         homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), false);
         listView.setAdapter(homeworkAdapter);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.add_homework_dialog, null);
@@ -128,7 +129,7 @@ public class WeekFragment extends Fragment {
                             cursor.moveToNext();
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
-                        Checklist checklist = new Checklist(name, "주간", 0, max, true);
+                        Checklist checklist = new Checklist(name, "주간", "", 0, max, true);
                         checklists.add(checklist);
                         chracterDBAdapter.insertData(checklist);
                         chracterDBAdapter.close();
@@ -190,10 +191,11 @@ public class WeekFragment extends Fragment {
             if (cursor.getString(2).equals("주간")) {
                 String name = cursor.getString(1);
                 String type = cursor.getString(2);
+                String content = cursor.getString(6);
                 int now = cursor.getInt(3);
                 int max = cursor.getInt(4);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                checklists.add(new Checklist(name, type, now, max, isAlarm));
+                checklists.add(new Checklist(name, type, content, now, max, isAlarm));
             }
             cursor.moveToNext();
         }

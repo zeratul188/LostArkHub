@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChracterAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Chracter> chracters;
@@ -37,7 +39,7 @@ public class ChracterAdapter extends BaseAdapter {
     private ChracterDBAdapter chracterDBAdapter;
     private AlertDialog alertDialog;
     private Activity activity;
-    private List<String> jobs;
+    private List<String> jobs, servers;
 
     public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity) {
         this.context = context;
@@ -71,24 +73,26 @@ public class ChracterAdapter extends BaseAdapter {
         ImageButton imgbtnEdit = convertView.findViewById(R.id.imgbtnEdit);
         ImageButton imgbtnNotication = convertView.findViewById(R.id.imgbtnNotication);
         ImageButton imgbtnDelete = convertView.findViewById(R.id.imgbtnDelete);
-        ImageView imgBackground = convertView.findViewById(R.id.imgBackground);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
-
+        CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
+        TextView txtServer = convertView.findViewById(R.id.txtServer);
         jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
 
         txtName.setText(chracters.get(position).getName());
         txtJob.setText(chracters.get(position).getJob());
+        txtServer.setText(chracters.get(position).getServer());
         txtLevel.setText(Integer.toString(chracters.get(position).getLevel()));
         if (chracters.get(position).isAlarm()) imgbtnNotication.setImageResource(R.drawable.ic_notifications_black_24dp);
         else imgbtnNotication.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         int index = jobs.indexOf(chracters.get(position).getJob());
-        imgBackground.setImageResource(context.getResources().getIdentifier("jb"+(index+1), "drawable", context.getPackageName()));
+        imgJob.setImageResource(context.getResources().getIdentifier("jbi"+(index+1), "drawable", context.getPackageName()));
 
         layoutMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChecklistActivity.class);
                 intent.putExtra("chracter_name", chracters.get(position).getName());
+                intent.putExtra("chracter_level", chracters.get(position).getLevel());
                 context.startActivity(intent);
             }
         });
@@ -182,6 +186,7 @@ public class ChracterAdapter extends BaseAdapter {
                 EditText edtName = view.findViewById(R.id.edtName);
                 EditText edtLevel = view.findViewById(R.id.edtLevel);
                 Spinner sprJob = view.findViewById(R.id.sprJob);
+                Spinner sprServer = view.findViewById(R.id.sprServer);
                 Button btnEdit = view.findViewById(R.id.btnEdit);
                 ImageButton btnNameCopy = view.findViewById(R.id.btnNameCopy);
                 ImageButton btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
@@ -190,8 +195,15 @@ public class ChracterAdapter extends BaseAdapter {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.job_item, jobs);
                 sprJob.setAdapter(adapter);
 
-                int index = jobs.indexOf(chracters.get(position).getJob());
-                sprJob.setSelection(index);
+                servers = Arrays.asList(context.getResources().getStringArray(R.array.servers));
+                ArrayAdapter<String> serverAdapter = new ArrayAdapter<>(context, R.layout.job_item, servers);
+                sprServer.setAdapter(serverAdapter);
+
+                int job_index = jobs.indexOf(chracters.get(position).getJob());
+                sprJob.setSelection(job_index);
+
+                int server_index = servers.indexOf(chracters.get(position).getServer());
+                sprServer.setSelection(server_index);
 
                 edtName.setHint(chracters.get(position).getName());
                 edtLevel.setHint(Integer.toString(chracters.get(position).getLevel()));
@@ -218,7 +230,7 @@ public class ChracterAdapter extends BaseAdapter {
                             return;
                         }
                         chracterListDBAdapter.open();
-                        chracterListDBAdapter.changeInfo(chracters.get(position).getName(), edtName.getText().toString(), sprJob.getSelectedItem().toString(), Integer.parseInt(edtLevel.getText().toString()));
+                        chracterListDBAdapter.changeInfo(chracters.get(position).getName(), edtName.getText().toString(), sprJob.getSelectedItem().toString(), Integer.parseInt(edtLevel.getText().toString()), sprServer.getSelectedItem().toString());
                         chracterListDBAdapter.close();
                         chracters.get(position).setName(edtName.getText().toString());
                         chracters.get(position).setJob(sprJob.getSelectedItem().toString());

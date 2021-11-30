@@ -2,6 +2,7 @@ package com.lostark.lostarkapplication.ui.commander;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -10,17 +11,24 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.lostark.lostarkapplication.R;
+import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
+import com.lostark.lostarkapplication.database.DungeonDBAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeworkAdapter extends BaseAdapter {
     private ArrayList<Checklist> checklists;
@@ -28,8 +36,6 @@ public class HomeworkAdapter extends BaseAdapter {
     private ChracterDBAdapter chracterDBAdapter;
     private Activity activity;
     private boolean isDay = true;
-    
-    private RestPackage dungeonPackage, bossPackage, questPackage;
 
     private AlertDialog alertDialog, diag_alertDialog;
 
@@ -39,27 +45,6 @@ public class HomeworkAdapter extends BaseAdapter {
         this.chracterDBAdapter = chracterDBAdapter;
         this.activity = activity;
         this.isDay = isDay;
-        dungeonPackage = new RestPackage();
-        bossPackage = new RestPackage();
-        questPackage = new RestPackage();
-    }
-    
-    public void setQuestPackage(LinearLayout layout, TextView txtView, ProgressBar progressBar) {
-        questPackage.setLayout(layout);
-        questPackage.setProgressBar(progressBar);
-        questPackage.setTxtView(txtView);
-    }
-    
-    public void setDungeonPackage(LinearLayout layout, TextView txtView, ProgressBar progressBar) {
-        dungeonPackage.setLayout(layout);
-        dungeonPackage.setProgressBar(progressBar);
-        dungeonPackage.setTxtView(txtView);
-    }
-
-    public void setBossPackage(LinearLayout layout, TextView txtView, ProgressBar progressBar) {
-        bossPackage.setLayout(layout);
-        bossPackage.setProgressBar(progressBar);
-        bossPackage.setTxtView(txtView);
     }
 
     @Override
@@ -88,6 +73,32 @@ public class HomeworkAdapter extends BaseAdapter {
         ImageButton imgbtnUp = convertView.findViewById(R.id.imgbtnUp);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
         ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
+        TextView txtContent = convertView.findViewById(R.id.txtContent);
+        TextView txtRest = convertView.findViewById(R.id.txtRest);
+        ProgressBar progressRest = convertView.findViewById(R.id.progressRest);
+        LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
+        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
+
+        List<String> homeworks;
+        if (isDay) {
+            homeworks = Arrays.asList(context.getResources().getStringArray(R.array.day_homework));
+            switch (homeworks.indexOf(checklists.get(position).getName())) {
+                case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
+                    imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
+                    break;
+                default:
+                    imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+            }
+        } else {
+            homeworks = Arrays.asList(context.getResources().getStringArray(R.array.week_homework));
+            switch (homeworks.indexOf(checklists.get(position).getName())) {
+                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
+                    imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
+                    break;
+                default:
+                    imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+            }
+        }
 
         txtName.setText(checklists.get(position).getName());
         txtNow.setText(Integer.toString(checklists.get(position).getNow()));
@@ -98,8 +109,52 @@ public class HomeworkAdapter extends BaseAdapter {
         else imgbtnUp.setEnabled(true);
         progressBar.setMax(checklists.get(position).getMax());
         progressBar.setProgress(checklists.get(position).getNow());
+        if (checklists.get(position).getContent().equals("")) txtContent.setVisibility(View.GONE);
+        else {
+            txtContent.setVisibility(View.VISIBLE);
+            txtContent.setText(checklists.get(position).getContent());
+        }
 
-        if (checklists.get(position).getType().equals("주간")) imgbtnAlarm.setVisibility(View.INVISIBLE);
+        Cursor cursor;
+        int progress;
+        switch (checklists.get(position).getName()) {
+            case "카오스 던전":
+                layoutRest.setVisibility(View.VISIBLE);
+                chracterDBAdapter.open();
+                cursor = chracterDBAdapter.fetchData("카던 휴식");
+                cursor.moveToFirst();
+                chracterDBAdapter.close();
+                progress = cursor.getInt(3);
+                txtRest.setText(Integer.toString(progress*10));
+                progressRest.setProgress(progress);
+                break;
+            case "가디언 토벌":
+                layoutRest.setVisibility(View.VISIBLE);
+                chracterDBAdapter.open();
+                cursor = chracterDBAdapter.fetchData("가디언 휴식");
+                cursor.moveToFirst();
+                chracterDBAdapter.close();
+                progress = cursor.getInt(3);
+                txtRest.setText(Integer.toString(progress*10));
+                progressRest.setProgress(progress);
+                break;
+            case "에포나 일일 의뢰":
+                layoutRest.setVisibility(View.VISIBLE);
+                chracterDBAdapter.open();
+                cursor = chracterDBAdapter.fetchData("에포나 휴식");
+                cursor.moveToFirst();
+                chracterDBAdapter.close();
+                progress = cursor.getInt(3);
+                txtRest.setText(Integer.toString(progress*10));
+                progressRest.setProgress(progress);
+                break;
+            default:
+                layoutRest.setVisibility(View.GONE);
+        }
+
+
+
+        if (checklists.get(position).getType().equals("주간")) imgbtnAlarm.setVisibility(View.GONE);
         
         txtName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +168,83 @@ public class HomeworkAdapter extends BaseAdapter {
                 Button btnReset = dialog_view.findViewById(R.id.btnReset);
                 ImageButton btnNameCopy = dialog_view.findViewById(R.id.btnNameCopy);
                 ImageButton btnCountCopy = dialog_view.findViewById(R.id.btnCountCopy);
+                LinearLayout layoutSelect = dialog_view.findViewById(R.id.layoutSelect);
+                ListView listSelect = dialog_view.findViewById(R.id.listSelect);
+                LinearLayout layoutRest = dialog_view.findViewById(R.id.layoutRest);
+                SeekBar seekRest = dialog_view.findViewById(R.id.seekRest);
+                TextView txtRest = dialog_view.findViewById(R.id.txtRest);
+
+                ArrayList<Select> selects = new ArrayList<>();
+                if (checklists.get(position).getName().equals("카오스 던전")) {
+                    layoutSelect.setVisibility(View.VISIBLE);
+                    layoutRest.setVisibility(View.VISIBLE);
+                    DungeonDBAdapter dungeonDBAdapter = new DungeonDBAdapter(activity);
+                    for (int i = 0; i < dungeonDBAdapter.getSize(); i++) {
+                        String[] args = dungeonDBAdapter.readData(i);
+                        String content = args[0]+" : "+args[1];
+                        selects.add(new Select(content));
+                    }
+                    chracterDBAdapter.open();
+                    Cursor cursor = chracterDBAdapter.fetchData("카던 휴식");
+                    cursor.moveToFirst();
+                    chracterDBAdapter.close();
+                    int progress = cursor.getInt(3);
+                    seekRest.setProgress(progress);
+                    txtRest.setText(Integer.toString(progress*10));
+                } else if (checklists.get(position).getName().equals("가디언 토벌")) {
+                    layoutSelect.setVisibility(View.VISIBLE);
+                    layoutRest.setVisibility(View.VISIBLE);
+                    BossDBAdapter bossDBAdapter = new BossDBAdapter(activity);
+                    for (int i = 0; i < bossDBAdapter.getSize(); i++) {
+                        String[] args = bossDBAdapter.readData(i);
+                        String content = args[1]+" : "+args[0];
+                        selects.add(new Select(content));
+                    }
+                    chracterDBAdapter.open();
+                    Cursor cursor = chracterDBAdapter.fetchData("가디언 휴식");
+                    cursor.moveToFirst();
+                    chracterDBAdapter.close();
+                    int progress = cursor.getInt(3);
+                    seekRest.setProgress(progress);
+                    txtRest.setText(Integer.toString(progress*10));
+                } else if (checklists.get(position).getName().equals("에포나 일일 의뢰")) {
+                    layoutSelect.setVisibility(View.GONE);
+                    layoutRest.setVisibility(View.VISIBLE);
+                    chracterDBAdapter.open();
+                    Cursor cursor = chracterDBAdapter.fetchData("에포나 휴식");
+                    cursor.moveToFirst();
+                    chracterDBAdapter.close();
+                    int progress = cursor.getInt(3);
+                    seekRest.setProgress(progress);
+                    txtRest.setText(Integer.toString(progress*10));
+                } else {
+                    layoutRest.setVisibility(View.GONE);
+                    layoutSelect.setVisibility(View.GONE);
+                }
+
+                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        txtRest.setText(Integer.toString(progress*10));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
+                String[] args = checklists.get(position).getContent().split("\n");
+                for (String arg : args) {
+                    if (selects.indexOf(new Select(arg)) != -1) selects.get(selects.indexOf(new Select(arg))).setChecked(true);
+                }
+                SelectAdapter selectAdapter = new SelectAdapter(selects, context);
+                listSelect.setAdapter(selectAdapter);
 
                 edtHomework.setHint(checklists.get(position).getName());
                 edtCount.setHint(checklists.get(position).getMax()+" (0~99)");
@@ -176,25 +308,25 @@ public class HomeworkAdapter extends BaseAdapter {
                                 for (int i = 0; i < checklists.size(); i++) {
                                     if (name.equals("카오스 던전") && checklists.get(i).getName().equals("카던 휴식")) {
                                         checklists.remove(i);
-                                        dungeonPackage.setText("0");
+                                        /*dungeonPackage.setText("0");
                                         dungeonPackage.setProgress(0);
-                                        dungeonPackage.setVisible(View.GONE);
+                                        dungeonPackage.setVisible(View.GONE);*/
                                         chracterDBAdapter.open();
                                         chracterDBAdapter.deleteData("카던 휴식");
                                         chracterDBAdapter.close();
                                     } else if (name.equals("가디언 토벌") && checklists.get(i).getName().equals("가디언 휴식")) {
                                         checklists.remove(i);
-                                        bossPackage.setText("0");
+                                        /*bossPackage.setText("0");
                                         bossPackage.setProgress(0);
-                                        bossPackage.setVisible(View.GONE);
+                                        bossPackage.setVisible(View.GONE);*/
                                         chracterDBAdapter.open();
                                         chracterDBAdapter.deleteData("가디언 휴식");
                                         chracterDBAdapter.close();
                                     } else if (name.equals("에포나 일일 의뢰") && checklists.get(i).getName().equals("에포나 휴식")) {
                                         checklists.remove(i);
-                                        questPackage.setText("0");
+                                        /*questPackage.setText("0");
                                         questPackage.setProgress(0);
-                                        questPackage.setVisible(View.GONE);
+                                        questPackage.setVisible(View.GONE);*/
                                         chracterDBAdapter.open();
                                         chracterDBAdapter.deleteData("에포나 휴식");
                                         chracterDBAdapter.close();
@@ -225,9 +357,51 @@ public class HomeworkAdapter extends BaseAdapter {
 
                         String name = edtHomework.getText().toString();
                         int max = Integer.parseInt(edtCount.getText().toString());
+
+                        String content = "";
                         Checklist checklist;
-                        if (isDay) checklist = new Checklist(name, "일일", 0, max, true);
-                        else checklist = new Checklist(name, "주간", 0, max, true);
+                        switch (checklists.get(position).getName()) {
+                            case "카오스 던전":
+                                for (Select select : selects) {
+                                    if (select.isChecked()) {
+                                        if (!content.equals("")) content += "\n";
+                                        content += select.getContent();
+                                    }
+                                }
+                                if (isDay) checklist = new Checklist(name, "일일", content, 0, max, true);
+                                else checklist = new Checklist(name, "주간", content, 0, max, true);
+                                chracterDBAdapter.open();
+                                chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
+                                chracterDBAdapter.close();
+                                checklists.get(checklists.indexOf(new Checklist("카던 휴식"))).setNow(seekRest.getProgress());
+                                break;
+                            case "가디언 토벌":
+                                for (Select select : selects) {
+                                    if (select.isChecked()) {
+                                        if (!content.equals("")) content += "\n";
+                                        content += select.getContent();
+                                    }
+                                }
+                                if (isDay) checklist = new Checklist(name, "일일", content, 0, max, true);
+                                else checklist = new Checklist(name, "주간", content, 0, max, true);
+                                chracterDBAdapter.open();
+                                chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
+                                chracterDBAdapter.close();
+                                checklists.get(checklists.indexOf(new Checklist("가디언 휴식"))).setNow(seekRest.getProgress());
+                                break;
+                            case "에포나 일일 의뢰":
+                                if (isDay) checklist = new Checklist(name, "일일", "", 0, max, true);
+                                else checklist = new Checklist(name, "주간", "", 0, max, true);
+                                chracterDBAdapter.open();
+                                chracterDBAdapter.changeNow("에포나 휴식", seekRest.getProgress());
+                                chracterDBAdapter.close();
+                                checklists.get(checklists.indexOf(new Checklist("에포나 휴식"))).setNow(seekRest.getProgress());
+                            default:
+                                if (isDay) checklist = new Checklist(name, "일일", "", 0, max, true);
+                                else checklist = new Checklist(name, "주간", "", 0, max, true);
+                        }
+
+
                         chracterDBAdapter.open();
                         chracterDBAdapter.changeData(checklists.get(position).getName(), checklist);
                         chracterDBAdapter.close();
@@ -276,8 +450,6 @@ public class HomeworkAdapter extends BaseAdapter {
                         if (checklists.get(i).getName().equals("카던 휴식")) {
                             if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
                             chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
-                            dungeonPackage.setProgress(checklists.get(i).getNow());
-                            dungeonPackage.setText(Integer.toString(checklists.get(i).getNow()*10));
                         }
                     }
                 } else if (checklists.get(position).getName().equals("가디언 토벌")) {
@@ -285,8 +457,6 @@ public class HomeworkAdapter extends BaseAdapter {
                         if (checklists.get(i).getName().equals("가디언 휴식")) {
                             if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
                             chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
-                            bossPackage.setProgress(checklists.get(i).getNow());
-                            bossPackage.setText(Integer.toString(checklists.get(i).getNow()*10));
                         }
                     }
                 } else if (checklists.get(position).getName().equals("에포나 일일 의뢰")) {
@@ -294,8 +464,6 @@ public class HomeworkAdapter extends BaseAdapter {
                         if (checklists.get(i).getName().equals("에포나 휴식")) {
                             if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
                             chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
-                            questPackage.setProgress(checklists.get(i).getNow());
-                            questPackage.setText(Integer.toString(checklists.get(i).getNow()*10));
                         }
                     }
                 }

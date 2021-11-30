@@ -25,9 +25,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lostark.lostarkapplication.R;
+import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
+import com.lostark.lostarkapplication.database.DungeonDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,10 +40,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DayFragment extends Fragment {
     private ListView listView;
-    private TextView txtDungeonRest, txtBossRest, txtQuestRest;
-    private ProgressBar progressDungeon, progressBoss, progressQuest;
-    private Button btnRest, btnAdd;
-    private LinearLayout layoutDungeon, layoutBoss, layoutQuest;
+    private FloatingActionButton fabAdd;
 
     private String name;
     private ChracterDBAdapter chracterDBAdapter;
@@ -62,17 +62,7 @@ public class DayFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_day, container, false);
 
         listView = root.findViewById(R.id.listView);
-        txtDungeonRest = root.findViewById(R.id.txtDungeonRest);
-        txtBossRest = root.findViewById(R.id.txtBossRest);
-        progressDungeon = root.findViewById(R.id.progressDungeon);
-        progressBoss = root.findViewById(R.id.progressBoss);
-        btnRest = root.findViewById(R.id.btnRest);
-        btnAdd = root.findViewById(R.id.btnAdd);
-        layoutDungeon = root.findViewById(R.id.layoutDungeon);
-        layoutBoss = root.findViewById(R.id.layoutBoss);
-        layoutQuest = root.findViewById(R.id.layoutQuest);
-        txtQuestRest = root.findViewById(R.id.txtQuestRest);
-        progressQuest = root.findViewById(R.id.progressQuest);
+        fabAdd = root.findViewById(R.id.fabAdd);
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         chracterListDBAdapter.open();
@@ -83,155 +73,10 @@ public class DayFragment extends Fragment {
         homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), true);
         listView.setAdapter(homeworkAdapter);
 
-        homeworkAdapter.setDungeonPackage(layoutDungeon, txtDungeonRest, progressDungeon);
-        homeworkAdapter.setBossPackage(layoutBoss, txtBossRest, progressBoss);
-        homeworkAdapter.setQuestPackage(layoutQuest, txtQuestRest, progressQuest);
-
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
 
-        layoutQuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View view = getActivity().getLayoutInflater().inflate(R.layout.rest_edit_dialog, null);
-
-                SeekBar seekRest = view.findViewById(R.id.seekRest);
-                TextView txtRest = view.findViewById(R.id.txtRest);
-                Button btnEdit = view.findViewById(R.id.btnEdit);
-
-                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        txtRest.setText(Integer.toString(progress*10));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-
-                btnEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        chracterDBAdapter.open();
-                        chracterDBAdapter.changeNow("에포나 휴식", seekRest.getProgress());
-                        chracterDBAdapter.close();
-                        onResume();
-                        Toast.makeText(getActivity(), "에포나 의뢰 휴식 게이지를 수정하였습니다.", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                    }
-                });
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(view);
-
-                alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
-            }
-        });
-
-        layoutDungeon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View view = getActivity().getLayoutInflater().inflate(R.layout.rest_edit_dialog, null);
-
-                SeekBar seekRest = view.findViewById(R.id.seekRest);
-                TextView txtRest = view.findViewById(R.id.txtRest);
-                Button btnEdit = view.findViewById(R.id.btnEdit);
-
-                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        txtRest.setText(Integer.toString(progress*10));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-
-                btnEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        chracterDBAdapter.open();
-                        chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
-                        chracterDBAdapter.close();
-                        onResume();
-                        Toast.makeText(getActivity(), "카오스 던전 휴식 게이지를 수정하였습니다.", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                    }
-                });
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(view);
-
-                alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
-            }
-        });
-
-        layoutBoss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View view = getActivity().getLayoutInflater().inflate(R.layout.rest_edit_dialog, null);
-
-                SeekBar seekRest = view.findViewById(R.id.seekRest);
-                TextView txtRest = view.findViewById(R.id.txtRest);
-                Button btnEdit = view.findViewById(R.id.btnEdit);
-
-                seekRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        txtRest.setText(Integer.toString(progress*10));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-
-                btnEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        chracterDBAdapter.open();
-                        chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
-                        chracterDBAdapter.close();
-                        onResume();
-                        Toast.makeText(getActivity(), "카오스 던전 휴식 게이지를 수정하였습니다.", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                    }
-                });
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(view);
-
-                alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
-            }
-        });
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.add_homework_dialog, null);
@@ -244,6 +89,12 @@ public class DayFragment extends Fragment {
                 Button btnAdd = view.findViewById(R.id.btnAdd);
                 SeekBar seekRest = view.findViewById(R.id.seekRest);
                 TextView txtRest = view.findViewById(R.id.txtRest);
+                LinearLayout layoutSelect = view.findViewById(R.id.layoutSelect);
+                ListView listSelect = view.findViewById(R.id.listSelect);
+
+                ArrayList<Select> selects = new ArrayList<>();
+                SelectAdapter selectAdapter = new SelectAdapter(selects, getActivity());
+                listSelect.setAdapter(selectAdapter);
 
                 List<String> days = Arrays.asList(getActivity().getResources().getStringArray(R.array.day_homework));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.job_item, days);
@@ -279,13 +130,37 @@ public class DayFragment extends Fragment {
                         if (sprList.getItemAtPosition(position).toString().equals("기타")) {
                             layoutAndsoon.setVisibility(View.VISIBLE);
                             layoutRest.setVisibility(View.GONE);
+                            layoutSelect.setVisibility(View.GONE);
                         } else {
                             edtHomework.setText("");
                             layoutAndsoon.setVisibility(View.GONE);
-                            if (sprList.getItemAtPosition(position).toString().equals("카오스 던전") || sprList.getItemAtPosition(position).toString().equals("가디언 토벌") || sprList.getItemAtPosition(position).toString().equals("에포나 일일 의뢰")) layoutRest.setVisibility(View.VISIBLE);
-                            else {
+                            if (sprList.getItemAtPosition(position).toString().equals("카오스 던전") || sprList.getItemAtPosition(position).toString().equals("가디언 토벌")) {
+                                layoutRest.setVisibility(View.VISIBLE);
+                                layoutSelect.setVisibility(View.VISIBLE);
+                                selects.clear();
+                                if (sprList.getItemAtPosition(position).toString().equals("카오스 던전")) {
+                                    DungeonDBAdapter dungeonDBAdapter = new DungeonDBAdapter(getActivity());
+                                    for (int i = 0; i < dungeonDBAdapter.getSize(); i++) {
+                                        String[] args = dungeonDBAdapter.readData(i);
+                                        String content = args[0]+" : "+args[1];
+                                        selects.add(new Select(content));
+                                    }
+                                } else if (sprList.getItemAtPosition(position).toString().equals("가디언 토벌")) {
+                                    BossDBAdapter bossDBAdapter = new BossDBAdapter(getActivity());
+                                    for (int i = 0; i < bossDBAdapter.getSize(); i++) {
+                                        String[] args = bossDBAdapter.readData(i);
+                                        String content = args[1]+" : "+args[0];
+                                        selects.add(new Select(content));
+                                    }
+                                }
+                                selectAdapter.notifyDataSetChanged();
+                            } else if (sprList.getItemAtPosition(position).toString().equals("에포나 일일 의뢰")) {
+                                layoutSelect.setVisibility(View.GONE);
+                                layoutRest.setVisibility(View.VISIBLE);
+                            } else {
                                 txtRest.setText("0");
                                 seekRest.setProgress(0);
+                                layoutSelect.setVisibility(View.GONE);
                                 layoutRest.setVisibility(View.GONE);
                             }
                         }
@@ -319,31 +194,32 @@ public class DayFragment extends Fragment {
                             cursor.moveToNext();
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
-                        Checklist checklist = new Checklist(name, "일일", 0, max, !pref.getBoolean("homework_alarm", false));
+                        Checklist checklist;
+                        if (name.equals("카오스 던전") || name.equals("가디언 토벌")) {
+                            String content = "";
+                            for (Select select : selects) {
+                                if (select.isChecked()) {
+                                    if (!content.equals("")) content += "\n";
+                                    content += select.getContent();
+                                }
+                            }
+                            checklist = new Checklist(name, "일일", content, 0, max, !pref.getBoolean("homework_alarm", false));
+                        } else checklist = new Checklist(name, "일일", "", 0, max, !pref.getBoolean("homework_alarm", false));
                         checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
                         if (name.equals("카오스 던전")) {
-                            layoutDungeon.setVisibility(View.VISIBLE);
                             int progress = seekRest.getProgress();
-                            progressDungeon.setProgress(progress);
-                            txtDungeonRest.setText(Integer.toString(progress*10));
-                            Checklist restList = new Checklist("카던 휴식", "휴식게이지", progress, 10, false);
+                            Checklist restList = new Checklist("카던 휴식", "휴식게이지", "", progress, 10, false);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("가디언 토벌")) {
-                            layoutBoss.setVisibility(View.VISIBLE);
                             int progress = seekRest.getProgress();
-                            progressBoss.setProgress(progress);
-                            txtBossRest.setText(Integer.toString(progress*10));
-                            Checklist restList = new Checklist("가디언 휴식", "휴식게이지", progress, 10, false);
+                            Checklist restList = new Checklist("가디언 휴식", "휴식게이지", "", progress, 10, false);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("에포나 일일 의뢰")) {
-                            layoutQuest.setVisibility(View.VISIBLE);
                             int progress = seekRest.getProgress();
-                            progressQuest.setProgress(progress);
-                            txtQuestRest.setText(Integer.toString(progress*10));
-                            Checklist restList = new Checklist("에포나 휴식", "휴식게이지", progress, 10, false);
+                            Checklist restList = new Checklist("에포나 휴식", "휴식게이지", "", progress, 10, false);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         }
@@ -399,8 +275,6 @@ public class DayFragment extends Fragment {
         }*/
 
         checklists.clear();
-        layoutDungeon.setVisibility(View.GONE);
-        layoutBoss.setVisibility(View.GONE);
         chracterDBAdapter.open();
         Cursor cursor = chracterDBAdapter.fetchAllData();
         cursor.moveToFirst();
@@ -408,26 +282,12 @@ public class DayFragment extends Fragment {
             if (cursor.getString(2).equals("일일") || cursor.getString(2).equals("휴식게이지")) {
                 String name = cursor.getString(1);
                 String type = cursor.getString(2);
+                String content = cursor.getString(6);
                 int now = cursor.getInt(3);
                 int max = cursor.getInt(4);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                if (type.equals("일일")) checklists.add(0, new Checklist(name, type, now, max, isAlarm));
-                else checklists.add(new Checklist(name, type, now, max, isAlarm));
-                if (name.equals("카던 휴식")) {
-                    layoutDungeon.setVisibility(View.VISIBLE);
-                    progressDungeon.setProgress(now);
-                    txtDungeonRest.setText(Integer.toString(now*10));
-                }
-                if (name.equals("가디언 휴식")) {
-                    layoutBoss.setVisibility(View.VISIBLE);
-                    progressBoss.setProgress(now);
-                    txtBossRest.setText(Integer.toString(now*10));
-                }
-                if (name.equals("에포나 휴식")) {
-                    layoutQuest.setVisibility(View.VISIBLE);
-                    progressQuest.setProgress(now);
-                    txtQuestRest.setText(Integer.toString(now*10));
-                }
+                if (type.equals("일일")) checklists.add(0, new Checklist(name, type, content, now, max, isAlarm));
+                else checklists.add(new Checklist(name, type, content, now, max, isAlarm));
             }
             cursor.moveToNext();
         }

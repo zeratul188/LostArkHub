@@ -2,6 +2,7 @@ package com.lostark.lostarkapplication.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +12,7 @@ import android.util.Log;
 import com.lostark.lostarkapplication.ui.commander.Checklist;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ChracterDBAdapter {
     public static final String KEY_ROWID = "_id";
@@ -19,14 +21,15 @@ public class ChracterDBAdapter {
     public static final String KEY_NOW = "NOW";
     public static final String KEY_MAX = "MAX";
     public static final String KEY_ALARM = "ALARM";
+    public static final String KEY_CONTENT = "CONTENT";
 
     private String databaseName;
     private String databaseTable;
 
     private String databaseCreate = "create table "+databaseTable+" (_id integer primary key, " +
-            "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null);";
+            "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null);";
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private Context mCtx;
 
     private DatabaseHelper myDBHelper;
@@ -47,7 +50,7 @@ public class ChracterDBAdapter {
             this.mCtx = context;
             this.table = table;
             create = "create table "+table+" (_id integer primary key, " +
-                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null);";
+                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null);";
         }
 
         @Override
@@ -59,8 +62,22 @@ public class ChracterDBAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                     + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS "+table);
-            onCreate(db);
+            try {
+                if (oldVersion < 3) {
+                    updateContentColumn(db);
+                }
+            } catch (SQLException e) {
+                db.execSQL("DROP TABLE IF EXISTS "+table);
+                onCreate(db);
+            }
+            
+        }
+        
+        /*
+         * Content 칼럼 추가
+         */
+        private void updateContentColumn(SQLiteDatabase a_db) {
+            a_db.execSQL("ALTER TABLE " + table + " " + "ADD COLUMN " + "CONTENT" + " " + "text DEFAULT " + "''");
         }
     }
 
@@ -82,6 +99,7 @@ public class ChracterDBAdapter {
         values.put(KEY_NOW, checklist.getNow());
         values.put(KEY_MAX, checklist.getMax());
         values.put(KEY_ALARM, Boolean.toString(checklist.isAlarm()));
+        values.put(KEY_CONTENT, checklist.getContent());
         return sqlDB.insert(databaseTable, null, values);
     }
 
@@ -93,7 +111,7 @@ public class ChracterDBAdapter {
     }
 
     public boolean resetData(String type) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String name = cursor.getString(1);
@@ -101,7 +119,7 @@ public class ChracterDBAdapter {
             int max = cursor.getInt(4);
             if (name.equals("카오스 던전")) {
                 if (max-now > 0) {
-                    Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='카던 휴식'", null, null, null, null);
+                    Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "NAME='카던 휴식'", null, null, null, null);
                     dungeonCursor.moveToFirst();
                     if (dungeonCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -110,6 +128,7 @@ public class ChracterDBAdapter {
                         values.put(KEY_NOW, 0);
                         values.put(KEY_MAX, 10);
                         values.put(KEY_ALARM, false);
+                        values.put(KEY_CONTENT, "");
                         sqlDB.insert(databaseTable, null, values);
                     } else {
                         int undo_now = dungeonCursor.getInt(3);
@@ -122,7 +141,7 @@ public class ChracterDBAdapter {
                 }
             } else if (name.equals("가디언 토벌")) {
                 if (max-now > 0) {
-                    Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='가디언 휴식'", null, null, null, null);
+                    Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "NAME='가디언 휴식'", null, null, null, null);
                     bossCursor.moveToFirst();
                     if (bossCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -131,6 +150,7 @@ public class ChracterDBAdapter {
                         values.put(KEY_NOW, 0);
                         values.put(KEY_MAX, 10);
                         values.put(KEY_ALARM, false);
+                        values.put(KEY_CONTENT, "");
                         sqlDB.insert(databaseTable, null, values);
                     } else {
                         int undo_now = bossCursor.getInt(3);
@@ -143,7 +163,7 @@ public class ChracterDBAdapter {
                 }
             } else if (name.equals("에포나 일일 의뢰")) {
                 if (max-now > 0) {
-                    Cursor questCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "NAME='에포나 휴식'", null, null, null, null);
+                    Cursor questCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "NAME='에포나 휴식'", null, null, null, null);
                     questCursor.moveToFirst();
                     if (questCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -152,6 +172,7 @@ public class ChracterDBAdapter {
                         values.put(KEY_NOW, 0);
                         values.put(KEY_MAX, 10);
                         values.put(KEY_ALARM, false);
+                        values.put(KEY_CONTENT, "");
                         sqlDB.insert(databaseTable, null, values);
                     } else {
                         int undo_now = questCursor.getInt(3);
@@ -179,7 +200,7 @@ public class ChracterDBAdapter {
     }
 
     public boolean isSame(String name, String type) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "TYPE='"+type+"'", null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "TYPE='"+type+"'", null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String find = cursor.getString(1);
@@ -203,16 +224,21 @@ public class ChracterDBAdapter {
         values.put(KEY_NOW, checklist.getNow());
         values.put(KEY_MAX, checklist.getMax());
         values.put(KEY_ALARM, Boolean.toString(checklist.isAlarm()));
+        values.put(KEY_CONTENT, checklist.getContent());
         sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
         return true;
     }
 
+    public Cursor fetchData(String name) {
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "NAME = '"+name+"'", null, null, null, null);
+    }
+
     public Cursor fetchAllData() {
-        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, null, null, null, null, null);
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, null, null, null, null, null);
     }
 
     public Cursor fetchData(int rowID) {
-        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM}, "_id = "+rowID, null, null, null, null);
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT}, "_id = "+rowID, null, null, null, null);
     }
 
     public boolean deleteAllData() {

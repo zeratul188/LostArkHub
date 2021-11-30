@@ -45,7 +45,7 @@ import java.util.Calendar;
 
 public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset;
-    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm;
+    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion;
 
@@ -87,7 +87,9 @@ public class SettingActivity extends AppCompatActivity {
         txtResetDate = findViewById(R.id.txtResetDate);
         chkHomeworkAlarm = findViewById(R.id.chkHomeworkAlarm);
         txtVersion = findViewById(R.id.txtVersion);
+        chkUpdateAlarm = findViewById(R.id.chkUpdateAlarm);
         btnDeleteSkillPreset = findViewById(R.id.btnDeleteSkillPreset);
+        chkAutoCreateHomework = findViewById(R.id.chkAutoCreateHomework);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -132,6 +134,24 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("homework_alarm", isChecked);
+                editor.commit();
+            }
+        });
+
+        chkUpdateAlarm.setChecked(pref.getBoolean("update_alarm", false));
+        chkUpdateAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("update_alarm", isChecked);
+                editor.commit();
+            }
+        });
+
+        chkAutoCreateHomework.setChecked(pref.getBoolean("auto_create_homework", true));
+        chkAutoCreateHomework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("auto_create_homework", isChecked);
                 editor.commit();
             }
         });

@@ -154,6 +154,24 @@
                     android:buttonTint="#6794BA"
                     android:id="@+id/chkHomeworkAlarm"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="캐릭터 생성 후 숙제 내용 자동 생성"
+                    android:textSize="18sp"
+                    android:textColor="#ffffff"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:buttonTint="#6794BA"
+                    android:id="@+id/chkAutoCreateHomework"/>
+            </LinearLayout>
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
@@ -230,6 +248,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#1d2026">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="앱 실행 시 업데이트 알림 끄기"
+                    android:textSize="18sp"
+                    android:textColor="#ffffff"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:buttonTint="#6794BA"
+                    android:id="@+id/chkUpdateAlarm"/>
+            </LinearLayout>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
