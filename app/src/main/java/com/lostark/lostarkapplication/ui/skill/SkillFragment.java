@@ -48,7 +48,7 @@ public class SkillFragment extends Fragment {
     private SkillViewModel skillViewModel;
 
     private TextView txtPresetName, txtSkillPoint;
-    private Button btnPreset, btnReset, btnSave;
+    private Button btnPreset, btnReset, btnSave, btnSkillSetting;
     private Spinner sprJob;
     private ListView listView;
     private ProgressBar progressSkill;
@@ -86,6 +86,7 @@ public class SkillFragment extends Fragment {
         sprJob = root.findViewById(R.id.sprJob);
         listView = root.findViewById(R.id.listView);
         progressSkill = root.findViewById(R.id.progressSkill);
+        btnSkillSetting = root.findViewById(R.id.btnSkillSetting);
 
         dataNetwork = new DataNetwork();
         dataNetwork.setMax(0);
@@ -432,7 +433,7 @@ public class SkillFragment extends Fragment {
             }
         });
 
-        txtSkillPoint.setOnClickListener(new View.OnClickListener() {
+        btnSkillSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = getLayoutInflater().inflate(R.layout.skillpoint_setting_dialog, null);

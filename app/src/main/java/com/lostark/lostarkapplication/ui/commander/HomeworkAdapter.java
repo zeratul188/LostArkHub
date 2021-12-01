@@ -357,6 +357,8 @@ public class HomeworkAdapter extends BaseAdapter {
 
                         String name = edtHomework.getText().toString();
                         int max = Integer.parseInt(edtCount.getText().toString());
+                        int now = checklists.get(position).getNow();
+                        if (now > max) now = max;
 
                         String content = "";
                         Checklist checklist;
@@ -368,8 +370,8 @@ public class HomeworkAdapter extends BaseAdapter {
                                         content += select.getContent();
                                     }
                                 }
-                                if (isDay) checklist = new Checklist(name, "일일", content, 0, max, true);
-                                else checklist = new Checklist(name, "주간", content, 0, max, true);
+                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, true);
+                                else checklist = new Checklist(name, "주간", content, now, max, true);
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
@@ -382,23 +384,23 @@ public class HomeworkAdapter extends BaseAdapter {
                                         content += select.getContent();
                                     }
                                 }
-                                if (isDay) checklist = new Checklist(name, "일일", content, 0, max, true);
-                                else checklist = new Checklist(name, "주간", content, 0, max, true);
+                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, true);
+                                else checklist = new Checklist(name, "주간", content, now, max, true);
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
                                 checklists.get(checklists.indexOf(new Checklist("가디언 휴식"))).setNow(seekRest.getProgress());
                                 break;
                             case "에포나 일일 의뢰":
-                                if (isDay) checklist = new Checklist(name, "일일", "", 0, max, true);
-                                else checklist = new Checklist(name, "주간", "", 0, max, true);
+                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, true);
+                                else checklist = new Checklist(name, "주간", "", now, max, true);
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("에포나 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
                                 checklists.get(checklists.indexOf(new Checklist("에포나 휴식"))).setNow(seekRest.getProgress());
                             default:
-                                if (isDay) checklist = new Checklist(name, "일일", "", 0, max, true);
-                                else checklist = new Checklist(name, "주간", "", 0, max, true);
+                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, true);
+                                else checklist = new Checklist(name, "주간", "", now, max, true);
                         }
 
 

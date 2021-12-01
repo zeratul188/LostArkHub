@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fabAdd"
-        android:backgroundTint="#7575C8"
-        android:layout_gravity="right|bottom"
+        android:backgroundTint="#fe6e0e"
+        android:layout_gravity="center|bottom"
         android:layout_margin="18dp"
         android:src="@drawable/ic_add_black_24dp"/>
 </FrameLayout>

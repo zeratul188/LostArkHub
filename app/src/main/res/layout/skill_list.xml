@@ -122,7 +122,7 @@
             android:src="@drawable/close_eye"
             android:padding="2dp"
             android:id="@+id/imgTripod2"
-            android:background="@drawable/tripod_background"
+            android:background="@drawable/tripod2_background"
             android:layout_marginRight="10dp"/>
         <ImageView
             android:layout_width="45dp"
@@ -130,7 +130,7 @@
             android:src="@drawable/close_eye"
             android:padding="2dp"
             android:id="@+id/imgTripod3"
-            android:background="@drawable/tripod_background"
+            android:background="@drawable/tripod3_background"
             android:layout_marginRight="15dp"/>
         <TextView
             android:layout_width="0dp"

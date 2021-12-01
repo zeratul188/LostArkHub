@@ -57,10 +57,10 @@ public class HomeFragment extends Fragment {
 
     private ImageView[] imgIsland = new ImageView[ISLAND_LENGTH];
     private TextView[] txtIsland = new TextView[ISLAND_LENGTH];
-    //private TextView[] txtIslandAward = new TextView[ISLAND_LENGTH];
     private SquareImageView[][] imgIslandAwards = new SquareImageView[3][8];
     private LinearLayout[] layoutIsland = new LinearLayout[3];
     private TextView txtIslandDate;
+    private String[][] islandAwards = new String[3][8];
 
     private ImageView[] imgBoss = new ImageView[BOSS_LENGTH];
     private TextView[] txtBoss = new TextView[BOSS_LENGTH];
@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
                     else index = 2;
                     imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
                     txtIsland[index].setText(name);
-                    //txtIslandAward[index].setText(award);
                     String[] awards = award.split("\\|");
                     if (awards.length > 4) layoutIsland[index].setVisibility(View.VISIBLE);
                     else layoutIsland[index].setVisibility(View.GONE);
@@ -115,6 +114,7 @@ public class HomeFragment extends Fragment {
                         final int now_index = index;
                         final int now_position = position;
                         if (list.indexOf(awards[i]) != -1) {
+                            islandAwards[now_index][now_position] = awards[i];
                             storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -340,6 +340,14 @@ public class HomeFragment extends Fragment {
             layoutIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("layoutIsland"+(i+1), "id", getActivity().getPackageName()));
             for (int j = 0; j < imgIslandAwards[i].length; j++) {
                 imgIslandAwards[i][j] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1)+"_"+(j+1), "id", getActivity().getPackageName()));
+                final int x = i;
+                final int y = j;
+                imgIslandAwards[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
 
