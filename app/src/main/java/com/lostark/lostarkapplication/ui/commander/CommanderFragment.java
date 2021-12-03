@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.lostark.lostarkapplication.MainActivity;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
@@ -101,8 +102,8 @@ public class CommanderFragment extends Fragment {
                         String job = sprJob.getSelectedItem().toString();
                         String server = sprServer.getSelectedItem().toString();
                         int level = Integer.parseInt(edtLevel.getText().toString());
-                        chracterListDBAdapter.insertData(new Chracter(name, job, server, level, true));
-                        characters.add(new Chracter(name, job, server, level, true));
+                        chracterListDBAdapter.insertData(new Chracter(name, job, server, level, 0, true));
+                        characters.add(new Chracter(name, job, server, level, 0, true));
                         chracterListDBAdapter.close();
                         Collections.sort(characters, new ChracterComparator());
                         chracterAdapter.notifyDataSetChanged();
@@ -223,8 +224,9 @@ public class CommanderFragment extends Fragment {
             String job = cursor.getString(2);
             int level = cursor.getInt(3);
             String server = cursor.getString(5);
+            int favorite = cursor.getInt(6);
             boolean isAlarm = Boolean.parseBoolean(cursor.getString(4));
-            characters.add(new Chracter(name, job, server, level, isAlarm));
+            characters.add(new Chracter(name, job, server, level, favorite, isAlarm));
             cursor.moveToNext();
         }
         Collections.sort(characters, new ChracterComparator());

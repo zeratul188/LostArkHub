@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.MainActivity;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
@@ -76,6 +77,7 @@ public class ChracterAdapter extends BaseAdapter {
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
         CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
         TextView txtServer = convertView.findViewById(R.id.txtServer);
+        ImageButton imgbtnFavorite = convertView.findViewById(R.id.imgbtnFavorite);
         jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
 
         txtName.setText(chracters.get(position).getName());
@@ -86,6 +88,38 @@ public class ChracterAdapter extends BaseAdapter {
         else imgbtnNotication.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         int index = jobs.indexOf(chracters.get(position).getJob());
         imgJob.setImageResource(context.getResources().getIdentifier("jbi"+(index+1), "drawable", context.getPackageName()));
+
+        if (chracters.get(position).getFavorite() == 1) {
+            imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
+            txtName.setTextColor(Color.parseColor("#FE6E0E"));
+        } else {
+            imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_border_24);
+            txtName.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        imgbtnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chracterListDBAdapter.open();
+                if (chracters.get(position).getFavorite() == 1) {
+                    chracterListDBAdapter.checkFavorite(chracters.get(position).getName(), false);
+                    chracters.get(position).setFavorite(0);
+                    imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_border_24);
+                    txtName.setTextColor(Color.parseColor("#FFFFFF"));
+                } else {
+                    if (chracterListDBAdapter.emptyFavorite()) {
+                        chracterListDBAdapter.checkFavorite(chracters.get(position).getName(), true);
+                        chracters.get(position).setFavorite(1);
+                        imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
+                        txtName.setTextColor(Color.parseColor("#FE6E0E"));
+                    } else {
+                        Toast.makeText(context, "이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                chracterListDBAdapter.close();
+                ((MainActivity)activity).uploadFavoriteChracter();
+            }
+        });
 
         layoutMain.setOnClickListener(new View.OnClickListener() {
             @Override

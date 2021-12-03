@@ -20,8 +20,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/btnCancel"
-            android:background="@drawable/nobuttonstyle"
             android:text="취소"
+            android:background="@drawable/yesbuttonstyle"
             android:padding="15dp"
             android:textSize="18sp"
             android:textColor="#ffffff"/>
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/btnOK"
-            android:background="@drawable/yesbuttonstyle"
+            android:background="@drawable/nobuttonstyle"
             android:text="확인"
             android:padding="15dp"
             android:textSize="18sp"

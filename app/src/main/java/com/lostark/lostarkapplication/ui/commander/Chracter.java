@@ -2,15 +2,24 @@ package com.lostark.lostarkapplication.ui.commander;
 
 public class Chracter {
     private String name, job, server;
-    private int level;
+    private int level, favorite;
     private boolean isAlarm;
 
-    public Chracter(String name, String job, String server, int level, boolean isAlarm) {
+    public Chracter(String name, String job, String server, int level, int favorite, boolean isAlarm) {
         this.name = name;
         this.job = job;
         this.server = server;
         this.level = level;
+        this.favorite = favorite;
         this.isAlarm = isAlarm;
+    }
+
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
     }
 
     public String getServer() {

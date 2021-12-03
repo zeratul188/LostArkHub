@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="140dp"
+    android:layout_width="match_parent" android:layout_height="120dp"
     android:background="@drawable/chracter_background"
     android:orientation="horizontal">
     <de.hdodenhof.circleimageview.CircleImageView
@@ -14,7 +14,7 @@
         android:id="@id/imgJob"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="120dp"
         android:padding="10dp"
         android:id="@+id/layoutMain"
         android:orientation="vertical">
@@ -75,6 +75,14 @@
             android:layout_height="30dp"
             android:gravity="right"
             android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitXY"
+                android:id="@+id/imgbtnFavorite"
+                android:layout_marginRight="10dp"/>
             <ImageButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"

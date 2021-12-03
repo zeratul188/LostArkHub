@@ -271,10 +271,12 @@ public class HomeFragment extends Fragment {
                     String date = data.child("date").getValue().toString();
                     String url = data.child("url").getValue().toString();
                     updates.add(new Update(date, url));
-                    update_dates.add(date+" 업데이트 내역");
                 }
-                Collections.reverse(update_dates);
-                Collections.reverse(updates);
+                Collections.sort(updates, new UpdateComparator());
+                for (Update update : updates) {
+                    System.out.println(update.getDate());
+                    update_dates.add(update.getDate()+" 업데이트 내역");
+                }
                 updateAdapter.notifyDataSetChanged();
             }
 

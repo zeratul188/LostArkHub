@@ -19,13 +19,14 @@ public class ChracterListDBAdapter {
     public static final String KEY_LEVEL = "LEVEL";
     public static final String KEY_ALARM = "ALARM";
     public static final String KEY_SERVER = "SERVER";
+    public static final String KEY_FAVORITE = "FAVORITE";
 
     private static final String DATABASE_CREATE = "create table CHRACTERLIST (_id integer primary key, " +
-            "NAME text not null, JOB text not null, LEVEL integer not null, ALARM text not null, SERVER text not null);";
+            "NAME text not null, JOB text not null, LEVEL integer not null, ALARM text not null, SERVER text not null, FAVORITE integer not null);";
 
     private static final String DATABASE_NAME = "LOSTARKHUB_CHRACTERLIST";
     private static final String DATABASE_TABLE = "CHRACTERLIST";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private Context mCtx;
 
     private DatabaseHelper myDBHelper;
@@ -53,6 +54,9 @@ public class ChracterListDBAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                     + ", which will destroy all old data");
             try {
+                if (oldVersion < 4) {
+                    updateFavoriteColumn(db);
+                }
                 if (oldVersion < 3) {
                     updateServerColumn(db);
                 }
@@ -67,6 +71,13 @@ public class ChracterListDBAdapter {
          */
         private void updateServerColumn(SQLiteDatabase a_db) {
             a_db.execSQL("ALTER TABLE " + DATABASE_TABLE + " " + "ADD COLUMN " + KEY_SERVER + " " + "text DEFAULT " + "'니나브'");
+        }
+
+        /*
+         * Favorite 칼럼 추가
+         */
+        private void updateFavoriteColumn(SQLiteDatabase sd) {
+            sd.execSQL("ALTER TABLE " + DATABASE_TABLE + " " + "ADD COLUMN " + KEY_FAVORITE + " " + "integer DEFAULT " + "0");
         }
     }
 
@@ -87,6 +98,7 @@ public class ChracterListDBAdapter {
         values.put(KEY_LEVEL, chracter.getLevel());
         values.put(KEY_SERVER, chracter.getServer());
         values.put(KEY_ALARM, Boolean.toString(chracter.isAlarm()));
+        values.put(KEY_FAVORITE, chracter.getFavorite());
         return sqlDB.insert(DATABASE_TABLE, null, values);
     }
 
@@ -96,6 +108,16 @@ public class ChracterListDBAdapter {
         /*ContentValues values = new ContentValues();
         values.put(KEY_ALARM, isAlarm);
         sqlDB.update(DATABASE_TABLE, values, "NAME = '?'", new String[] {name});*/
+        return true;
+    }
+
+    public boolean checkFavorite(String name, boolean isFavorite) {
+        int favorite;
+        if (isFavorite) favorite = 1;
+        else favorite = 0;
+        ContentValues values = new ContentValues();
+        values.put(KEY_FAVORITE, favorite);
+        sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
         return true;
     }
 
@@ -110,7 +132,7 @@ public class ChracterListDBAdapter {
     }
 
     public int getRowID(String name) {
-        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER}, "NAME = '"+name+"'", null, null, null, null);
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "NAME = '"+name+"'", null, null, null, null);
         cursor.moveToFirst();
         int result = 0;
         while (!cursor.isAfterLast()) {
@@ -121,11 +143,15 @@ public class ChracterListDBAdapter {
     }
 
     public Cursor fetchAllData() {
-        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER}, null, null, null, null, null);
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, null, null, null, null, null);
     }
 
     public Cursor fetchData(int rowID) {
-        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER}, "_id = "+rowID, null, null, null, null);
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "_id = "+rowID, null, null, null, null);
+    }
+
+    public Cursor findFavoriteChracter() {
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "FAVORITE = 1", null, null, null, null);
     }
 
     public boolean deleteAllData() {
@@ -138,6 +164,16 @@ public class ChracterListDBAdapter {
 
     public boolean deleteData(String name) {
         return sqlDB.delete(DATABASE_TABLE, "NAME = '"+name+"'", null) > 0;
+    }
+
+    public boolean emptyFavorite() {
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getInt(6) == 1) return false;
+            cursor.moveToNext();
+        }
+        return true;
     }
 
 }

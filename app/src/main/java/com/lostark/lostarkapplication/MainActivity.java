@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
+import com.lostark.lostarkapplication.ui.commander.ChecklistActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,8 +41,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
     private ChracterListDBAdapter chracterListDBAdapter;
 
     private long backKeyPressedTime = 0;
+
+    private ImageView imgJob;
+    private TextView txtName, txtLevel, txtJob;
+    private LinearLayout layoutInformation;
+    private FrameLayout layoutMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,34 +142,58 @@ public class MainActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
+
+        View view = navigationView.getHeaderView(0);
+
+        imgJob = view.findViewById(R.id.imgJob);
+        layoutInformation = view.findViewById(R.id.layoutInfomation);
+        txtName = view.findViewById(R.id.txtName);
+        txtLevel = view.findViewById(R.id.txtLevel);
+        txtJob = view.findViewById(R.id.txtJob);
+        layoutMain = view.findViewById(R.id.layoutMain);
+    }
+
+    public void uploadFavoriteChracter() {
+        chracterListDBAdapter.open();
+        Cursor cursort = chracterListDBAdapter.findFavoriteChracter();
+        cursort.moveToFirst();
+        if (cursort.getCount() > 0) {
+            layoutInformation.setVisibility(View.VISIBLE);
+
+            String name = cursort.getString(1);
+            String job = cursort.getString(2);
+            int level = cursort.getInt(3);
+
+            txtName.setText(name);
+            txtLevel.setText(Integer.toString(level));
+            txtJob.setText(job);
+
+            List<String> jobs = Arrays.asList(getResources().getStringArray(R.array.job));
+            imgJob.setImageResource(getResources().getIdentifier("jb"+(jobs.indexOf(job)+1), "drawable", getPackageName()));
+
+            layoutMain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ChecklistActivity.class);
+                    intent.putExtra("chracter_name", name);
+                    intent.putExtra("chracter_level", level);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            layoutInformation.setVisibility(View.GONE);
+            imgJob.setImageResource(0);
+            txtName.setText("대표 캐릭터를 선택하세요.");
+            layoutMain.setOnClickListener(null);
+        }
+        chracterListDBAdapter.close();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        /*if (pref.getBoolean("alarm", false)) {
-            int year = pref.getInt("year", -1);
-            int month = pref.getInt("month", -1);
-            int day = pref.getInt("day", -1);
-            int hour = pref.getInt("hour", -1);
-            if (year != -1) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
-                calendar.set(Calendar.HOUR_OF_DAY, pref.getInt("setting_hour", 22));
 
-                startAlarm(calendar);
-            } else {
-                editor.putInt("year", Calendar.YEAR);
-                editor.putInt("month", Calendar.MONTH+1);
-                editor.putInt("day", Calendar.DAY_OF_MONTH);
-                editor.putInt("hour", Calendar.HOUR_OF_DAY);
-                editor.commit();
-            }
-        } else {
-            cancelAlarm();
-        }*/
+        uploadFavoriteChracter();
 
         int year = pref.getInt("year", -1);
         int month = pref.getInt("month", -1);

@@ -8,7 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">홈</string>
-    <string name="menu_gallery">어빌리티 스톤 세공 시뮬</string>
+    <string name="menu_gallery">스톤 세공 시뮬레이션</string>
     <string name="menu_slideshow">각인 계산서</string>
     <string name="menu_commander">숙제</string>
     <string name="menu_stamp">각인 효과</string>
