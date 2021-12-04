@@ -1,6 +1,8 @@
 package com.lostark.lostarkapplication.ui.commander;
 
-public class Chracter {
+import java.util.Comparator;
+
+public class Chracter implements Comparable<Chracter> {
     private String name, job, server;
     private int level, favorite;
     private boolean isAlarm;
@@ -60,5 +62,15 @@ public class Chracter {
 
     public void setAlarm(boolean alarm) {
         isAlarm = alarm;
+    }
+
+    @Override
+    public int compareTo(Chracter o) {
+        if (favorite < o.getFavorite()) return 1;
+        else if (favorite == o.getFavorite()) {
+            if (level < o.getLevel()) return 1;
+            else if (level == o.getLevel()) return 0;
+            else return -1;
+        } else return -1;
     }
 }

@@ -1,6 +1,6 @@
 package com.lostark.lostarkapplication.ui.home;
 
-public class Update {
+public class Update implements Comparable<Update>{
     private String date, url;
     private int year, month, day;
 
@@ -39,5 +39,18 @@ public class Update {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public int compareTo(Update o) {
+        if (year < o.getYear()) return 1;
+        else if (year == o.getYear()) {
+            if (month < o.getMonth()) return 1;
+            else if (month == o.getMonth()) {
+                if (day < o.getDay()) return 1;
+                else if (day == o.getDay()) return 0;
+                else return -1;
+            } else return -1;
+        } else return -1;
     }
 }

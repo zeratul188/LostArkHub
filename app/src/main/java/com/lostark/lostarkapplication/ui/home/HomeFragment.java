@@ -272,7 +272,7 @@ public class HomeFragment extends Fragment {
                     String url = data.child("url").getValue().toString();
                     updates.add(new Update(date, url));
                 }
-                Collections.sort(updates, new UpdateComparator());
+                Collections.sort(updates);
                 for (Update update : updates) {
                     System.out.println(update.getDate());
                     update_dates.add(update.getDate()+" 업데이트 내역");

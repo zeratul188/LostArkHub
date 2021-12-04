@@ -732,6 +732,7 @@ public class SkillAdapter extends BaseAdapter {
                 Bitmap[] temp = skills.get(position).getTripodBitmaps();
                 temp[index] = result;
                 skills.get(position).setTripodBitmaps(temp);
+                imgTripods[index].setImageBitmap(result);
             } catch (Exception e) {
                 e.printStackTrace();
             }

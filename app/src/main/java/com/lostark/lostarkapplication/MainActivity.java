@@ -11,6 +11,10 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +45,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -68,6 +77,41 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtName, txtLevel, txtJob;
     private LinearLayout layoutInformation;
     private FrameLayout layoutMain;
+
+    private Bundle bundle = null;
+    private Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (!pref.getBoolean("auto_level", true)) {
+                return;
+            }
+
+            if (bundle.getBoolean("gone")) {
+                Toast.makeText(getApplicationContext(), "캐릭터 검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String level_str = bundle.getString("equip_level");
+            level_str = level_str.substring(3);
+            level_str = level_str.replace(",", "");
+            int level = 0;
+            if (level_str.indexOf(".") != -1) {
+                double dv = Double.parseDouble(level_str);
+                level = (int)dv;
+            } else level = Integer.parseInt(level_str);
+
+            txtLevel.setText(Integer.toString(level));
+
+            chracterListDBAdapter.open();
+            Cursor cursor = chracterListDBAdapter.findFavoriteChracter();
+            if (cursor.getCount() != 0) {
+                cursor.moveToFirst();
+                String name = cursor.getString(1);
+                chracterListDBAdapter.changeLevel(name, level);
+            }
+            chracterListDBAdapter.close();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         txtLevel = view.findViewById(R.id.txtLevel);
         txtJob = view.findViewById(R.id.txtJob);
         layoutMain = view.findViewById(R.id.layoutMain);
+
+        bundle = new Bundle();
     }
 
     public void uploadFavoriteChracter() {
@@ -163,6 +209,21 @@ public class MainActivity extends AppCompatActivity {
             String name = cursort.getString(1);
             String job = cursort.getString(2);
             int level = cursort.getInt(3);
+
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        bundleCroring(name, ".level-info2__expedition span", "equip_level", 2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Message msg = new Message();
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+                }
+            }.start();
 
             txtName.setText(name);
             txtLevel.setText(Integer.toString(level));
@@ -265,6 +326,19 @@ public class MainActivity extends AppCompatActivity {
             *startAlarm(nwo);*/
 
             startAlarm(now_cal);
+        }
+    }
+
+    private void bundleCroring(String chracter, String id, String name, int index) throws IOException {
+        Document doc = Jsoup.connect("https://lostark.game.onstove.com/Profile/Character/"+chracter).get();	//URL 웹사이트에 있는 html 코드를 다 끌어오기
+        Elements temele = doc.select(id+":nth-child("+index+")");	//끌어온 html에서 클래스네임이 "temperature_text" 인 값만 선택해서 빼오기
+        boolean isEmpty = temele.isEmpty(); //빼온 값 null체크
+        Log.d("Tag", id+" : isNull? : " + isEmpty); //로그캣 출력
+        if(isEmpty == false) { //null값이 아니면 크롤링 실행
+            bundle.putBoolean("gone", false);
+            bundle.putString(name, temele.get(0).text()); //bundle 이라는 자료형에 뽑아낸 결과값 담아서 main Thread로 보내기
+        } else {
+            bundle.putBoolean("gone", true);
         }
     }
 

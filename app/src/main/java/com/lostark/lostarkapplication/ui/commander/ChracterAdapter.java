@@ -1,6 +1,7 @@
 package com.lostark.lostarkapplication.ui.commander;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -41,11 +42,13 @@ public class ChracterAdapter extends BaseAdapter {
     private AlertDialog alertDialog;
     private Activity activity;
     private List<String> jobs, servers;
+    private CommanderFragment fragment;
 
-    public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity) {
+    public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity, CommanderFragment fragment) {
         this.context = context;
         this.chracters = chracters;
         this.activity = activity;
+        this.fragment = fragment;
         chracterListDBAdapter = new ChracterListDBAdapter(context);
     }
 
@@ -118,6 +121,7 @@ public class ChracterAdapter extends BaseAdapter {
                 }
                 chracterListDBAdapter.close();
                 ((MainActivity)activity).uploadFavoriteChracter();
+                fragment.reSort();
             }
         });
 
@@ -182,6 +186,7 @@ public class ChracterAdapter extends BaseAdapter {
                         Toast.makeText(context, chracters.get(position).getName()+"의 정보를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         chracters.remove(position);
                         notifyDataSetChanged();
+                        ((MainActivity)activity).uploadFavoriteChracter();
                         alertDialog.dismiss();
                     }
                 });

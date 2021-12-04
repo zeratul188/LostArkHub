@@ -131,6 +131,13 @@ public class ChracterListDBAdapter {
         return true;
     }
 
+    public boolean changeLevel(String name, int level) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_LEVEL, level);
+        sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
     public int getRowID(String name) {
         Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "NAME = '"+name+"'", null, null, null, null);
         cursor.moveToFirst();
@@ -148,6 +155,10 @@ public class ChracterListDBAdapter {
 
     public Cursor fetchData(int rowID) {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "_id = "+rowID, null, null, null, null);
+    }
+
+    public Cursor fetchData(String name) {
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "NAME = '"+name+"'", null, null, null, null);
     }
 
     public Cursor findFavoriteChracter() {

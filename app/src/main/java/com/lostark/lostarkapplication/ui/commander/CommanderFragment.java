@@ -65,7 +65,7 @@ public class CommanderFragment extends Fragment {
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         characters = new ArrayList<>();
-        chracterAdapter = new ChracterAdapter(getActivity(), characters, getActivity());
+        chracterAdapter = new ChracterAdapter(getActivity(), characters, getActivity(), this);
         listView.setAdapter(chracterAdapter);
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class CommanderFragment extends Fragment {
                         chracterListDBAdapter.insertData(new Chracter(name, job, server, level, 0, true));
                         characters.add(new Chracter(name, job, server, level, 0, true));
                         chracterListDBAdapter.close();
-                        Collections.sort(characters, new ChracterComparator());
+                        Collections.sort(characters);
                         chracterAdapter.notifyDataSetChanged();
 
                         SharedPreferences pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
@@ -212,6 +212,11 @@ public class CommanderFragment extends Fragment {
         return root;
     }
 
+    public void reSort() {
+        Collections.sort(characters);
+        chracterAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -229,7 +234,7 @@ public class CommanderFragment extends Fragment {
             characters.add(new Chracter(name, job, server, level, favorite, isAlarm));
             cursor.moveToNext();
         }
-        Collections.sort(characters, new ChracterComparator());
+        Collections.sort(characters);
         chracterListDBAdapter.close();
         chracterAdapter.notifyDataSetChanged();
     }
