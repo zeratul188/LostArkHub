@@ -41,16 +41,13 @@ public class SkillAdapter extends BaseAdapter {
     private DataNetwork dataNetwork;
     private Activity activity;
 
-    private ImageView[] imgTripods;
-    private ImageView imgRune;
-
     private RuneDBAdapter runeDBAdapter;
 
     private Bitmap[] bitmaps;
     private AlertDialog alertDialog;
     private int job_index = 9999;
 
-    private boolean isShow = false;
+    private boolean isShow = false, isRetripod = false;
 
     private int[] checklist = new int[3];
 
@@ -121,9 +118,9 @@ public class SkillAdapter extends BaseAdapter {
         ImageButton imgbtnDecrease = convertView.findViewById(R.id.imgbtnDecrease);
         LinearLayout layoutNeedSkillPoint = convertView.findViewById(R.id.layoutNeedSkillPoint);
         LinearLayout layoutSetting = convertView.findViewById(R.id.layoutSetting);
-        imgTripods = new ImageView[3];
+        ImageView[] imgTripods = new ImageView[3];
         TextView txtRune = convertView.findViewById(R.id.txtRune);
-        imgRune = convertView.findViewById(R.id.imgRune);
+        ImageView imgRune = convertView.findViewById(R.id.imgRune);
         ImageView imgRuneBackground = convertView.findViewById(R.id.imgRuneBackground);
         for (int i = 0; i < imgTripods.length; i++) imgTripods[i] = convertView.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1), "id", context.getPackageName()));
 
@@ -173,21 +170,21 @@ public class SkillAdapter extends BaseAdapter {
                         case 1:
                             if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
                                 //new DownloadFilesTask(imgTripods[0], position, 0).execute(args[4]);
-                                if (skills.get(position).getTripodBitmaps()[0] == null) new TripodDownloadFilesTask(position, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                if (skills.get(position).getTripodBitmaps()[0] == null) new TripodDownloadFilesTask(position, 0, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             first++;
                             break;
                         case 2:
                             if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
                                 //new DownloadFilesTask(imgTripods[1], position, 1).execute(args[4]);
-                                if (skills.get(position).getTripodBitmaps()[1] == null) new TripodDownloadFilesTask(position, 1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                if (skills.get(position).getTripodBitmaps()[1] == null) new TripodDownloadFilesTask(position, 1, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             second++;
                             break;
                         case 3:
                             if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
                                 //new DownloadFilesTask(imgTripods[2], position, 2).execute(args[4]);
-                                if (skills.get(position).getTripodBitmaps()[2] == null) new TripodDownloadFilesTask(position, 2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                if (skills.get(position).getTripodBitmaps()[2] == null) new TripodDownloadFilesTask(position, 2, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
                             }
                             third++;
                             break;
@@ -204,7 +201,7 @@ public class SkillAdapter extends BaseAdapter {
         if (skills.get(position).getRune() < runeDBAdapter.getSize()) {
             String[] args = runeDBAdapter.readData(skills.get(position).getRune());
             int grade = Integer.parseInt(args[1]);
-            if (skills.get(position).getRuneBitmap() == null) new RuneDownloadFilesTask(position).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[3]);
+            if (skills.get(position).getRuneBitmap() == null) new RuneDownloadFilesTask(position, imgRune).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[3]);
             switch (grade) {
                 case 1:
                     txtRune.setTextColor(Color.parseColor("#8dbe46"));
@@ -551,10 +548,48 @@ public class SkillAdapter extends BaseAdapter {
                         }
                         skills.get(position).setTripods(checklist);
                         skills.get(position).setTripodBitmaps(new Bitmap[3]);
-                        notifyDataSetChanged();
+                        isRetripod = true;
+
+                        JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(activity, job_index+1);
+                        int first = 0, second = 0, third = 0;
+                        for (int i = 0; i < jobTripodDBAdapter.getSize(); i++) {
+                            String[] args = jobTripodDBAdapter.readData(i);
+                            if (Integer.parseInt(args[0]) == position+1) {
+                                switch (Integer.parseInt(args[1])) {
+                                    case 1:
+                                        if (skills.get(position).getTripods()[0] == first && skills.get(position).getTripods()[0] < 4) {
+                                            //new DownloadFilesTask(imgTripods[0], position, 0).execute(args[4]);
+                                            if (skills.get(position).getTripodBitmaps()[0] == null) new TripodDownloadFilesTask(position, 0, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                        }
+                                        first++;
+                                        break;
+                                    case 2:
+                                        if (skills.get(position).getTripods()[1] == second && skills.get(position).getTripods()[1] < 4) {
+                                            //new DownloadFilesTask(imgTripods[1], position, 1).execute(args[4]);
+                                            if (skills.get(position).getTripodBitmaps()[1] == null) new TripodDownloadFilesTask(position, 1, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                        }
+                                        second++;
+                                        break;
+                                    case 3:
+                                        if (skills.get(position).getTripods()[2] == third && skills.get(position).getTripods()[2] < 4) {
+                                            //new DownloadFilesTask(imgTripods[2], position, 2).execute(args[4]);
+                                            if (skills.get(position).getTripodBitmaps()[2] == null) new TripodDownloadFilesTask(position, 2, imgTripods).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args[4]);
+                                        }
+                                        third++;
+                                        break;
+                                }
+                            }
+                        }
+                        for (int i = 0; i < 3; i++) {
+                            if (skills.get(position).getTripods()[i] == 4) {
+                                imgTripods[i].setImageResource(R.drawable.close_eye);
+                            }
+                        }
+
+                        //notifyDataSetChanged();
                         Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
-                        new SleepNotifyThread().start();
+                        //new SleepNotifyThread().start();
                     }
                 });
 
@@ -659,9 +694,11 @@ public class SkillAdapter extends BaseAdapter {
 
     private class RuneDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
         private int position;
+        private ImageView imgView;
 
-        public RuneDownloadFilesTask(int position) {
+        public RuneDownloadFilesTask(int position, ImageView imgView) {
             this.position = position;
+            this.imgView = imgView;
         }
 
         @Override
@@ -690,6 +727,7 @@ public class SkillAdapter extends BaseAdapter {
             // doInBackground 에서 받아온 total 값 사용 장소
             try {
                 skills.get(position).setRuneBitmap(result);
+                imgView.setImageBitmap(result);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -697,11 +735,13 @@ public class SkillAdapter extends BaseAdapter {
     }
 
     private class TripodDownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        private ImageView[] imgView;
         private int position, index;
 
-        public TripodDownloadFilesTask(int position, int index) {
+        public TripodDownloadFilesTask(int position, int index, ImageView[] imgView) {
             this.position = position;
             this.index = index;
+            this.imgView = imgView;
         }
 
         @Override
@@ -732,7 +772,7 @@ public class SkillAdapter extends BaseAdapter {
                 Bitmap[] temp = skills.get(position).getTripodBitmaps();
                 temp[index] = result;
                 skills.get(position).setTripodBitmaps(temp);
-                imgTripods[index].setImageBitmap(result);
+                imgView[index].setImageBitmap(result);
             } catch (Exception e) {
                 e.printStackTrace();
             }

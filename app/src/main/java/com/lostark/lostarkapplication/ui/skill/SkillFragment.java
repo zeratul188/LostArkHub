@@ -206,7 +206,9 @@ public class SkillFragment extends Fragment {
                                 }
                                 skillDBAdapter.close();
 
-                                JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(getActivity(), sprJob.getSelectedItemPosition()+1);
+                                for (Skill skill : skills) skill.setTripodBitmaps(new Bitmap[3]);
+
+                                /*JobTripodDBAdapter jobTripodDBAdapter = new JobTripodDBAdapter(getActivity(), sprJob.getSelectedItemPosition()+1);
                                 int first = 0, second = 0, third = 0;
                                 for (int i = 0; i < jobTripodDBAdapter.getSize(); i++) {
                                     String[] args = jobTripodDBAdapter.readData(i);
@@ -235,7 +237,7 @@ public class SkillFragment extends Fragment {
                                                 break;
                                         }
                                     }
-                                }
+                                }*/
 
                                 txtPresetName.setText(presets.get(position).getName());
 

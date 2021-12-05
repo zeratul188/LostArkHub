@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:background="#000000"
-        android:id="@+id/layoutMain"
-        android:paddingTop="30dp">
+        android:id="@+id/layoutMain">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -29,7 +28,7 @@
                 android:id="@+id/imgJob"/>
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imageopacitygradientstyle"/>
@@ -38,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -81,10 +81,5 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#40aaaaaa"/>
 
 </LinearLayout>

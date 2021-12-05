@@ -1,7 +1,6 @@
 package com.lostark.lostarkapplication.ui.commander;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -276,6 +274,7 @@ public class ChracterAdapter extends BaseAdapter {
                         chracters.get(position).setLevel(Integer.parseInt(edtLevel.getText().toString()));
                         Toast.makeText(context, chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
+                        ((MainActivity)activity).uploadFavoriteChracter();
                         alertDialog.dismiss();
                     }
                 });
