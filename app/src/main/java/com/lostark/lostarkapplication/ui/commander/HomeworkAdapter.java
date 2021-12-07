@@ -124,9 +124,11 @@ public class HomeworkAdapter extends BaseAdapter {
                 cursor = chracterDBAdapter.fetchData("카던 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
-                progress = cursor.getInt(3);
-                txtRest.setText(Integer.toString(progress*10));
-                progressRest.setProgress(progress);
+                if (cursor.getCount() > 0) {
+                    progress = cursor.getInt(3);
+                    txtRest.setText(Integer.toString(progress*10));
+                    progressRest.setProgress(progress);
+                }
                 break;
             case "가디언 토벌":
                 layoutRest.setVisibility(View.VISIBLE);
@@ -134,9 +136,11 @@ public class HomeworkAdapter extends BaseAdapter {
                 cursor = chracterDBAdapter.fetchData("가디언 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
-                progress = cursor.getInt(3);
-                txtRest.setText(Integer.toString(progress*10));
-                progressRest.setProgress(progress);
+                if (cursor.getCount() > 0) {
+                    progress = cursor.getInt(3);
+                    txtRest.setText(Integer.toString(progress*10));
+                    progressRest.setProgress(progress);
+                }
                 break;
             case "에포나 일일 의뢰":
                 layoutRest.setVisibility(View.VISIBLE);
@@ -144,9 +148,11 @@ public class HomeworkAdapter extends BaseAdapter {
                 cursor = chracterDBAdapter.fetchData("에포나 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
-                progress = cursor.getInt(3);
-                txtRest.setText(Integer.toString(progress*10));
-                progressRest.setProgress(progress);
+                if (cursor.getCount() > 0) {
+                    progress = cursor.getInt(3);
+                    txtRest.setText(Integer.toString(progress*10));
+                    progressRest.setProgress(progress);
+                }
                 break;
             default:
                 layoutRest.setVisibility(View.GONE);

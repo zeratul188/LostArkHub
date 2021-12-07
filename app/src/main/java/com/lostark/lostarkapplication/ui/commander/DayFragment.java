@@ -52,6 +52,10 @@ public class DayFragment extends Fragment {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
+    public DayFragment() {
+
+    }
+
     public DayFragment(String name) {
         this.name = name;
     }

@@ -48,6 +48,10 @@ public class WeekFragment extends Fragment {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
+    public WeekFragment() {
+
+    }
+
     public WeekFragment(String name) {
         this.name = name;
     }
