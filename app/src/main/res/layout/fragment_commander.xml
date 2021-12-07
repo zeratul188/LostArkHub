@@ -20,12 +20,27 @@
             android:dividerHeight="5dp"
             android:id="@+id/listView"/>
     </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fabAdd"
-        android:backgroundTint="#fe6e0e"
+        android:orientation="horizontal"
         android:layout_gravity="center|bottom"
         android:layout_margin="18dp"
-        android:src="@drawable/ic_add_black_24dp"/>
+        android:gravity="center">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fabAdd"
+            android:backgroundTint="#fe6e0e"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_add_black_24dp"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fabRefresh"
+            android:backgroundTint="#777777"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_refresh_black_24dp"/>
+    </LinearLayout>
+
 </FrameLayout>

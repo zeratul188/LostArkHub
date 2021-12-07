@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/nav_img_background"
+        android:background="@drawable/jbb_none"
         app:itemTextColor="#aaffffff"
         app:itemIconTint="#aaffffff"
         app:itemBackground="@drawable/nav_background"

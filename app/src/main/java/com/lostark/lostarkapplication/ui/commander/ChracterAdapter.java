@@ -275,6 +275,8 @@ public class ChracterAdapter extends BaseAdapter {
                         Toast.makeText(context, chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         ((MainActivity)activity).uploadFavoriteChracter();
+                        fragment.reSort();
+                        fragment.uploadLevelData();
                         alertDialog.dismiss();
                     }
                 });

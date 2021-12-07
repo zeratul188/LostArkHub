@@ -181,7 +181,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="대표 캐릭터 레벨 자동 설정"
+                    android:text="캐릭터 레벨 자동 설정"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
                 <CheckBox
