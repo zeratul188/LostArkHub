@@ -448,14 +448,14 @@ public class SkillAdapter extends BaseAdapter {
                 LinearLayout layoutThird = view.findViewById(R.id.layoutThird);
                 Button btnSetting = view.findViewById(R.id.btnSetting);
                 LinearLayout[][] layoutTripod = new LinearLayout[3][3];
-                ImageView[][] imgTripod = new ImageView[3][3];
+                ImageView[][] imgTripodss = new ImageView[3][3];
                 TextView[][] txtTripod = new TextView[3][3];
                 TextView[][] txtTripodContent = new TextView[3][3];;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         if (i == 2 && j == 2) continue;
                         layoutTripod[i][j] = view.findViewById(context.getResources().getIdentifier("layoutTripod"+(i+1)+(j+1), "id", context.getPackageName()));
-                        imgTripod[i][j] = view.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1)+(j+1), "id", context.getPackageName()));
+                        imgTripodss[i][j] = view.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1)+(j+1), "id", context.getPackageName()));
                         txtTripod[i][j] = view.findViewById(context.getResources().getIdentifier("txtTripod"+(i+1)+(j+1), "id", context.getPackageName()));
                         txtTripodContent[i][j] = view.findViewById(context.getResources().getIdentifier("txtTripodContent"+(i+1)+(j+1), "id", context.getPackageName()));
 
@@ -503,7 +503,7 @@ public class SkillAdapter extends BaseAdapter {
                         switch (Integer.parseInt(args[1])) {
                             case 1:
                                 if (first < 3) {
-                                    new DownloadFilesTask(imgTripod[0][first]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripodss[0][first]).execute(args[4]);
                                     txtTripod[0][first].setText(args[2]);
                                     txtTripodContent[0][first].setText(args[3]);
                                     first++;
@@ -511,7 +511,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 2:
                                 if (second < 3) {
-                                    new DownloadFilesTask(imgTripod[1][second]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripodss[1][second]).execute(args[4]);
                                     txtTripod[1][second].setText(args[2]);
                                     txtTripodContent[1][second].setText(args[3]);
                                     second++;
@@ -519,7 +519,7 @@ public class SkillAdapter extends BaseAdapter {
                                 break;
                             case 3:
                                 if (third < 2) {
-                                    new DownloadFilesTask(imgTripod[2][third]).execute(args[4]);
+                                    new DownloadFilesTask(imgTripodss[2][third]).execute(args[4]);
                                     txtTripod[2][third].setText(args[2]);
                                     txtTripodContent[2][third].setText(args[3]);
                                     third++;
@@ -585,6 +585,14 @@ public class SkillAdapter extends BaseAdapter {
                                 imgTripods[i].setImageResource(R.drawable.close_eye);
                             }
                         }
+
+                        int st = 0;
+                        for (int tripod : skills.get(position).getTripods()) {
+                            if (tripod != 4) {
+                                st++;
+                            }
+                        }
+                        imgTripod.setImageResource(context.getResources().getIdentifier("skill"+(st+1), "drawable", context.getPackageName()));
 
                         //notifyDataSetChanged();
                         Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();

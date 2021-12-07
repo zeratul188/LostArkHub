@@ -1,8 +1,11 @@
 package com.lostark.lostarkapplication.ui.commander;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -227,6 +230,16 @@ public class ChracterAdapter extends BaseAdapter {
                 Button btnEdit = view.findViewById(R.id.btnEdit);
                 ImageButton btnNameCopy = view.findViewById(R.id.btnNameCopy);
                 ImageButton btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
+                TextView txtWarning = view.findViewById(R.id.txtWarning);
+
+                SharedPreferences pref = activity.getSharedPreferences("setting_file", MODE_PRIVATE);
+                if (pref.getBoolean("auto_level", true)) {
+                    edtLevel.setHint("자동 설정");
+                    edtLevel.setHintTextColor(Color.parseColor("#FF9999"));
+                    edtLevel.setEnabled(false);
+                    txtWarning.setVisibility(View.VISIBLE);
+                    btnLevelCopy.setEnabled(false);
+                }
 
                 jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.job_item, jobs);
@@ -243,7 +256,7 @@ public class ChracterAdapter extends BaseAdapter {
                 sprServer.setSelection(server_index);
 
                 edtName.setHint(chracters.get(position).getName());
-                edtLevel.setHint(Integer.toString(chracters.get(position).getLevel()));
+                if (!pref.getBoolean("auto_level", true)) edtLevel.setHint(Integer.toString(chracters.get(position).getLevel()));
 
                 btnNameCopy.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -262,16 +275,26 @@ public class ChracterAdapter extends BaseAdapter {
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (edtName.getText().toString().equals("") || edtLevel.getText().toString().equals("")) {
-                            Toast.makeText(context, "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                        String name = chracters.get(position).getName();
+                        if (edtName.getText().toString().equals("")) {
+                            Toast.makeText(context, "이름 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if (edtLevel.getText().toString().equals("") && !pref.getBoolean("auto_level", true)) {
+                            Toast.makeText(context, "레벨 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if (!edtName.getText().toString().equals(name) && isSameName(edtName.getText().toString())) {
+                            Toast.makeText(context, "이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        int level;
+                        if (pref.getBoolean("auto_level", true)) level = 0;
+                        else level = Integer.parseInt(edtLevel.getText().toString());
                         chracterListDBAdapter.open();
-                        chracterListDBAdapter.changeInfo(chracters.get(position).getName(), edtName.getText().toString(), sprJob.getSelectedItem().toString(), Integer.parseInt(edtLevel.getText().toString()), sprServer.getSelectedItem().toString());
+                        chracterListDBAdapter.changeInfo(chracters.get(position).getName(), edtName.getText().toString(), sprJob.getSelectedItem().toString(), level, sprServer.getSelectedItem().toString());
                         chracterListDBAdapter.close();
                         chracters.get(position).setName(edtName.getText().toString());
                         chracters.get(position).setJob(sprJob.getSelectedItem().toString());
-                        chracters.get(position).setLevel(Integer.parseInt(edtLevel.getText().toString()));
+                        chracters.get(position).setLevel(level);
                         Toast.makeText(context, chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         ((MainActivity)activity).uploadFavoriteChracter();
@@ -291,5 +314,21 @@ public class ChracterAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    private boolean isSameName(String str) {
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(1);
+            if (str.equals(name)) {
+                chracterListDBAdapter.close();
+                return true;
+            }
+            cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+        return false;
     }
 }

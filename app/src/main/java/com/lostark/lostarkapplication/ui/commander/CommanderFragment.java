@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -222,11 +223,13 @@ public class CommanderFragment extends Fragment {
                 Spinner sprJob = view.findViewById(R.id.sprJob);
                 Spinner sprServer = view.findViewById(R.id.sprServer);
                 Button btnAdd = view.findViewById(R.id.btnAdd);
+                TextView txtWarning = view.findViewById(R.id.txtWarning);
 
                 if (pref.getBoolean("auto_level", true)) {
                     edtLevel.setHint("자동 설정");
                     edtLevel.setHintTextColor(Color.parseColor("#FF9999"));
                     edtLevel.setEnabled(false);
+                    txtWarning.setVisibility(View.VISIBLE);
                 }
 
                 List<String> jobs = Arrays.asList(getActivity().getResources().getStringArray(R.array.job));

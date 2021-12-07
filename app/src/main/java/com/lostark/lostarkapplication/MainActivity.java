@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (bundle.getBoolean("gone")) {
-                Toast.makeText(getApplicationContext(), "캐릭터 검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
