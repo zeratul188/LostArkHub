@@ -45,7 +45,7 @@ import java.util.Calendar;
 
 public class SettingActivity extends AppCompatActivity {
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset;
-    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting;
+    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion;
 
@@ -91,6 +91,7 @@ public class SettingActivity extends AppCompatActivity {
         btnDeleteSkillPreset = findViewById(R.id.btnDeleteSkillPreset);
         chkAutoCreateHomework = findViewById(R.id.chkAutoCreateHomework);
         chkAutoLevelSetting = findViewById(R.id.chkAutoLevelSetting);
+        chkProgressHomework = findViewById(R.id.chkProgressHomework);
         
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
@@ -120,6 +121,15 @@ public class SettingActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.time_item, times);
         sprAlarm.setAdapter(adapter);
         sprAlarm.setSelection(pref.getInt("setting_hour", 22));
+
+        chkProgressHomework.setChecked(pref.getBoolean("progress_homework", false));
+        chkProgressHomework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("progress_homework", isChecked);
+                editor.commit();
+            }
+        });
 
         chkAutoLevelSetting.setChecked(pref.getBoolean("auto_level", true));
         chkAutoLevelSetting.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

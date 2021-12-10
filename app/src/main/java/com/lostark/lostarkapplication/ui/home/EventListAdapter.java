@@ -51,7 +51,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         storageRef.child("Events/event"+events.get(position).getNumber()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(holder.imgEvent);
+                try {
+                    Glide.with(context).load(uri).into(holder.imgEvent);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

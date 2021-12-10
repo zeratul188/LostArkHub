@@ -12,21 +12,33 @@
         <entry key="..\:/Users/yeongho97/AndroidStudioProjects/LostArkHub/app/src/main/res/layout/fragment_home.xml" value="0.12335359675785208" />
         <entry key="..\:/Users/yeongho97/AndroidStudioProjects/LostArkHub/app/src/main/res/layout/nav_header_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/chracter_background.xml" value="0.28055555555555556" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/homework_progress_style.xml" value="0.2712962962962963" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_add_black_24dp.xml" value="0.2759259259259259" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle.xml" value="0.27870370370370373" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/nav_background.xml" value="0.27870370370370373" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/nav_icon.xml" value="0.27870370370370373" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/progress_style.xml" value="0.2712962962962963" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/topimageopacitygradientstyle.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod2_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod2_checked_content_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod3_checked_content_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_checked_content_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_content_background.xml" value="0.20347222222222222" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/activity_main.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/activity_setting.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/app_bar_main.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_add_dialog.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_edit_dialog.xml" value="0.2324074074074074" />
-        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/content_main.xml" value="0.2361111111111111" />
-        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_commander.xml" value="0.25" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/day_homework_list.xml" value="0.22870370370370371" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_commander.xml" value="0.18" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_home.xml" value="0.23055555555555557" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_skill.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/select_list.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/skill_list.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/skill_preset_layout.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/skill_preset_list.xml" value="0.20520833333333333" />

@@ -10,7 +10,6 @@ public class Update implements Comparable<Update>{
         year = Integer.parseInt(date.substring(0, 4));
         month = Integer.parseInt(date.substring(date.indexOf("년 ")+2, date.indexOf("월")));
         day = Integer.parseInt(date.substring(date.indexOf("월 ")+2, date.indexOf("일")));
-        System.out.println("Year : "+year+", Month : "+month+", Day : "+day);
     }
 
     public int getYear() {

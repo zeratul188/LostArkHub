@@ -274,7 +274,6 @@ public class HomeFragment extends Fragment {
                 }
                 Collections.sort(updates);
                 for (Update update : updates) {
-                    System.out.println(update.getDate());
                     update_dates.add(update.getDate()+" 업데이트 내역");
                 }
                 updateAdapter.notifyDataSetChanged();

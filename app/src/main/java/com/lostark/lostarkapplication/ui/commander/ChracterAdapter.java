@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class ChracterAdapter extends BaseAdapter {
     private Activity activity;
     private List<String> jobs, servers;
     private CommanderFragment fragment;
+    private SharedPreferences pref;
 
     public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity, CommanderFragment fragment) {
         this.context = context;
@@ -51,6 +53,7 @@ public class ChracterAdapter extends BaseAdapter {
         this.activity = activity;
         this.fragment = fragment;
         chracterListDBAdapter = new ChracterListDBAdapter(context);
+        pref = context.getSharedPreferences("setting_file", MODE_PRIVATE);
     }
 
     @Override
@@ -82,6 +85,9 @@ public class ChracterAdapter extends BaseAdapter {
         CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
         TextView txtServer = convertView.findViewById(R.id.txtServer);
         ImageButton imgbtnFavorite = convertView.findViewById(R.id.imgbtnFavorite);
+        TextView txtProgress = convertView.findViewById(R.id.txtProgress);
+        TextView txtProgressInfo = convertView.findViewById(R.id.txtProgressInfo);
+        ProgressBar progressHomework = convertView.findViewById(R.id.progressHomework);
         jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
 
         txtName.setText(chracters.get(position).getName());
@@ -92,6 +98,50 @@ public class ChracterAdapter extends BaseAdapter {
         else imgbtnNotication.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         int index = jobs.indexOf(chracters.get(position).getJob());
         imgJob.setImageResource(context.getResources().getIdentifier("jbi"+(index+1), "drawable", context.getPackageName()));
+
+        chracterListDBAdapter.open();
+        chracterDBAdapter = new ChracterDBAdapter(context, "CHRACTER"+chracterListDBAdapter.getRowID(chracters.get(position).getName()));
+        chracterListDBAdapter.close();
+        chracterDBAdapter.open();
+        Cursor cursor = chracterDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        int progress_max = 0;
+        int progress = 0;
+        if (pref.getBoolean("progress_homework", false)) {
+            while (!cursor.isAfterLast()) {
+                if (cursor.getString(2).equals("일일")) {
+                    progress += cursor.getInt(3);
+                    progress_max += cursor.getInt(4);
+                }
+                cursor.moveToNext();
+            }
+        } else {
+            while (!cursor.isAfterLast()) {
+                if (cursor.getString(2).equals("일일") && Boolean.parseBoolean(cursor.getString(5))) {
+                    progress += cursor.getInt(3);
+                    progress_max += cursor.getInt(4);
+                }
+                cursor.moveToNext();
+            }
+        }
+        chracterDBAdapter.close();
+
+        if (progress_max != 0) {
+            progressHomework.setVisibility(View.VISIBLE);
+            txtProgressInfo.setVisibility(View.VISIBLE);
+            progressHomework.setMax(progress_max);
+            progressHomework.setProgress(progress);
+            int result = (int)((double)progress / (double)progress_max * 100.0);
+            txtProgress.setText(result+"%");
+            if (result == 100) txtProgress.setTextColor(Color.parseColor("#FE6E0E"));
+            else txtProgress.setTextColor(Color.parseColor("#FFFFFF"));
+        } else {
+            progressHomework.setVisibility(View.GONE);
+            txtProgressInfo.setVisibility(View.GONE);
+            txtProgress.setText("숙제 없음");
+            txtProgress.setTextColor(Color.parseColor("#FF7777"));
+        }
+
 
         if (chracters.get(position).getFavorite() == 1) {
             imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);

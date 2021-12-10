@@ -205,10 +205,6 @@ public class CommanderFragment extends Fragment {
         fabRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!pref.getBoolean("auto_level", true)) {
-                    Toast.makeText(getActivity(), "레벨 자동 설정이 꺼져있어서 레벨 자동 설정을 할 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 uploadLevelData();
             }
         });
@@ -380,6 +376,8 @@ public class CommanderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (pref.getBoolean("auto_level", true)) fabRefresh.setVisibility(View.VISIBLE);
+        else fabRefresh.setVisibility(View.GONE);
         characters.clear();
         chracterListDBAdapter.open();
         Cursor cursor = chracterListDBAdapter.fetchAllData();

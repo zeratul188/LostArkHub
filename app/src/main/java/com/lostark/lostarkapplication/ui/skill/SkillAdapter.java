@@ -420,9 +420,18 @@ public class SkillAdapter extends BaseAdapter {
             layoutSetting.setVisibility(View.VISIBLE);
             layoutNeedSkillPoint.setVisibility(View.VISIBLE);
             imgTripod.setVisibility(View.VISIBLE);
-            for (ImageView imgView : imgTripods) imgView.setVisibility(View.VISIBLE);
+            //for (ImageView imgView : imgTripods) imgView.setVisibility(View.VISIBLE);
+            for (int i = 0; i < 3; i++) {
+                if (skills.get(position).getTripods()[i] == 4) {
+                    imgTripods[i].setVisibility(View.GONE);
+                } else {
+                    imgTripods[i].setVisibility(View.VISIBLE);
+                }
+            }
             txtSkillName.setTextColor(Color.parseColor("#FFFFFF"));
         }
+
+
 
         if (skills.get(position).getLevel() == skills.get(position).getMax_level()) imgbtnIncrease.setEnabled(false);
         else imgbtnIncrease.setEnabled(true);
@@ -461,8 +470,20 @@ public class SkillAdapter extends BaseAdapter {
 
                         if (skills.get(position).getTripods()[i] != 4) {
                             if (j == skills.get(position).getTripods()[i]) {
-                                layoutTripod[i][j].setBackgroundColor(Color.parseColor("#6A833D"));
-                                txtTripodContent[i][j].setBackgroundResource(R.drawable.tripod_checked_content_background);
+                                switch (i) {
+                                    case 0:  //2D8C98
+                                        layoutTripod[i][j].setBackgroundColor(Color.parseColor("#2D8C98"));
+                                        txtTripodContent[i][j].setBackgroundResource(R.drawable.tripod1_checked_content_background);
+                                        break;
+                                    case 1: //#6A833D
+                                        layoutTripod[i][j].setBackgroundColor(Color.parseColor("#6A833D"));
+                                        txtTripodContent[i][j].setBackgroundResource(R.drawable.tripod2_checked_content_background);
+                                        break;
+                                    case 2: //#BF9131
+                                        layoutTripod[i][j].setBackgroundColor(Color.parseColor("#BF9131"));
+                                        txtTripodContent[i][j].setBackgroundResource(R.drawable.tripod3_checked_content_background);
+                                        break;
+                                }
                             } else {
                                 layoutTripod[i][j].setBackgroundColor(Color.parseColor("#40aaaaaa"));
                                 txtTripodContent[i][j].setBackgroundResource(R.drawable.tripod_content_background);
@@ -480,8 +501,21 @@ public class SkillAdapter extends BaseAdapter {
                                 else length = 3;
                                 for (int i = 0; i < length; i++) {
                                     if (i == second_index) {
-                                        layoutTripod[first_index][i].setBackgroundColor(Color.parseColor("#6A833D"));
-                                        txtTripodContent[first_index][i].setBackgroundResource(R.drawable.tripod_checked_content_background);
+                                        switch (first_index) {
+                                            case 0:  //2D8C98
+                                                layoutTripod[first_index][i].setBackgroundColor(Color.parseColor("#2D8C98"));
+                                                txtTripodContent[first_index][i].setBackgroundResource(R.drawable.tripod1_checked_content_background);
+                                                break;
+                                            case 1: //#6A833D
+                                                layoutTripod[first_index][i].setBackgroundColor(Color.parseColor("#6A833D"));
+                                                txtTripodContent[first_index][i].setBackgroundResource(R.drawable.tripod2_checked_content_background);
+                                                break;
+                                            case 2: //#BF9131
+                                                layoutTripod[first_index][i].setBackgroundColor(Color.parseColor("#BF9131"));
+                                                txtTripodContent[first_index][i].setBackgroundResource(R.drawable.tripod3_checked_content_background);
+                                                break;
+                                        }
+
                                     } else {
                                         layoutTripod[first_index][i].setBackgroundColor(Color.parseColor("#40aaaaaa"));
                                         txtTripodContent[first_index][i].setBackgroundResource(R.drawable.tripod_content_background);
@@ -593,6 +627,14 @@ public class SkillAdapter extends BaseAdapter {
                             }
                         }
                         imgTripod.setImageResource(context.getResources().getIdentifier("skill"+(st+1), "drawable", context.getPackageName()));
+
+                        for (int i = 0; i < 3; i++) {
+                            if (skills.get(position).getTripods()[i] == 4) {
+                                imgTripods[i].setVisibility(View.GONE);
+                            } else {
+                                imgTripods[i].setVisibility(View.VISIBLE);
+                            }
+                        }
 
                         //notifyDataSetChanged();
                         Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
