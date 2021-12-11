@@ -90,24 +90,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String level_str = bundle.getString("equip_level");
-            level_str = level_str.substring(3);
-            level_str = level_str.replace(",", "");
-            int level = 0;
-            if (level_str.indexOf(".") != -1) {
-                double dv = Double.parseDouble(level_str);
-                level = (int)dv;
-            } else level = Integer.parseInt(level_str);
+            if (level_str != null) {
+                level_str = level_str.substring(3);
+                level_str = level_str.replace(",", "");
+                int level = 0;
+                if (level_str.indexOf(".") != -1) {
+                    double dv = Double.parseDouble(level_str);
+                    level = (int)dv;
+                } else level = Integer.parseInt(level_str);
 
-            txtLevel.setText(Integer.toString(level));
+                txtLevel.setText(Integer.toString(level));
 
-            chracterListDBAdapter.open();
-            Cursor cursor = chracterListDBAdapter.findFavoriteChracter();
-            if (cursor.getCount() != 0) {
-                cursor.moveToFirst();
-                String name = cursor.getString(1);
-                chracterListDBAdapter.changeLevel(name, level);
+                chracterListDBAdapter.open();
+                Cursor cursor = chracterListDBAdapter.findFavoriteChracter();
+                if (cursor.getCount() != 0) {
+                    cursor.moveToFirst();
+                    String name = cursor.getString(1);
+                    chracterListDBAdapter.changeLevel(name, level);
+                }
+                chracterListDBAdapter.close();
             }
-            chracterListDBAdapter.close();
         }
     };
 

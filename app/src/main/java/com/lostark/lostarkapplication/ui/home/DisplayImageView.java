@@ -1,7 +1,6 @@
 package com.lostark.lostarkapplication.ui.home;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
@@ -9,29 +8,29 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.lostark.lostarkapplication.R;
 
-public class SquareImageView extends AppCompatImageView {
+public class DisplayImageView extends AppCompatImageView {
     private String mFit = "normal";
 
-    public SquareImageView(Context context) {
+    public DisplayImageView(Context context) {
         super(context);
     }
 
-    public SquareImageView(Context context, @Nullable AttributeSet attrs) {
+    public DisplayImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SquareImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DisplayImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, @Nullable AttributeSet attrs) {
-        mFit = context.obtainStyledAttributes(attrs, R.styleable.SquareImageView).getString(R.styleable.SquareImageView_fit);
+        mFit = context.obtainStyledAttributes(attrs, R.styleable.DisplayImageView).getString(R.styleable.DisplayImageView_fits);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        //super.onMeasure(widthMeasureSpec, widthMeasureSpec*2/3);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(widthSize, widthSize);
+        setMeasuredDimension(widthSize, widthSize*2/3);
     }
 }

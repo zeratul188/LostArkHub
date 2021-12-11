@@ -55,6 +55,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                     Glide.with(context).load(uri).into(holder.imgEvent);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
+                    System.out.println("Error NullPointerException!!==================================");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -62,7 +63,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                holder.imgEvent.setImageResource(R.drawable.noemptyboss);
             }
         });
     }

@@ -46,10 +46,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -69,10 +69,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -92,10 +92,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -396,10 +396,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.SquareImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -419,10 +419,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.SquareImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -442,10 +442,10 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="100dp">
-                    <ImageView
+                    android:layout_height="wrap_content">
+                    <com.lostark.lostarkapplication.ui.home.SquareImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
                         android:scaleType="centerCrop"
                         android:background="@drawable/roundimage"
@@ -586,10 +586,10 @@
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp">
-                <ImageView
+                android:layout_height="wrap_content">
+                <com.lostark.lostarkapplication.ui.home.DungeonDisplayImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imgDungeon"
                     android:src="@drawable/emptyboss"
                     android:background="@drawable/roundimage"

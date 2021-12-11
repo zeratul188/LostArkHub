@@ -116,18 +116,21 @@ public class ChracterAdapter extends BaseAdapter {
                 cursor.moveToNext();
             }
         } else {
-            while (!cursor.isAfterLast()) {
-                if (cursor.getString(2).equals("일일") && Boolean.parseBoolean(cursor.getString(5))) {
-                    progress += cursor.getInt(3);
-                    progress_max += cursor.getInt(4);
+            if (chracters.get(position).isAlarm()) {
+                while (!cursor.isAfterLast()) {
+                    if (cursor.getString(2).equals("일일") && Boolean.parseBoolean(cursor.getString(5))) {
+                        progress += cursor.getInt(3);
+                        progress_max += cursor.getInt(4);
+                    }
+                    cursor.moveToNext();
                 }
-                cursor.moveToNext();
             }
         }
         chracterDBAdapter.close();
 
         if (progress_max != 0) {
-            progressHomework.setVisibility(View.VISIBLE);
+            if (progress != 0) progressHomework.setVisibility(View.VISIBLE);
+            else progressHomework.setVisibility(View.GONE);
             txtProgressInfo.setVisibility(View.VISIBLE);
             progressHomework.setMax(progress_max);
             progressHomework.setProgress(progress);
@@ -138,8 +141,7 @@ public class ChracterAdapter extends BaseAdapter {
         } else {
             progressHomework.setVisibility(View.GONE);
             txtProgressInfo.setVisibility(View.GONE);
-            txtProgress.setText("숙제 없음");
-            txtProgress.setTextColor(Color.parseColor("#FF7777"));
+            txtProgress.setText("");
         }
 
 
@@ -265,6 +267,51 @@ public class ChracterAdapter extends BaseAdapter {
                 chracterListDBAdapter.open();
                 chracterListDBAdapter.changeAlarm(chracters.get(position).getName(), chracters.get(position).isAlarm());
                 chracterListDBAdapter.close();
+
+                chracterListDBAdapter.open();
+                chracterDBAdapter = new ChracterDBAdapter(context, "CHRACTER"+chracterListDBAdapter.getRowID(chracters.get(position).getName()));
+                chracterListDBAdapter.close();
+                chracterDBAdapter.open();
+                Cursor cursor = chracterDBAdapter.fetchAllData();
+                cursor.moveToFirst();
+                int progress_max = 0;
+                int progress = 0;
+                if (pref.getBoolean("progress_homework", false)) {
+                    while (!cursor.isAfterLast()) {
+                        if (cursor.getString(2).equals("일일")) {
+                            progress += cursor.getInt(3);
+                            progress_max += cursor.getInt(4);
+                        }
+                        cursor.moveToNext();
+                    }
+                } else {
+                    if (chracters.get(position).isAlarm()) {
+                        while (!cursor.isAfterLast()) {
+                            if (cursor.getString(2).equals("일일") && Boolean.parseBoolean(cursor.getString(5))) {
+                                progress += cursor.getInt(3);
+                                progress_max += cursor.getInt(4);
+                            }
+                            cursor.moveToNext();
+                        }
+                    }
+                }
+                chracterDBAdapter.close();
+
+                if (progress_max != 0) {
+                    if (progress != 0) progressHomework.setVisibility(View.VISIBLE);
+                    else progressHomework.setVisibility(View.GONE);
+                    txtProgressInfo.setVisibility(View.VISIBLE);
+                    progressHomework.setMax(progress_max);
+                    progressHomework.setProgress(progress);
+                    int result = (int)((double)progress / (double)progress_max * 100.0);
+                    txtProgress.setText(result+"%");
+                    if (result == 100) txtProgress.setTextColor(Color.parseColor("#FE6E0E"));
+                    else txtProgress.setTextColor(Color.parseColor("#FFFFFF"));
+                } else {
+                    progressHomework.setVisibility(View.GONE);
+                    txtProgressInfo.setVisibility(View.GONE);
+                    txtProgress.setText("");
+                }
             }
         });
 

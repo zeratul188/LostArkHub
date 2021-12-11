@@ -55,20 +55,20 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private ScrollView scrollView;
 
-    private ImageView[] imgIsland = new ImageView[ISLAND_LENGTH];
+    private DisplayImageView[] imgIsland = new DisplayImageView[ISLAND_LENGTH];
     private TextView[] txtIsland = new TextView[ISLAND_LENGTH];
     private SquareImageView[][] imgIslandAwards = new SquareImageView[3][8];
     private LinearLayout[] layoutIsland = new LinearLayout[3];
     private TextView txtIslandDate;
     private String[][] islandAwards = new String[3][8];
 
-    private ImageView[] imgBoss = new ImageView[BOSS_LENGTH];
+    private SquareImageView[] imgBoss = new SquareImageView[BOSS_LENGTH];
     private TextView[] txtBoss = new TextView[BOSS_LENGTH];
     private TextView[] txtStartBoss = new TextView[BOSS_LENGTH];
     private TextView[] txtEndBoss = new TextView[BOSS_LENGTH];
 
     private TextView txtStartDungeon, txtEndDungeon, txtFirstDungeon, txtSecondDungeon;
-    private ImageView imgDungeon;
+    private DungeonDisplayImageView imgDungeon;
 
     private ListView listUpdate;
     private ArrayList<Update> updates;
@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                for (ImageView imgView : imgIsland) imgView.setImageResource(R.drawable.noemptyboss);
             }
         });
         Calendar calendar = Calendar.getInstance();

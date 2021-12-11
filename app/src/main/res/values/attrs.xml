@@ -3,4 +3,7 @@
     <declare-styleable name="SquareImageView">
         <attr name="fit" format="string" />
     </declare-styleable>
+    <declare-styleable name="DisplayImageView">
+        <attr name="fits" format="string"/>
+    </declare-styleable>
 </resources>
