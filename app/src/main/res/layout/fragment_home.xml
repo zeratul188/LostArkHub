@@ -397,7 +397,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
-                    <com.lostark.lostarkapplication.ui.home.SquareImageView
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
@@ -420,7 +420,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
-                    <com.lostark.lostarkapplication.ui.home.SquareImageView
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"
@@ -443,7 +443,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
-                    <com.lostark.lostarkapplication.ui.home.SquareImageView
+                    <com.lostark.lostarkapplication.ui.home.DisplayImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/emptyboss"

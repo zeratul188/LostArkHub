@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
     private TextView txtIslandDate;
     private String[][] islandAwards = new String[3][8];
 
-    private SquareImageView[] imgBoss = new SquareImageView[BOSS_LENGTH];
+    private DisplayImageView[] imgBoss = new DisplayImageView[BOSS_LENGTH];
     private TextView[] txtBoss = new TextView[BOSS_LENGTH];
     private TextView[] txtStartBoss = new TextView[BOSS_LENGTH];
     private TextView[] txtEndBoss = new TextView[BOSS_LENGTH];
