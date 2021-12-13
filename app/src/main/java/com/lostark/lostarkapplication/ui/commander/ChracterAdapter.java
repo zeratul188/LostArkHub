@@ -255,6 +255,7 @@ public class ChracterAdapter extends BaseAdapter {
                         chracters.remove(position);
                         notifyDataSetChanged();
                         ((MainActivity)activity).uploadFavoriteChracter();
+                        fragment.refreshProgress();
                         alertDialog.dismiss();
                     }
                 });
@@ -327,6 +328,8 @@ public class ChracterAdapter extends BaseAdapter {
                     txtProgressInfo.setVisibility(View.GONE);
                     txtProgress.setText("");
                 }
+
+                fragment.refreshProgress();
             }
         });
 

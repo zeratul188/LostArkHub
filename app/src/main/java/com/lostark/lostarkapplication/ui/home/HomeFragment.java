@@ -356,6 +356,7 @@ public class HomeFragment extends Fragment {
                 imgIslandAwards[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (islandAwards[x][y] == null) return;
                         //Toast.makeText(getActivity(), "보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT).show();
                         customToast.createToast("보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT);
                         customToast.show();

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.BossDBAdapter;
@@ -51,7 +51,9 @@ public class CommanderFragment extends Fragment {
     private CommanderViewModel homeViewModel;
 
     private ListView listView;
-    private FloatingActionButton fabAdd, fabRefresh;
+    private Button fabAdd, fabRefresh;
+    private TextView txtAllProgress, txtAllProgressInfo;
+    private ProgressBar progressAll;
 
     private LoadingDialog loadingDialog;
 
@@ -196,6 +198,9 @@ public class CommanderFragment extends Fragment {
         listView = root.findViewById(R.id.listView);
         fabAdd = root.findViewById(R.id.fabAdd);
         fabRefresh = root.findViewById(R.id.fabRefresh);
+        txtAllProgress = root.findViewById(R.id.txtAllProgress);
+        progressAll = root.findViewById(R.id.progressAll);
+        txtAllProgressInfo = root.findViewById(R.id.txtAllProgressInfo);
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         characters = new ArrayList<>();
@@ -365,6 +370,7 @@ public class CommanderFragment extends Fragment {
                         customToast.show();
                         alertDialog.dismiss();
                         uploadLevelData();
+                        refreshProgress();
                     }
                 });
 
@@ -407,6 +413,55 @@ public class CommanderFragment extends Fragment {
         Collections.sort(characters);
         chracterListDBAdapter.close();
         chracterAdapter.notifyDataSetChanged();
+        refreshProgress();
+    }
+
+    public void refreshProgress() {
+        int now = 0;
+        int max = 0;
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(cursor.getString(1)));
+            chracterDBAdapter.open();
+            Cursor cursor2 = chracterDBAdapter.fetchAllData();
+            cursor2.moveToFirst();
+            while (!cursor2.isAfterLast()) {
+                if (!cursor2.getString(2).equals("일일")) {
+                    cursor2.moveToNext();
+                    continue;
+                }
+                if (pref.getBoolean("progress_homework", false)) {
+                    now += cursor2.getInt(3);
+                    max += cursor2.getInt(4);
+                } else {
+                    if (Boolean.parseBoolean(cursor.getString(4)) && Boolean.parseBoolean(cursor2.getString(5))) {
+                        now += cursor2.getInt(3);
+                        max += cursor2.getInt(4);
+                    }
+                }
+                cursor2.moveToNext();
+            }
+            chracterDBAdapter.close();
+            cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+
+        if (max == 0) {
+            txtAllProgressInfo.setVisibility(View.GONE);
+            progressAll.setVisibility(View.GONE);
+            txtAllProgress.setText("숙제 없음");
+            txtAllProgress.setTextColor(Color.parseColor("#FF8888"));
+        } else {
+            txtAllProgressInfo.setVisibility(View.VISIBLE);
+            progressAll.setVisibility(View.VISIBLE);
+            progressAll.setMax(max);
+            progressAll.setProgress(now);
+            txtAllProgress.setText((int)((double)now / (double)max * 100.0)+"%");
+            if (now == max) txtAllProgress.setTextColor(Color.parseColor("#FE6E0E"));
+            else txtAllProgress.setTextColor(Color.parseColor("#FFFFFF"));
+        }
     }
 
     public void uploadLevelData() {
