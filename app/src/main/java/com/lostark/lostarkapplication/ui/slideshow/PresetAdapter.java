@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.Earring1DBAdapter;
 import com.lostark.lostarkapplication.database.Earring2DBAdapter;
@@ -42,6 +43,7 @@ public class PresetAdapter extends BaseAdapter {
     private StatDBAdapter statDBAdapter;
 
     private AlertDialog alertDialog;
+    private CustomToast customToast;
 
     public PresetAdapter(Context context, ArrayList<Equipment> equipments, Activity activity) {
         this.context = context;
@@ -55,6 +57,7 @@ public class PresetAdapter extends BaseAdapter {
         equipmentStoneDBAdapter = new EquipmentStoneDBAdapter(context);
         equipmentDBAdapter = new EquipmentDBAdapter(context);
         statDBAdapter = new StatDBAdapter(context);
+        customToast = new CustomToast(context);
     }
 
     @Override
@@ -123,7 +126,9 @@ public class PresetAdapter extends BaseAdapter {
                         statDBAdapter.deleteData(equipments.get(position).getIndex());
                         statDBAdapter.close();
 
-                        Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         equipments.remove(position);
                         notifyDataSetChanged();
                         alertDialog.dismiss();

@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
@@ -61,6 +62,7 @@ public class CommanderFragment extends Fragment {
     private Bundle bundle;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    private CustomToast customToast;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -131,7 +133,7 @@ public class CommanderFragment extends Fragment {
                                 String[] args = dungeonDBAdapter.readData(j);
                                 int min_level = Integer.parseInt(args[2]);
                                 if (level < min_level) {
-                                    if (i == 0) break;
+                                    if (j == 0) break;
                                     String[] results = dungeonDBAdapter.readData(j-1);
                                     String content = results[0]+" : "+results[1];
                                     chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
@@ -189,6 +191,8 @@ public class CommanderFragment extends Fragment {
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
 
+        customToast = new CustomToast(getActivity());
+
         listView = root.findViewById(R.id.listView);
         fabAdd = root.findViewById(R.id.fabAdd);
         fabRefresh = root.findViewById(R.id.fabRefresh);
@@ -240,13 +244,19 @@ public class CommanderFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (edtName.getText().toString().equals("")) {
-                            Toast.makeText(getActivity(), "이름 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "이름 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("이름 값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         } else if (edtLevel.getText().toString().equals("") && !pref.getBoolean("auto_level", true)) {
-                            Toast.makeText(getActivity(), "레벨 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "레벨 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("레벨 값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         } else if (isSameName(edtName.getText().toString())) {
-                            Toast.makeText(getActivity(), "이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
                         chracterListDBAdapter.open();
@@ -350,7 +360,9 @@ public class CommanderFragment extends Fragment {
                             chracterDBAdapter.close();
                         }
 
-                        Toast.makeText(getActivity(), name+"을 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), name+"을 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast(name+"을 추가하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                         uploadLevelData();
                     }

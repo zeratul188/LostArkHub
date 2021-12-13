@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.MainActivity;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
@@ -46,6 +47,7 @@ public class ChracterAdapter extends BaseAdapter {
     private List<String> jobs, servers;
     private CommanderFragment fragment;
     private SharedPreferences pref;
+    private CustomToast customToast;
 
     public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity, CommanderFragment fragment) {
         this.context = context;
@@ -54,6 +56,7 @@ public class ChracterAdapter extends BaseAdapter {
         this.fragment = fragment;
         chracterListDBAdapter = new ChracterListDBAdapter(context);
         pref = context.getSharedPreferences("setting_file", MODE_PRIVATE);
+        customToast = new CustomToast(context);
     }
 
     @Override
@@ -169,7 +172,9 @@ public class ChracterAdapter extends BaseAdapter {
                         imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
                         txtName.setTextColor(Color.parseColor("#FE6E0E"));
                     } else {
-                        Toast.makeText(context, "이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                     }
                 }
                 chracterListDBAdapter.close();
@@ -224,11 +229,19 @@ public class ChracterAdapter extends BaseAdapter {
                                 String db_name = "LOSTARKHUB_CHRACTER"+chracterListDBAdapter.getRowID(name);
                                 String db_full_path = db_path+"/databases/"+db_name;
                                 File file = new File(db_full_path);
-                                if (!file.delete()) Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                if (!file.delete()) {
+                                    //Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                    customToast.createToast(db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT);
+                                    customToast.show();
+                                }
                                 db_name= "LOSTARKHUB_CHRACTER"+chracterListDBAdapter.getRowID(name)+"-journal";
                                 db_full_path = db_path+"/databases/"+db_name;
                                 file = new File(db_full_path);
-                                if (!file.delete()) Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                if (!file.delete()) {
+                                    //Toast.makeText(context, db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT).show();
+                                    customToast.createToast(db_full_path+"파일 삭제 실패!", Toast.LENGTH_SHORT);
+                                    customToast.show();
+                                }
                                 chracterDBAdapter.close();
                                 chracterListDBAdapter.deleteData(rowID);
                                 break;
@@ -236,7 +249,9 @@ public class ChracterAdapter extends BaseAdapter {
                             cursor.moveToNext();
                         }
                         chracterListDBAdapter.close();
-                        Toast.makeText(context, chracters.get(position).getName()+"의 정보를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, chracters.get(position).getName()+"의 정보를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast(chracters.get(position).getName()+"의 정보를 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         chracters.remove(position);
                         notifyDataSetChanged();
                         ((MainActivity)activity).uploadFavoriteChracter();
@@ -374,13 +389,18 @@ public class ChracterAdapter extends BaseAdapter {
                     public void onClick(View v) {
                         String name = chracters.get(position).getName();
                         if (edtName.getText().toString().equals("")) {
-                            Toast.makeText(context, "이름 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("이름 값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         } else if (edtLevel.getText().toString().equals("") && !pref.getBoolean("auto_level", true)) {
-                            Toast.makeText(context, "레벨 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "레벨 값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("레벨 값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         } else if (!edtName.getText().toString().equals(name) && isSameName(edtName.getText().toString())) {
-                            Toast.makeText(context, "이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("이미 동일한 캐릭터가 존재합니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
                         int level;
@@ -392,7 +412,9 @@ public class ChracterAdapter extends BaseAdapter {
                         chracters.get(position).setName(edtName.getText().toString());
                         chracters.get(position).setJob(sprJob.getSelectedItem().toString());
                         chracters.get(position).setLevel(level);
-                        Toast.makeText(context, chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast(chracters.get(position).getName()+"의 정보를 수정하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         notifyDataSetChanged();
                         ((MainActivity)activity).uploadFavoriteChracter();
                         fragment.reSort();

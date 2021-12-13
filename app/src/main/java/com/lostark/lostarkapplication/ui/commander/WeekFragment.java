@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
@@ -43,6 +44,7 @@ public class WeekFragment extends Fragment {
     private ArrayList<Checklist> checklists;
     private HomeworkAdapter homeworkAdapter;
     private AlertDialog alertDialog;
+    private CustomToast customToast;
     String name;
 
     private SharedPreferences pref;
@@ -63,6 +65,8 @@ public class WeekFragment extends Fragment {
 
         listView = root.findViewById(R.id.listView);
         fabAdd = root.findViewById(R.id.fabAdd);
+
+        customToast = new CustomToast(getActivity());
 
         chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
         chracterListDBAdapter.open();
@@ -115,7 +119,9 @@ public class WeekFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if ((sprList.getSelectedItem().toString().equals("기타") && edtHomework.getText().toString().equals("")) || edtCount.getText().toString().equals("")) {
-                            Toast.makeText(getActivity(), "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
 
@@ -127,7 +133,9 @@ public class WeekFragment extends Fragment {
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
                             if (cursor.getString(1).equals(name)) {
-                                Toast.makeText(getActivity(), "이미 동일한 이름의 숙제가 존재합니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "이미 동일한 이름의 숙제가 존재합니다.", Toast.LENGTH_SHORT).show();
+                                customToast.createToast("이미 동일한 이름의 숙제가 존재합니다.", Toast.LENGTH_SHORT);
+                                customToast.show();
                                 return;
                             }
                             cursor.moveToNext();
@@ -137,7 +145,9 @@ public class WeekFragment extends Fragment {
                         checklists.add(checklist);
                         chracterDBAdapter.insertData(checklist);
                         chracterDBAdapter.close();
-                        Toast.makeText(getActivity(), name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast(name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         homeworkAdapter.notifyDataSetChanged();
                         alertDialog.dismiss();
                     }

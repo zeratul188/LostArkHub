@@ -1,6 +1,5 @@
 package com.lostark.lostarkapplication.ui.skill;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -30,9 +28,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.JobDBAdapter;
-import com.lostark.lostarkapplication.database.JobTripodDBAdapter;
 import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
@@ -58,6 +56,7 @@ public class SkillFragment extends Fragment {
     private SkillAdapter skillAdapter;
     private DataNetwork dataNetwork;
     private AlertDialog alertDialog, alertDialog2;
+    private CustomToast customToast;
 
     private SkillPresetDBAdapter skillPresetDBAdapter;
     private SkillDBAdapter skillDBAdapter;
@@ -87,6 +86,8 @@ public class SkillFragment extends Fragment {
         listView = root.findViewById(R.id.listView);
         progressSkill = root.findViewById(R.id.progressSkill);
         btnSkillSetting = root.findViewById(R.id.btnSkillSetting);
+
+        customToast = new CustomToast(getActivity());
 
         dataNetwork = new DataNetwork();
         dataNetwork.setMax(0);
@@ -241,7 +242,9 @@ public class SkillFragment extends Fragment {
 
                                 txtPresetName.setText(presets.get(position).getName());
 
-                                Toast.makeText(getActivity(), "프리셋을 적용하였습니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "프리셋을 적용하였습니다.", Toast.LENGTH_SHORT).show();
+                                customToast.createToast("프리셋을 적용하였습니다.", Toast.LENGTH_SHORT);
+                                customToast.show();
                                 skillAdapter.notifyDataSetChanged();
                                 new SleepNotifyThread().start();
                                 alertDialog2.dismiss();
@@ -262,7 +265,9 @@ public class SkillFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (edtName.getText().toString().equals("")) {
-                            Toast.makeText(getActivity(), "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
 
@@ -297,7 +302,9 @@ public class SkillFragment extends Fragment {
                         presets.add(new SkillPresetList(name, job, last_rowID, skill_point, max));
                         presetAdapter.notifyDataSetChanged();
                         edtName.setText("");
-                        Toast.makeText(getActivity(), "프리셋을 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "프리셋을 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("프리셋을 추가하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                     }
                 });
 
@@ -352,7 +359,9 @@ public class SkillFragment extends Fragment {
                         txtSkillPoint.setText(dataNetwork.getSkillpoint()+"/"+dataNetwork.getMax());
                         progressSkill.setProgress(dataNetwork.getSkillpoint());
                         txtPresetName.setText("적용된 프리셋이 없음");
-                        Toast.makeText(getActivity(), "스킬 포인트를 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "스킬 포인트를 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("스킬 포인트를 초기화하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });
@@ -431,7 +440,9 @@ public class SkillFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 skillAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(), "새로 고침하였습니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "새로 고침하였습니다.", Toast.LENGTH_SHORT).show();
+                customToast.createToast("새로 고침하였습니다.", Toast.LENGTH_SHORT);
+                customToast.show();
             }
         });
 
@@ -447,7 +458,9 @@ public class SkillFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (edtSkillPoint.getText().toString().equals("")) {
-                            Toast.makeText(getActivity(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("값을 입력하세요.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
                         int now = dataNetwork.getSkillpoint();
@@ -455,7 +468,9 @@ public class SkillFragment extends Fragment {
                         else {
                             now -= dataNetwork.getMax() - Integer.parseInt(edtSkillPoint.getText().toString());
                             if (now < 0) {
-                                Toast.makeText(getActivity(), "남은 스킬 포인트가 부족하여 스킬 포인트를 설정하실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "남은 스킬 포인트가 부족하여 스킬 포인트를 설정하실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                customToast.createToast("남은 스킬 포인트가 부족하여 스킬 포인트를 설정하실 수 없습니다.", Toast.LENGTH_SHORT);
+                                customToast.show();
                                 return;
                             }
                         }
@@ -465,7 +480,9 @@ public class SkillFragment extends Fragment {
                         progressSkill.setProgress(now);
                         txtSkillPoint.setText(now+"/"+edtSkillPoint.getText().toString());
 
-                        Toast.makeText(getActivity(), "스킬 포인트를 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "스킬 포인트를 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("스킬 포인트를 설정하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });

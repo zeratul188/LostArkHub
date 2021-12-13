@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.ClassDBAdapter;
-import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 
 import java.io.File;
@@ -36,6 +36,7 @@ public class PresetAdapter extends BaseAdapter {
     private ClassDBAdapter classDBAdapter;
     private AlertDialog alertDialog;
     private SkillPresetDBAdapter skillPresetDBAdapter;
+    private CustomToast customToast;
 
     public PresetAdapter(ArrayList<SkillPresetList> presets, Context context, Activity activity) {
         this.presets = presets;
@@ -43,6 +44,7 @@ public class PresetAdapter extends BaseAdapter {
         this.activity = activity;
         classDBAdapter = new ClassDBAdapter(activity);
         skillPresetDBAdapter = new SkillPresetDBAdapter(context);
+        customToast = new CustomToast(context);
     }
 
     @Override
@@ -113,11 +115,18 @@ public class PresetAdapter extends BaseAdapter {
                         String db_name = "LOSTARKHUB_SKILL"+presets.get(position).getId();
                         String db_fulll_path = db_path+"/databases/"+db_name;
                         File dbFile = new File(db_fulll_path);
-                        if (dbFile.delete()) Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
-                        else Toast.makeText(context, "프리셋을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        if (dbFile.delete()) {
+                            //Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                        } else {
+                            //Toast.makeText(context, "프리셋을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("프리셋을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                        }
                         presets.remove(position);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });

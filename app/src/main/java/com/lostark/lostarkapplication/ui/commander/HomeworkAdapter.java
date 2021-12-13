@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
@@ -35,6 +36,7 @@ public class HomeworkAdapter extends BaseAdapter {
     private Context context;
     private ChracterDBAdapter chracterDBAdapter;
     private Activity activity;
+    private CustomToast customToast;
     private boolean isDay = true;
 
     private AlertDialog alertDialog, diag_alertDialog;
@@ -45,6 +47,7 @@ public class HomeworkAdapter extends BaseAdapter {
         this.chracterDBAdapter = chracterDBAdapter;
         this.activity = activity;
         this.isDay = isDay;
+        customToast = new CustomToast(context);
     }
 
     @Override
@@ -278,7 +281,9 @@ public class HomeworkAdapter extends BaseAdapter {
                         checklists.get(position).setNow(0);
                         imgbtnUp.setEnabled(true);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });
@@ -305,7 +310,9 @@ public class HomeworkAdapter extends BaseAdapter {
                         btnOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(context, checklists.get(position).getName()+" 숙제를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context, checklists.get(position).getName()+" 숙제를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                                customToast.createToast(checklists.get(position).getName()+" 숙제를 삭제하였습니다.", Toast.LENGTH_SHORT);
+                                customToast.show();
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.deleteData(checklists.get(position).getName());
                                 chracterDBAdapter.close();
@@ -357,7 +364,9 @@ public class HomeworkAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         if (edtHomework.getText().toString().equals("") || edtCount.getText().toString().equals("")) {
-                            Toast.makeText(context, "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "값이 비어있습니다.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("값이 비어있습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
 
@@ -415,7 +424,9 @@ public class HomeworkAdapter extends BaseAdapter {
                         chracterDBAdapter.close();
                         checklists.set(position, checklist);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "값이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "값이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("값이 수정되었습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });

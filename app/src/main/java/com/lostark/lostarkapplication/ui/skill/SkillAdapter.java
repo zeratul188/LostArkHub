@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.JobTripodDBAdapter;
 import com.lostark.lostarkapplication.database.RuneDBAdapter;
@@ -40,6 +41,7 @@ public class SkillAdapter extends BaseAdapter {
     private Context context;
     private DataNetwork dataNetwork;
     private Activity activity;
+    private CustomToast customToast;
 
     private RuneDBAdapter runeDBAdapter;
 
@@ -64,6 +66,7 @@ public class SkillAdapter extends BaseAdapter {
         this.dataNetwork = dataNetwork;
         this.activity = activity;
         runeDBAdapter = new RuneDBAdapter(activity);
+        customToast = new CustomToast(context);
     }
 
     public boolean isShow() {
@@ -239,7 +242,9 @@ public class SkillAdapter extends BaseAdapter {
                 int cnt = 0;
                 for (Skill skill : skills) if (skill.getRune() != 99) cnt++;
                 if (cnt >= 8 && skills.get(position).getRune() == 99) {
-                    Toast.makeText(context, "더 이상 룬을 설정하실 수 없습니다. (최대 8개까지 설정 가능)", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "더 이상 룬을 설정하실 수 없습니다. (최대 8개까지 설정 가능)", Toast.LENGTH_SHORT).show();
+                    customToast.createToast("더 이상 룬을 설정하실 수 없습니다. (최대 8개까지 설정 가능)", Toast.LENGTH_SHORT);
+                    customToast.show();
                     return;
                 }
 
@@ -345,7 +350,9 @@ public class SkillAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
                         skills.get(position).setRune(99);
-                        Toast.makeText(context, "룬을 제거하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "룬을 제거하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("룬을 제거하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         notifyDataSetChanged();
                         alertDialog.dismiss();
                     }
@@ -356,7 +363,9 @@ public class SkillAdapter extends BaseAdapter {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         skills.get(position).setRune(runes.get(i).getIndex());
                         skills.get(position).setRuneBitmap(null);
-                        Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "룬을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("룬을 설정하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         notifyDataSetChanged();
                         new SleepNotifyThread().start();
                         alertDialog.dismiss();
@@ -442,7 +451,9 @@ public class SkillAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (getBetween(skills.get(position).getLevel(), 1, 4)) {
-                    Toast.makeText(context, "스킬 레벨이 낮아 트라이포드를 설정하실 수 없습니다. (최소 레벨 : 4)", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "스킬 레벨이 낮아 트라이포드를 설정하실 수 없습니다. (최소 레벨 : 4)", Toast.LENGTH_SHORT).show();
+                    customToast.createToast("스킬 레벨이 낮아 트라이포드를 설정하실 수 없습니다. (최소 레벨 : 4)", Toast.LENGTH_SHORT);
+                    customToast.show();
                     return;
                 }
                 View view = activity.getLayoutInflater().inflate(R.layout.tripod_layout, null);
@@ -637,7 +648,9 @@ public class SkillAdapter extends BaseAdapter {
                         }
 
                         //notifyDataSetChanged();
-                        Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("트라이포드를 저장하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                         //new SleepNotifyThread().start();
                     }
@@ -657,7 +670,9 @@ public class SkillAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int next_need_point = Integer.parseInt(txtNeedSkillPoint.getText().toString());
                 if (dataNetwork.getSkillpoint() < next_need_point) {
-                    Toast.makeText(context, "스킬 포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "스킬 포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                    customToast.createToast("스킬 포인트가 부족합니다.", Toast.LENGTH_SHORT);
+                    customToast.show();
                     return;
                 }
                 dataNetwork.setSkillpoint(dataNetwork.getSkillpoint() - next_need_point);

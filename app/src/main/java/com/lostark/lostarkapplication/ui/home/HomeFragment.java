@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,6 +87,8 @@ public class HomeFragment extends Fragment {
     private FirebaseDatabase mDatabase;
     private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
 
+    private CustomToast customToast;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -118,7 +121,14 @@ public class HomeFragment extends Fragment {
                             storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Glide.with(getActivity()).load(uri).into(imgIslandAwards[now_index][now_position]);
+                                    try {
+                                        Glide.with(getActivity()).load(uri).into(imgIslandAwards[now_index][now_position]);
+                                    } catch (NullPointerException e) {
+                                        e.printStackTrace();
+                                        imgIslandAwards[now_index][now_position].setImageResource(R.drawable.close_eye);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -346,7 +356,9 @@ public class HomeFragment extends Fragment {
                 imgIslandAwards[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), "보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT).show();
+                        customToast.createToast("보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT);
+                        customToast.show();
                     }
                 });
             }
@@ -417,6 +429,8 @@ public class HomeFragment extends Fragment {
         updateReference = mDatabase.getReference("update");
         eventReference = mDatabase.getReference("event");
         andReference = mDatabase.getReference("Andsoon");
+
+        customToast = new CustomToast(getActivity());
 
         return root;
     }

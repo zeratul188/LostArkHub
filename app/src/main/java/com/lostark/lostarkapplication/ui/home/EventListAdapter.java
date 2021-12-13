@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private ArrayList<Event> events;
     private Context context;
+    private CustomToast customToast;
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
@@ -33,6 +36,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         this.context = context;
         storage = FirebaseStorage.getInstance("gs://lostarkhub-cbe60.appspot.com");
         storageRef = storage.getReference();
+        customToast = new CustomToast(context);
     }
 
     @NonNull
@@ -90,7 +94,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             itemVIew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(events.get(position).getUrl())));
+                    try {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(events.get(position).getUrl())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        customToast.createToast("페이지를 여는데 오류가 발생하였습니다.", Toast.LENGTH_LONG);
+                        customToast.show();
+                    }
                 }
             });
         }

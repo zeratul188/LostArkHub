@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -24,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.Earring1DBAdapter;
 import com.lostark.lostarkapplication.database.Earring2DBAdapter;
@@ -99,6 +99,7 @@ public class SlideshowFragment extends Fragment {
     private StatDBAdapter statDBAdapter;
 
     private AlertDialog alertDialog, alertDialog2;
+    private CustomToast customToast;
 
     private Map<String, Integer> stampMap;
 
@@ -116,6 +117,8 @@ public class SlideshowFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+        customToast = new CustomToast(getActivity());
 
         listView = root.findViewById(R.id.listView);
         imgNeck = root.findViewById(R.id.imgNeck);
@@ -266,7 +269,9 @@ public class SlideshowFragment extends Fragment {
                             sprStoneCnts[i].setSelection(0);
                             if (i < 2) sprStatCnts[i].setSelection(0);
                         }
-                        Toast.makeText(getActivity(), "정보가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "정보가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("정보가 초기화되었습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });
@@ -309,7 +314,9 @@ public class SlideshowFragment extends Fragment {
                             if (settings.get(i).isActivate()) settings.get(i).toggle();
                         }
                         settingAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), "각인을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "각인을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("각인을 초기화하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                     }
                 });
 
@@ -344,7 +351,9 @@ public class SlideshowFragment extends Fragment {
                             stats[i] = sprStats[i].getSelectedItem().toString();
                         }
                         
-                        Toast.makeText(getActivity(), "각인을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "각인을 설정하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("각인을 설정하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         if (apply_stamps.isEmpty()) {
                             listStampSetting.setVisibility(View.GONE);
                             for (int i = 0; i < 2; i++) {
@@ -689,7 +698,9 @@ public class SlideshowFragment extends Fragment {
                                 statDBAdapter.close();
 
                                 listStampSetting.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "프리셋을 불러왔습니다.", Toast.LENGTH_SHORT).show();
+                                customToast.createToast("프리셋을 불러왔습니다.", Toast.LENGTH_SHORT);
+                                customToast.show();
                                 alertDialog.dismiss();
                                 alertDialog2.dismiss();
                             }
@@ -715,7 +726,9 @@ public class SlideshowFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (edtName.getText().toString().equals("")) {
-                            Toast.makeText(getActivity(), "프리셋 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "프리셋 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            customToast.createToast("프리셋 이름을 입력해주세요.", Toast.LENGTH_SHORT);
+                            customToast.show();
                             return;
                         }
 
@@ -811,7 +824,9 @@ public class SlideshowFragment extends Fragment {
                         equipmentDBAdapter.close();
 
                         refreshPreset(equipments, presetAdapter);
-                        Toast.makeText(getActivity(), "프리셋을 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "프리셋을 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("프리셋을 저장하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         edtName.setText("");
 
                         neckDBAdapter.open();

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.StampDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
@@ -52,6 +53,7 @@ public class GalleryFragment extends Fragment {
     private AlertDialog stampDialog, alertDialog;
     private DataNetwork dn;
     private ArrayList<Stone> stones;
+    private CustomToast customToast;
 
     private SharedPreferences pref;
 
@@ -75,6 +77,7 @@ public class GalleryFragment extends Fragment {
 
         dn = new DataNetwork();
         stones = new ArrayList<>();
+        customToast = new CustomToast(getActivity());
 
         imgStone = root.findViewById(R.id.imgStone);
         imgBurf1 = root.findViewById(R.id.imgBurf1);
@@ -260,7 +263,9 @@ public class GalleryFragment extends Fragment {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
+                                customToast.show();
                             }
                         });
 
@@ -316,7 +321,9 @@ public class GalleryFragment extends Fragment {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
+                                customToast.show();
                             }
                         });
 
@@ -372,7 +379,9 @@ public class GalleryFragment extends Fragment {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
+                                customToast.show();
                             }
                         });
 

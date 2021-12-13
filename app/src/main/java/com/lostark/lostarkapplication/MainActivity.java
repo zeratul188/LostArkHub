@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutInformation;
     private FrameLayout layoutMain;
 
+    private CustomToast customToast;
+
     private Bundle bundle = null;
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -135,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
+
+        customToast = new CustomToast(getApplicationContext());
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
@@ -297,7 +301,9 @@ public class MainActivity extends AppCompatActivity {
                 now_calendar.set(Calendar.SECOND, 0);
                 now_calendar.add(Calendar.DATE, 1);
                 setting_calendar = now_calendar;
-                Toast.makeText(getApplicationContext(), "오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT);
+                customToast.show();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));
             editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);
@@ -427,7 +433,9 @@ public class MainActivity extends AppCompatActivity {
         //super.onBackPressed();
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            customToast.createToast("\'뒤로\' 버튼을 한번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT);
+            customToast.show();
             return;
         }
 
