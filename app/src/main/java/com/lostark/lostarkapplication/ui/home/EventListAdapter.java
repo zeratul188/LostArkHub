@@ -60,8 +60,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     System.out.println("Error NullPointerException!!==================================");
+                    holder.imgEvent.setImageResource(R.drawable.noemptyboss);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    holder.imgEvent.setImageResource(R.drawable.noemptyboss);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

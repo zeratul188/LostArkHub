@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -85,7 +86,8 @@ public class ChracterAdapter extends BaseAdapter {
         ImageButton imgbtnNotication = convertView.findViewById(R.id.imgbtnNotication);
         ImageButton imgbtnDelete = convertView.findViewById(R.id.imgbtnDelete);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
-        CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
+        //CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
+        ImageView imgJob = convertView.findViewById(R.id.imgJob);
         TextView txtServer = convertView.findViewById(R.id.txtServer);
         ImageButton imgbtnFavorite = convertView.findViewById(R.id.imgbtnFavorite);
         TextView txtProgress = convertView.findViewById(R.id.txtProgress);

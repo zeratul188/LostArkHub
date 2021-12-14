@@ -114,11 +114,11 @@ public class HomeFragment extends Fragment {
                     String arr = "";
                     for (int i = 0; i < awards.length; i++) {
                         arr += awards[i]+"   ";
-                        final int now_index = index;
-                        final int now_position = position;
                         if (list.indexOf(awards[i]) != -1) {
-                            islandAwards[now_index][now_position] = awards[i];
-                            storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            islandAwards[index][position] = awards[i];
+                            imgIslandAwards[index][position].setImageResource(getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName()));
+                            position++;
+                            /*storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     try {
@@ -135,8 +135,7 @@ public class HomeFragment extends Fragment {
                                 public void onFailure(@NonNull Exception e) {
                                     imgIslandAwards[now_index][now_position].setImageResource(R.drawable.close_eye);
                                 }
-                            });
-                            position++;
+                            });*/
                         }
                     }
                 }
