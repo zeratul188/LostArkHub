@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.lostark.lostarkapplication.WebActivity;
 
 import java.util.ArrayList;
 
@@ -97,7 +98,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 @Override
                 public void onClick(View v) {
                     try {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(events.get(position).getUrl())));
+                        /*context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(events.get(position).getUrl())));
+                        Intent intent = new Intent(context, WebActivity.class);
+                        intent.putExtra("url", events.get(position).getUrl());*/
+                        context.startActivity(new Intent(context, WebActivity.class).putExtra("url", events.get(position).getUrl()));
                     } catch (Exception e) {
                         e.printStackTrace();
                         customToast.createToast("페이지를 여는데 오류가 발생하였습니다.", Toast.LENGTH_LONG);

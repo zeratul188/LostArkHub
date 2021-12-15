@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="[Dialog Content]"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:padding="25dp"
+        android:id="@+id/txtContent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGooglePlay"
+            android:background="@drawable/restbuttonstyle"
+            android:text="업데이트"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnOK"
+            android:background="@drawable/yesbuttonstyle"
+            android:text="확인"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+</LinearLayout>

@@ -9,12 +9,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +52,10 @@ public class ChracterAdapter extends BaseAdapter {
     private SharedPreferences pref;
     private CustomToast customToast;
 
+    private DisplayMetrics displayMetrics;
+    //private int dpi;
+    private float density;
+
     public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity, CommanderFragment fragment) {
         this.context = context;
         this.chracters = chracters;
@@ -58,6 +64,10 @@ public class ChracterAdapter extends BaseAdapter {
         chracterListDBAdapter = new ChracterListDBAdapter(context);
         pref = context.getSharedPreferences("setting_file", MODE_PRIVATE);
         customToast = new CustomToast(context);
+        displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        //dpi = displayMetrics.densityDpi;
+        density = displayMetrics.density;
     }
 
     @Override
@@ -93,6 +103,9 @@ public class ChracterAdapter extends BaseAdapter {
         TextView txtProgress = convertView.findViewById(R.id.txtProgress);
         TextView txtProgressInfo = convertView.findViewById(R.id.txtProgressInfo);
         ProgressBar progressHomework = convertView.findViewById(R.id.progressHomework);
+        LinearLayout layoutTitle = convertView.findViewById(R.id.layoutTitle);
+        LinearLayout layoutProgress = convertView.findViewById(R.id.layoutProgress);
+        FrameLayout layoutImage = convertView.findViewById(R.id.layoutImage);
         jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));
 
         txtName.setText(chracters.get(position).getName());
@@ -140,9 +153,15 @@ public class ChracterAdapter extends BaseAdapter {
             progressHomework.setMax(progress_max);
             progressHomework.setProgress(progress);
             int result = (int)((double)progress / (double)progress_max * 100.0);
-            txtProgress.setText(result+"%");
-            if (result == 100) txtProgress.setTextColor(Color.parseColor("#FE6E0E"));
-            else txtProgress.setTextColor(Color.parseColor("#FFFFFF"));
+            if (result == 100) {
+                txtProgress.setTextColor(Color.parseColor("#92C52D"));
+                txtProgress.setText("숙제완료");
+                txtProgressInfo.setVisibility(View.GONE);
+            } else {
+                txtProgress.setTextColor(Color.parseColor("#FFFFFF"));
+                txtProgress.setText(result+"%");
+                txtProgressInfo.setVisibility(View.VISIBLE);
+            }
         } else {
             progressHomework.setVisibility(View.GONE);
             txtProgressInfo.setVisibility(View.GONE);
@@ -152,7 +171,7 @@ public class ChracterAdapter extends BaseAdapter {
 
         if (chracters.get(position).getFavorite() == 1) {
             imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
-            txtName.setTextColor(Color.parseColor("#FE6E0E"));
+            txtName.setTextColor(Color.parseColor("#c8c268"));
         } else {
             imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_border_24);
             txtName.setTextColor(Color.parseColor("#FFFFFF"));
@@ -172,7 +191,7 @@ public class ChracterAdapter extends BaseAdapter {
                         chracterListDBAdapter.checkFavorite(chracters.get(position).getName(), true);
                         chracters.get(position).setFavorite(1);
                         imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
-                        txtName.setTextColor(Color.parseColor("#FE6E0E"));
+                        txtName.setTextColor(Color.parseColor("#c8c268"));
                     } else {
                         //Toast.makeText(context, "이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast("이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT);
@@ -436,6 +455,21 @@ public class ChracterAdapter extends BaseAdapter {
                 alertDialog.show();
             }
         });
+
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(100 * density + 0.5));
+        layoutTitle.setLayoutParams(titleParams);
+        int width = layoutTitle.getLayoutParams().height;
+        int progress_height = (int)(4 * density + 0.5);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutProgress.getLayoutParams();
+        params.width = width;
+        params.height = progress_height;
+        params.leftMargin = (-1)*((width/2)-(progress_height/2));
+        params.rightMargin = (-1)*((width/2)-(progress_height/2));
+        params.topMargin = width/2;
+        layoutProgress.setLayoutParams(params);
+
+        layoutImage.getLayoutParams().width = width;
+        layoutImage.getLayoutParams().height = width;
 
         return convertView;
     }

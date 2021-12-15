@@ -458,9 +458,15 @@ public class CommanderFragment extends Fragment {
             progressAll.setVisibility(View.VISIBLE);
             progressAll.setMax(max);
             progressAll.setProgress(now);
-            txtAllProgress.setText((int)((double)now / (double)max * 100.0)+"%");
-            if (now == max) txtAllProgress.setTextColor(Color.parseColor("#FE6E0E"));
-            else txtAllProgress.setTextColor(Color.parseColor("#FFFFFF"));
+            if (now == max) {
+                txtAllProgress.setTextColor(Color.parseColor("#92C52D"));
+                txtAllProgress.setText("숙제완료");
+                txtAllProgressInfo.setVisibility(View.GONE);
+            } else {
+                txtAllProgress.setTextColor(Color.parseColor("#FFFFFF"));
+                txtAllProgress.setText((int)((double)now / (double)max * 100.0)+"%");
+                txtAllProgressInfo.setVisibility(View.VISIBLE);
+            }
         }
     }
 

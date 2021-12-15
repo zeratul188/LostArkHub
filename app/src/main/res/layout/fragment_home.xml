@@ -61,7 +61,7 @@
                         android:background="#aa222222"
                         android:text="-"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:textColor="#FFCA45"
                         android:layout_gravity="bottom"/>
@@ -84,7 +84,7 @@
                         android:background="#aa222222"
                         android:text="-"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:textColor="#FFCA45"
                         android:layout_gravity="bottom"/>
@@ -107,7 +107,7 @@
                         android:background="#aa222222"
                         android:text="-"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:textColor="#FFCA45"
                         android:layout_gravity="bottom"/>
@@ -411,7 +411,7 @@
                         android:background="#aa222222"
                         android:text="-"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:textColor="#FFCA45"
                         android:layout_gravity="bottom"/>
@@ -432,7 +432,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/txtBoss2"
                         android:text="-"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:gravity="center"
                         android:background="#aa222222"
@@ -455,7 +455,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/txtBoss3"
                         android:text="-"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:padding="2dp"
                         android:gravity="center"
                         android:background="#aa222222"
@@ -608,7 +608,7 @@
                         android:gravity="center"
                         android:id="@+id/txtFirstDungeon"
                         android:text="-"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:textColor="#FFCA45"/>
                     <TextView
                         android:layout_width="0dp"
@@ -617,7 +617,7 @@
                         android:gravity="center"
                         android:id="@+id/txtSecondDungeon"
                         android:text="-"
-                        android:textSize="16sp"
+                        android:textSize="14dp"
                         android:textColor="#FFCA45"/>
                 </LinearLayout>
             </FrameLayout>

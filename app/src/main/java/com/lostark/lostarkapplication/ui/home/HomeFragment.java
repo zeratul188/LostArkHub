@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lostark.lostarkapplication.WebActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -398,7 +399,8 @@ public class HomeFragment extends Fragment {
         listUpdate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updates.get(position).getUrl())));
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updates.get(position).getUrl())));
+                startActivity(new Intent(getActivity(), WebActivity.class).putExtra("url", updates.get(position).getUrl()));
             }
         });
         listUpdate.setOnTouchListener(new View.OnTouchListener() {

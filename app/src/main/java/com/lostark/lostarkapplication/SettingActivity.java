@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +71,8 @@ public class SettingActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
 
+    private CustomToast customToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +96,9 @@ public class SettingActivity extends AppCompatActivity {
         chkAutoCreateHomework = findViewById(R.id.chkAutoCreateHomework);
         chkAutoLevelSetting = findViewById(R.id.chkAutoLevelSetting);
         chkProgressHomework = findViewById(R.id.chkProgressHomework);
-        
+
+        customToast = new CustomToast(getApplicationContext());
+
         stoneDBAdapter = new StoneDBAdapter(getApplicationContext());
         neckDBAdapter = new NeckDBAdapter(getApplicationContext());
         earring1DBAdapter = new Earring1DBAdapter(getApplicationContext());
@@ -203,7 +209,9 @@ public class SettingActivity extends AppCompatActivity {
                         editor.putInt("month", now.get(Calendar.MONTH)+1);
                         editor.putInt("day", now.get(Calendar.DAY_OF_MONTH));
                         editor.commit();
-                        Toast.makeText(getApplicationContext(), "현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
                         alertDialog.dismiss();
                     }
@@ -254,13 +262,19 @@ public class SettingActivity extends AppCompatActivity {
                             String db_name = "LOSTARKHUB_SKILL"+rowID;
                             String db_fulll_path = db_path+"/databases/"+db_name;
                             File dbFile = new File(db_fulll_path);
-                            if (!dbFile.delete()) Toast.makeText(getApplicationContext(), "삭제에 실패했습니다. ("+rowID+")", Toast.LENGTH_SHORT).show();
+                            if (!dbFile.delete()) {
+                                //Toast.makeText(getApplicationContext(), "삭제에 실패했습니다. ("+rowID+")", Toast.LENGTH_SHORT).show();
+                                customToast.createToast("삭제에 실패했습니다. ("+rowID+")", Toast.LENGTH_SHORT);
+                                customToast.show();
+                            }
                             cursor.moveToNext();
                         }
                         skillPresetDBAdapter.deleteAllData();
                         skillPresetDBAdapter.close();
 
-                        Toast.makeText(getApplicationContext(), "모든 스킬 프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "모든 스킬 프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("모든 스킬 프리셋을 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });
@@ -301,20 +315,37 @@ public class SettingActivity extends AppCompatActivity {
                                 version = data.getValue().toString();
                             }
                         }
-                        View view = getLayoutInflater().inflate(R.layout.onedialog, null);
+                        View view = getLayoutInflater().inflate(R.layout.updatedialog, null);
 
                         TextView txtContent = view.findViewById(R.id.txtContent);
                         Button btnOK = view.findViewById(R.id.btnOK);
+                        Button btnGooglePlay = view.findViewById(R.id.btnGooglePlay);
 
                         if (version != null) {
-                            if (version.equals(getVersion())) txtContent.setText("이미 최신 버전입니다.");
-                            else txtContent.setText("신규 버전 : "+version+"\n\n신규 버전이 있습니다.");
-                        } else txtContent.setText("데이터를 불어올 수 없습니다. 인터넷을 확인해주세요.");
+                            if (version.equals(getVersion())) {
+                                txtContent.setText("이미 최신 버전입니다.");
+                                btnGooglePlay.setVisibility(View.GONE);
+                            } else {
+                                txtContent.setText("신규 버전 : "+version+"\n\n신규 버전이 있습니다.");
+                                btnGooglePlay.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            txtContent.setText("데이터를 불어올 수 없습니다. 인터넷을 확인해주세요.");
+                            btnGooglePlay.setVisibility(View.GONE);
+                        }
 
                         btnOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 alertDialog.dismiss();
+                            }
+                        });
+
+                        btnGooglePlay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
                             }
                         });
 
@@ -377,7 +408,9 @@ public class SettingActivity extends AppCompatActivity {
                         stoneDBAdapter.open();
                         stoneDBAdapter.deleteAllData();
                         stoneDBAdapter.close();
-                        Toast.makeText(getApplicationContext(), "세공 내역을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "세공 내역을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("세공 내역을 모두 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });
@@ -438,7 +471,9 @@ public class SettingActivity extends AppCompatActivity {
                         statDBAdapter.open();
                         statDBAdapter.deleteAllData();
                         statDBAdapter.close();
-                        Toast.makeText(getApplicationContext(), "프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                        customToast.createToast("프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
                         alertDialog.dismiss();
                     }
                 });

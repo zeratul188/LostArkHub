@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -156,10 +157,11 @@ public class MainActivity extends AppCompatActivity {
 
                     if (version != null) {
                         if (!getVersion().equals(version)) {
-                            View view = getLayoutInflater().inflate(R.layout.onedialog, null);
+                            View view = getLayoutInflater().inflate(R.layout.updatedialog, null);
 
                             TextView txtContent = view.findViewById(R.id.txtContent);
                             Button btnOK = view.findViewById(R.id.btnOK);
+                            Button btnGooglePlay = view.findViewById(R.id.btnGooglePlay);
 
                             txtContent.setText("현재 버전 : "+getVersion()+"\n최신 버전 : "+version+"\n\n최신 버전이 있습니다.");
 
@@ -167,6 +169,14 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     alertDialog.dismiss();
+                                }
+                            });
+
+                            btnGooglePlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alertDialog.dismiss();
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
                                 }
                             });
 
@@ -284,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         chracterListDBAdapter.open();
         if (year != -1) {
             if (setting_calendar.compareTo(now) == -1) {
+                boolean isResetWeek = false;
                 Cursor cursor = chracterListDBAdapter.fetchAllData();
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -291,7 +302,10 @@ public class MainActivity extends AppCompatActivity {
                     ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
                     chracterDBAdapter.open();
                     chracterDBAdapter.resetData("일일");
-                    if (setting_calendar.get(Calendar.DAY_OF_WEEK) == 4) chracterDBAdapter.resetWeek("주간");
+                    if (setting_calendar.get(Calendar.DAY_OF_WEEK) == 4) {
+                        chracterDBAdapter.resetWeek("주간");
+                        if (!isResetWeek) isResetWeek = true;
+                    }
                     chracterDBAdapter.close();
                     cursor.moveToNext();
                 }
@@ -302,7 +316,8 @@ public class MainActivity extends AppCompatActivity {
                 now_calendar.add(Calendar.DATE, 1);
                 setting_calendar = now_calendar;
                 //Toast.makeText(getApplicationContext(), "오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT).show();
-                customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT);
+                if (isResetWeek) customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다. 오늘 수요일이라서 주간 숙제도 초기화되었습니다.", Toast.LENGTH_SHORT);
+                else customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT);
                 customToast.show();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));
