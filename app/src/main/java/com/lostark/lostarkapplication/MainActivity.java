@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,9 +17,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -134,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        int height = size.y;
+        navigationView.getLayoutParams().width = height/7*2;
+        navigationView.getLayoutParams().height = height;
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
@@ -319,6 +329,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isResetWeek) customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다. 오늘 수요일이라서 주간 숙제도 초기화되었습니다.", Toast.LENGTH_SHORT);
                 else customToast.createToast("오전 6시가 지나서 숙제가 초기화되었습니다.", Toast.LENGTH_SHORT);
                 customToast.show();
+                editor.putInt("report_count", 0);
+                editor.commit();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));
             editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);

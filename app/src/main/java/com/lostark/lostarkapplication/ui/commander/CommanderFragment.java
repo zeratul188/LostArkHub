@@ -73,7 +73,6 @@ public class CommanderFragment extends Fragment {
             for (int i = 0; i < bundle.getInt("size"); i++) {
                 if (bundle.getBoolean("gone"+i)) continue;
                 String level_str = bundle.getString("equip_level"+i);
-                System.out.println(level_str+" : "+i+"=================================================");
                 level_str = level_str.substring(3);
                 level_str = level_str.replace(",", "");
                 int level = 0;

@@ -52,8 +52,7 @@
                     android:id="@+id/txtName"
                     android:text="캐릭터 이름"
                     android:textColor="#ffffff"
-                    android:textSize="17dp"
-                    android:textStyle="bold"/>
+                    android:textSize="17dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,7 +159,7 @@
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="4dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="48dp"
             android:rotation="270"
             android:layout_marginLeft="-48dp"
             android:layout_marginRight="-48dp"

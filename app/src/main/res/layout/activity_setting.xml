@@ -273,6 +273,87 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="건의사항"
+            android:textSize="18sp"
+            android:background="#191b20"
+            android:textColor="#ffffff"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1d2026"
+            android:orientation="vertical">
+            <com.lostark.lostarkapplication.ui.stamp.ClearEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtReport"
+                android:hint="건의사항 (10~400 글자까지)"
+                android:textSize="18sp"
+                android:maxLength="400"
+                android:background="@drawable/customeditstyle"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#666666"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1d2026"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtReportLimit"
+                        android:text="0"
+                        android:textSize="18sp"
+                        android:textColor="#FFFFFF"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/3 전송 가능 횟수"
+                        android:textSize="18sp"
+                        android:textColor="#AAAAAA"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtReportStatue"
+                        android:textSize="18sp"
+                        android:textColor="#AAAAAA"
+                        android:text="(0/400)"/>
+                </LinearLayout>
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/restbuttonstyle"
+                    android:text="전송"
+                    android:enabled="false"
+                    android:textSize="18sp"
+                    android:id="@+id/btnReportSubmit"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1d2026"
+                android:text="사용 시 불편한 점이나 버그 발생 시, 사용하면서 더 추가되었으면 좋은 기능을 알려주세요!"
+                android:textSize="14sp"
+                android:padding="10dp"
+                android:textColor="#aaaaaa"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="앱 정보"
             android:textSize="18sp"
             android:background="#191b20"

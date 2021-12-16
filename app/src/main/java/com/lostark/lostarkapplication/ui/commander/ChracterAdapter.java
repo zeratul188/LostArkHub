@@ -171,7 +171,7 @@ public class ChracterAdapter extends BaseAdapter {
 
         if (chracters.get(position).getFavorite() == 1) {
             imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
-            txtName.setTextColor(Color.parseColor("#c8c268"));
+            txtName.setTextColor(Color.parseColor("#FFCA45"));
         } else {
             imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_border_24);
             txtName.setTextColor(Color.parseColor("#FFFFFF"));
@@ -191,7 +191,7 @@ public class ChracterAdapter extends BaseAdapter {
                         chracterListDBAdapter.checkFavorite(chracters.get(position).getName(), true);
                         chracters.get(position).setFavorite(1);
                         imgbtnFavorite.setImageResource(R.drawable.ic_baseline_star_24);
-                        txtName.setTextColor(Color.parseColor("#c8c268"));
+                        txtName.setTextColor(Color.parseColor("#FFCA45"));
                     } else {
                         //Toast.makeText(context, "이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast("이미 대표 캐릭터로 지정된 캐릭터가 있습니다.", Toast.LENGTH_SHORT);
@@ -201,6 +201,16 @@ public class ChracterAdapter extends BaseAdapter {
                 chracterListDBAdapter.close();
                 ((MainActivity)activity).uploadFavoriteChracter();
                 fragment.reSort();
+            }
+        });
+
+        imgJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChecklistActivity.class);
+                intent.putExtra("chracter_name", chracters.get(position).getName());
+                intent.putExtra("chracter_level", chracters.get(position).getLevel());
+                context.startActivity(intent);
             }
         });
 
@@ -458,14 +468,14 @@ public class ChracterAdapter extends BaseAdapter {
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(100 * density + 0.5));
         layoutTitle.setLayoutParams(titleParams);
-        int width = layoutTitle.getLayoutParams().height;
+        int width = (int)(100 * density + 0.5);
         int progress_height = (int)(4 * density + 0.5);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutProgress.getLayoutParams();
         params.width = width;
         params.height = progress_height;
         params.leftMargin = (-1)*((width/2)-(progress_height/2));
         params.rightMargin = (-1)*((width/2)-(progress_height/2));
-        params.topMargin = width/2;
+        params.topMargin = width/2-(progress_height/2);
         layoutProgress.setLayoutParams(params);
 
         layoutImage.getLayoutParams().width = width;

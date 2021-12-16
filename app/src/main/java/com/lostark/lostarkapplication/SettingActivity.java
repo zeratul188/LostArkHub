@@ -12,7 +12,10 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,16 +43,24 @@ import com.lostark.lostarkapplication.database.SkillDBAdapter;
 import com.lostark.lostarkapplication.database.SkillPresetDBAdapter;
 import com.lostark.lostarkapplication.database.StatDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
+import com.lostark.lostarkapplication.objects.Report;
+import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SettingActivity extends AppCompatActivity {
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset;
+    private final int REPORT_LIMIT = 3;
+
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit;
     private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm;
-    private TextView txtResetDate, txtVersion;
+    private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
+    private ClearEditText edtReport;
 
     private NeckDBAdapter neckDBAdapter;
     private Earring1DBAdapter earring1DBAdapter;
@@ -96,6 +107,10 @@ public class SettingActivity extends AppCompatActivity {
         chkAutoCreateHomework = findViewById(R.id.chkAutoCreateHomework);
         chkAutoLevelSetting = findViewById(R.id.chkAutoLevelSetting);
         chkProgressHomework = findViewById(R.id.chkProgressHomework);
+        edtReport = findViewById(R.id.edtReport);
+        txtReportLimit = findViewById(R.id.txtReportLimit);
+        btnReportSubmit = findViewById(R.id.btnReportSubmit);
+        txtReportStatue = findViewById(R.id.txtReportStatue);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -121,6 +136,88 @@ public class SettingActivity extends AppCompatActivity {
 
         txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
         txtVersion.setText("앱 버전 : "+getVersion());
+
+        txtReportLimit.setText(Integer.toString(pref.getInt("report_count", 0)));
+        if (pref.getInt("report_count", 0) == REPORT_LIMIT) {
+            txtReportLimit.setTextColor(Color.parseColor("#FF8888"));
+            edtReport.setEnabled(false);
+        } else {
+            txtReportLimit.setTextColor(Color.parseColor("#FFFFFF"));
+            edtReport.setEnabled(true);
+        }
+        edtReport.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtReportStatue.setText("("+edtReport.getText().toString().length()+"/400)");
+                if (edtReport.getText().toString().length() < 10) btnReportSubmit.setEnabled(false);
+                else {
+                    if (pref.getInt("report_count", 0) == REPORT_LIMIT) btnReportSubmit.setEnabled(false);
+                    else btnReportSubmit.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        btnReportSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference reportRef = mDatabase.getReference("report");
+                reportRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long number = 0;
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            if (number < (long) data.child("number").getValue()) {
+                                number = (long) data.child("number").getValue();
+                            }
+                        }
+                        number++;
+                        DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+                        Calendar calendar = Calendar.getInstance();
+                        Date now = calendar.getTime();
+                        String date = df.format(now);
+                        String version = getVersion();
+                        String device = Build.MODEL;
+                        String os = Build.VERSION.RELEASE.toString();
+                        String content = edtReport.getText().toString();
+
+                        try {
+                            reportRef.child("report"+number).setValue(new Report(number, date, version, device, os, content, false));
+                            customToast.createToast("메시지를 보내는데 성공하였습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                            editor.putInt("report_count", pref.getInt("report_count", 0)+1);
+                            editor.commit();
+                            txtReportLimit.setText(Integer.toString(pref.getInt("report_count", 0)));
+                            if (pref.getInt("report_count", 0) == REPORT_LIMIT) {
+                                txtReportLimit.setTextColor(Color.parseColor("#FF8888"));
+                                edtReport.setEnabled(false);
+                            } else {
+                                txtReportLimit.setTextColor(Color.parseColor("#FFFFFF"));
+                                edtReport.setEnabled(true);
+                            }
+                            edtReport.setText("");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            customToast.createToast("메시지를 보내는데 실패하였습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
 
         ArrayList<String> times = new ArrayList<>();
         for (int i = 0; i < 24; i++) times.add(Integer.toString(i));
