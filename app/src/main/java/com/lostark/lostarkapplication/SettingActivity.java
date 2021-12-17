@@ -21,9 +21,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +57,7 @@ public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit;
-    private CheckBox chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
+    private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
     private ClearEditText edtReport;

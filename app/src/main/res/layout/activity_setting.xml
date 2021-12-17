@@ -49,10 +49,10 @@
                     android:text="스톤 내역 사용 안함"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkStoneHistory"/>
             </LinearLayout>
         </LinearLayout>
@@ -110,10 +110,10 @@
                     android:text="알림"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkAlarm"/>
             </LinearLayout>
             <LinearLayout
@@ -148,10 +148,10 @@
                     android:text="숙제 추가할 때 알림 끄기"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkHomeworkAlarm"/>
             </LinearLayout>
             <LinearLayout
@@ -166,10 +166,10 @@
                     android:text="캐릭터 생성 후 숙제 내용 자동 생성"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkAutoCreateHomework"/>
             </LinearLayout>
             <LinearLayout
@@ -184,10 +184,10 @@
                     android:text="캐릭터 레벨 자동 설정"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkAutoLevelSetting"/>
             </LinearLayout>
             <LinearLayout
@@ -202,10 +202,10 @@
                     android:text="캐릭터 진행도 비알림 숙제 포함"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkProgressHomework"/>
             </LinearLayout>
         </LinearLayout>
@@ -235,10 +235,10 @@
                     android:text="각인 내용 펼치기"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkStampListOpen"/>
             </LinearLayout>
         </LinearLayout>
@@ -377,10 +377,10 @@
                     android:text="앱 실행 시 업데이트 알림 끄기"
                     android:textSize="18sp"
                     android:textColor="#ffffff"/>
-                <CheckBox
+                <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:buttonTint="#6794BA"
+                    android:thumbTint="#7579A6"
                     android:id="@+id/chkUpdateAlarm"/>
             </LinearLayout>
             <Button
