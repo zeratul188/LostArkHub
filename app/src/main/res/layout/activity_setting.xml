@@ -52,7 +52,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkStoneHistory"/>
             </LinearLayout>
         </LinearLayout>
@@ -113,7 +114,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkAlarm"/>
             </LinearLayout>
             <LinearLayout
@@ -151,7 +153,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkHomeworkAlarm"/>
             </LinearLayout>
             <LinearLayout
@@ -169,7 +172,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkAutoCreateHomework"/>
             </LinearLayout>
             <LinearLayout
@@ -187,7 +191,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkAutoLevelSetting"/>
             </LinearLayout>
             <LinearLayout
@@ -205,7 +210,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkProgressHomework"/>
             </LinearLayout>
         </LinearLayout>
@@ -238,7 +244,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkStampListOpen"/>
             </LinearLayout>
         </LinearLayout>
@@ -380,7 +387,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:thumbTint="#7579A6"
+                    android:thumbTint="#FE6E0E"
+                    android:track="@drawable/switch_track_style"
                     android:id="@+id/chkUpdateAlarm"/>
             </LinearLayout>
             <Button

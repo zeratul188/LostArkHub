@@ -21,14 +21,15 @@ public class StoneDBAdapter {
     public static final String KEY_CNT1 = "CNT1";
     public static final String KEY_CNT2 = "CNT2";
     public static final String KEY_CNT3 = "CNT3";
+    public static final String KEY_HISTORY = "HISTORY";
 
     private static final String DATABASE_CREATE = "create table STONES (_id integer primary key, " +
             "GRADE text not null, STAMP1 text not null, STAMP2 text not null, STAMP3 text not null, " +
-            "CNT1 interger not null, CNT2 interger not null, CNT3 interger not null);";
+            "CNT1 interger not null, CNT2 interger not null, CNT3 interger not null, HISTORY text not null);";
 
     private static final String DATABASE_NAME = "LOSTARKHUB_STONES";
     private static final String DATABASE_TABLE = "STONES";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private Context mCtx;
 
     private DatabaseHelper myDBHelper;
@@ -55,8 +56,21 @@ public class StoneDBAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                     + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS STONES");
-            onCreate(db);
+            try {
+                updateHistoryColumn(db);
+            } catch (SQLException e) {
+                db.execSQL("DROP TABLE IF EXISTS STONES");
+                onCreate(db);
+            }
+
+        }
+
+
+        /*
+         * History 칼럼 추가
+         */
+        private void updateHistoryColumn(SQLiteDatabase sd) {
+            sd.execSQL("ALTER TABLE " + DATABASE_TABLE + " " + "ADD COLUMN " + KEY_HISTORY + " " + "text DEFAULT " + "0");
         }
     }
 
@@ -81,15 +95,16 @@ public class StoneDBAdapter {
         values.put(KEY_CNT1, cnts[0]);
         values.put(KEY_CNT2, cnts[1]);
         values.put(KEY_CNT3, cnts[2]);
+        values.put(KEY_HISTORY, stone.getHistory());
         return sqlDB.insert(DATABASE_TABLE, null, values);
     }
 
     public Cursor fetchAllData() {
-        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3}, null, null, null, null, null);
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3, KEY_HISTORY}, null, null, null, null, null);
     }
 
     public Cursor fetchData(int rowID) {
-        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3}, "_id = "+rowID, null, null, null, null);
+        return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3, KEY_HISTORY}, "_id = "+rowID, null, null, null, null);
     }
 
     public boolean deleteAllData() {

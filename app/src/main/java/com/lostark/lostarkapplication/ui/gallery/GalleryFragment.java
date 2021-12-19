@@ -61,6 +61,7 @@ public class GalleryFragment extends Fragment {
     private int burf1 = 0, burf2 = 0, deburf = 0;
     private int burf1_cnt = 0, burf2_cnt = 0, deburf_cnt = 0;
     private int percent = 75;
+    private String history = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -109,6 +110,104 @@ public class GalleryFragment extends Fragment {
         stampDBAdapter = new StampDBAdapter(getActivity());
         stoneAdapter = new StoneAdapter(stones, getActivity());
         listView.setAdapter(stoneAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View dialog_view = getActivity().getLayoutInflater().inflate(R.layout.stone_information_dialog, null);
+
+                ImageView imgStone = dialog_view.findViewById(R.id.imgStone);
+                TextView txtStone = dialog_view.findViewById(R.id.txtStone);
+                ImageView imgBurf1 = dialog_view.findViewById(R.id.imgBurf1);
+                ImageView imgBurf2 = dialog_view.findViewById(R.id.imgBurf2);
+                ImageView imgDeburf = dialog_view.findViewById(R.id.imgDeburf);
+                TextView txtBurf1 = dialog_view.findViewById(R.id.txtBurf1);
+                TextView txtBurf2 = dialog_view.findViewById(R.id.txtBurf2);
+                TextView txtDeburf = dialog_view.findViewById(R.id.txtDeburf);
+                ListView listHistory = dialog_view.findViewById(R.id.listHistory);
+                TextView[] txtCount = new TextView[3];
+                ImageView[] imgFirst = new ImageView[10];
+                ImageView[] imgSecond = new ImageView[10];
+                ImageView[] imgThird = new ImageView[10];
+                for (int i = 0; i < txtCount.length; i++) {
+                    txtCount[i] = dialog_view.findViewById(getActivity().getResources().getIdentifier("txtCount"+(i+1), "id", getActivity().getPackageName()));
+                }
+                for (int i = 0; i < imgFirst.length; i++) {
+                    imgFirst[i] = dialog_view.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
+                    imgSecond[i] = dialog_view.findViewById(getActivity().getResources().getIdentifier("imgSecond"+(i+1), "id", getActivity().getPackageName()));
+                    imgThird[i] = dialog_view.findViewById(getActivity().getResources().getIdentifier("imgThird"+(i+1), "id", getActivity().getPackageName()));
+                }
+
+                switch (stones.get(position).getGrade()) {
+                    case "희귀":
+                        txtStone.setText("비상의 돌");
+                        txtStone.setTextColor(Color.parseColor("#2093A8"));
+                        imgStone.setImageResource(R.drawable.stone1);
+                        break;
+                    case "영웅":
+                        txtStone.setText("뛰어난 비상의 돌");
+                        txtStone.setTextColor(Color.parseColor("#9B53D2"));
+                        imgStone.setImageResource(R.drawable.stone2);
+                        break;
+                    case "전설":
+                        txtStone.setText("강력한 비상의 돌");
+                        txtStone.setTextColor(Color.parseColor("#C2873B"));
+                        imgStone.setImageResource(R.drawable.stone3);
+                        break;
+                    case "유물":
+                        txtStone.setText("고고한 비상의 돌");
+                        txtStone.setTextColor(Color.parseColor("#BF5700"));
+                        imgStone.setImageResource(R.drawable.stone4);
+                        break;
+                }
+
+                txtBurf1.setText(stones.get(position).getStamp()[0]);
+                txtBurf2.setText(stones.get(position).getStamp()[1]);
+                txtDeburf.setText(stones.get(position).getStamp()[2]);
+
+                String[] arg1 = stampDBAdapter.readData(stones.get(position).getStamp()[0]);
+                imgBurf1.setImageResource(getActivity().getResources().getIdentifier(arg1[1], "drawable", getActivity().getPackageName()));
+                String[] arg2 = stampDBAdapter.readData(stones.get(position).getStamp()[1]);
+                imgBurf2.setImageResource(getActivity().getResources().getIdentifier(arg2[1], "drawable", getActivity().getPackageName()));
+                String[] arg3 = stampDBAdapter.readData(stones.get(position).getStamp()[2]);
+                imgDeburf.setImageResource(getActivity().getResources().getIdentifier(arg3[1], "drawable", getActivity().getPackageName()));
+
+                int[] counts = stones.get(position).getCnt();
+                for (int i = 0; i < txtCount.length; i++) {
+                    txtCount[i].setText(Integer.toString(counts[i]));
+                }
+
+                for (int i = 0; i < imgFirst.length; i++) {
+                    if (i < counts[0]) imgFirst[i].setVisibility(View.VISIBLE);
+                    else imgFirst[i].setVisibility(View.INVISIBLE);
+                    if (i < counts[1]) imgSecond[i].setVisibility(View.VISIBLE);
+                    else imgSecond[i].setVisibility(View.INVISIBLE);
+                    if (i < counts[2]) imgThird[i].setVisibility(View.VISIBLE);
+                    else imgThird[i].setVisibility(View.INVISIBLE);
+                }
+
+                ArrayList<StoneHistory> histories = new ArrayList<>();
+                String[] historys = stones.get(position).getHistory().split("\\|");
+                for (String str : historys) {
+                    String[] args = str.split("/");
+                    int num = Integer.parseInt(args[0]);
+                    String content = args[1];
+                    boolean isSuccess;
+                    if (args[2].equals("success")) isSuccess = true;
+                    else isSuccess = false;
+                    histories.add(new StoneHistory(num, content, isSuccess));
+                }
+                StoneHistoryAdapter adapter = new StoneHistoryAdapter(getActivity(), histories);
+                listHistory.setAdapter(adapter);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialog_view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
 
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         stoneDBAdapter = new StoneDBAdapter(getActivity());
@@ -429,15 +528,19 @@ public class GalleryFragment extends Fragment {
         btnBurf1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String result = "";
+                int now_percent = percent;
                 int ransu = (int)(Math.random()*123456)%100;
                 if (ransu <= percent) {
                     imgFirst[burf1].setImageResource(R.drawable.success);
                     burf1_cnt++;
                     txtCount1.setText(Integer.toString(burf1_cnt));
                     if (percent > 25) percent -= 10;
+                    result = "success";
                 } else {
                     imgFirst[burf1].setImageResource(R.drawable.fail);
                     if (percent < 75) percent += 10;
+                    result = "fail";
                 }
                 burf1++;
                 txtPercent.setText(Integer.toString(percent));
@@ -446,21 +549,27 @@ public class GalleryFragment extends Fragment {
                     btnConfirm.setEnabled(true);
                     btnReset.setEnabled(true);
                 }
+                if (!history.equals("")) history += "|";
+                history += "1/\""+txtBurf1.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
             }
         });
 
         btnBurf2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String result = "";
+                int now_percent = percent;
                 int ransu = (int)(Math.random()*123456)%100;
                 if (ransu <= percent) {
                     imgSecond[burf2].setImageResource(R.drawable.success);
                     burf2_cnt++;
                     txtCount2.setText(Integer.toString(burf2_cnt));
                     if (percent > 25) percent -= 10;
+                    result = "success";
                 } else {
                     imgSecond[burf2].setImageResource(R.drawable.fail);
                     if (percent < 75) percent += 10;
+                    result = "fail";
                 }
                 burf2++;
                 txtPercent.setText(Integer.toString(percent));
@@ -469,21 +578,27 @@ public class GalleryFragment extends Fragment {
                     btnConfirm.setEnabled(true);
                     btnReset.setEnabled(true);
                 }
+                if (!history.equals("")) history += "|";
+                history += "2/\""+txtBurf2.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
             }
         });
 
         btnDeburf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String result = "";
+                int now_percent = percent;
                 int ransu = (int)(Math.random()*123456)%100;
                 if (ransu <= percent) {
                     imgThird[deburf].setImageResource(R.drawable.deburf_success);
                     deburf_cnt++;
                     txtCount3.setText(Integer.toString(deburf_cnt));
                     if (percent > 25) percent -= 10;
+                    result = "success";
                 } else {
                     imgThird[deburf].setImageResource(R.drawable.deburf_fail);
                     if (percent < 75) percent += 10;
+                    result = "fail";
                 }
                 deburf++;
                 txtPercent.setText(Integer.toString(percent));
@@ -492,6 +607,8 @@ public class GalleryFragment extends Fragment {
                     btnConfirm.setEnabled(true);
                     btnReset.setEnabled(true);
                 }
+                if (!history.equals("")) history += "|";
+                history += "3/\""+txtDeburf.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
             }
         });
 
@@ -506,7 +623,7 @@ public class GalleryFragment extends Fragment {
                 stamp_cnts[0] = Integer.parseInt(txtCount1.getText().toString());
                 stamp_cnts[1] = Integer.parseInt(txtCount2.getText().toString());
                 stamp_cnts[2] = Integer.parseInt(txtCount3.getText().toString());
-                Stone stone = new Stone(txtGrade.getText().toString(), stamps, stamp_cnts);
+                Stone stone = new Stone(txtGrade.getText().toString(), stamps, stamp_cnts, history);
 
                 stoneDBAdapter.open();
                 stoneDBAdapter.insertData(stone);
@@ -562,6 +679,7 @@ public class GalleryFragment extends Fragment {
         burf1_cnt = 0;
         burf2_cnt = 0;
         deburf_cnt = 0;
+        history = "";
     }
 
     private boolean allMax() {
@@ -583,7 +701,8 @@ public class GalleryFragment extends Fragment {
             stamp_cnts[0] = cursor.getInt(5);
             stamp_cnts[1] = cursor.getInt(6);
             stamp_cnts[2] = cursor.getInt(7);
-            Stone stone = new Stone(cursor.getString(1), stamps, stamp_cnts);
+            String history = cursor.getString(8);
+            Stone stone = new Stone(cursor.getString(1), stamps, stamp_cnts, history);
             stones.add(stone);
             cursor.moveToNext();
         }
