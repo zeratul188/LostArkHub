@@ -371,9 +371,29 @@
                 android:id="@+id/txtIslandDate"
                 android:text="-"
                 android:gravity="center"
-                android:textSize="15sp"
-                android:padding="10dp"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="#aaaaaa"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다음 모험섬까지 남은시간"
+                android:textSize="14sp"
+                android:textColor="#FF8888"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTime"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#FE6E0E"
+                android:layout_gravity="center"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

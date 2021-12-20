@@ -459,7 +459,7 @@ public class CommanderFragment extends Fragment {
             progressAll.setProgress(now);
             if (now == max) {
                 txtAllProgress.setTextColor(Color.parseColor("#92C52D"));
-                txtAllProgress.setText("숙제완료");
+                txtAllProgress.setText("모든 숙제완료");
                 txtAllProgressInfo.setVisibility(View.GONE);
             } else {
                 txtAllProgress.setTextColor(Color.parseColor("#FFFFFF"));

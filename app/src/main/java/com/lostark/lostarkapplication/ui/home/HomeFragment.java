@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,6 +64,8 @@ public class HomeFragment extends Fragment {
     private LinearLayout[] layoutIsland = new LinearLayout[3];
     private TextView txtIslandDate;
     private String[][] islandAwards = new String[3][8];
+    private TextView txtTime;
+    private Handler handler;
 
     private DisplayImageView[] imgBoss = new DisplayImageView[BOSS_LENGTH];
     private TextView[] txtBoss = new TextView[BOSS_LENGTH];
@@ -71,6 +74,8 @@ public class HomeFragment extends Fragment {
 
     private TextView txtStartDungeon, txtEndDungeon, txtFirstDungeon, txtSecondDungeon;
     private DungeonDisplayImageView imgDungeon;
+
+    private TimerThread timer;
 
     private ListView listUpdate;
     private ArrayList<Update> updates;
@@ -96,6 +101,8 @@ public class HomeFragment extends Fragment {
         islandReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                timer.interrupt();
+
                 String startdate = "";
                 List<String> list = Arrays.asList(getResources().getStringArray(R.array.awards));
                 for (DataSnapshot data :snapshot.getChildren()) {
@@ -173,10 +180,24 @@ public class HomeFragment extends Fragment {
             if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) next_island_hour = 9;
             else next_island_hour = 11;
         }
+        calendar.set(Calendar.HOUR_OF_DAY, next_island_hour);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         Date result_date = calendar.getTime();
         String result = df.format(result_date);
         result += " "+next_island_hour+"시에 시작";
         txtIslandDate.setText(result);
+
+        Calendar now_calendar = Calendar.getInstance();
+
+        long time = calendar.getTime().getTime() - now_calendar.getTime().getTime();
+        long seconds = time / 1000;
+        seconds = Math.abs(seconds);
+
+        timer.setTime(seconds);
+        if (timer.getState() == Thread.State.NEW) {
+            timer.start();
+        }
 
         bossReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -341,7 +362,10 @@ public class HomeFragment extends Fragment {
 
         scrollView = root.findViewById(R.id.scrollView);
 
+        handler = new Handler();
+
         txtIslandDate = root.findViewById(R.id.txtIslandDate);
+        txtTime = root.findViewById(R.id.txtTime);
         for (int i = 0; i < ISLAND_LENGTH; i++) {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIsland"+(i+1), "id", getActivity().getPackageName()));
@@ -433,9 +457,14 @@ public class HomeFragment extends Fragment {
         andReference = mDatabase.getReference("Andsoon");
 
         customToast = new CustomToast(getActivity());
+        timer = new TimerThread(txtTime, handler);
 
         return root;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.interrupt();
+    }
 }
