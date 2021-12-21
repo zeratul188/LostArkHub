@@ -1,6 +1,13 @@
 package com.lostark.lostarkapplication.ui.home;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -12,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.lostark.lostarkapplication.AlertReceiver;
 import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +48,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.WebActivity;
+import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -65,6 +76,7 @@ public class HomeFragment extends Fragment {
     private TextView txtIslandDate;
     private String[][] islandAwards = new String[3][8];
     private TextView txtTime;
+    public static Switch swtIslandAlarm;
     private Handler handler;
 
     private DisplayImageView[] imgBoss = new DisplayImageView[BOSS_LENGTH];
@@ -94,6 +106,8 @@ public class HomeFragment extends Fragment {
     private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
 
     private CustomToast customToast;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void onResume() {
@@ -102,7 +116,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 timer.interrupt();
-
+                swtIslandAlarm.setChecked(pref.getBoolean("island_alarm", false));
+                setIslandAlarm(swtIslandAlarm.isChecked());
                 String startdate = "";
                 List<String> list = Arrays.asList(getResources().getStringArray(R.array.awards));
                 for (DataSnapshot data :snapshot.getChildren()) {
@@ -363,9 +378,12 @@ public class HomeFragment extends Fragment {
         scrollView = root.findViewById(R.id.scrollView);
 
         handler = new Handler();
+        pref = getActivity().getSharedPreferences("island_file", MODE_PRIVATE);
+        editor = pref.edit();
 
         txtIslandDate = root.findViewById(R.id.txtIslandDate);
         txtTime = root.findViewById(R.id.txtTime);
+        swtIslandAlarm = root.findViewById(R.id.swtIslandAlarm);
         for (int i = 0; i < ISLAND_LENGTH; i++) {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIsland"+(i+1), "id", getActivity().getPackageName()));
@@ -388,6 +406,16 @@ public class HomeFragment extends Fragment {
                 });
             }
         }
+
+        swtIslandAlarm.setChecked(pref.getBoolean("island_alarm", false));
+        swtIslandAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setIslandAlarm(isChecked);
+                editor.putBoolean("island_alarm", isChecked);
+                editor.commit();
+            }
+        });
 
         for (int i = 0; i < BOSS_LENGTH; i++) {
             imgBoss[i] = root.findViewById(getActivity().getResources().getIdentifier("imgBoss"+(i+1), "id", getActivity().getPackageName()));
@@ -449,7 +477,7 @@ public class HomeFragment extends Fragment {
         storage = FirebaseStorage.getInstance("gs://lostarkhub-cbe60.appspot.com/");
         storageRef = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance();
-        islandReference =mDatabase.getReference("island");
+        islandReference = mDatabase.getReference("island");
         bossReference = mDatabase.getReference("boss");
         dungeonReference = mDatabase.getReference("dungeon");
         updateReference = mDatabase.getReference("update");
@@ -466,5 +494,70 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         timer.interrupt();
+    }
+
+    private void cancelAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), IslandAlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 2, intent, 0);
+
+        alarmManager.cancel(pendingIntent);
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), IslandAlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 2, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
+
+    private void setIslandAlarm(boolean isEnable) {
+        cancelAlarm();
+        if (isEnable) {
+            Calendar calendar = Calendar.getInstance();
+            //Test Start
+            //calendar.set(Calendar.DAY_OF_MONTH, 4);
+            //calendar.set(Calendar.DAY_OF_MONTH, 14);
+            //calendar.set(Calendar.HOUR_OF_DAY, 23);
+            //Test End
+            Date now = calendar.getTime();
+            DateFormat hourFormat = new SimpleDateFormat("HH");
+            int now_hour = Integer.parseInt(hourFormat.format(now));
+            int next_island_hour = 0;
+            if (now_hour < 9) {
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) next_island_hour = 9;
+                else next_island_hour = 11;
+            }
+            else if (now_hour >= 9 && now_hour < 11) next_island_hour = 11;
+            else if (now_hour >= 11 && now_hour < 13) next_island_hour = 13;
+            else if (now_hour >= 13 && now_hour < 19) next_island_hour = 19;
+            else if (now_hour >= 19 && now_hour < 21) next_island_hour = 21;
+            else if (now_hour >= 21 && now_hour < 23) next_island_hour = 23;
+            else {
+                calendar.add(Calendar.DATE,1);
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) next_island_hour = 9;
+                else next_island_hour = 11;
+            }
+            calendar.set(Calendar.HOUR_OF_DAY, next_island_hour);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.add(Calendar.MINUTE, -5);
+
+            /*Calendar test = Calendar.getInstance();
+            test.add(Calendar.SECOND, 5);
+            startAlarm(test);*/
+
+            startAlarm(calendar);
+        }
+    }
+
+    public static void offSwitchAlarm() {
+        swtIslandAlarm.setChecked(false);
     }
 }

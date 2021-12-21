@@ -26,14 +26,37 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scrollbars="horizontal"/>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="모험섬"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"
-            android:textColor="#FFFFFF"/>
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="모험섬"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5분 전 알림"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="#AAAAAA"
+                android:layout_marginRight="5dp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:thumbTint="#FE6E0E"
+                android:track="@drawable/switch_track_style"
+                android:id="@+id/swtIslandAlarm"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

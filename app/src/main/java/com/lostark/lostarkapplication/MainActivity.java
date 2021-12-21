@@ -355,11 +355,6 @@ public class MainActivity extends AppCompatActivity {
             now_cal.set(Calendar.MINUTE, 0);
             now_cal.set(Calendar.SECOND, 0);
 
-            /*Test
-            *Calendar nwo = Calendar.getInstance();
-            *nwo.add(Calendar.SECOND, 10);
-            *startAlarm(nwo);*/
-
             startAlarm(now_cal);
         }
     }

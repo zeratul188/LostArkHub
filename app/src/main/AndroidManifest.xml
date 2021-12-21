@@ -31,6 +31,7 @@
         </activity>
 
         <receiver android:name=".AlertReceiver" />
+        <receiver android:name=".ui.home.IslandAlertReceiver"/>
     </application>
 
 </manifest>
