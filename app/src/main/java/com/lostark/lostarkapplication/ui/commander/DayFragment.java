@@ -77,7 +77,7 @@ public class DayFragment extends Fragment {
         chracterListDBAdapter.close();
 
         checklists = new ArrayList<>();
-        homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), true);
+        homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), true, name);
         listView.setAdapter(homeworkAdapter);
 
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
@@ -214,23 +214,23 @@ public class DayFragment extends Fragment {
                                     content += select.getContent();
                                 }
                             }
-                            checklist = new Checklist(name, "일일", content, 0, max, !pref.getBoolean("homework_alarm", false));
-                        } else checklist = new Checklist(name, "일일", "", 0, max, !pref.getBoolean("homework_alarm", false));
+                            checklist = new Checklist(name, "일일", content, 0, max, !pref.getBoolean("homework_alarm", false), 0);
+                        } else checklist = new Checklist(name, "일일", "", 0, max, !pref.getBoolean("homework_alarm", false), 0);
                         checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
                         if (name.equals("카오스 던전")) {
                             int progress = seekRest.getProgress();
-                            Checklist restList = new Checklist("카던 휴식", "휴식게이지", "", progress, 10, false);
+                            Checklist restList = new Checklist("카던 휴식", "휴식게이지", "", progress, 10, false, 0);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("가디언 토벌")) {
                             int progress = seekRest.getProgress();
-                            Checklist restList = new Checklist("가디언 휴식", "휴식게이지", "", progress, 10, false);
+                            Checklist restList = new Checklist("가디언 휴식", "휴식게이지", "", progress, 10, false, 0);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("에포나 일일 의뢰")) {
                             int progress = seekRest.getProgress();
-                            Checklist restList = new Checklist("에포나 휴식", "휴식게이지", "", progress, 10, false);
+                            Checklist restList = new Checklist("에포나 휴식", "휴식게이지", "", progress, 10, false, 0);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         }
@@ -299,8 +299,9 @@ public class DayFragment extends Fragment {
                 int now = cursor.getInt(3);
                 int max = cursor.getInt(4);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                if (type.equals("일일")) checklists.add(0, new Checklist(name, type, content, now, max, isAlarm));
-                else checklists.add(new Checklist(name, type, content, now, max, isAlarm));
+                int history = cursor.getInt(7);
+                if (type.equals("일일")) checklists.add(0, new Checklist(name, type, content, now, max, isAlarm, history));
+                else checklists.add(new Checklist(name, type, content, now, max, isAlarm, history));
             }
             cursor.moveToNext();
         }

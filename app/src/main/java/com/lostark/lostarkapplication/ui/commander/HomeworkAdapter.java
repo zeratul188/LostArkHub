@@ -26,28 +26,40 @@ import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.BossDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.DungeonDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryDBAdapter;
+import com.lostark.lostarkapplication.objects.History;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeworkAdapter extends BaseAdapter {
     private ArrayList<Checklist> checklists;
     private Context context;
     private ChracterDBAdapter chracterDBAdapter;
+    private HistoryDBAdapter historyDBAdapter;
+    private HistoryCountDBAdapter historyCountDBAdapter;
     private Activity activity;
     private CustomToast customToast;
     private boolean isDay = true;
+    private String chracter_name;
 
     private AlertDialog alertDialog, diag_alertDialog;
 
-    public HomeworkAdapter(ArrayList<Checklist> checklists, Context context, ChracterDBAdapter chracterDBAdapter, Activity activity, boolean isDay) {
+    public HomeworkAdapter(ArrayList<Checklist> checklists, Context context, ChracterDBAdapter chracterDBAdapter, Activity activity, boolean isDay, String chracter_name) {
         this.checklists = checklists;
         this.context = context;
         this.chracterDBAdapter = chracterDBAdapter;
         this.activity = activity;
         this.isDay = isDay;
+        this.chracter_name = chracter_name;
         customToast = new CustomToast(context);
+        historyCountDBAdapter = new HistoryCountDBAdapter(context);
+        historyDBAdapter = new HistoryDBAdapter(context);
     }
 
     @Override
@@ -108,8 +120,13 @@ public class HomeworkAdapter extends BaseAdapter {
         txtMax.setText(Integer.toString(checklists.get(position).getMax()));
         if (checklists.get(position).isAlarm()) imgbtnAlarm.setImageResource(R.drawable.ic_notifications_black_24dp);
         else imgbtnAlarm.setImageResource(R.drawable.ic_notifications_off_black_24dp);
-        if (checklists.get(position).getNow() >= checklists.get(position).getMax()) imgbtnUp.setEnabled(false);
-        else imgbtnUp.setEnabled(true);
+        if (checklists.get(position).getNow() >= checklists.get(position).getMax()) {
+            imgbtnUp.setImageResource(R.drawable.ic_refresh_black_24dp);
+            imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonresetstyle);
+        } else {
+            imgbtnUp.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+            imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonstyle);
+        }
         progressBar.setMax(checklists.get(position).getMax());
         progressBar.setProgress(checklists.get(position).getNow());
         if (checklists.get(position).getContent().equals("")) txtContent.setVisibility(View.GONE);
@@ -275,16 +292,38 @@ public class HomeworkAdapter extends BaseAdapter {
                 btnReset.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int now = checklists.get(position).getNow();
+                        int history = checklists.get(position).getHistory();
+                        if (now > history) history = 0;
+                        else history -= now;
+                        historyCountDBAdapter.open();
+                        String[] homeworks = {"카오스 던전", "가디언 토벌", "에포나 일일 의뢰"};
+                        int count = 0;
+                        if (Arrays.asList(homeworks).indexOf(checklists.get(position).getName()) != -1) {
+                            count = historyCountDBAdapter.getQueryCount(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())]);
+                            if (now > count) count = 0;
+                            else count -= now;
+                            historyCountDBAdapter.changeValue(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())], count);
+                        }
+                        historyCountDBAdapter.close();
                         chracterDBAdapter.open();
                         chracterDBAdapter.changeNow(checklists.get(position).getName(), 0);
+                        chracterDBAdapter.changeHistory(checklists.get(position).getName(), history);
                         chracterDBAdapter.close();
                         checklists.get(position).setNow(0);
-                        imgbtnUp.setEnabled(true);
+                        checklists.get(position).setHistory(history);
+                        imgbtnUp.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                        imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonstyle);
                         notifyDataSetChanged();
                         //Toast.makeText(context, "진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast("진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         alertDialog.dismiss();
+                        historyDBAdapter.open();
+                        String date = getNowTime();
+                        String content = "\""+checklists.get(position).getName()+"\"(을)를 초기화";
+                        historyDBAdapter.insertData(new History(chracter_name, date, content));
+                        historyDBAdapter.close();
                     }
                 });
 
@@ -313,6 +352,11 @@ public class HomeworkAdapter extends BaseAdapter {
                                 //Toast.makeText(context, checklists.get(position).getName()+" 숙제를 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                                 customToast.createToast(checklists.get(position).getName()+" 숙제를 삭제하였습니다.", Toast.LENGTH_SHORT);
                                 customToast.show();
+                                historyDBAdapter.open();
+                                String date = getNowTime();
+                                String content = "\""+checklists.get(position).getName()+"\" 항목 삭제";
+                                historyDBAdapter.insertData(new History(chracter_name, date, content));
+                                historyDBAdapter.close();
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.deleteData(checklists.get(position).getName());
                                 chracterDBAdapter.close();
@@ -370,6 +414,9 @@ public class HomeworkAdapter extends BaseAdapter {
                             return;
                         }
 
+                        String undo_name = checklists.get(position).getName();
+                        int undo_max = checklists.get(position).getMax();
+
                         String name = edtHomework.getText().toString();
                         int max = Integer.parseInt(edtCount.getText().toString());
                         int now = checklists.get(position).getNow();
@@ -385,8 +432,8 @@ public class HomeworkAdapter extends BaseAdapter {
                                         content += select.getContent();
                                     }
                                 }
-                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, checklists.get(position).isAlarm());
-                                else checklist = new Checklist(name, "주간", content, now, max, checklists.get(position).isAlarm());
+                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
+                                else checklist = new Checklist(name, "주간", content, now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
@@ -399,23 +446,23 @@ public class HomeworkAdapter extends BaseAdapter {
                                         content += select.getContent();
                                     }
                                 }
-                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, checklists.get(position).isAlarm());
-                                else checklist = new Checklist(name, "주간", content, now, max, checklists.get(position).isAlarm());
+                                if (isDay) checklist = new Checklist(name, "일일", content, now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
+                                else checklist = new Checklist(name, "주간", content, now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
                                 checklists.get(checklists.indexOf(new Checklist("가디언 휴식"))).setNow(seekRest.getProgress());
                                 break;
                             case "에포나 일일 의뢰":
-                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, checklists.get(position).isAlarm());
-                                else checklist = new Checklist(name, "주간", "", now, max, checklists.get(position).isAlarm());
+                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
+                                else checklist = new Checklist(name, "주간", "", now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("에포나 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
                                 checklists.get(checklists.indexOf(new Checklist("에포나 휴식"))).setNow(seekRest.getProgress());
                             default:
-                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, checklists.get(position).isAlarm());
-                                else checklist = new Checklist(name, "주간", "", now, max, checklists.get(position).isAlarm());
+                                if (isDay) checklist = new Checklist(name, "일일", "", now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
+                                else checklist = new Checklist(name, "주간", "", now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
                         }
 
 
@@ -428,6 +475,18 @@ public class HomeworkAdapter extends BaseAdapter {
                         customToast.createToast("값이 수정되었습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         alertDialog.dismiss();
+
+                        historyDBAdapter.open();
+                        String date = getNowTime();
+                        if (undo_max != max) {
+                            String contents = "최대치 "+undo_max+"에서 "+max+"으로 최대치 변경";
+                            historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                        }
+                        if (undo_name.equals(name)) {
+                            String contents = "\""+undo_name+"\"(을)를 \""+name+"\"으로 이름 변경";
+                            historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                        }
+                        historyDBAdapter.close();
                     }
                 });
 
@@ -453,40 +512,104 @@ public class HomeworkAdapter extends BaseAdapter {
                 }
                 chracterDBAdapter.close();
                 notifyDataSetChanged();
+                historyDBAdapter.open();
+                String date = getNowTime();
+                String content;
+                if (checklists.get(position).isAlarm()) content = "\""+checklists.get(position).getName()+"\"의 알림 킴";
+                else content = "\""+checklists.get(position).getName()+"\"의 알림 끔";
+                historyDBAdapter.insertData(new History(chracter_name, date, content));
+                historyDBAdapter.close();
             }
         });
 
         imgbtnUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checklists.get(position).setNow(checklists.get(position).getNow()+1);
-                if (checklists.get(position).getNow() >= checklists.get(position).getMax()) imgbtnUp.setEnabled(false);
-                else imgbtnUp.setEnabled(true);
-                chracterDBAdapter.open();
-                chracterDBAdapter.changeNow(checklists.get(position).getName(), checklists.get(position).getNow());
-                if (checklists.get(position).getName().equals("카오스 던전")) {
-                    for (int i = 0; i < checklists.size(); i++) {
-                        if (checklists.get(i).getName().equals("카던 휴식")) {
-                            if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
-                            chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
+                if (checklists.get(position).getNow() >= checklists.get(position).getMax()) {
+                    int now = checklists.get(position).getNow();
+                    int history = checklists.get(position).getHistory();
+                    if (now > history) history = 0;
+                    else history -= now;
+                    historyCountDBAdapter.open();
+                    String[] homeworks = {"카오스 던전", "가디언 토벌", "에포나 일일 의뢰"};
+                    int count = 0;
+                    if (Arrays.asList(homeworks).indexOf(checklists.get(position).getName()) != -1) {
+                        count = historyCountDBAdapter.getQueryCount(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())]);
+                        if (now > count) count = 0;
+                        else count -= now;
+                        historyCountDBAdapter.changeValue(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())], count);
+                    }
+                    historyCountDBAdapter.close();
+                    chracterDBAdapter.open();
+                    chracterDBAdapter.changeNow(checklists.get(position).getName(), 0);
+                    chracterDBAdapter.changeHistory(checklists.get(position).getName(), history);
+                    chracterDBAdapter.close();
+                    checklists.get(position).setNow(0);
+                    checklists.get(position).setHistory(history);
+                    imgbtnUp.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonstyle);
+                    //Toast.makeText(context, "진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT).show();
+                    customToast.createToast("진행 상황을 초기화하였습니다.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    historyDBAdapter.open();
+                    DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+                    Calendar calendar = Calendar.getInstance();
+                    String date = df.format(calendar.getTime());
+                    String content = checklists.get(position).getName()+"(을)를 초기화";
+                    historyDBAdapter.insertData(new History(chracter_name, date, content));
+                    historyDBAdapter.close();
+                } else {
+                    checklists.get(position).setNow(checklists.get(position).getNow()+1);
+                    checklists.get(position).setHistory(checklists.get(position).getHistory()+1);
+                    if (checklists.get(position).getNow() >= checklists.get(position).getMax()) {
+                        imgbtnUp.setImageResource(R.drawable.ic_refresh_black_24dp);
+                        imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonresetstyle);
+                    }
+                    chracterDBAdapter.open();
+                    chracterDBAdapter.changeHistory(checklists.get(position).getName(), checklists.get(position).getHistory());
+                    chracterDBAdapter.changeNow(checklists.get(position).getName(), checklists.get(position).getNow());
+                    if (checklists.get(position).getName().equals("카오스 던전")) {
+                        historyCountDBAdapter.open();
+                        historyCountDBAdapter.changeValue("카오스 던전", historyCountDBAdapter.getQueryCount("카오스 던전")+1);
+                        historyCountDBAdapter.close();
+                        for (int i = 0; i < checklists.size(); i++) {
+                            if (checklists.get(i).getName().equals("카던 휴식")) {
+                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
+                            }
+                        }
+                    } else if (checklists.get(position).getName().equals("가디언 토벌")) {
+                        historyCountDBAdapter.open();
+                        historyCountDBAdapter.changeValue("가디언 토벌", historyCountDBAdapter.getQueryCount("가디언 토벌")+1);
+                        historyCountDBAdapter.close();
+                        for (int i = 0; i < checklists.size(); i++) {
+                            if (checklists.get(i).getName().equals("가디언 휴식")) {
+                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
+                            }
+                        }
+                    } else if (checklists.get(position).getName().equals("에포나 일일 의뢰")) {
+                        historyCountDBAdapter.open();
+                        historyCountDBAdapter.changeValue("에포나 일일 의뢰", historyCountDBAdapter.getQueryCount("에포나 일일 의뢰")+1);
+                        historyCountDBAdapter.close();
+                        for (int i = 0; i < checklists.size(); i++) {
+                            if (checklists.get(i).getName().equals("에포나 휴식")) {
+                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
+                            }
                         }
                     }
-                } else if (checklists.get(position).getName().equals("가디언 토벌")) {
-                    for (int i = 0; i < checklists.size(); i++) {
-                        if (checklists.get(i).getName().equals("가디언 휴식")) {
-                            if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
-                            chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
-                        }
+                    chracterDBAdapter.close();
+                    historyDBAdapter.open();
+                    String date = getNowTime();
+                    String content = "\""+checklists.get(position).getName()+"\" 숙제 체크";
+                    historyDBAdapter.insertData(new History(chracter_name, date, content));
+                    if (checklists.get(position).getNow() == checklists.get(position).getMax()) {
+                        content = "\""+checklists.get(position).getName()+"\" 숙제 완료";
+                        historyDBAdapter.insertData(new History(chracter_name, date, content));
                     }
-                } else if (checklists.get(position).getName().equals("에포나 일일 의뢰")) {
-                    for (int i = 0; i < checklists.size(); i++) {
-                        if (checklists.get(i).getName().equals("에포나 휴식")) {
-                            if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
-                            chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
-                        }
-                    }
+                    historyDBAdapter.close();
                 }
-                chracterDBAdapter.close();
                 notifyDataSetChanged();
             }
         });
@@ -495,5 +618,11 @@ public class HomeworkAdapter extends BaseAdapter {
         else layoutMain.setVisibility(View.VISIBLE);
 
         return convertView;
+    }
+
+    private String getNowTime() {
+        DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+        Calendar calendar = Calendar.getInstance();
+        return df.format(calendar.getTime());
     }
 }

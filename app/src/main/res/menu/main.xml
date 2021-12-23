@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="환경 설정"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_stats"
+        android:orderInCategory="100"
+        android:title="숙제 통계"
+        app:showAsAction="never" />
 </menu>

@@ -74,7 +74,7 @@ public class WeekFragment extends Fragment {
         chracterListDBAdapter.close();
 
         checklists = new ArrayList<>();
-        homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), false);
+        homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), false, name);
         listView.setAdapter(homeworkAdapter);
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +141,7 @@ public class WeekFragment extends Fragment {
                             cursor.moveToNext();
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
-                        Checklist checklist = new Checklist(name, "주간", "", 0, max, true);
+                        Checklist checklist = new Checklist(name, "주간", "", 0, max, true, 0);
                         checklists.add(checklist);
                         chracterDBAdapter.insertData(checklist);
                         chracterDBAdapter.close();
@@ -208,8 +208,9 @@ public class WeekFragment extends Fragment {
                 String content = cursor.getString(6);
                 int now = cursor.getInt(3);
                 int max = cursor.getInt(4);
+                int history = cursor.getInt(7);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                checklists.add(new Checklist(name, type, content, now, max, isAlarm));
+                checklists.add(new Checklist(name, type, content, now, max, isAlarm, history));
             }
             cursor.moveToNext();
         }

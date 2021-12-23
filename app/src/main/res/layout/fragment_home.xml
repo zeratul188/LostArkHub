@@ -14,13 +14,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이벤트"
-            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:textColor="#FFFFFF"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="이벤트"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="진행 중인 이벤트 "
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEventCount"
+                android:text="0개"
+                android:textSize="16sp"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center"/>
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listEvent"
             android:layout_width="match_parent"

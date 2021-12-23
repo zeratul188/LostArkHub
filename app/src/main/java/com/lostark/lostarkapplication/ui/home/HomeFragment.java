@@ -41,6 +41,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.lostark.lostarkapplication.AlertReceiver;
 import com.lostark.lostarkapplication.CustomToast;
+import com.lostark.lostarkapplication.IslandAwardToast;
 import com.lostark.lostarkapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,7 +76,8 @@ public class HomeFragment extends Fragment {
     private LinearLayout[] layoutIsland = new LinearLayout[3];
     private TextView txtIslandDate;
     private String[][] islandAwards = new String[3][8];
-    private TextView txtTime;
+    private int[][] islandAwardsImages = new int[3][8];
+    private TextView txtTime, txtEventCount;
     public static Switch swtIslandAlarm;
     private Handler handler;
 
@@ -140,6 +142,7 @@ public class HomeFragment extends Fragment {
                         if (list.indexOf(awards[i]) != -1) {
                             islandAwards[index][position] = awards[i];
                             imgIslandAwards[index][position].setImageResource(getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName()));
+                            islandAwardsImages[index][position] = getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName());
                             position++;
                             /*storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
@@ -335,6 +338,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 events.clear();
+                int cnt = (int)snapshot.getChildrenCount();
+                txtEventCount.setText(cnt+"개");
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String startdate = data.child("startdate").getValue().toString();
                     String enddate = data.child("enddate").getValue().toString();
@@ -384,6 +389,7 @@ public class HomeFragment extends Fragment {
         txtIslandDate = root.findViewById(R.id.txtIslandDate);
         txtTime = root.findViewById(R.id.txtTime);
         swtIslandAlarm = root.findViewById(R.id.swtIslandAlarm);
+        txtEventCount = root.findViewById(R.id.txtEventCount);
         for (int i = 0; i < ISLAND_LENGTH; i++) {
             imgIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("imgIsland"+(i+1), "id", getActivity().getPackageName()));
             txtIsland[i] = root.findViewById(getActivity().getResources().getIdentifier("txtIsland"+(i+1), "id", getActivity().getPackageName()));
@@ -400,8 +406,9 @@ public class HomeFragment extends Fragment {
                     public void onClick(View v) {
                         if (islandAwards[x][y] == null) return;
                         //Toast.makeText(getActivity(), "보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT).show();
-                        customToast.createToast("보상 내용 : "+islandAwards[x][y], Toast.LENGTH_SHORT);
-                        customToast.show();
+                        IslandAwardToast islandAwardToast = new IslandAwardToast(getActivity());
+                        islandAwardToast.createToast(islandAwards[x][y], Toast.LENGTH_SHORT, islandAwardsImages[x][y]);
+                        islandAwardToast.show();
                     }
                 });
             }

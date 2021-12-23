@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +82,7 @@ public class SlideshowFragment extends Fragment {
     private Spinner[] sprStatCnts = new Spinner[STAT_LENGTH];
     private Button btnPreset, btnStampSetting, btnReset;
     private ScrollView scrollView;
+    private Switch swtShow;
 
     private int neck_index = 0, earring1_index = 0, earring2_index = 0, ring1_index = 0, ring2_index = 0;
 
@@ -136,6 +139,7 @@ public class SlideshowFragment extends Fragment {
         btnStampSetting = root.findViewById(R.id.btnStampSetting);
         scrollView = root.findViewById(R.id.scrollView);
         btnReset = root.findViewById(R.id.btnReset);
+        swtShow = root.findViewById(R.id.swtShow);
         for (int i = 0; i < STAMP_LENGTH; i++) {
             imgNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("imgNeck"+(i+1), "id", getActivity().getPackageName()));
             sprNecks[i] = root.findViewById(getActivity().getResources().getIdentifier("sprNeck"+(i+1), "id", getActivity().getPackageName()));
@@ -161,6 +165,14 @@ public class SlideshowFragment extends Fragment {
             sprStats[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStat"+(i+1), "id", getActivity().getPackageName()));
             sprStatCnts[i] = root.findViewById(getActivity().getResources().getIdentifier("sprStatCnt"+(i+1), "id", getActivity().getPackageName()));
         }
+
+        swtShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) listView.setVisibility(View.VISIBLE);
+                else listView.setVisibility(View.GONE);
+            }
+        });
 
         apply_stamps = new ArrayList<>();
         stampAdapter = new ApplyStampAdapter(getActivity(), apply_stamps);

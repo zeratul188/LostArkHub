@@ -32,10 +32,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lostark.lostarkapplication.database.ChracterDBAdapter;
+import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import com.lostark.lostarkapplication.database.Earring1DBAdapter;
 import com.lostark.lostarkapplication.database.Earring2DBAdapter;
 import com.lostark.lostarkapplication.database.EquipmentDBAdapter;
 import com.lostark.lostarkapplication.database.EquipmentStoneDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryDBAdapter;
 import com.lostark.lostarkapplication.database.NeckDBAdapter;
 import com.lostark.lostarkapplication.database.Ring1DBAdapter;
 import com.lostark.lostarkapplication.database.Ring2DBAdapter;
@@ -56,7 +60,7 @@ import java.util.Date;
 public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack;
     private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
@@ -71,6 +75,10 @@ public class SettingActivity extends AppCompatActivity {
     private EquipmentDBAdapter equipmentDBAdapter;
     private StatDBAdapter statDBAdapter;
     private StoneDBAdapter stoneDBAdapter;
+
+    private HistoryDBAdapter historyDBAdapter;
+    private HistoryCountDBAdapter historyCountDBAdapter;
+    private ChracterListDBAdapter chracterListDBAdapter;
 
     private SkillDBAdapter skillDBAdapter;
     private SkillPresetDBAdapter skillPresetDBAdapter;
@@ -111,6 +119,8 @@ public class SettingActivity extends AppCompatActivity {
         txtReportLimit = findViewById(R.id.txtReportLimit);
         btnReportSubmit = findViewById(R.id.btnReportSubmit);
         txtReportStatue = findViewById(R.id.txtReportStatue);
+        btnDeleteStat = findViewById(R.id.btnDeleteStat);
+        btnDeleteStack = findViewById(R.id.btnDeleteStack);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -123,6 +133,10 @@ public class SettingActivity extends AppCompatActivity {
         equipmentStoneDBAdapter = new EquipmentStoneDBAdapter(getApplicationContext());
         equipmentDBAdapter = new EquipmentDBAdapter(getApplicationContext());
         statDBAdapter = new StatDBAdapter(getApplicationContext());
+
+        historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
+        chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
+        historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
 
         skillPresetDBAdapter = new SkillPresetDBAdapter(getApplicationContext());
 
@@ -570,6 +584,100 @@ public class SettingActivity extends AppCompatActivity {
                         statDBAdapter.close();
                         //Toast.makeText(getApplicationContext(), "프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast("프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        btnDeleteStat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("숙제 기록을 전부 삭제하시겠습니까?");
+                btnOK.setText("삭제");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        historyDBAdapter.open();
+                        historyDBAdapter.deleteAllData();
+                        historyDBAdapter.close();
+                        customToast.createToast("모든 숙제 기록을 삭제하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
+        btnDeleteStack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("캐릭터별 현황 기록을 전부 삭제하시겠습니까?");
+                btnOK.setText("삭제");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        historyCountDBAdapter.open();
+                        historyCountDBAdapter.resetData();
+                        historyCountDBAdapter.close();
+                        chracterListDBAdapter.open();
+                        Cursor cursor = chracterListDBAdapter.fetchAllData();
+                        cursor.moveToFirst();
+                        while (!cursor.isAfterLast()) {
+                            String name = cursor.getString(1);
+                            ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getApplicationContext(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+                            chracterDBAdapter.open();
+                            chracterDBAdapter.resetHistory();
+                            chracterDBAdapter.close();
+                            cursor.moveToNext();
+                        }
+                        chracterListDBAdapter.close();
+                        customToast.createToast("모든 캐릭터별 현황 기록을 삭제하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         alertDialog.dismiss();
                     }

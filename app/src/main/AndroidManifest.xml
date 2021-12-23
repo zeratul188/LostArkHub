@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".StatActivity"
+            android:exported="false" />
+        <activity
             android:name=".WebActivity"
             android:exported="false" />
         <activity android:name=".ui.commander.ChecklistActivity" />
@@ -31,7 +34,7 @@
         </activity>
 
         <receiver android:name=".AlertReceiver" />
-        <receiver android:name=".ui.home.IslandAlertReceiver"/>
+        <receiver android:name=".ui.home.IslandAlertReceiver" />
     </application>
 
 </manifest>

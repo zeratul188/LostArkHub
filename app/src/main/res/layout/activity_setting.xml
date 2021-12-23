@@ -361,6 +361,47 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="통계"
+            android:textSize="18sp"
+            android:background="#191b20"
+            android:textColor="#ffffff"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1d2026">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_delete_black_24dp"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                android:padding="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="통계 기록 전부 삭제"
+                android:textSize="18sp"
+                android:id="@+id/btnDeleteStat"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_delete_black_24dp"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                android:padding="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="숙제 현황 기록 초기화"
+                android:textSize="18sp"
+                android:id="@+id/btnDeleteStack"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="앱 정보"
             android:textSize="18sp"
             android:background="#191b20"

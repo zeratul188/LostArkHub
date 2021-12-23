@@ -4,16 +4,25 @@ import androidx.annotation.Nullable;
 
 public class Checklist {
     private String name, type, content;
-    private int now, max;
+    private int now, max, history;
     private boolean isAlarm;
 
-    public Checklist(String name, String type, String content, int now, int max, boolean isAlarm) {
+    public Checklist(String name, String type, String content, int now, int max, boolean isAlarm, int history) {
         this.name = name;
         this.type = type;
         this.content = content;
         this.now = now;
         this.max = max;
         this.isAlarm = isAlarm;
+        this.history = history;
+    }
+
+    public int getHistory() {
+        return history;
+    }
+
+    public void setHistory(int history) {
+        this.history = history;
     }
 
     public Checklist(String name) {

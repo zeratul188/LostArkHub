@@ -94,41 +94,41 @@ public class CommanderFragment extends Fragment {
                             int now;
                             if (level >= 915 && level < 1325) now = 3;
                             else now = 2;
-                            chracterDBAdapter.insertData(new Checklist("어비스 던전", "주간", "", 0, now, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("어비스 던전", "주간", "", 0, now, isAlarm, 0));
                         }
                         if (level >= 915) {
-                            chracterDBAdapter.insertData(new Checklist("도전 어비스 던전", "주간", "", 0, 2, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("도전 어비스 던전", "주간", "", 0, 2, isAlarm, 0));
                         }
                         if (level >= 415) {
-                            chracterDBAdapter.insertData(new Checklist("도전 가디언 토벌", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("도전 가디언 토벌", "주간", "", 0, 3, isAlarm, 0));
                         }
                         if (level >= 1370 && level < 1475) {
-                            chracterDBAdapter.insertData(new Checklist("어비스 레이드 - 아르고스", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("어비스 레이드 - 아르고스", "주간", "", 0, 3, isAlarm, 0));
                         }
                         if (level >= 1415) {
-                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 발탄", "주간", "", 0, 2, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 발탄", "주간", "", 0, 2, isAlarm, 0));
                         }
                         if (level >= 1430) {
-                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 비아키스", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 비아키스", "주간", "", 0, 3, isAlarm, 0));
                         }
                         if (level >= 1475) {
-                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 쿠크세이튼", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 쿠크세이튼", "주간", "", 0, 3, isAlarm, 0));
                         }
                         if (level >= 1490) {
-                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 아브렐슈드", "주간", "", 0, 6, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 아브렐슈드", "주간", "", 0, 6, isAlarm, 0));
                         }
                         if (level >= 1385) {
-                            chracterDBAdapter.insertData(new Checklist("한밤중의 서커스 리허설", "주간", "", 0, 3, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("한밤중의 서커스 리허설", "주간", "", 0, 3, isAlarm, 0));
                         }
                         if (level >= 1430) {
-                            chracterDBAdapter.insertData(new Checklist("몽환의 아스탤지어 데자뷰", "주간", "", 0, 4, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("몽환의 아스탤지어 데자뷰", "주간", "", 0, 4, isAlarm, 0));
                         }
                         DungeonDBAdapter dungeonDBAdapter = new DungeonDBAdapter(getActivity());
                         if (level >= 1560) {
                             String[] args = dungeonDBAdapter.readData(dungeonDBAdapter.getSize()-1);
                             String content = args[0]+" : "+args[1];
-                            chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
-                            chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm, 0));
+                            chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                         } else {
                             for (int j = 0; j < dungeonDBAdapter.getSize(); j++) {
                                 String[] args = dungeonDBAdapter.readData(j);
@@ -137,8 +137,8 @@ public class CommanderFragment extends Fragment {
                                     if (j == 0) break;
                                     String[] results = dungeonDBAdapter.readData(j-1);
                                     String content = results[0]+" : "+results[1];
-                                    chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
-                                    chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                    chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm, 0));
+                                    chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                                     break;
                                 }
                             }
@@ -147,8 +147,8 @@ public class CommanderFragment extends Fragment {
                         if (level >= 1540) {
                             String[] args = bossDBAdapter.readData(bossDBAdapter.getSize()-1);
                             String content = args[1]+" : "+args[0];
-                            chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
-                            chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm, 0));
+                            chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                         } else {
                             for (int j = 0; j < bossDBAdapter.getSize(); j++) {
                                 String[] args = bossDBAdapter.readData(j);
@@ -157,8 +157,8 @@ public class CommanderFragment extends Fragment {
                                     if (j == 0) break;
                                     String[] results = bossDBAdapter.readData(j-1);
                                     String content = results[1]+" : "+results[0];
-                                    chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
-                                    chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                    chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm, 0));
+                                    chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                                     break;
                                 }
                             }
@@ -284,48 +284,48 @@ public class CommanderFragment extends Fragment {
                             ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
                             chracterListDBAdapter.close();
                             chracterDBAdapter.open();
-                            chracterDBAdapter.insertData(new Checklist("에포나 주간 의뢰", "주간", "", 0, 3, isAlarm));
-                            chracterDBAdapter.insertData(new Checklist("에포나 일일 의뢰", "일일", "", 0, 3, isAlarm));
-                            chracterDBAdapter.insertData(new Checklist("에포나 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                            chracterDBAdapter.insertData(new Checklist("에포나 주간 의뢰", "주간", "", 0, 3, isAlarm, 0));
+                            chracterDBAdapter.insertData(new Checklist("에포나 일일 의뢰", "일일", "", 0, 3, isAlarm, 0));
+                            chracterDBAdapter.insertData(new Checklist("에포나 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                             if (level >= 325 && level < 1415) {
                                 int now;
                                 if (level >= 915 && level < 1325) now = 3;
                                 else now = 2;
-                                chracterDBAdapter.insertData(new Checklist("어비스 던전", "주간", "", 0, now, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("어비스 던전", "주간", "", 0, now, isAlarm, 0));
                             }
                             if (level >= 915) {
-                                chracterDBAdapter.insertData(new Checklist("도전 어비스 던전", "주간", "", 0, 2, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("도전 어비스 던전", "주간", "", 0, 2, isAlarm, 0));
                             }
                             if (level >= 415) {
-                                chracterDBAdapter.insertData(new Checklist("도전 가디언 토벌", "주간", "", 0, 3, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("도전 가디언 토벌", "주간", "", 0, 3, isAlarm, 0));
                             }
                             if (level >= 1370 && level < 1475) {
-                                chracterDBAdapter.insertData(new Checklist("어비스 레이드 - 아르고스", "주간", "", 0, 3, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("어비스 레이드 - 아르고스", "주간", "", 0, 3, isAlarm, 0));
                             }
                             if (level >= 1415) {
-                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 발탄", "주간", "", 0, 2, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 발탄", "주간", "", 0, 2, isAlarm, 0));
                             }
                             if (level >= 1430) {
-                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 비아키스", "주간", "", 0, 3, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 비아키스", "주간", "", 0, 3, isAlarm, 0));
                             }
                             if (level >= 1475) {
-                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 쿠크세이튼", "주간", "", 0, 3, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 쿠크세이튼", "주간", "", 0, 3, isAlarm, 0));
                             }
                             if (level >= 1490) {
-                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 아브렐슈드", "주간", "", 0, 6, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("군단장 레이드 - 아브렐슈드", "주간", "", 0, 6, isAlarm, 0));
                             }
                             if (level >= 1385) {
-                                chracterDBAdapter.insertData(new Checklist("한밤중의 서커스 리허설", "주간", "", 0, 3, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("한밤중의 서커스 리허설", "주간", "", 0, 3, isAlarm, 0));
                             }
                             if (level >= 1430) {
-                                chracterDBAdapter.insertData(new Checklist("몽환의 아스탤지어 데자뷰", "주간", "", 0, 4, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("몽환의 아스탤지어 데자뷰", "주간", "", 0, 4, isAlarm, 0));
                             }
                             DungeonDBAdapter dungeonDBAdapter = new DungeonDBAdapter(getActivity());
                             if (level >= 1560) {
                                 String[] args = dungeonDBAdapter.readData(dungeonDBAdapter.getSize()-1);
                                 String content = args[0]+" : "+args[1];
-                                chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
-                                chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm, 0));
+                                chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                             } else {
                                 for (int i = 0; i < dungeonDBAdapter.getSize(); i++) {
                                     String[] args = dungeonDBAdapter.readData(i);
@@ -334,8 +334,8 @@ public class CommanderFragment extends Fragment {
                                         if (i == 0) break;
                                         String[] results = dungeonDBAdapter.readData(i-1);
                                         String content = results[0]+" : "+results[1];
-                                        chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm));
-                                        chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                        chracterDBAdapter.insertData(new Checklist("카오스 던전", "일일", content, 0, 2, isAlarm, 0));
+                                        chracterDBAdapter.insertData(new Checklist("카던 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                                         break;
                                     }
                                 }
@@ -344,8 +344,8 @@ public class CommanderFragment extends Fragment {
                             if (level >= 1540) {
                                 String[] args = bossDBAdapter.readData(bossDBAdapter.getSize()-1);
                                 String content = args[1]+" : "+args[0];
-                                chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
-                                chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm, 0));
+                                chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                             } else {
                                 for (int i = 0; i < bossDBAdapter.getSize(); i++) {
                                     String[] args = bossDBAdapter.readData(i);
@@ -354,8 +354,8 @@ public class CommanderFragment extends Fragment {
                                         if (i == 0) break;
                                         String[] results = bossDBAdapter.readData(i-1);
                                         String content = results[1]+" : "+results[0];
-                                        chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm));
-                                        chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm));
+                                        chracterDBAdapter.insertData(new Checklist("가디언 토벌", "일일", content, 0, 2, isAlarm, 0));
+                                        chracterDBAdapter.insertData(new Checklist("가디언 휴식", "휴식게이지", "", 0, 10, isAlarm, 0));
                                         break;
                                     }
                                 }

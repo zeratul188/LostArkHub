@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:itemBackground">@color/menu_background</item>
+        <item name="android:itemTextAppearance">@style/MenuText</item>
+    </style>
+
+    <style name="MenuText">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

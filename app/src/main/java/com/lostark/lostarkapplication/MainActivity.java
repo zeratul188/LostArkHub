@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
 import com.lostark.lostarkapplication.ui.commander.ChecklistActivity;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     private ChracterListDBAdapter chracterListDBAdapter;
+    private HistoryCountDBAdapter historyCountDBAdapter;
 
     private long backKeyPressedTime = 0;
 
@@ -148,8 +150,14 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
-
+        historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
         customToast = new CustomToast(getApplicationContext());
+
+        historyCountDBAdapter.open();
+        int count = historyCountDBAdapter.getQueryCount("접속");
+        count++;
+        historyCountDBAdapter.changeValue("접속", count);
+        historyCountDBAdapter.close();
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
@@ -446,6 +454,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+            case R.id.action_stats:
+                startActivity(new Intent(MainActivity.this, StatActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
