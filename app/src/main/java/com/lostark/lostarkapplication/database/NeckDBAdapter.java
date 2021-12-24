@@ -66,6 +66,10 @@ public class NeckDBAdapter {
         return this;
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public void close() {
         myDBHelper.close();
     }

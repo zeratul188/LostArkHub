@@ -99,6 +99,10 @@ public class ChracterDBAdapter {
         return this;
     }
 
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
     public void close() {
         myDBHelper.close();
     }
@@ -122,7 +126,7 @@ public class ChracterDBAdapter {
         return true;
     }
 
-    public boolean resetData(String type) {
+    public boolean resetData(String type, int day) {
         Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -146,6 +150,8 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = dungeonCursor.getInt(3);
                         int result = undo_now+(max-now);
+                        day--;
+                        if (day != 0) result += 2*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
                         values.put(KEY_NOW, result);
@@ -169,6 +175,8 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = bossCursor.getInt(3);
                         int result = undo_now+(max-now);
+                        day--;
+                        if (day != 0) result += 2*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
                         values.put(KEY_NOW, result);
@@ -192,6 +200,8 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = questCursor.getInt(3);
                         int result = undo_now+(max-now);
+                        day--;
+                        if (day != 0) result += 2*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
                         values.put(KEY_NOW, result);

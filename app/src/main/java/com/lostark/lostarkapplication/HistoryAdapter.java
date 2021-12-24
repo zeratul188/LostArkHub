@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lostark.lostarkapplication.objects.History;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HistoryAdapter extends BaseAdapter {
     private Context context;
@@ -41,10 +44,40 @@ public class HistoryAdapter extends BaseAdapter {
         TextView txtName = convertView.findViewById(R.id.txtName);
         TextView txtDate = convertView.findViewById(R.id.txtDate);
         TextView txtContent = convertView.findViewById(R.id.txtContent);
+        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
 
         txtName.setText(histories.get(position).getName());
         txtDate.setText(histories.get(position).getDate());
         txtContent.setText(histories.get(position).getContent());
+
+        List<String> days = Arrays.asList(context.getResources().getStringArray(R.array.day_homework));
+        List<String> weeks = Arrays.asList(context.getResources().getStringArray(R.array.week_homework));
+
+        for (String str : days) {
+            if (histories.get(position).getContent().indexOf(str) != -1) {
+                switch (days.indexOf(str)) {
+                    case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
+                        imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+(days.indexOf(str)+1), "drawable", context.getPackageName()));
+                        imgIcon.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        imgIcon.setVisibility(View.GONE);
+                }
+            }
+        }
+
+        for (String str : weeks) {
+            if (histories.get(position).getContent().indexOf(str) != -1) {
+                switch (weeks.indexOf(str)) {
+                    case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
+                        imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(weeks.indexOf(str)+1), "drawable", context.getPackageName()));
+                        imgIcon.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        imgIcon.setVisibility(View.GONE);
+                }
+            }
+        }
 
         return convertView;
     }

@@ -75,6 +75,10 @@ public class SkillDBAdapter {
         return this;
     }
 
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
     public void close() {
         myDBHelper.close();
     }

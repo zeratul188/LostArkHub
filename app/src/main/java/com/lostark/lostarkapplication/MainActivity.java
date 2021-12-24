@@ -38,6 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
+import com.lostark.lostarkapplication.database.HistoryDBAdapter;
+import com.lostark.lostarkapplication.objects.History;
 import com.lostark.lostarkapplication.ui.commander.ChecklistActivity;
 
 import androidx.annotation.NonNull;
@@ -55,6 +57,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ChracterListDBAdapter chracterListDBAdapter;
     private HistoryCountDBAdapter historyCountDBAdapter;
+    private HistoryDBAdapter historyDBAdapter;
 
     private long backKeyPressedTime = 0;
 
@@ -152,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
         historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
         customToast = new CustomToast(getApplicationContext());
+        historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
 
         historyCountDBAdapter.open();
         int count = historyCountDBAdapter.getQueryCount("접속");
@@ -312,6 +318,8 @@ public class MainActivity extends AppCompatActivity {
         chracterListDBAdapter.open();
         if (year != -1) {
             if (setting_calendar.compareTo(now) == -1) {
+                int time = (int)(now.getTime().getTime() - setting_calendar.getTime().getTime()) / 1000;
+                time /= (24*60+60);
                 boolean isResetWeek = false;
                 Cursor cursor = chracterListDBAdapter.fetchAllData();
                 cursor.moveToFirst();
@@ -319,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
                     int rowID = cursor.getInt(0);
                     ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(this, "CHRACTER"+rowID);
                     chracterDBAdapter.open();
-                    chracterDBAdapter.resetData("일일");
+                    chracterDBAdapter.resetData("일일", time);
                     if (setting_calendar.get(Calendar.DAY_OF_WEEK) == 4) {
                         chracterDBAdapter.resetWeek("주간");
                         if (!isResetWeek) isResetWeek = true;
@@ -339,6 +347,16 @@ public class MainActivity extends AppCompatActivity {
                 customToast.show();
                 editor.putInt("report_count", 0);
                 editor.commit();
+                historyDBAdapter.open();
+                DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+                Calendar calendar = Calendar.getInstance();
+                String date = df.format(calendar.getTime());
+                String name = "모든 캐릭터";
+                String content;
+                if (isResetWeek) content = "주간, 일일 숙제 모두 초기화 (수요일 오전 6시 초기화)";
+                else content = "일일 숙제 모두 초기화 (오전 6시 초기화)";
+                historyDBAdapter.insertData(new History(name, date, content));
+                historyDBAdapter.close();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));
             editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);

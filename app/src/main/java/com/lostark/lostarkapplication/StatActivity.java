@@ -106,6 +106,7 @@ public class StatActivity extends AppCompatActivity {
             customToast.createToast("정보를 불러오는데 오류가 발생하였습니다.", Toast.LENGTH_SHORT);
             customToast.show();
         }
+        Collections.sort(histories);
         historyAdapter = new HistoryAdapter(getApplicationContext(), histories);
         listHistory.setAdapter(historyAdapter);
 

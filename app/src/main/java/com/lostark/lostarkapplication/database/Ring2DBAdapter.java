@@ -66,6 +66,10 @@ public class Ring2DBAdapter {
         return this;
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public void close() {
         myDBHelper.close();
     }

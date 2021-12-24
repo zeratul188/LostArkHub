@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -51,6 +52,9 @@ import com.lostark.lostarkapplication.objects.Report;
 import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +64,7 @@ import java.util.Date;
 public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnSaveData, btnLoadData;
     private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
@@ -121,6 +125,8 @@ public class SettingActivity extends AppCompatActivity {
         txtReportStatue = findViewById(R.id.txtReportStatue);
         btnDeleteStat = findViewById(R.id.btnDeleteStat);
         btnDeleteStack = findViewById(R.id.btnDeleteStack);
+        btnSaveData = findViewById(R.id.btnSaveData);
+        btnLoadData = findViewById(R.id.btnLoadData);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -714,5 +720,68 @@ public class SettingActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadFiles(String[] file_name, String[] databaseNames) {
+        String backupDirectoryName = "Division2Databases";
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+            if (sd.canWrite()) {
+                for (int i = 0; i < file_name.length; i++) {
+                    String currentDBPath = "//data//" + getPackageName()+ "//databases//" + databaseNames[i];
+                    String backupDBPath = file_name[i];
+                    File backupDB = new File(data, currentDBPath);
+                    File currentDB = new File(sd, backupDirectoryName+"/"+backupDBPath);
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            } else {
+                customToast.createToast("권한 오류", Toast.LENGTH_SHORT);
+                customToast.show();
+            }
+        } catch (Exception e) {
+            customToast.createToast("저장된 파일이 없습니다.", Toast.LENGTH_SHORT);
+            customToast.show();
+            e.printStackTrace();
+        }
+    }
+
+    private void saveFiles(String[] file_name, String[] databaseNames) {
+        String backupDirectoryName = "Division2Databases";
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+            if (sd.canWrite()) {
+                for (int i = 0; i < file_name.length; i++) {
+                    System.out.println("Saves"+i);
+                    File backupDir = new File(sd, backupDirectoryName);
+                    if (!backupDir.exists()) backupDir.mkdir();
+                    String currentDBPath = "//data//" + getPackageName()+ "//databases//" + databaseNames[i];
+                    String backupDBPath = file_name[i];
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDirectoryName+"/"+backupDBPath);
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            } else {
+                customToast.createToast("권한 오류", Toast.LENGTH_SHORT);
+                customToast.show();
+            }
+        } catch (Exception e) {
+            customToast.createToast("Import Failed!!", Toast.LENGTH_SHORT);
+            customToast.show();
+            e.printStackTrace();
+        }
     }
 }

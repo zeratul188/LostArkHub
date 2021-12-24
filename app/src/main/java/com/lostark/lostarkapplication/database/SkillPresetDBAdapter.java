@@ -62,6 +62,10 @@ public class SkillPresetDBAdapter {
         return this;
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public int getCount() {
         Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_SKILLPOINT, KEY_MAX}, null, null, null, null, null);
         return cursor.getCount();

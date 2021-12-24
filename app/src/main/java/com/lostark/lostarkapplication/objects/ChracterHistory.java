@@ -1,6 +1,6 @@
 package com.lostark.lostarkapplication.objects;
 
-public class ChracterHistory implements Comparable<ChracterHistory>{
+public class ChracterHistory implements Comparable<ChracterHistory> {
     private String name, server, job;
     private int level, dungeon, boss, quest;
 

@@ -11,8 +11,8 @@
         android:orientation="horizontal"
         android:padding="5dp">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/imgJob"
             android:src="@drawable/jbi1"
             android:layout_marginRight="10dp"/>
@@ -72,88 +72,100 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#343945"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/hwid2"
-            android:layout_marginRight="10dp"/>
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="카오스 던전"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtDungeon"
-            android:text="0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#FE6E0E"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#343945"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/hwid1"
-            android:layout_marginRight="10dp"/>
-        <TextView
+            android:padding="10dp"
+            android:background="#343945"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/hwid2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카오스 던전"
+                android:textColor="#AAAAAA"
+                android:layout_marginTop="10dp"
+                android:textSize="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDungeon"
+                android:text="0"
+                android:textSize="16dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="가디언 토벌"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtBoss"
-            android:text="0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#FE6E0E"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#343945"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/hwid3"
-            android:layout_marginRight="10dp"/>
-        <TextView
+            android:padding="10dp"
+            android:background="#343945"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/hwid1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가디언 토벌"
+                android:textColor="#AAAAAA"
+                android:layout_marginTop="10dp"
+                android:textSize="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtBoss"
+                android:text="0"
+                android:textSize="16dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="일일 에포나 의뢰"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtQuest"
-            android:text="0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#FE6E0E"/>
+            android:padding="10dp"
+            android:background="#343945"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/hwid3"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일일 에포나 의뢰"
+                android:textColor="#AAAAAA"
+                android:layout_marginTop="10dp"
+                android:textSize="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtQuest"
+                android:text="0"
+                android:textSize="16dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

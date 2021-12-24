@@ -186,7 +186,7 @@ public class WeekFragment extends Fragment {
                 editor.commit();
 
                 chracterDBAdapter.open();
-                chracterDBAdapter.resetData("주간");
+                chracterDBAdapter.resetData("주간", 1);
                 chracterDBAdapter.close();
             }
         } else {

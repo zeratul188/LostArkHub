@@ -58,6 +58,10 @@ public class StatDBAdapter {
         }
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public StatDBAdapter open() throws SQLException {
         myDBHelper = new DatabaseHelper(mCtx);
         sqlDB = myDBHelper.getWritableDatabase();

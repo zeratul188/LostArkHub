@@ -75,6 +75,10 @@ public class HistoryDBAdapter {
         return sqlDB.insert(DATABASE_TABLE, null, values);
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public Cursor fetchAllData() {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_DATE, KEY_CONTENT}, null, null, null, null, null);
     }

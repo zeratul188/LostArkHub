@@ -73,6 +73,10 @@ public class HistoryCountDBAdapter {
         return true;
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public void close() {
         myDBHelper.close();
     }

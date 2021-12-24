@@ -27,6 +27,48 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_save_24"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                style="?android:attr/borderlessButtonStyle"
+                android:padding="20dp"
+                android:id="@+id/btnSaveData"
+                android:text="데이터 저장"
+                android:textSize="18sp"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/settingbuttonstyle"
+                android:drawableLeft="@drawable/ic_baseline_assignment_returned_24"
+                android:drawablePadding="20dp"
+                android:id="@+id/btnLoadData"
+                android:gravity="left"
+                android:padding="20dp"
+                android:text="데이터 블러오기"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="어빌리티 스톤 세공 시뮬"
+            android:textSize="18sp"
+            android:layout_marginTop="25dp"
+            android:background="#191b20"
+            android:textColor="#ffffff"
+            android:padding="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1d2026">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_delete_black_24dp"
                 android:drawablePadding="20dp"
                 android:background="@drawable/settingbuttonstyle"

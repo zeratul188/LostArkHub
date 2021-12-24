@@ -84,6 +84,10 @@ public class Ring1DBAdapter {
         return sqlDB.insert(DATABASE_TABLE, null, values);
     }
 
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
     public Cursor fetchAllData() {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3}, null, null, null, null, null);
     }
