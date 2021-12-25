@@ -46,6 +46,8 @@ public class HistoryAdapter extends BaseAdapter {
         TextView txtContent = convertView.findViewById(R.id.txtContent);
         ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
 
+        boolean isVisible = false;
+
         txtName.setText(histories.get(position).getName());
         txtDate.setText(histories.get(position).getDate());
         txtContent.setText(histories.get(position).getContent());
@@ -58,26 +60,26 @@ public class HistoryAdapter extends BaseAdapter {
                 switch (days.indexOf(str)) {
                     case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
                         imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+(days.indexOf(str)+1), "drawable", context.getPackageName()));
-                        imgIcon.setVisibility(View.VISIBLE);
+                        isVisible = true;
                         break;
-                    default:
-                        imgIcon.setVisibility(View.GONE);
+                }
+            }
+        }
+        if (!isVisible) {
+            for (String str : weeks) {
+                if (histories.get(position).getContent().indexOf(str) != -1) {
+                    switch (weeks.indexOf(str)) {
+                        case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
+                            imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(weeks.indexOf(str)+1), "drawable", context.getPackageName()));
+                            isVisible = true;
+                            break;
+                    }
                 }
             }
         }
 
-        for (String str : weeks) {
-            if (histories.get(position).getContent().indexOf(str) != -1) {
-                switch (weeks.indexOf(str)) {
-                    case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
-                        imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(weeks.indexOf(str)+1), "drawable", context.getPackageName()));
-                        imgIcon.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        imgIcon.setVisibility(View.GONE);
-                }
-            }
-        }
+        if (isVisible) imgIcon.setVisibility(View.VISIBLE);
+        else imgIcon.setVisibility(View.GONE);
 
         return convertView;
     }

@@ -305,6 +305,27 @@ public class HomeworkAdapter extends BaseAdapter {
                             else count -= now;
                             historyCountDBAdapter.changeValue(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())], count);
                         }
+                        for (String homework : homeworks) {
+                            if (homework.equals(checklists.get(position).getName())) {
+                                String[] args = {"카던 휴식", "가디언 휴식", "에포나 휴식"};
+                                int pos = Arrays.asList(homeworks).indexOf(checklists.get(position).getName());
+                                if (pos != -1) {
+                                    chracterDBAdapter.open();
+                                    int restCount = chracterDBAdapter.getRestCount(args[pos]);
+                                    int now_rest = chracterDBAdapter.getRest(args[pos]);
+                                    now_rest += restCount*2;
+                                    chracterDBAdapter.changeRestCount(args[pos], 0);
+                                    chracterDBAdapter.changeRest(args[pos], now_rest);
+                                    chracterDBAdapter.close();
+                                    for (Checklist checklist : checklists) {
+                                        if (checklist.getName().equals(args[pos])) {
+                                            checklist.setNow(now_rest);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         historyCountDBAdapter.close();
                         chracterDBAdapter.open();
                         chracterDBAdapter.changeNow(checklists.get(position).getName(), 0);
@@ -416,6 +437,8 @@ public class HomeworkAdapter extends BaseAdapter {
 
                         String undo_name = checklists.get(position).getName();
                         int undo_max = checklists.get(position).getMax();
+                        int undo_rest_progress = 0;
+                        int after_rest_progress = 0;
 
                         String name = edtHomework.getText().toString();
                         int max = Integer.parseInt(edtCount.getText().toString());
@@ -437,6 +460,8 @@ public class HomeworkAdapter extends BaseAdapter {
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("카던 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
+                                undo_rest_progress = checklists.get(checklists.indexOf(new Checklist("카던 휴식"))).getNow();
+                                after_rest_progress = seekRest.getProgress();
                                 checklists.get(checklists.indexOf(new Checklist("카던 휴식"))).setNow(seekRest.getProgress());
                                 break;
                             case "가디언 토벌":
@@ -451,6 +476,8 @@ public class HomeworkAdapter extends BaseAdapter {
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("가디언 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
+                                undo_rest_progress = checklists.get(checklists.indexOf(new Checklist("가디언 휴식"))).getNow();
+                                after_rest_progress = seekRest.getProgress();
                                 checklists.get(checklists.indexOf(new Checklist("가디언 휴식"))).setNow(seekRest.getProgress());
                                 break;
                             case "에포나 일일 의뢰":
@@ -459,6 +486,8 @@ public class HomeworkAdapter extends BaseAdapter {
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.changeNow("에포나 휴식", seekRest.getProgress());
                                 chracterDBAdapter.close();
+                                undo_rest_progress = checklists.get(checklists.indexOf(new Checklist("에포나 휴식"))).getNow();
+                                after_rest_progress = seekRest.getProgress();
                                 checklists.get(checklists.indexOf(new Checklist("에포나 휴식"))).setNow(seekRest.getProgress());
                             default:
                                 if (isDay) checklist = new Checklist(name, "일일", "", now, max, checklists.get(position).isAlarm(), checklists.get(position).getHistory());
@@ -479,11 +508,15 @@ public class HomeworkAdapter extends BaseAdapter {
                         historyDBAdapter.open();
                         String date = getNowTime();
                         if (undo_max != max) {
-                            String contents = "최대치 "+undo_max+"에서 "+max+"으로 최대치 변경";
+                            String contents = "\""+name+"\"의 최대치 "+undo_max+"에서 "+max+"으로 최대치 변경";
                             historyDBAdapter.insertData(new History(chracter_name, date, contents));
                         }
-                        if (undo_name.equals(name)) {
+                        if (!undo_name.equals(name)) {
                             String contents = "\""+undo_name+"\"(을)를 \""+name+"\"으로 이름 변경";
+                            historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                        }
+                        if (undo_rest_progress != after_rest_progress) {
+                            String contents = "\""+name+"\"의 휴식 게이지를 "+(undo_rest_progress*10)+"에서 "+(after_rest_progress*10)+"으로 변경";
                             historyDBAdapter.insertData(new History(chracter_name, date, contents));
                         }
                         historyDBAdapter.close();
@@ -539,6 +572,27 @@ public class HomeworkAdapter extends BaseAdapter {
                         else count -= now;
                         historyCountDBAdapter.changeValue(homeworks[Arrays.asList(homeworks).indexOf(checklists.get(position).getName())], count);
                     }
+                    for (String homework : homeworks) {
+                        if (homework.equals(checklists.get(position).getName())) {
+                            String[] args = {"카던 휴식", "가디언 휴식", "에포나 휴식"};
+                            int pos = Arrays.asList(homeworks).indexOf(checklists.get(position).getName());
+                            if (pos != -1) {
+                                chracterDBAdapter.open();
+                                int restCount = chracterDBAdapter.getRestCount(args[pos]);
+                                int now_rest = chracterDBAdapter.getRest(args[pos]);
+                                now_rest += restCount*2;
+                                chracterDBAdapter.changeRestCount(args[pos], 0);
+                                chracterDBAdapter.changeRest(args[pos], now_rest);
+                                chracterDBAdapter.close();
+                                for (Checklist checklist : checklists) {
+                                    if (checklist.getName().equals(args[pos])) {
+                                        checklist.setNow(now_rest);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     historyCountDBAdapter.close();
                     chracterDBAdapter.open();
                     chracterDBAdapter.changeNow(checklists.get(position).getName(), 0);
@@ -574,7 +628,11 @@ public class HomeworkAdapter extends BaseAdapter {
                         historyCountDBAdapter.close();
                         for (int i = 0; i < checklists.size(); i++) {
                             if (checklists.get(i).getName().equals("카던 휴식")) {
-                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                if (checklists.get(i).getNow() >= 2) {
+                                    checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                    int restCount = chracterDBAdapter.getRestCount(checklists.get(i).getName());
+                                    chracterDBAdapter.changeRestCount(checklists.get(i).getName(), restCount+1);
+                                }
                                 chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
                             }
                         }
@@ -584,7 +642,11 @@ public class HomeworkAdapter extends BaseAdapter {
                         historyCountDBAdapter.close();
                         for (int i = 0; i < checklists.size(); i++) {
                             if (checklists.get(i).getName().equals("가디언 휴식")) {
-                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                if (checklists.get(i).getNow() >= 2) {
+                                    checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                    int restCount = chracterDBAdapter.getRestCount(checklists.get(i).getName());
+                                    chracterDBAdapter.changeRestCount(checklists.get(i).getName(), restCount+1);
+                                }
                                 chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
                             }
                         }
@@ -594,7 +656,11 @@ public class HomeworkAdapter extends BaseAdapter {
                         historyCountDBAdapter.close();
                         for (int i = 0; i < checklists.size(); i++) {
                             if (checklists.get(i).getName().equals("에포나 휴식")) {
-                                if (checklists.get(i).getNow() >= 2) checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                if (checklists.get(i).getNow() >= 2) {
+                                    checklists.get(i).setNow(checklists.get(i).getNow() - 2);
+                                    int restCount = chracterDBAdapter.getRestCount(checklists.get(i).getName());
+                                    chracterDBAdapter.changeRestCount(checklists.get(i).getName(), restCount+1);
+                                }
                                 chracterDBAdapter.changeNow(checklists.get(i).getName(), checklists.get(i).getNow());
                             }
                         }

@@ -24,7 +24,7 @@ import java.util.Collections;
 
 public class StatActivity extends AppCompatActivity {
     private ScrollView scrollView;
-    private TextView txtLogin, txtDungeon, txtBoss, txtQuest;
+    private TextView txtLogin, txtDungeon, txtBoss, txtQuest, txtHistoryCount;
     private ListView listChracter, listHistory;
 
     private HistoryDBAdapter historyDBAdapter;
@@ -52,6 +52,7 @@ public class StatActivity extends AppCompatActivity {
         txtQuest = findViewById(R.id.txtQuest);
         listChracter = findViewById(R.id.listChracter);
         listHistory = findViewById(R.id.listHistory);
+        txtHistoryCount = findViewById(R.id.txtHistoryCount);
 
         historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
         historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
@@ -100,6 +101,7 @@ public class StatActivity extends AppCompatActivity {
                 histories.add(new History(name, date, content));
                 cursor.moveToNext();
             }
+            txtHistoryCount.setText("총 "+cursor.getCount()+"개의 기록");
             historyDBAdapter.close();
         } catch (Exception e) {
             e.printStackTrace();

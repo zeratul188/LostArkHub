@@ -332,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                         chracterDBAdapter.resetWeek("주간");
                         if (!isResetWeek) isResetWeek = true;
                     }
+                    chracterDBAdapter.resetRestCount();
                     chracterDBAdapter.close();
                     cursor.moveToNext();
                 }
