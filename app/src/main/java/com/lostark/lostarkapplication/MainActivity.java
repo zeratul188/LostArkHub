@@ -308,18 +308,14 @@ public class MainActivity extends AppCompatActivity {
         setting_calendar.set(Calendar.MINUTE, 0);
         setting_calendar.set(Calendar.SECOND, 0);
 
-        /*Toast.makeText(getApplicationContext(), "Year : "+setting_calendar.get(Calendar.YEAR)
-                +"Month : "+(setting_calendar.get(Calendar.MONTH)+1)
-                +"Day : "+setting_calendar.get(Calendar.DAY_OF_MONTH)
-                +"Hour : "+setting_calendar.get(Calendar.HOUR_OF_DAY), Toast.LENGTH_SHORT).show();*/
-
         Calendar now = Calendar.getInstance();
 
         chracterListDBAdapter.open();
         if (year != -1) {
             if (setting_calendar.compareTo(now) == -1) {
-                int time = (int)(now.getTime().getTime() - setting_calendar.getTime().getTime()) / 1000;
-                time /= (24*60+60);
+                int time = (int)(now.getTime().getTime() - setting_calendar.getTime().getTime())/1000;
+                time /= (24*60*60);
+                time++;
                 boolean isResetWeek = false;
                 Cursor cursor = chracterListDBAdapter.fetchAllData();
                 cursor.moveToFirst();

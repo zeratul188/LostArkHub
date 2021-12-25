@@ -177,6 +177,7 @@ public class ChracterDBAdapter {
     }
 
     public boolean resetData(String type, int day) {
+        day--;
         Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -200,7 +201,6 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = dungeonCursor.getInt(3);
                         int result = undo_now+(max-now);
-                        day--;
                         if (day != 0) result += 2*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
@@ -225,7 +225,6 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = bossCursor.getInt(3);
                         int result = undo_now+(max-now);
-                        day--;
                         if (day != 0) result += 2*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
@@ -250,8 +249,7 @@ public class ChracterDBAdapter {
                     } else {
                         int undo_now = questCursor.getInt(3);
                         int result = undo_now+(max-now);
-                        day--;
-                        if (day != 0) result += 2*day;
+                        if (day != 0) result += 3*day;
                         if (result > 10) result = 10;
                         ContentValues values = new ContentValues();
                         values.put(KEY_NOW, result);
