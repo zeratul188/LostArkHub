@@ -166,6 +166,7 @@ public class ChracterDBAdapter {
         values.put(KEY_ALARM, Boolean.toString(checklist.isAlarm()));
         values.put(KEY_CONTENT, checklist.getContent());
         values.put(KEY_HISTORY, checklist.getHistory());
+        values.put(KEY_RESTCOUNT, 0);
         return sqlDB.insert(databaseTable, null, values);
     }
 
