@@ -1,54 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#262931"
+    android:orientation="vertical"
     tools:context=".ui.commander.ChecklistActivity">
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:background="#262931">
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/rgMenu">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/rdoDayMenu"
-                android:text="일일"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:checked="true"
-                android:button="@null"
-                android:padding="10dp"
-                android:gravity="center"
-                android:background="@drawable/tableradiostyle"/>
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/rdoWeekMenu"
-                android:text="주간"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:button="@null"
-                android:padding="10dp"
-                android:gravity="center"
-                android:background="@drawable/tableradiostyle"/>
-        </RadioGroup>
-        <FrameLayout
+        android:layout_height="150dp"
+        android:id="@+id/layoutTitle"
+        android:background="#000000"
+        app:layout_constraintTop_toTopOf="@id/layoutFrame">
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgJob"
+            android:scaleType="centerCrop"
+            android:layout_gravity="right"
+            android:src="@drawable/jb1"/>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:src="@drawable/imageopacitygradientstyle_left_black"/>
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/tablelayoutstyle"
-            android:paddingRight="2dp"
-            android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:id="@+id/layoutFrame"/>
-    </LinearLayout>
-</FrameLayout>
+            android:src="@drawable/newimageopacitygradientstyle"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="25dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtName"
+                android:text="Chracter Name"
+                android:textColor="#FFCA45"
+                android:textSize="20sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level : "
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtLevel"
+                    android:text="9999"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtJob"
+                android:text="직업"
+                android:textColor="#92C52D"
+                android:textSize="14dp"/>
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#262931"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/layoutFrame"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#262931"
+        app:itemIconTint="@drawable/bottom_navigation_select_text_style"
+        app:itemTextColor="@drawable/bottom_navigation_select_text_style"
+        app:menu="@menu/checklist_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/bottomNavigationView"/>
+</LinearLayout>

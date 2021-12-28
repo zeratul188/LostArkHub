@@ -3,6 +3,7 @@ package com.lostark.lostarkapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -12,12 +13,21 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryDBAdapter;
+import com.lostark.lostarkapplication.database.HomeworkStatueDBAdapter;
 import com.lostark.lostarkapplication.objects.ChracterHistory;
 import com.lostark.lostarkapplication.objects.History;
+import com.lostark.lostarkapplication.objects.StatueChart;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +36,7 @@ public class StatActivity extends AppCompatActivity {
     private ScrollView scrollView;
     private TextView txtLogin, txtDungeon, txtBoss, txtQuest, txtHistoryCount;
     private ListView listChracter, listHistory;
+    private BarChart barChart;
 
     private HistoryDBAdapter historyDBAdapter;
     private HistoryCountDBAdapter historyCountDBAdapter;
@@ -34,6 +45,7 @@ public class StatActivity extends AppCompatActivity {
     private ArrayList<ChracterHistory> chracterHistories;
     private ChracterHistoryAdapter chracterHistoryAdapter;
     private ChracterListDBAdapter chracterListDBAdapter;
+    private HomeworkStatueDBAdapter homeworkStatueDBAdapter;
 
     private Cursor cursor = null;
     private CustomToast customToast;
@@ -53,11 +65,74 @@ public class StatActivity extends AppCompatActivity {
         listChracter = findViewById(R.id.listChracter);
         listHistory = findViewById(R.id.listHistory);
         txtHistoryCount = findViewById(R.id.txtHistoryCount);
+        barChart = findViewById(R.id.barChart);
 
         historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
         historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
         customToast = new CustomToast(getApplicationContext());
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
+        homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
+
+        ArrayList<BarEntry> charts = new ArrayList<>();
+        homeworkStatueDBAdapter.open();
+        int max = 0, now = 0;
+        chracterListDBAdapter.open();
+        Cursor chracter_cursor = chracterListDBAdapter.fetchAllData();
+        chracter_cursor.moveToFirst();
+        while (!chracter_cursor.isAfterLast()) {
+            String name = chracter_cursor.getString(1);
+            boolean isAlarm = Boolean.parseBoolean(chracter_cursor.getString(4));
+            if (isAlarm) {
+                ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getApplicationContext(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+                chracterDBAdapter.open();
+                Cursor homework_cursor = chracterDBAdapter.fetchAllData();
+                homework_cursor.moveToFirst();
+                while (!homework_cursor.isAfterLast()) {
+                    String type = homework_cursor.getString(2);
+                    boolean isHomeworkAlarm = Boolean.parseBoolean(homework_cursor.getString(5));
+                    if (type.equals("일일") && isHomeworkAlarm) {
+                        now += homework_cursor.getInt(3);
+                        max += homework_cursor.getInt(4);
+                    }
+                    homework_cursor.moveToNext();
+                }
+                chracterDBAdapter.close();
+            }
+            chracter_cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+        int percent = (int)((double)now / (double)max * 100.0);
+        homeworkStatueDBAdapter.changeLastValue(percent);
+        Cursor cursor = homeworkStatueDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int title = cursor.getInt(1);
+            int value = cursor.getInt(2);
+            charts.add(new BarEntry(title, value));
+            cursor.moveToNext();
+        }
+        homeworkStatueDBAdapter.close();
+
+        BarDataSet barDataSet = new BarDataSet(charts, "기록");
+        barDataSet.setColor(Color.parseColor("#7B9A3D"));
+        barDataSet.setValueTextColor(Color.parseColor("#40FFFFFF"));
+        barDataSet.setValueTextSize(16f);
+
+        BarData barData = new BarData(barDataSet);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextColor(Color.parseColor("#AAAAAA"));
+        YAxis yAxis_left = barChart.getAxisLeft();
+        yAxis_left.setTextColor(Color.parseColor("#AAAAAA"));
+        YAxis yAxis_right = barChart.getAxisRight();
+        yAxis_right.setTextColor(Color.parseColor("#AAAAAA"));
+        Legend legend = barChart.getLegend();
+        legend.setTextColor(Color.parseColor("#AAAAAA"));
+
+        barChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.getDescription().setText("");
+        barChart.animateY(1000);
 
         try {
             historyCountDBAdapter.open();

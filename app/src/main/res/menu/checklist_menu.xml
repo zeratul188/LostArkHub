@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_day"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_day_24"
+        android:checked="true"
+        android:title="일일"/>
+
+    <item
+        android:id="@+id/action_week"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_view_week_24"
+        android:title="주간"/>
+</menu>

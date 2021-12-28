@@ -10,7 +10,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 30
-        versionName "1.7.2"
+        versionName "1.7.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,6 +26,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -51,4 +55,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.android.support:design:30.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

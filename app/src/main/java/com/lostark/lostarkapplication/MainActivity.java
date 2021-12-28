@@ -39,6 +39,7 @@ import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryDBAdapter;
+import com.lostark.lostarkapplication.database.HomeworkStatueDBAdapter;
 import com.lostark.lostarkapplication.objects.History;
 import com.lostark.lostarkapplication.ui.commander.ChecklistActivity;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private ChracterListDBAdapter chracterListDBAdapter;
     private HistoryCountDBAdapter historyCountDBAdapter;
     private HistoryDBAdapter historyDBAdapter;
+    private HomeworkStatueDBAdapter homeworkStatueDBAdapter;
 
     private long backKeyPressedTime = 0;
 
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         historyCountDBAdapter = new HistoryCountDBAdapter(getApplicationContext());
         customToast = new CustomToast(getApplicationContext());
         historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
+        homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
 
         historyCountDBAdapter.open();
         int count = historyCountDBAdapter.getQueryCount("접속");
@@ -296,6 +299,37 @@ public class MainActivity extends AppCompatActivity {
 
         uploadFavoriteChracter();
 
+        homeworkStatueDBAdapter.open();
+        int max = 0, nowt = 0;
+        chracterListDBAdapter.open();
+        Cursor chracter_cursor = chracterListDBAdapter.fetchAllData();
+        chracter_cursor.moveToFirst();
+        while (!chracter_cursor.isAfterLast()) {
+            String name = chracter_cursor.getString(1);
+            boolean isAlarm = Boolean.parseBoolean(chracter_cursor.getString(4));
+            if (isAlarm) {
+                ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getApplicationContext(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+                chracterDBAdapter.open();
+                Cursor homework_cursor = chracterDBAdapter.fetchAllData();
+                homework_cursor.moveToFirst();
+                while (!homework_cursor.isAfterLast()) {
+                    String type = homework_cursor.getString(2);
+                    boolean isHomeworkAlarm = Boolean.parseBoolean(homework_cursor.getString(5));
+                    if (type.equals("일일") && isHomeworkAlarm) {
+                        nowt += homework_cursor.getInt(3);
+                        max += homework_cursor.getInt(4);
+                    }
+                    homework_cursor.moveToNext();
+                }
+                chracterDBAdapter.close();
+            }
+            chracter_cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+        int percent = (int)((double)nowt / (double)max * 100.0);
+        homeworkStatueDBAdapter.changeLastValue(percent);
+        homeworkStatueDBAdapter.close();
+
         int year = pref.getInt("year", -1);
         int month = pref.getInt("month", -1);
         int day = pref.getInt("day", -1);
@@ -354,6 +388,9 @@ public class MainActivity extends AppCompatActivity {
                 else content = "일일 숙제 모두 초기화 (오전 6시 초기화)";
                 historyDBAdapter.insertData(new History(name, date, content));
                 historyDBAdapter.close();
+                homeworkStatueDBAdapter.open();
+                homeworkStatueDBAdapter.nextDay();
+                homeworkStatueDBAdapter.close();
             }
             editor.putInt("year", setting_calendar.get(Calendar.YEAR));
             editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);
