@@ -94,4 +94,18 @@ public class HistoryDBAdapter {
     public boolean deleteData(int rowID) {
         return sqlDB.delete(DATABASE_TABLE, "_id = "+rowID, null) > 0;
     }
+
+    public void limitDelete(int limit) {
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_DATE, KEY_CONTENT}, null, null, null, null, null);;
+        cursor.moveToFirst();
+        int count = cursor.getCount() - limit;
+        if (count > 0) {
+            while (!cursor.isAfterLast() && count > 0) {
+                int rowID = cursor.getInt(0);
+                deleteData(rowID);
+                cursor.moveToNext();
+                count--;
+            }
+        }
+    }
 }

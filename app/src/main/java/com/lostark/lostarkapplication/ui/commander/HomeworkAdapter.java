@@ -1,7 +1,10 @@
 package com.lostark.lostarkapplication.ui.commander;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +48,7 @@ public class HomeworkAdapter extends BaseAdapter {
     private HistoryCountDBAdapter historyCountDBAdapter;
     private Activity activity;
     private CustomToast customToast;
+    private SharedPreferences pref;
     private boolean isDay = true;
     private String chracter_name;
 
@@ -60,6 +64,7 @@ public class HomeworkAdapter extends BaseAdapter {
         customToast = new CustomToast(context);
         historyCountDBAdapter = new HistoryCountDBAdapter(context);
         historyDBAdapter = new HistoryDBAdapter(context);
+        pref = context.getSharedPreferences("setting_file", MODE_PRIVATE);
     }
 
     @Override
@@ -344,6 +349,7 @@ public class HomeworkAdapter extends BaseAdapter {
                         String date = getNowTime();
                         String content = "\""+checklists.get(position).getName()+"\"(을)를 초기화";
                         historyDBAdapter.insertData(new History(chracter_name, date, content));
+                        historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                         historyDBAdapter.close();
                     }
                 });
@@ -377,6 +383,7 @@ public class HomeworkAdapter extends BaseAdapter {
                                 String date = getNowTime();
                                 String content = "\""+checklists.get(position).getName()+"\" 항목 삭제";
                                 historyDBAdapter.insertData(new History(chracter_name, date, content));
+                                historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                                 historyDBAdapter.close();
                                 chracterDBAdapter.open();
                                 chracterDBAdapter.deleteData(checklists.get(position).getName());
@@ -510,14 +517,17 @@ public class HomeworkAdapter extends BaseAdapter {
                         if (undo_max != max) {
                             String contents = "\""+name+"\"의 최대치 "+undo_max+"에서 "+max+"으로 최대치 변경";
                             historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                            historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                         }
                         if (!undo_name.equals(name)) {
                             String contents = "\""+undo_name+"\"(을)를 \""+name+"\"으로 이름 변경";
                             historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                            historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                         }
                         if (undo_rest_progress != after_rest_progress) {
                             String contents = "\""+name+"\"의 휴식 게이지를 "+(undo_rest_progress*10)+"에서 "+(after_rest_progress*10)+"으로 변경";
                             historyDBAdapter.insertData(new History(chracter_name, date, contents));
+                            historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                         }
                         historyDBAdapter.close();
                     }
@@ -551,6 +561,7 @@ public class HomeworkAdapter extends BaseAdapter {
                 if (checklists.get(position).isAlarm()) content = "\""+checklists.get(position).getName()+"\"의 알림 킴";
                 else content = "\""+checklists.get(position).getName()+"\"의 알림 끔";
                 historyDBAdapter.insertData(new History(chracter_name, date, content));
+                historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                 historyDBAdapter.close();
             }
         });
@@ -611,6 +622,7 @@ public class HomeworkAdapter extends BaseAdapter {
                     String date = df.format(calendar.getTime());
                     String content = checklists.get(position).getName()+"(을)를 초기화";
                     historyDBAdapter.insertData(new History(chracter_name, date, content));
+                    historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                     historyDBAdapter.close();
                 } else {
                     checklists.get(position).setNow(checklists.get(position).getNow()+1);
@@ -670,9 +682,11 @@ public class HomeworkAdapter extends BaseAdapter {
                     String date = getNowTime();
                     String content = "\""+checklists.get(position).getName()+"\" 숙제 체크";
                     historyDBAdapter.insertData(new History(chracter_name, date, content));
+                    historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                     if (checklists.get(position).getNow() == checklists.get(position).getMax()) {
                         content = "\""+checklists.get(position).getName()+"\" 숙제 완료";
                         historyDBAdapter.insertData(new History(chracter_name, date, content));
+                        historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                     }
                     historyDBAdapter.close();
                 }

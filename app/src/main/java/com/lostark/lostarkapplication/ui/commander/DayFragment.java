@@ -197,7 +197,6 @@ public class DayFragment extends Fragment {
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
                             if (cursor.getString(1).equals(name)) {
-                                //Toast.makeText(getActivity(), "이미 동일한 이름의 숙제가 존재합니다.", Toast.LENGTH_SHORT).show();
                                 customToast.createToast("이미 동일한 이름의 숙제가 존재합니다.", Toast.LENGTH_SHORT);
                                 customToast.show();
                                 return;
@@ -235,7 +234,6 @@ public class DayFragment extends Fragment {
                             chracterDBAdapter.insertData(restList);
                         }
                         chracterDBAdapter.close();
-                        //Toast.makeText(getActivity(), name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast(name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         homeworkAdapter.notifyDataSetChanged();
@@ -258,35 +256,6 @@ public class DayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
-        editor = pref.edit();
-
-        int year = pref.getInt("year", -1);
-        int month = pref.getInt("month", -1);
-        int day = pref.getInt("day", -1);
-        int hour = pref.getInt("hour", -1);
-
-        Calendar calendar = Calendar.getInstance();
-        if (year != -1) {
-            if (year <= Calendar.YEAR && month <= Calendar.MONTH+1 && day <= Calendar.DAY_OF_MONTH && hour < 6) {
-                editor.putInt("year", Calendar.YEAR);
-                editor.putInt("month", Calendar.MONTH+1);
-                editor.putInt("day", Calendar.DAY_OF_MONTH);
-                editor.putInt("hour", Calendar.HOUR_OF_DAY);
-                editor.commit();
-
-                chracterDBAdapter.open();
-                chracterDBAdapter.resetData("일일");
-                chracterDBAdapter.close();
-            }
-        } else {
-            editor.putInt("year", Calendar.YEAR);
-            editor.putInt("month", Calendar.MONTH+1);
-            editor.putInt("day", Calendar.DAY_OF_MONTH);
-            editor.putInt("hour", Calendar.HOUR_OF_DAY);
-            editor.commit();
-        }*/
-
         checklists.clear();
         chracterDBAdapter.open();
         Cursor cursor = chracterDBAdapter.fetchAllData();

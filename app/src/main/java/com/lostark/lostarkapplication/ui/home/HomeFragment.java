@@ -506,11 +506,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void cancelAlarm() {
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), IslandAlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 2, intent, 0);
-
-        alarmManager.cancel(pendingIntent);
+        try {
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getActivity(), IslandAlertReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 2, intent, 0);
+            alarmManager.cancel(pendingIntent);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startAlarm(Calendar c) {

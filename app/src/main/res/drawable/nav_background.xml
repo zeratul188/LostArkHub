@@ -5,15 +5,9 @@
             <item android:left="-2dp"
                 android:right="-2dp">
                 <shape>
-                    <solid android:color="#80444444"/>
-                    <stroke android:color="#aa444444"
+                    <solid android:color="#40FE6E0E"/>
+                    <stroke android:color="#80FE6E0E"
                         android:width="2dp"/>
-                    <!--<gradient
-                        android:angle="0"
-                        android:type="linear"
-                        android:startColor="#444444"
-                        android:centerColor="#80444444"
-                        android:endColor="#00000000"/>-->
                 </shape>
             </item>
         </layer-list>

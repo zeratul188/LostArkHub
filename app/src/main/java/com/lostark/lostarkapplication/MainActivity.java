@@ -387,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isResetWeek) content = "주간, 일일 숙제 모두 초기화 (수요일 오전 6시 초기화)";
                 else content = "일일 숙제 모두 초기화 (오전 6시 초기화)";
                 historyDBAdapter.insertData(new History(name, date, content));
+                historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
                 historyDBAdapter.close();
                 homeworkStatueDBAdapter.open();
                 homeworkStatueDBAdapter.nextDay();

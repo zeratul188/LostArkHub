@@ -2,6 +2,7 @@ package com.lostark.lostarkapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class StatActivity extends AppCompatActivity {
     private ChracterHistoryAdapter chracterHistoryAdapter;
     private ChracterListDBAdapter chracterListDBAdapter;
     private HomeworkStatueDBAdapter homeworkStatueDBAdapter;
+    private SharedPreferences pref;
 
     private Cursor cursor = null;
     private CustomToast customToast;
@@ -72,6 +74,7 @@ public class StatActivity extends AppCompatActivity {
         customToast = new CustomToast(getApplicationContext());
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
         homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
+        pref = getSharedPreferences("setting_file", MODE_PRIVATE);
 
         ArrayList<BarEntry> charts = new ArrayList<>();
         homeworkStatueDBAdapter.open();
@@ -167,6 +170,7 @@ public class StatActivity extends AppCompatActivity {
         histories = new ArrayList<>();
         try {
             historyDBAdapter.open();
+            historyDBAdapter.limitDelete(pref.getInt("limit_count", 300));
             cursor = historyDBAdapter.fetchAllData();
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

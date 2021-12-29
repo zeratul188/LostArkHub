@@ -41,31 +41,35 @@
                     android:text="[Day Homework Name]"
                     android:textColor="#ffffff"
                     android:textSize="16sp"/>
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
-                    android:text="99"
-                    android:id="@+id/txtNow"
-                    android:textSize="20sp"
-                    android:textColor="#DD5D15"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#aaaaaa"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="99"
-                    android:layout_gravity="center"
-                    android:id="@+id/txtMax"
-                    android:textSize="20sp"
-                    android:layout_marginRight="5dp"
-                    android:textColor="#aaaaaa"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="99"
+                        android:id="@+id/txtNow"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#DD5D15"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textSize="20sp"
+                        android:textColor="#aaaaaa"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="99"
+                        android:id="@+id/txtMax"
+                        android:textSize="20sp"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#aaaaaa"/>
+                </LinearLayout>
                 <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -128,12 +132,13 @@
         </LinearLayout>
         <ProgressBar
             android:layout_width="match_parent"
-            android:layout_height="6dp"
+            android:layout_height="4dp"
             android:layout_marginTop="5dp"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:progress="0"
             android:max="10"
-            android:progressDrawable="@drawable/progress_style"
+            android:background="@drawable/rest_progress_image"
+            android:progressDrawable="@drawable/rest_progress_style"
             android:id="@+id/progressRest"/>
     </LinearLayout>
 </LinearLayout>

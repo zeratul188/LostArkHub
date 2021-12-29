@@ -160,11 +160,27 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="25dp"/>
+            android:layout_height="wrap_content"
+            android:text="숙제 전체 진행도 현황"
+            android:textSize="18sp"
+            android:background="#191b20"
+            android:textColor="#ffffff"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="#1d2026"
+            android:orientation="vertical">
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="10dp"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

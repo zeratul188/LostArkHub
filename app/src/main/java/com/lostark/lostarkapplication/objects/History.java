@@ -76,8 +76,7 @@ public class History implements Comparable<History> {
                     else if (hour == o.getHour()) {
                         if (minute < o.getMinute()) return 1;
                         else if (minute == o.getMinute()) {
-                            if (second < o.getSecond()) return 1;
-                            else if (second == o.getSecond()) return 0;
+                            if (second <= o.getSecond()) return 1;
                             else return -1;
                         } else return -1;
                     } else return -1;

@@ -56,6 +56,7 @@ import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.lang.reflect.Array;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack;
     private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
-    private Spinner sprAlarm;
+    private Spinner sprAlarm, sprLimitStack;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
     private ClearEditText edtReport;
 
@@ -126,6 +127,7 @@ public class SettingActivity extends AppCompatActivity {
         txtReportStatue = findViewById(R.id.txtReportStatue);
         btnDeleteStat = findViewById(R.id.btnDeleteStat);
         btnDeleteStack = findViewById(R.id.btnDeleteStack);
+        sprLimitStack = findViewById(R.id.sprLimitStack);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -235,6 +237,24 @@ public class SettingActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+        ArrayList<String> limits = new ArrayList<>();
+        for (int i = 100; i <= 1000; i += 100) limits.add(Integer.toString(i));
+        ArrayAdapter<String> limitAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.time_item, limits);
+        sprLimitStack.setAdapter(limitAdapter);
+        sprLimitStack.setSelection(limits.indexOf(Integer.toString(pref.getInt("limit_count", 300))));
+        sprLimitStack.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editor.putInt("limit_count", Integer.parseInt(limits.get(position)));
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -587,7 +607,6 @@ public class SettingActivity extends AppCompatActivity {
                         statDBAdapter.open();
                         statDBAdapter.deleteAllData();
                         statDBAdapter.close();
-                        //Toast.makeText(getApplicationContext(), "프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast("프리셋을 모두 삭제하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         alertDialog.dismiss();
