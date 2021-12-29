@@ -28,7 +28,7 @@
                 android:id="@+id/txtName"
                 android:text="Chracter Name"
                 android:textColor="#FE6E0E"
-                android:textSize="14sp"/>
+                android:textSize="12dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
                 android:layout_marginLeft="10dp"
                 android:text="Date"
                 android:textColor="#AAAAAA"
-                android:textSize="14sp"/>
+                android:textSize="12dp"/>
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtContent"
             android:text="Content"
-            android:textSize="18sp"
+            android:textSize="16dp"
             android:layout_marginTop="5dp"
             android:textColor="#FFFFFF"/>
     </LinearLayout>

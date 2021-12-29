@@ -30,7 +30,6 @@
             android:background="@drawable/yesbuttonstyle"
             android:text="취소"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             android:id="@+id/btnCancel"
             android:textSize="18sp"
             android:textColor="#FFFFFF"/>

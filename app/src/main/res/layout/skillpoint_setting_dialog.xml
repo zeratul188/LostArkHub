@@ -48,6 +48,5 @@
         android:text="설정"
         android:padding="15dp"
         android:textSize="18sp"
-        android:layout_marginTop="10dp"
         android:textColor="#ffffff"/>
 </LinearLayout>

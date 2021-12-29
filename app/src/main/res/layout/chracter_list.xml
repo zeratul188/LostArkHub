@@ -8,15 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <!--<de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:background="@drawable/job_background"
-            android:layout_margin="10dp"
-            android:src="@drawable/jbi1"
-            android:padding="2dp"
-            android:id="@id/imgJob"/>-->
         <FrameLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
