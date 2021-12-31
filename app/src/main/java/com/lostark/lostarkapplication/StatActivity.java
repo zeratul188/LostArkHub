@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -14,13 +13,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
 import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import com.lostark.lostarkapplication.database.HistoryCountDBAdapter;
@@ -28,7 +20,9 @@ import com.lostark.lostarkapplication.database.HistoryDBAdapter;
 import com.lostark.lostarkapplication.database.HomeworkStatueDBAdapter;
 import com.lostark.lostarkapplication.objects.ChracterHistory;
 import com.lostark.lostarkapplication.objects.History;
-import com.lostark.lostarkapplication.objects.StatueChart;
+
+import org.eazegraph.lib.charts.BarChart;
+import org.eazegraph.lib.models.BarModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,7 +70,7 @@ public class StatActivity extends AppCompatActivity {
         homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
 
-        ArrayList<BarEntry> charts = new ArrayList<>();
+        ArrayList<Integer> charts = new ArrayList<>();
         homeworkStatueDBAdapter.open();
         int max = 0, now = 0;
         chracterListDBAdapter.open();
@@ -109,14 +103,13 @@ public class StatActivity extends AppCompatActivity {
         Cursor cursor = homeworkStatueDBAdapter.fetchAllData();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            int title = cursor.getInt(1);
             int value = cursor.getInt(2);
-            charts.add(new BarEntry(title, value));
+            charts.add(value);
             cursor.moveToNext();
         }
         homeworkStatueDBAdapter.close();
 
-        BarDataSet barDataSet = new BarDataSet(charts, "기록");
+        /*BarDataSet barDataSet = new BarDataSet(charts, "기록");
         barDataSet.setColor(Color.parseColor("#7B9A3D"));
         barDataSet.setValueTextColor(Color.parseColor("#40FFFFFF"));
         barDataSet.setValueTextSize(16f);
@@ -135,7 +128,16 @@ public class StatActivity extends AppCompatActivity {
         barChart.setFitBars(true);
         barChart.setData(barData);
         barChart.getDescription().setText("");
-        barChart.animateY(1000);
+        barChart.animateY(1000);*/
+
+        barChart.clearChart();
+        for (int i = 0; i < charts.size(); i++) {
+            String name;
+            if (i == charts.size()-1) name = "오늘";
+            else name = (4-i)+"일 전";
+            barChart.addBar(new BarModel(name, (float)charts.get(i), 0xFF7B9A3D));
+        }
+        barChart.startAnimation();
 
         try {
             historyCountDBAdapter.open();

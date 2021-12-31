@@ -175,11 +175,22 @@
             android:padding="10dp"
             android:background="#1d2026"
             android:orientation="vertical">
-            <com.github.mikephil.charting.charts.BarChart
+            <!--<com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:padding="10dp"/>
+                android:padding="10dp"/>-->
+            <org.eazegraph.lib.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:egLegendColor="#FFFFFF"
+                app:egLegendTextSize="16sp"
+                app:egBarWidth="20dp"
+                app:egEnableScroll="true"
+                app:egFixedBarWidth="true"
+                app:egLegendHeight="30dp"
+                app:egShowDecimal="false" />
         </LinearLayout>
 
         <TextView

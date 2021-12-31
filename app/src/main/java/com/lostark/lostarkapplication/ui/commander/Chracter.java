@@ -1,7 +1,5 @@
 package com.lostark.lostarkapplication.ui.commander;
 
-import java.util.Comparator;
-
 public class Chracter implements Comparable<Chracter> {
     private String name, job, server;
     private int level, favorite;

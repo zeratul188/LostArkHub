@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#262931">
     <ListView
         android:layout_width="match_parent"
@@ -17,5 +18,6 @@
         android:backgroundTint="#fe6e0e"
         android:layout_gravity="center|bottom"
         android:layout_margin="18dp"
+        app:borderWidth="0dp"
         android:src="@drawable/ic_add_black_24dp"/>
 </FrameLayout>

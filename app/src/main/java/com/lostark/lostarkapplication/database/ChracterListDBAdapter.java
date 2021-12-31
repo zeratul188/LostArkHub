@@ -157,6 +157,11 @@ public class ChracterListDBAdapter {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, null, null, null, null, null);
     }
 
+    public int getSize() {
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, null, null, null, null, null);
+        return cursor.getCount();
+    }
+
     public Cursor fetchData(int rowID) {
         return sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "_id = "+rowID, null, null, null, null);
     }
