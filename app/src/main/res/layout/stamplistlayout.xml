@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:divider="#222222"
+            android:dividerHeight="2dp"
             android:id="@+id/listView"/>
         <Button
             android:layout_width="match_parent"

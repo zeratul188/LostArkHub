@@ -22,7 +22,8 @@
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center|left"
         android:id="@+id/txtName"
         android:layout_gravity="center"
         android:text="[Stamp Name]"

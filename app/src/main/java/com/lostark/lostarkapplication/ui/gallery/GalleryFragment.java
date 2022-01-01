@@ -222,13 +222,10 @@ public class GalleryFragment extends Fragment {
                 Spinner sprGrade = view.findViewById(R.id.sprGrade);
                 ImageView imgSelectBurf1 = view.findViewById(R.id.imgSelectBurf1);
                 TextView txtSelectBurf1 = view.findViewById(R.id.txtSelectBurf1);
-                Button btnChange1 = view.findViewById(R.id.btnChange1);
                 ImageView imgSelectBurf2 = view.findViewById(R.id.imgSelectBurf2);
                 TextView txtSelectBurf2 = view.findViewById(R.id.txtSelectBurf2);
-                Button btnChange2 = view.findViewById(R.id.btnChange2);
                 ImageView imgSelectDeburf = view.findViewById(R.id.imgSelectDeburf);
                 TextView txtSelectDeburf = view.findViewById(R.id.txtSelectDeburf);
-                Button btnChange3 = view.findViewById(R.id.btnChange3);
                 Button btnCancel = view.findViewById(R.id.btnCancel);
                 Button btnOK = view.findViewById(R.id.btnOK);
 
@@ -341,7 +338,7 @@ public class GalleryFragment extends Fragment {
                     }
                 });
 
-                btnChange1.setOnClickListener(new View.OnClickListener() {
+                txtSelectBurf1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
@@ -358,15 +355,6 @@ public class GalleryFragment extends Fragment {
 
                         StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
                         listView.setAdapter(stampAdapter);
-
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
-                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
-                                customToast.show();
-                            }
-                        });
 
                         btnCancel.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -399,7 +387,7 @@ public class GalleryFragment extends Fragment {
                     }
                 });
 
-                btnChange2.setOnClickListener(new View.OnClickListener() {
+                txtSelectBurf2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
@@ -457,7 +445,7 @@ public class GalleryFragment extends Fragment {
                     }
                 });
 
-                btnChange3.setOnClickListener(new View.OnClickListener() {
+                txtSelectDeburf.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);

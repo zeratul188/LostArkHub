@@ -49,6 +49,15 @@ public class StampSettingAdapter extends BaseAdapter {
         txtName.setText(stamps.get(position).getName());
         chkSelect.setChecked(stamps.get(position).isActivate());
 
+        txtName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chkSelect.toggle();
+                if (chkSelect.isChecked()) stamps.get(position).setActivate(true);
+                else stamps.get(position).setActivate(false);
+            }
+        });
+
         chkSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

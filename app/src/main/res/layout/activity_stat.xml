@@ -186,10 +186,10 @@
                 android:layout_height="200dp"
                 app:egLegendColor="#FFFFFF"
                 app:egLegendTextSize="16sp"
-                app:egBarWidth="20dp"
+                app:egBarWidth="40dp"
                 app:egEnableScroll="true"
                 app:egFixedBarWidth="true"
-                app:egLegendHeight="30dp"
+                app:egLegendHeight="40sp"
                 app:egShowDecimal="false" />
         </LinearLayout>
 

@@ -40,7 +40,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DayFragment extends Fragment {
     private ListView listView;
-    private FloatingActionButton fabAdd;
+    //private FloatingActionButton fabAdd;
+    private LinearLayout layoutAdd;
 
     private String name;
     private ChracterDBAdapter chracterDBAdapter;
@@ -67,7 +68,8 @@ public class DayFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_day, container, false);
 
         listView = root.findViewById(R.id.listView);
-        fabAdd = root.findViewById(R.id.fabAdd);
+        //fabAdd = root.findViewById(R.id.fabAdd);
+        layoutAdd = root.findViewById(R.id.layoutAdd);
 
         customToast = new CustomToast(getActivity());
 
@@ -83,7 +85,7 @@ public class DayFragment extends Fragment {
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
 
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        layoutAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.add_homework_dialog, null);
@@ -251,6 +253,19 @@ public class DayFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void refresh(String name) {
+        this.name = name;
+        chracterListDBAdapter.open();
+        chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+        chracterListDBAdapter.close();
+
+        checklists = new ArrayList<>();
+        homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), true, name);
+        listView.setAdapter(homeworkAdapter);
+
+        onResume();
     }
 
     @Override

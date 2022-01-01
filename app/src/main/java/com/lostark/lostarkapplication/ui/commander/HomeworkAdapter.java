@@ -98,6 +98,7 @@ public class HomeworkAdapter extends BaseAdapter {
         ProgressBar progressRest = convertView.findViewById(R.id.progressRest);
         LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
         ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
+        LinearLayout layoutAdd = convertView.findViewById(R.id.layoutAdd);
 
         List<String> homeworks;
         if (isDay) {

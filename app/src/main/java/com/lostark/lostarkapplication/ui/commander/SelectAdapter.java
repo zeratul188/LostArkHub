@@ -46,6 +46,15 @@ public class SelectAdapter extends BaseAdapter {
         txtSelect.setText(selects.get(position).getContent());
         chkSelect.setChecked(selects.get(position).isChecked());
 
+        txtSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chkSelect.toggle();
+                if (chkSelect.isChecked()) selects.get(position).setChecked(false);
+                else selects.get(position).setChecked(true);
+            }
+        });
+
         chkSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

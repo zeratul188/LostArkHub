@@ -50,12 +50,11 @@ public class StampAdapter extends BaseAdapter {
 
         ImageView imgStamp = convertView.findViewById(R.id.imgStamp);
         TextView txtName = convertView.findViewById(R.id.txtName);
-        Button btnSelect = convertView.findViewById(R.id.btnSelect);
 
         imgStamp.setImageResource(context.getResources().getIdentifier(stamps.get(position).getImage(), "drawable", context.getPackageName()));
         txtName.setText(stamps.get(position).getName());
 
-        btnSelect.setOnClickListener(new View.OnClickListener() {
+        txtName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dn.setContent(stamps.get(position).getName());

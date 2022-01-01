@@ -13,9 +13,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lostark.lostarkapplication.R;
@@ -27,10 +28,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChecklistActivity extends AppCompatActivity {
+    private final int CLICK_LEFT = -1;
+    private final int CLICK_RIGHT = 1;
+
     private BottomNavigationView bottomNavigationView;
     private ImageView imgJob;
     private TextView txtName, txtLevel, txtJob;
     private ViewPager layoutFrame;
+    private ImageButton btnLeft, btnRight;
 
     private String name;
     private int level;
@@ -74,6 +79,8 @@ public class ChecklistActivity extends AppCompatActivity {
         txtLevel = findViewById(R.id.txtLevel);
         txtJob = findViewById(R.id.txtJob);
         layoutFrame = findViewById(R.id.layoutFrame);
+        btnLeft = findViewById(R.id.btnLeft);
+        btnRight = findViewById(R.id.btnRight);
 
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
         chracterListDBAdapter.open();
@@ -153,25 +160,89 @@ public class ChecklistActivity extends AppCompatActivity {
             }
         });
 
-        //setFrag(0);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeChracter(CLICK_LEFT);
+                btnDirectVisible();
+            }
+        });
+
+        btnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeChracter(CLICK_RIGHT);
+                btnDirectVisible();
+            }
+        });
+
+        btnDirectVisible();
     }
 
-    /*private void setFrag(int n)
-    {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        switch (n)
-        {
-            case 0:
-                layoutFrame.setCurrentItem(0);
-                //fragmentTransaction.replace(R.id.layoutFrame, dayFragment).commitAllowingStateLoss();
-                break;
-            case 1:
-                layoutFrame.setCurrentItem(1);
-                //fragmentTransaction.replace(R.id.layoutFrame, weekFragment).commitAllowingStateLoss();
-                break;
+    private void changeChracter(int direct) {
+        ArrayList<ChracterPosition> positions = new ArrayList<>();
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(1);
+            int level = cursor.getInt(3);
+            positions.add(new ChracterPosition(name, level));
+            cursor.moveToNext();
         }
-    }*/
+        Collections.sort(positions);
+        int next_position = -1;
+        for (int index = 0; index < positions.size(); index++) {
+            if (positions.get(index).getName().equals(name)) {
+                next_position = index;
+                break;
+            }
+        }
+        if (next_position != -1) next_position += direct;
+        if (next_position != -1 && positions.size() > next_position) {
+            name = positions.get(next_position).getName();
+            level = positions.get(next_position).getLevel();
+        }
+        cursor = chracterListDBAdapter.fetchData(name);
+        cursor.moveToFirst();
+        txtName.setText(cursor.getString(1));
+        txtJob.setText(cursor.getString(2));
+        txtLevel.setText(Integer.toString(cursor.getInt(3)));
+        List<String> jobs = Arrays.asList(getResources().getStringArray(R.array.job));
+        imgJob.setImageResource(getResources().getIdentifier("jb"+(jobs.indexOf(cursor.getString(2))+1), "drawable", getPackageName()));
+
+        ((DayFragment)pageViewAdapter.getItem(0)).refresh(name);
+        ((WeekFragment)pageViewAdapter.getItem(1)).refresh(name);
+        pageViewAdapter.notifyDataSetChanged();
+
+        chracterListDBAdapter.close();
+    }
+
+    private void btnDirectVisible() {
+        ArrayList<ChracterPosition> positions = new ArrayList<>();
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(1);
+            int level = cursor.getInt(3);
+            positions.add(new ChracterPosition(name, level));
+            cursor.moveToNext();
+        }
+        Collections.sort(positions);
+        int next_position = -1;
+        for (int index = 0; index < positions.size(); index++) {
+            if (positions.get(index).getName().equals(name)) {
+                next_position = index;
+                break;
+            }
+        }
+
+        if (next_position == 0) btnLeft.setVisibility(View.GONE);
+        else btnLeft.setVisibility(View.VISIBLE);
+        if (next_position == positions.size()-1) btnRight.setVisibility(View.GONE);
+        else btnRight.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

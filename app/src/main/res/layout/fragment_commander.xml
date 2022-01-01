@@ -30,18 +30,25 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp">
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="50dp">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progress="100"
+                android:max="100"
+                android:progressDrawable="@drawable/homework_progress_style"
+                android:id="@+id/progressAll"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -49,6 +56,7 @@
                     android:id="@+id/txtAllProgress"
                     android:text="100%"
                     android:textColor="#FE6E0E"
+                    android:textStyle="bold"
                     android:textSize="20sp"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -59,15 +67,7 @@
                     android:textSize="12sp"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progress="100"
-                android:max="100"
-                android:progressDrawable="@drawable/progress_no_opacity_style"
-                android:id="@+id/progressAll"/>
-        </LinearLayout>
+        </FrameLayout>
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"

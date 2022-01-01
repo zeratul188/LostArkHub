@@ -1,5 +1,7 @@
 package com.lostark.lostarkapplication.ui.commander;
 
+import androidx.annotation.Nullable;
+
 public class ChracterPosition implements Comparable<ChracterPosition> {
     private String name;
     private int level;
