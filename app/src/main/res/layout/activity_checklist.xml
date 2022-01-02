@@ -13,7 +13,7 @@
         android:id="@+id/layoutTitle"
         android:background="#000000"
         app:layout_constraintTop_toTopOf="@id/layoutFrame">
-        <ImageView
+        <!--<ImageView
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:id="@+id/imgJob"
@@ -68,7 +68,7 @@
                 android:text="직업"
                 android:textColor="#92C52D"
                 android:textSize="14dp"/>
-        </LinearLayout>
+        </LinearLayout>-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,6 +81,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="5dp"
             android:id="@+id/bottomNavigationView"/>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/pagerChracter"/>
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"
