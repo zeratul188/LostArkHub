@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class GalleryFragment extends Fragment {
     private DataNetwork dn;
     private ArrayList<Stone> stones;
     private CustomToast customToast;
+    private Thread th = null;
 
     private SharedPreferences pref;
 
@@ -125,6 +127,8 @@ public class GalleryFragment extends Fragment {
                 TextView txtBurf2 = dialog_view.findViewById(R.id.txtBurf2);
                 TextView txtDeburf = dialog_view.findViewById(R.id.txtDeburf);
                 ListView listHistory = dialog_view.findViewById(R.id.listHistory);
+                Spinner sprSecond = dialog_view.findViewById(R.id.sprSecond);
+                Button btnStart = dialog_view.findViewById(R.id.btnStart);
                 TextView[] txtCount = new TextView[3];
                 ImageView[] imgFirst = new ImageView[10];
                 ImageView[] imgSecond = new ImageView[10];
@@ -200,10 +204,58 @@ public class GalleryFragment extends Fragment {
                 StoneHistoryAdapter adapter = new StoneHistoryAdapter(getActivity(), histories);
                 listHistory.setAdapter(adapter);
 
+                final StoneHistoryThread thread = new StoneHistoryThread(new Handler(), imgFirst, imgSecond, imgThird, histories, btnStart);
+                String[] speeds = {"느리게", "보통", "빠르게"};
+                List<String> listSpeeds = Arrays.asList(speeds);
+                ArrayAdapter<String> speedAdapter = new ArrayAdapter<String>(getActivity(), R.layout.abilitystonehistoryitem, listSpeeds);
+                speedAdapter.setDropDownViewResource(R.layout.abilitystonehistoryitem);
+                sprSecond.setAdapter(speedAdapter);
+                sprSecond.setSelection(1);
+
+                th = new Thread(thread);
+
+                btnStart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {double second = 0;
+                        switch (sprSecond.getSelectedItem().toString()) {
+                            case "느리게":
+                                second = 1;
+                                break;
+                            case "보통":
+                                second = 0.6;
+                                break;
+                            case "빠르게":
+                                second = 0.3;
+                                break;
+                        }
+                        thread.setSecond(second);
+                        if (btnStart.getText().toString().equals("시작")) {
+                            btnStart.setBackgroundResource(R.drawable.nobuttonstyle);
+                            btnStart.setText("중지");
+                            if (th.getState() == Thread.State.NEW) {
+                                th.start();
+                            } else if (th.getState() == Thread.State.TERMINATED) {
+                                th = new Thread(thread);
+                                th.start();
+                            }
+                        } else {
+                            th.interrupt();
+                        }
+                    }
+                });
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(dialog_view);
 
                 alertDialog = builder.create();
+
+                alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        th.interrupt();
+                    }
+                });
+
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 alertDialog.show();
             }

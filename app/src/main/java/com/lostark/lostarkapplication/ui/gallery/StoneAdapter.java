@@ -56,10 +56,10 @@ public class StoneAdapter extends BaseAdapter {
         switch (stones.get(position).getGrade()) {
             case "희귀":
                 layoutMain.setBackground(context.getDrawable(R.drawable.stonehistorystyle1));
-                viewLine.setBackgroundColor(context.getColor(R.color.normal));
+                viewLine.setBackgroundColor(context.getColor(R.color.rare));
                 imgStone.setImageResource(R.drawable.stone1);
                 txtName.setText("비상의 돌");
-                txtGrade.setTextColor(context.getColor(R.color.normal));
+                txtGrade.setTextColor(context.getColor(R.color.rare));
                 break;
             case "영웅":
                 layoutMain.setBackground(context.getDrawable(R.drawable.stonehistorystyle2));

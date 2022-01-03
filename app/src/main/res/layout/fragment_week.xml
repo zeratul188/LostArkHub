@@ -17,10 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#262931"
+        android:background="@drawable/add_button_style"
         android:gravity="center"
         android:id="@+id/layoutAdd"
-        android:padding="10dp">
+        android:padding="15dp">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"

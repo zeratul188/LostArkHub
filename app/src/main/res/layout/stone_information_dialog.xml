@@ -7,20 +7,18 @@
     android:padding="10dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        android:layout_height="50dp"
+        android:background="#1d2026"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
         <FrameLayout
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:layout_marginRight="10dp">
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center">
 
             <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:id="@+id/imgStone"
                 android:src="@drawable/stone1"
                 android:layout_gravity="center"/>
@@ -31,13 +29,30 @@
                 android:src="@drawable/imagetool" />
         </FrameLayout>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/txtStone"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:textColor="#FFFFFF"
             android:text="Stone Name"/>
+        <Spinner
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:spinnerMode="dropdown"
+            android:background="#00000000"
+            android:id="@+id/sprSecond"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnStart"
+            android:text="시작"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/restbuttonstyle"/>
     </LinearLayout>
 
     <TextView

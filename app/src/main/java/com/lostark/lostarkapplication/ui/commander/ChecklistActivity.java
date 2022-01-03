@@ -2,6 +2,7 @@ package com.lostark.lostarkapplication.ui.commander;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,9 +13,12 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lostark.lostarkapplication.R;
@@ -39,6 +43,7 @@ public class ChecklistActivity extends AppCompatActivity {
     private ChecklistPageViewAdapter pageViewAdapter;
     private ChracterPageViewAdapter chracterPageViewAdapter;
     private ArrayList<ChracterPosition> chracterPositions;
+    private AlertDialog alertDialog;
 
     private DayFragment dayFragment;
     private WeekFragment weekFragment;
@@ -289,12 +294,60 @@ public class ChecklistActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.checklist_main_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
                 finish();
                 return true;
             }
+            case R.id.action_list:
+                View view = getLayoutInflater().inflate(R.layout.chracter_list_dialog, null);
+
+                ListView listView = view.findViewById(R.id.listView);
+
+                ArrayList<ChracterSelectList> lists = new ArrayList<>();
+
+                chracterListDBAdapter.open();
+                Cursor cursor = chracterListDBAdapter.fetchAllData();
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String name = cursor.getString(1);
+                    String job = cursor.getString(2);
+                    int level = cursor.getInt(3);
+                    String server = cursor.getString(5);
+                    lists.add(new ChracterSelectList(name, job, server, level));
+                    cursor.moveToNext();
+                }
+                chracterListDBAdapter.close();
+                Collections.sort(lists);
+
+                ChracterListAdapter adapter = new ChracterListAdapter(getApplicationContext(), lists);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        name = lists.get(position).getName();
+                        now_position = position;
+                        pagerChracter.setCurrentItem(position);
+                        changeChracter();
+                        btnDirectVisible();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChecklistActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
