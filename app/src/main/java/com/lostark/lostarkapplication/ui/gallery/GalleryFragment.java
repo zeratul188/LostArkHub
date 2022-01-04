@@ -129,6 +129,7 @@ public class GalleryFragment extends Fragment {
                 ListView listHistory = dialog_view.findViewById(R.id.listHistory);
                 Spinner sprSecond = dialog_view.findViewById(R.id.sprSecond);
                 Button btnStart = dialog_view.findViewById(R.id.btnStart);
+                TextView txtPercent = dialog_view.findViewById(R.id.txtPercent);
                 TextView[] txtCount = new TextView[3];
                 ImageView[] imgFirst = new ImageView[10];
                 ImageView[] imgSecond = new ImageView[10];
@@ -204,7 +205,7 @@ public class GalleryFragment extends Fragment {
                 StoneHistoryAdapter adapter = new StoneHistoryAdapter(getActivity(), histories);
                 listHistory.setAdapter(adapter);
 
-                final StoneHistoryThread thread = new StoneHistoryThread(new Handler(), imgFirst, imgSecond, imgThird, histories, btnStart);
+                final StoneHistoryThread thread = new StoneHistoryThread(new Handler(), imgFirst, imgSecond, imgThird, histories, btnStart, txtPercent);
                 String[] speeds = {"느리게", "보통", "빠르게"};
                 List<String> listSpeeds = Arrays.asList(speeds);
                 ArrayAdapter<String> speedAdapter = new ArrayAdapter<String>(getActivity(), R.layout.abilitystonehistoryitem, listSpeeds);

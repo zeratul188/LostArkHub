@@ -9,8 +9,8 @@ android {
         applicationId "com.lostark.lostarkapplication"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 33
-        versionName "1.7.5"
+        versionCode 34
+        versionName "1.7.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -321,7 +321,7 @@ public class ChecklistActivity extends AppCompatActivity {
                     String job = cursor.getString(2);
                     int level = cursor.getInt(3);
                     String server = cursor.getString(5);
-                    lists.add(new ChracterSelectList(name, job, server, level));
+                    if (!name.equals(this.name)) lists.add(new ChracterSelectList(name, job, server, level));
                     cursor.moveToNext();
                 }
                 chracterListDBAdapter.close();

@@ -50,7 +50,7 @@ public class SelectAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 chkSelect.toggle();
-                if (chkSelect.isChecked()) selects.get(position).setChecked(false);
+                if (selects.get(position).isChecked()) selects.get(position).setChecked(false);
                 else selects.get(position).setChecked(true);
             }
         });

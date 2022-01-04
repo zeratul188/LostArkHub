@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lostark.lostarkapplication.R;
 
@@ -12,19 +13,21 @@ import java.util.ArrayList;
 public class StoneHistoryThread implements Runnable {
     private Handler handler;
     private ImageView[] imgFirst, imgSecond, imgThird;
+    private TextView txtPercent;
     private Button btnStart;
     private double second = 0;
     private ArrayList<StoneHistory> histories;
 
-    private int one = 0, two = 0, three = 0, index = 0;
+    private int one = 0, two = 0, three = 0, index = 0, percent = 75;
 
-    public StoneHistoryThread(Handler handler, ImageView[] imgFirst, ImageView[] imgSecond, ImageView[] imgThird, ArrayList<StoneHistory> histories, Button btnStart) {
+    public StoneHistoryThread(Handler handler, ImageView[] imgFirst, ImageView[] imgSecond, ImageView[] imgThird, ArrayList<StoneHistory> histories, Button btnStart, TextView txtPercent) {
         this.handler = handler;
         this.imgFirst = imgFirst;
         this.imgSecond = imgSecond;
         this.imgThird = imgThird;
         this.histories = histories;
         this.btnStart = btnStart;
+        this.txtPercent = txtPercent;
     }
 
     public void setSecond(double second) {
@@ -36,6 +39,7 @@ public class StoneHistoryThread implements Runnable {
         one = 0;
         two = 0;
         three = 0;
+        percent = 75;
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -48,6 +52,7 @@ public class StoneHistoryThread implements Runnable {
                     imgFirst[i].setImageResource(R.drawable.none);
                     imgSecond[i].setImageResource(R.drawable.none);
                     imgThird[i].setImageResource(R.drawable.deburf_none);
+                    txtPercent.setText("75%");
                     if (imgFirst[i].getVisibility() == View.INVISIBLE) imgFirst[i].setVisibility(View.VISIBLE);
                     if (imgSecond[i].getVisibility() == View.INVISIBLE) imgSecond[i].setVisibility(View.VISIBLE);
                     if (imgThird[i].getVisibility() == View.INVISIBLE) imgThird[i].setVisibility(View.VISIBLE);
@@ -61,13 +66,27 @@ public class StoneHistoryThread implements Runnable {
         });
         try {
             while (!Thread.currentThread().isInterrupted() && index < histories.size()) {
+                if (index == 0) {
+                    Thread.sleep(1000);
+                }
                 switch (histories.get(index).getNum()) {
                     case 1:
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                if (histories.get(index).isSuccess()) imgFirst[one].setImageResource(R.drawable.success);
-                                else imgFirst[one].setImageResource(R.drawable.fail);
+                                if (histories.get(index).isSuccess()) {
+                                    imgFirst[one].setImageResource(R.drawable.success);
+                                    if (percent > 25) {
+                                        percent -= 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                } else {
+                                    imgFirst[one].setImageResource(R.drawable.fail);
+                                    if (percent < 75) {
+                                        percent += 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                }
                                 one++;
                             }
                         });
@@ -76,8 +95,19 @@ public class StoneHistoryThread implements Runnable {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                if (histories.get(index).isSuccess()) imgSecond[two].setImageResource(R.drawable.success);
-                                else imgSecond[two].setImageResource(R.drawable.fail);
+                                if (histories.get(index).isSuccess()) {
+                                    imgSecond[two].setImageResource(R.drawable.success);
+                                    if (percent > 25) {
+                                        percent -= 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                } else {
+                                    imgSecond[two].setImageResource(R.drawable.fail);
+                                    if (percent < 75) {
+                                        percent += 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                }
                                 two++;
                             }
                         });
@@ -86,14 +116,24 @@ public class StoneHistoryThread implements Runnable {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                if (histories.get(index).isSuccess()) imgThird[three].setImageResource(R.drawable.deburf_success);
-                                else imgThird[three].setImageResource(R.drawable.deburf_fail);
+                                if (histories.get(index).isSuccess()) {
+                                    imgThird[three].setImageResource(R.drawable.deburf_success);
+                                    if (percent > 25) {
+                                        percent -= 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                } else {
+                                    imgThird[three].setImageResource(R.drawable.deburf_fail);
+                                    if (percent < 75) {
+                                        percent += 10;
+                                        txtPercent.setText(percent+"%");
+                                    }
+                                }
                                 three++;
                             }
                         });
                         break;
                 }
-
                 Thread.sleep((long) (second*1000));
                 index++;
             }
