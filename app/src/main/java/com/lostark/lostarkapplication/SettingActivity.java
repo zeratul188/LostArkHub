@@ -67,7 +67,7 @@ import java.util.Date;
 public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnReview;
     private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm, sprLimitStack;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
@@ -128,6 +128,7 @@ public class SettingActivity extends AppCompatActivity {
         btnDeleteStat = findViewById(R.id.btnDeleteStat);
         btnDeleteStack = findViewById(R.id.btnDeleteStack);
         sprLimitStack = findViewById(R.id.sprLimitStack);
+        btnReview = findViewById(R.id.btnReview);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -500,6 +501,13 @@ public class SettingActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
             }
         });
 

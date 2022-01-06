@@ -34,14 +34,21 @@
         android:orientation="horizontal"
         android:background="#1d2026"
         android:layout_marginBottom="20dp">
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progress="0"
+                android:max="100"
+                android:progressDrawable="@drawable/homework_progress_semi_style"
+                android:id="@+id/progressSkill"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="10dp"
                 android:orientation="horizontal">
                 <TextView
@@ -59,15 +66,7 @@
                     android:textSize="10sp"
                     android:textColor="#aaaaaa"/>
             </LinearLayout>
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progress="0"
-                android:max="100"
-                android:progressDrawable="@drawable/progress_no_opacity_style"
-                android:id="@+id/progressSkill"/>
-        </LinearLayout>
+        </FrameLayout>
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"

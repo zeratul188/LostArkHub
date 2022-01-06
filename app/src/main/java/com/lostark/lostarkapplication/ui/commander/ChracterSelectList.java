@@ -2,13 +2,22 @@ package com.lostark.lostarkapplication.ui.commander;
 
 public class ChracterSelectList implements Comparable<ChracterSelectList> {
     private String name, job, server;
-    private int level;
+    private int level, index;
 
     public ChracterSelectList(String name, String job, String server, int level) {
         this.name = name;
         this.job = job;
         this.server = server;
         this.level = level;
+        index = 0;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getName() {

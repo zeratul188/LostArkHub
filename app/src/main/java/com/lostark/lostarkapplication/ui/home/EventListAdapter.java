@@ -53,6 +53,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.txtDate.setText(date);
         holder.setClickAction(position);
 
+        if (events.get(position).isFail()) holder.imgEvent.setImageResource(R.drawable.noemptyboss);
+        else if (events.get(position).getBitmap() == null) holder.imgEvent.setImageResource(R.drawable.emptyboss);
+        else holder.imgEvent.setImageBitmap(events.get(position).getBitmap());
+        /*holder.imgEvent.setImageResource(R.drawable.emptyboss);
         storageRef.child("Events/event"+events.get(position).getNumber()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -72,7 +76,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             public void onFailure(@NonNull Exception e) {
                 holder.imgEvent.setImageResource(R.drawable.noemptyboss);
             }
-        });
+        });*/
     }
 
     @Override

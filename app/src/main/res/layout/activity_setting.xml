@@ -455,6 +455,19 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_rate_review_24"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                android:padding="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="평가하기"
+                android:textSize="18sp"
+                android:id="@+id/btnReview"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_baseline_update_24"
                 android:drawablePadding="20dp"
                 android:background="@drawable/settingbuttonstyle"

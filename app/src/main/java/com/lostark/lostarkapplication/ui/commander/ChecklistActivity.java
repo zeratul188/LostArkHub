@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lostark.lostarkapplication.R;
@@ -321,11 +322,21 @@ public class ChecklistActivity extends AppCompatActivity {
                     String job = cursor.getString(2);
                     int level = cursor.getInt(3);
                     String server = cursor.getString(5);
-                    if (!name.equals(this.name)) lists.add(new ChracterSelectList(name, job, server, level));
+                    lists.add(new ChracterSelectList(name, job, server, level));
                     cursor.moveToNext();
                 }
                 chracterListDBAdapter.close();
                 Collections.sort(lists);
+
+                int remove_index = 0;
+                for (int index = 0; index < lists.size(); index++) {
+                    if (this.name.equals(lists.get(index).getName())) {
+                        remove_index = index;
+                    } else {
+                        lists.get(index).setIndex(index);
+                    }
+                }
+                lists.remove(remove_index);
 
                 ChracterListAdapter adapter = new ChracterListAdapter(getApplicationContext(), lists);
                 listView.setAdapter(adapter);
@@ -333,9 +344,10 @@ public class ChecklistActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getApplicationContext(), "Name : "+lists.get(position).getName()+", Index : "+lists.get(position).getIndex(), Toast.LENGTH_SHORT).show();
                         name = lists.get(position).getName();
-                        now_position = position;
-                        pagerChracter.setCurrentItem(position);
+                        now_position = lists.get(position).getIndex();
+                        pagerChracter.setCurrentItem(lists.get(position).getIndex());
                         changeChracter();
                         btnDirectVisible();
                         alertDialog.dismiss();

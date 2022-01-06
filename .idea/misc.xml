@@ -20,6 +20,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/equipmentstyle2.xml" value="0.21597222222222223" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/equipmentstyle3.xml" value="0.21597222222222223" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/equipmentstyle4.xml" value="0.21597222222222223" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/homework_progress_semi_style.xml" value="0.21319444444444444" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/homework_progress_style.xml" value="0.2712962962962963" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/homeworkbuttonresetstyle.xml" value="0.14358108108108109" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/homeworkbuttonstyle.xml" value="0.14358108108108109" />
@@ -27,10 +28,13 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.21805555555555556" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.21805555555555556" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_delete_black_24dp.xml" value="0.15574324324324323" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_remove_black_24dp.xml" value="0.15574324324324323" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_left.xml" value="0.14358108108108109" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_left_black.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_right.xml" value="0.14358108108108109" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_right_black.xml" value="0.21319444444444444" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/nav_background.xml" value="0.27870370370370373" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/nav_icon.xml" value="0.27870370370370373" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/newimageopacitygradientstyle.xml" value="0.20555555555555555" />
@@ -64,7 +68,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_add_dialog.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_edit_dialog.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list.xml" value="0.19" />
-        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list_dialog.xml" value="0.2375" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list_dialog.xml" value="0.14" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_select_list.xml" value="0.18" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/content_main.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/day_homework_list.xml" value="0.18" />
@@ -78,7 +82,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_day.xml" value="0.1331081081081081" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_gallery.xml" value="0.2375" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_home.xml" value="0.18" />
-        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_homework_chracter.xml" value="0.12" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_homework_chracter.xml" value="0.22" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_skill.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_slideshow.xml" value="0.16597222222222222" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_stamp.xml" value="0.18888888888888888" />
