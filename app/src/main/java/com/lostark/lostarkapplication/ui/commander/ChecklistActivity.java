@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lostark.lostarkapplication.R;
@@ -28,6 +27,8 @@ import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class ChecklistActivity extends AppCompatActivity {
     private final int CLICK_LEFT = -1;
     private final int CLICK_RIGHT = 1;
@@ -35,6 +36,7 @@ public class ChecklistActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private ViewPager layoutFrame, pagerChracter;
     private ImageButton btnLeft, btnRight;
+    private CircleIndicator indicatorChracter;
 
     private String name;
     private int level, now_position;
@@ -79,6 +81,7 @@ public class ChecklistActivity extends AppCompatActivity {
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
         pagerChracter = findViewById(R.id.pagerChracter);
+        indicatorChracter = findViewById(R.id.indicatorChracter);
 
         chracter_fragments = new ArrayList<>();
         chracterListDBAdapter = new ChracterListDBAdapter(getApplicationContext());
@@ -125,6 +128,7 @@ public class ChecklistActivity extends AppCompatActivity {
         chracterPageViewAdapter = new ChracterPageViewAdapter(fragmentManager, chracter_fragments);
         pagerChracter.setAdapter(chracterPageViewAdapter);
         pagerChracter.setOffscreenPageLimit(chracter_fragments.size());
+        indicatorChracter.setViewPager(pagerChracter);
         pagerChracter.setCurrentItem(now_position);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -344,7 +348,6 @@ public class ChecklistActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getApplicationContext(), "Name : "+lists.get(position).getName()+", Index : "+lists.get(position).getIndex(), Toast.LENGTH_SHORT).show();
                         name = lists.get(position).getName();
                         now_position = lists.get(position).getIndex();
                         pagerChracter.setCurrentItem(lists.get(position).getIndex());

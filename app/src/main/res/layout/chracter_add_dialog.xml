@@ -36,26 +36,6 @@
             android:hint="캐릭터 이름"
             android:textSize="18sp"
             android:textColor="#ffffff"
-            android:textColorHint="#777777"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="캐릭터 템 레벨"
-            android:textSize="14sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/customeditstyle"
-            android:padding="10dp"
-            android:id="@+id/edtLevel"
-            android:hint="캐릭터 레벨"
-            android:textSize="18sp"
-            android:textColor="#ffffff"
-            android:maxLength="4"
-            android:inputType="numberDecimal"
             android:textColorHint="#777777"/>
         <TextView
             android:layout_width="wrap_content"
@@ -66,34 +46,60 @@
             android:visibility="gone"
             android:textSize="12sp"
             android:layout_marginTop="5dp"/>
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="캐릭터 서버"
-            android:textSize="14sp"
+            android:id="@+id/layoutOther"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="#00000000"
-            android:id="@+id/sprServer"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="클래스 (직업)"
-            android:textSize="14sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="#00000000"
-            android:id="@+id/sprJob"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캐릭터 템 레벨"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/customeditstyle"
+                android:padding="10dp"
+                android:id="@+id/edtLevel"
+                android:hint="캐릭터 레벨"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:maxLength="4"
+                android:inputType="numberDecimal"
+                android:textColorHint="#777777"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캐릭터 서버"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="#00000000"
+                android:id="@+id/sprServer"
+                android:layout_marginBottom="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="클래스 (직업)"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="#00000000"
+                android:id="@+id/sprJob"/>
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:layout_width="match_parent"

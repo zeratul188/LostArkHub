@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -80,12 +81,16 @@ public class CommanderFragment extends Fragment {
                     double dv = Double.parseDouble(level_str);
                     level = (int)dv;
                 } else level = Integer.parseInt(level_str);
+                String server = bundle.getString("server"+i).substring(1);
+                String job = bundle.getString("job"+i);
 
                 Cursor cursor = chracterListDBAdapter.fetchData(bundle.getString("name"+i));
                 cursor.moveToFirst();
                 if (cursor.getCount() > 0) {
                     String name = cursor.getString(1);
                     chracterListDBAdapter.changeLevel(name, level);
+                    chracterListDBAdapter.changeServer(name, server);
+                    chracterListDBAdapter.changeJob(name, job);
                     if (bundle.getString("add_"+name) != null) {
                         boolean isAlarm = !pref.getBoolean("homework_alarm", false);
                         ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
@@ -228,11 +233,10 @@ public class CommanderFragment extends Fragment {
                 Spinner sprServer = view.findViewById(R.id.sprServer);
                 Button btnAdd = view.findViewById(R.id.btnAdd);
                 TextView txtWarning = view.findViewById(R.id.txtWarning);
+                LinearLayout layoutOther = view.findViewById(R.id.layoutOther);
 
                 if (pref.getBoolean("auto_level", true)) {
-                    edtLevel.setHint("자동 설정");
-                    edtLevel.setHintTextColor(Color.parseColor("#FF9999"));
-                    edtLevel.setEnabled(false);
+                    layoutOther.setVisibility(View.GONE);
                     txtWarning.setVisibility(View.VISIBLE);
                 }
 
@@ -487,6 +491,8 @@ public class CommanderFragment extends Fragment {
                     String name = cursor.getString(1);
                     try {
                         bundleCroring(name, ".level-info2__expedition span", "equip_level", 2, position);
+                        bundleCroring(name, ".profile-character-info__server", "server", position);
+                        bundleCroring_alt(name, ".profile-character-info__img", "job", position);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -514,6 +520,34 @@ public class CommanderFragment extends Fragment {
             bundle.putString(name+position, temele.get(0).text()); //bundle 이라는 자료형에 뽑아낸 결과값 담아서 main Thread로 보내기
         } else {
             bundle.putBoolean("gone"+position, true);
+        }
+    }
+
+    private void bundleCroring(String chracter, String id, String name, int position) throws IOException {
+        Document doc = Jsoup.connect("https://lostark.game.onstove.com/Profile/Character/"+chracter).get();	//URL 웹사이트에 있는 html 코드를 다 끌어오기
+        Elements temele = doc.select(id);	//끌어온 html에서 클래스네임이 "temperature_text" 인 값만 선택해서 빼오기
+        boolean isEmpty = temele.isEmpty(); //빼온 값 null체크
+        Log.d("Tag", id+" : isNull? : " + isEmpty); //로그캣 출력
+        if(isEmpty == false) { //null값이 아니면 크롤링 실행
+            bundle.putBoolean("gone", false);
+            bundle.putString(name+position, temele.get(0).text()); //bundle 이라는 자료형에 뽑아낸 결과값 담아서 main Thread로 보내기
+        } else {
+            if (!id.equals(".profile-character-info__name")) return;
+            bundle.putBoolean("gone", true);
+        }
+    }
+
+    private void bundleCroring_alt(String chracter, String id, String name, int position) throws IOException {
+        Document doc = Jsoup.connect("https://lostark.game.onstove.com/Profile/Character/"+chracter).get();	//URL 웹사이트에 있는 html 코드를 다 끌어오기
+        Elements temele = doc.select(id);	//끌어온 html에서 클래스네임이 "temperature_text" 인 값만 선택해서 빼오기
+        boolean isEmpty = temele.isEmpty(); //빼온 값 null체크
+        Log.d("Tag", id+" : isNull? : " + isEmpty); //로그캣 출력
+        if(isEmpty == false) { //null값이 아니면 크롤링 실행
+            bundle.putBoolean("gone", false);
+            bundle.putString(name+position, temele.get(0).attr("alt")); //bundle 이라는 자료형에 뽑아낸 결과값 담아서 main Thread로 보내기
+        } else {
+            if (!id.equals(".profile-character-info__name")) return;
+            bundle.putBoolean("gone", true);
         }
     }
 

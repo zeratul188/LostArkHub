@@ -142,6 +142,20 @@ public class ChracterListDBAdapter {
         return true;
     }
 
+    public boolean changeServer(String name, String server) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_SERVER, server);
+        sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
+    public boolean changeJob(String name, String job) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_JOB, job);
+        sqlDB.update(DATABASE_TABLE, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
     public int getRowID(String name) {
         Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_JOB, KEY_LEVEL, KEY_ALARM, KEY_SERVER, KEY_FAVORITE}, "NAME = '"+name+"'", null, null, null, null);
         cursor.moveToFirst();

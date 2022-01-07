@@ -37,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -69,6 +70,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import me.relex.circleindicator.CircleIndicator2;
 
 public class HomeFragment extends Fragment {
     private static final int ISLAND_LENGTH = 3;
@@ -106,6 +109,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView listEvent;
     private EventListAdapter eventAdapter;
     private ArrayList<Event> events;
+    private CircleIndicator2 indicator;
 
     private TextView txtAlarm;
 
@@ -124,33 +128,34 @@ public class HomeFragment extends Fragment {
         islandReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                timer.interrupt();
-                swtIslandAlarm.setChecked(pref.getBoolean("island_alarm", false));
-                setIslandAlarm(swtIslandAlarm.isChecked());
-                String startdate = "";
-                List<String> list = Arrays.asList(getResources().getStringArray(R.array.awards));
-                for (DataSnapshot data :snapshot.getChildren()) {
-                    String name = data.child("name").getValue().toString();
-                    String award = data.child("award").getValue().toString();
-                    String image = data.child("image").getValue().toString();
-                    int index = 0;
-                    if (data.getKey().equals("first_island")) index = 0;
-                    else if (data.getKey().equals("second_island")) index = 1;
-                    else index = 2;
-                    imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
-                    txtIsland[index].setText(name);
-                    String[] awards = award.split("\\|");
-                    if (awards.length > 4) layoutIsland[index].setVisibility(View.VISIBLE);
-                    else layoutIsland[index].setVisibility(View.GONE);
-                    int position = 0;
-                    String arr = "";
-                    for (int i = 0; i < awards.length; i++) {
-                        arr += awards[i]+"   ";
-                        if (list.indexOf(awards[i]) != -1) {
-                            islandAwards[index][position] = awards[i];
-                            imgIslandAwards[index][position].setImageResource(getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName()));
-                            islandAwardsImages[index][position] = getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName());
-                            position++;
+                try {
+                    timer.interrupt();
+                    swtIslandAlarm.setChecked(pref.getBoolean("island_alarm", false));
+                    setIslandAlarm(swtIslandAlarm.isChecked());
+                    String startdate = "";
+                    List<String> list = Arrays.asList(getResources().getStringArray(R.array.awards));
+                    for (DataSnapshot data :snapshot.getChildren()) {
+                        String name = data.child("name").getValue().toString();
+                        String award = data.child("award").getValue().toString();
+                        String image = data.child("image").getValue().toString();
+                        int index = 0;
+                        if (data.getKey().equals("first_island")) index = 0;
+                        else if (data.getKey().equals("second_island")) index = 1;
+                        else index = 2;
+                        imgIsland[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
+                        txtIsland[index].setText(name);
+                        String[] awards = award.split("\\|");
+                        if (awards.length > 4) layoutIsland[index].setVisibility(View.VISIBLE);
+                        else layoutIsland[index].setVisibility(View.GONE);
+                        int position = 0;
+                        String arr = "";
+                        for (int i = 0; i < awards.length; i++) {
+                            arr += awards[i]+"   ";
+                            if (list.indexOf(awards[i]) != -1) {
+                                islandAwards[index][position] = awards[i];
+                                imgIslandAwards[index][position].setImageResource(getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName()));
+                                islandAwardsImages[index][position] = getActivity().getResources().getIdentifier("ii"+(list.indexOf(awards[i])+1), "drawable", getActivity().getPackageName());
+                                position++;
                             /*storageRef.child("IslandAwards/ii"+(list.indexOf(awards[i])+1)+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -169,8 +174,11 @@ public class HomeFragment extends Fragment {
                                     imgIslandAwards[now_index][now_position].setImageResource(R.drawable.close_eye);
                                 }
                             });*/
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -227,19 +235,23 @@ public class HomeFragment extends Fragment {
         bossReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String name = data.child("name").getValue().toString();
-                    String image = data.child("image").getValue().toString();
-                    String startdate = data.child("startdate").getValue().toString();
-                    String enddate = data.child("enddate").getValue().toString();
-                    int index = 0;
-                    if (data.getKey().equals("firstboss")) index = 0;
-                    else if (data.getKey().equals("secondboss")) index = 1;
-                    else index = 2;
-                    imgBoss[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
-                    txtBoss[index].setText(name);
-                    txtStartBoss[index].setText(startdate);
-                    txtEndBoss[index].setText(enddate);
+                try {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        String name = data.child("name").getValue().toString();
+                        String image = data.child("image").getValue().toString();
+                        String startdate = data.child("startdate").getValue().toString();
+                        String enddate = data.child("enddate").getValue().toString();
+                        int index = 0;
+                        if (data.getKey().equals("firstboss")) index = 0;
+                        else if (data.getKey().equals("secondboss")) index = 1;
+                        else index = 2;
+                        imgBoss[index].setImageResource(getActivity().getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
+                        txtBoss[index].setText(name);
+                        txtStartBoss[index].setText(startdate);
+                        txtEndBoss[index].setText(enddate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -252,63 +264,67 @@ public class HomeFragment extends Fragment {
         dungeonReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> dungeons = Arrays.asList(getActivity().getResources().getStringArray(R.array.dungeon));
-                String date = "";
-                int recycle = 0;
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    if (data.getKey().equals("date")) date = data.getValue().toString();
-                    else recycle = Integer.parseInt(data.getValue().toString());
-                }
-                SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-                Date dt = null;
                 try {
-                    dt = fm.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                Calendar calendar = Calendar.getInstance();
-                if (dt != null) calendar.setTime(dt);
-                DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일");
-                DateFormat input_df = new SimpleDateFormat("yyyy-MM-dd");
+                    List<String> dungeons = Arrays.asList(getActivity().getResources().getStringArray(R.array.dungeon));
+                    String date = "";
+                    int recycle = 0;
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        if (data.getKey().equals("date")) date = data.getValue().toString();
+                        else recycle = Integer.parseInt(data.getValue().toString());
+                    }
+                    SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dt = null;
+                    try {
+                        dt = fm.parse(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    Calendar calendar = Calendar.getInstance();
+                    if (dt != null) calendar.setTime(dt);
+                    DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일");
+                    DateFormat input_df = new SimpleDateFormat("yyyy-MM-dd");
 
-                Date before = calendar.getTime();
-                calendar.add(Calendar.DATE, 14);
-                Date after = calendar.getTime();
-                Date now = new Date();
-
-                int compare = now.compareTo(after);
-                if (compare >= 0) {
-                    if (recycle == 3) recycle = 1;
-                    else recycle++;
-                    Map<String, Object> taskMap = new HashMap<>();
-                    taskMap.put("date", input_df.format(after));
-                    taskMap.put("recycle", recycle);
-                    dungeonReference.updateChildren(taskMap);
-                    txtStartDungeon.setText(df.format(after));
+                    Date before = calendar.getTime();
                     calendar.add(Calendar.DATE, 14);
-                    txtEndDungeon.setText(df.format(calendar.getTime()));
-                } else {
-                    txtStartDungeon.setText(df.format(before));
-                    txtEndDungeon.setText(df.format(after));
-                }
+                    Date after = calendar.getTime();
+                    Date now = new Date();
 
-                switch (recycle) {
-                    case 1:
-                        imgDungeon.setImageResource(R.drawable.dg1);
-                        txtFirstDungeon.setText(dungeons.get(0));
-                        txtSecondDungeon.setText(dungeons.get(1));
-                        break;
-                    case 2:
-                        imgDungeon.setImageResource(R.drawable.dg2);
-                        txtFirstDungeon.setText(dungeons.get(2));
-                        txtSecondDungeon.setText(dungeons.get(3));
-                        break;
-                    case 3:
-                        imgDungeon.setImageResource(R.drawable.dg3);
-                        txtFirstDungeon.setText(dungeons.get(4));
-                        txtSecondDungeon.setText(dungeons.get(5));
-                        break;
+                    int compare = now.compareTo(after);
+                    if (compare >= 0) {
+                        if (recycle == 3) recycle = 1;
+                        else recycle++;
+                        Map<String, Object> taskMap = new HashMap<>();
+                        taskMap.put("date", input_df.format(after));
+                        taskMap.put("recycle", recycle);
+                        dungeonReference.updateChildren(taskMap);
+                        txtStartDungeon.setText(df.format(after));
+                        calendar.add(Calendar.DATE, 14);
+                        txtEndDungeon.setText(df.format(calendar.getTime()));
+                    } else {
+                        txtStartDungeon.setText(df.format(before));
+                        txtEndDungeon.setText(df.format(after));
+                    }
+
+                    switch (recycle) {
+                        case 1:
+                            imgDungeon.setImageResource(R.drawable.dg1);
+                            txtFirstDungeon.setText(dungeons.get(0));
+                            txtSecondDungeon.setText(dungeons.get(1));
+                            break;
+                        case 2:
+                            imgDungeon.setImageResource(R.drawable.dg2);
+                            txtFirstDungeon.setText(dungeons.get(2));
+                            txtSecondDungeon.setText(dungeons.get(3));
+                            break;
+                        case 3:
+                            imgDungeon.setImageResource(R.drawable.dg3);
+                            txtFirstDungeon.setText(dungeons.get(4));
+                            txtSecondDungeon.setText(dungeons.get(5));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -321,18 +337,22 @@ public class HomeFragment extends Fragment {
         updateReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                updates.clear();
-                update_dates.clear();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String date = data.child("date").getValue().toString();
-                    String url = data.child("url").getValue().toString();
-                    updates.add(new Update(date, url));
+                try {
+                    updates.clear();
+                    update_dates.clear();
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        String date = data.child("date").getValue().toString();
+                        String url = data.child("url").getValue().toString();
+                        updates.add(new Update(date, url));
+                    }
+                    Collections.sort(updates);
+                    for (Update update : updates) {
+                        update_dates.add(update.getDate()+" 업데이트 내역");
+                    }
+                    updateAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                Collections.sort(updates);
-                for (Update update : updates) {
-                    update_dates.add(update.getDate()+" 업데이트 내역");
-                }
-                updateAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -344,47 +364,51 @@ public class HomeFragment extends Fragment {
         eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                events.clear();
-                int cnt = (int)snapshot.getChildrenCount();
-                txtEventCount.setText(cnt+"개");
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String startdate = data.child("startdate").getValue().toString();
-                    String enddate = data.child("enddate").getValue().toString();
-                    int number = Integer.parseInt(data.child("number").getValue().toString());
-                    String url = data.child("url").getValue().toString();
-                    events.add(new Event(number, startdate, enddate, url));
-                }
-                Collections.sort(events);
+                try {
+                    events.clear();
+                    int cnt = (int)snapshot.getChildrenCount();
+                    txtEventCount.setText(cnt+"개");
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        String startdate = data.child("startdate").getValue().toString();
+                        String enddate = data.child("enddate").getValue().toString();
+                        int number = Integer.parseInt(data.child("number").getValue().toString());
+                        String url = data.child("url").getValue().toString();
+                        events.add(new Event(number, startdate, enddate, url));
+                    }
+                    Collections.sort(events);
 
-                for (Event event : events) {
-                    storageRef.child("Events/event"+event.getNumber()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            try {
-                                Glide.with(getActivity()).asBitmap().load(uri).into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        event.setBitmap(resource);
-                                        eventAdapter.notifyDataSetChanged();
-                                    }
-                                });
+                    for (Event event : events) {
+                        storageRef.child("Events/event"+event.getNumber()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                try {
+                                    Glide.with(getActivity()).asBitmap().load(uri).into(new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                            event.setBitmap(resource);
+                                            eventAdapter.notifyDataSetChanged();
+                                        }
+                                    });
 
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            event.setBitmap(null);
-                            event.setFail(true);
-                        }
-                    });
-                }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                event.setBitmap(null);
+                                event.setFail(true);
+                            }
+                        });
+                    }
 
-                eventAdapter.notifyDataSetChanged();
+                    eventAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -396,9 +420,13 @@ public class HomeFragment extends Fragment {
         andReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String alarm = data.getValue().toString();
-                    txtAlarm.setText(alarm);
+                try {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        String alarm = data.getValue().toString();
+                        txtAlarm.setText(alarm);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -508,6 +536,7 @@ public class HomeFragment extends Fragment {
         });
 
         listEvent = root.findViewById(R.id.listEvent);
+        indicator = root.findViewById(R.id.indicator);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listEvent.setLayoutManager(layoutManager);
         events = new ArrayList<>();
@@ -515,6 +544,11 @@ public class HomeFragment extends Fragment {
         listEvent.setAdapter(eventAdapter);
         EventDecoration decoration = new EventDecoration();
         listEvent.addItemDecoration(decoration);
+
+        PagerSnapHelper helper = new PagerSnapHelper();
+        helper.attachToRecyclerView(listEvent);
+        indicator.attachToRecyclerView(listEvent, helper);
+        eventAdapter.registerAdapterDataObserver(indicator.getAdapterDataObserver());
 
         txtAlarm = root.findViewById(R.id.txtAlarm);
 

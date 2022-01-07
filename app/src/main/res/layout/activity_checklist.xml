@@ -85,6 +85,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/pagerChracter"/>
+        <me.relex.circleindicator.CircleIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_gravity="center|top"
+            app:ci_height="5dp"
+            app:ci_width="5dp"
+            app:ci_drawable="@drawable/indicator_select_shape"
+            app:ci_drawable_unselected="@drawable/indicator_shape"
+            android:id="@+id/indicatorChracter"/>
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"

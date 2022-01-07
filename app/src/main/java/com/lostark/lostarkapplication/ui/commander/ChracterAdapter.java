@@ -38,8 +38,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class ChracterAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Chracter> chracters;
@@ -53,7 +51,6 @@ public class ChracterAdapter extends BaseAdapter {
     private CustomToast customToast;
 
     private DisplayMetrics displayMetrics;
-    //private int dpi;
     private float density;
 
     public ChracterAdapter(Context context, ArrayList<Chracter> chracters, Activity activity, CommanderFragment fragment) {
@@ -96,7 +93,6 @@ public class ChracterAdapter extends BaseAdapter {
         ImageButton imgbtnNotication = convertView.findViewById(R.id.imgbtnNotication);
         ImageButton imgbtnDelete = convertView.findViewById(R.id.imgbtnDelete);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
-        //CircleImageView imgJob = convertView.findViewById(R.id.imgJob);
         ImageView imgJob = convertView.findViewById(R.id.imgJob);
         TextView txtServer = convertView.findViewById(R.id.txtServer);
         ImageButton imgbtnFavorite = convertView.findViewById(R.id.imgbtnFavorite);
@@ -377,14 +373,13 @@ public class ChracterAdapter extends BaseAdapter {
                 ImageButton btnNameCopy = view.findViewById(R.id.btnNameCopy);
                 ImageButton btnLevelCopy = view.findViewById(R.id.btnLevelCopy);
                 TextView txtWarning = view.findViewById(R.id.txtWarning);
+                LinearLayout layoutOther = view.findViewById(R.id.layoutOther);
 
                 SharedPreferences pref = activity.getSharedPreferences("setting_file", MODE_PRIVATE);
                 if (pref.getBoolean("auto_level", true)) {
-                    edtLevel.setHint("자동 설정");
-                    edtLevel.setHintTextColor(Color.parseColor("#FF9999"));
-                    edtLevel.setEnabled(false);
                     txtWarning.setVisibility(View.VISIBLE);
-                    btnLevelCopy.setEnabled(false);
+                    layoutOther.setVisibility(View.GONE);
+                    btnNameCopy.setVisibility(View.GONE);
                 }
 
                 jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));

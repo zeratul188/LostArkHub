@@ -30,7 +30,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
             <EditText
                 android:layout_width="0dp"
@@ -53,71 +52,78 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="캐릭터 템 레벨"
-            android:textSize="14sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/customeditstyle"
-                android:padding="10dp"
-                android:id="@+id/edtLevel"
-                android:hint="캐릭터 레벨"
-                android:textSize="18sp"
-                android:maxLength="4"
-                android:textColor="#ffffff"
-                android:textColorHint="#777777"
-                android:inputType="numberDecimal"/>
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/yesbuttonstyle"
-                android:src="@drawable/ic_content_copy_black_24dp"
-                android:id="@+id/btnLevelCopy"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/txtWarning"
             android:text="로스트아크 홈페이지가 점검중엔 자동 설정이 작동하지 않습니다."
             android:textColor="#FF8888"
             android:visibility="gone"
             android:textSize="12sp"
             android:layout_marginTop="5dp"/>
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="캐릭터 서버"
+            android:id="@+id/layoutOther"
             android:layout_marginTop="20dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="#00000000"
-            android:id="@+id/sprServer"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="클래스 (직업)"
-            android:textSize="14sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#aaaaaa"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="#00000000"
-            android:id="@+id/sprJob"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캐릭터 템 레벨"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/customeditstyle"
+                    android:padding="10dp"
+                    android:id="@+id/edtLevel"
+                    android:hint="캐릭터 레벨"
+                    android:textSize="18sp"
+                    android:maxLength="4"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#777777"
+                    android:inputType="numberDecimal"/>
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/yesbuttonstyle"
+                    android:src="@drawable/ic_content_copy_black_24dp"
+                    android:id="@+id/btnLevelCopy"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캐릭터 서버"
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="#00000000"
+                android:id="@+id/sprServer"
+                android:layout_marginBottom="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="클래스 (직업)"
+                android:textSize="14sp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#aaaaaa"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="#00000000"
+                android:id="@+id/sprJob"/>
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:layout_width="match_parent"
