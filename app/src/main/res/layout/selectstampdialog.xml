@@ -174,7 +174,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/st86"
+                        android:src="@drawable/st88"
                         android:id="@+id/imgSelectDeburf"/>
                 </FrameLayout>
                 <TextView

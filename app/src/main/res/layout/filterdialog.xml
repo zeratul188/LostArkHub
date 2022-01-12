@@ -362,6 +362,27 @@
                         android:paddingLeft="5dp"
                         android:textColor="#ffffff"/>
                 </TableRow>
+                <TableRow
+                    android:layout_marginBottom="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="스페셜리스트"
+                        android:textSize="18sp"
+                        android:textColor="#ffffff"
+                        android:paddingLeft="5dp"/>
+                </TableRow>
+                <TableRow
+                    android:layout_marginBottom="20dp">
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#6794BA"
+                        android:id="@+id/chkClass22"
+                        android:text="도화가"
+                        android:textSize="18sp"
+                        android:paddingLeft="5dp"
+                        android:textColor="#ffffff"/>
+                </TableRow>
             </TableLayout>
         </ScrollView>
     </LinearLayout>

@@ -2,7 +2,7 @@ package com.lostark.lostarkapplication.ui.stamp.objects;
 
 public class StampChecklist {
     private boolean isIncrease, isDecrease;
-    private boolean[] isClasses = new boolean[21];
+    private boolean[] isClasses = new boolean[22];
 
     public StampChecklist() {
         isIncrease = false;

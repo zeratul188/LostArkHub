@@ -400,7 +400,7 @@ public class GalleryFragment extends Fragment {
                         Button btnCancel = view.findViewById(R.id.btnCancel);
 
                         ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 0; i < 85; i++) {
+                        for (int i = 0; i < 87; i++) {
                             String[] arr = stampDBAdapter.readData(i);
                             Stamp stamp = new Stamp(arr[0], arr[1]);
                             if (!stamp.getName().equals(txtSelectBurf2.getText().toString())) stamps.add(stamp);
@@ -449,7 +449,7 @@ public class GalleryFragment extends Fragment {
                         Button btnCancel = view.findViewById(R.id.btnCancel);
 
                         ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 0; i < 85; i++) {
+                        for (int i = 0; i < 87; i++) {
                             String[] arr = stampDBAdapter.readData(i);
                             Stamp stamp = new Stamp(arr[0], arr[1]);
                             if (!stamp.getName().equals(txtSelectBurf1.getText().toString())) stamps.add(stamp);
@@ -507,7 +507,7 @@ public class GalleryFragment extends Fragment {
                         Button btnCancel = view.findViewById(R.id.btnCancel);
 
                         ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 85; i < 89; i++) {
+                        for (int i = 87; i < 91; i++) {
                             String[] arr = stampDBAdapter.readData(i);
                             Stamp stamp = new Stamp(arr[0], arr[1]);
                             stamps.add(stamp);

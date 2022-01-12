@@ -28,7 +28,7 @@ import com.lostark.lostarkapplication.ui.stamp.objects.StampList;
 import java.util.ArrayList;
 
 public class StampFragment extends Fragment {
-    private static final int CLASS_LENGTH = 21;
+    private static final int CLASS_LENGTH = 22;
 
     private ImageButton imgbtnFilter, imgbtnSearch;
     private ClearEditText edtSearch;

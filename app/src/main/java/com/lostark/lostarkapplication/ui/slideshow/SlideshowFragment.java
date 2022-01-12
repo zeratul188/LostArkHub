@@ -187,15 +187,15 @@ public class SlideshowFragment extends Fragment {
 
         stampDBAdapter = new StampDBAdapter(getActivity());
         stamps = new ArrayList<>();
-        for (int i = 0; i < 89; i++) {
+        for (int i = 0; i < 91; i++) {
             stamps.add(new Stamp(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1]));
         }
         ArrayList<String> burfs = new ArrayList<>();
         ArrayList<String> deburfs = new ArrayList<>();
         burfs.add("없음");
         deburfs.add("없음");
-        for (int i = 0; i < 85; i++) burfs.add(stampDBAdapter.readData(i)[0]);
-        for (int i = 85; i < 89; i++) deburfs.add(stampDBAdapter.readData(i)[0]);
+        for (int i = 0; i < 87; i++) burfs.add(stampDBAdapter.readData(i)[0]);
+        for (int i = 87; i < 91; i++) deburfs.add(stampDBAdapter.readData(i)[0]);
         ArrayAdapter<String> burf_adapter = new ArrayAdapter<String>(getActivity(), R.layout.stampitem, burfs);
         ArrayAdapter<String> deburf_adapter = new ArrayAdapter<String>(getActivity(), R.layout.stampitem, deburfs);
         burf_adapter.setDropDownViewResource(R.layout.stampitem);
@@ -308,7 +308,7 @@ public class SlideshowFragment extends Fragment {
                 Button btnReset = view.findViewById(R.id.btnReset);
 
                 ArrayList<StampSetting> settings = new ArrayList<>();
-                for (int i = 0; i < 85; i++) settings.add(new StampSetting(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1], false));
+                for (int i = 0; i < 87; i++) settings.add(new StampSetting(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1], false));
                 for (int i = 0; i < settings.size(); i++) {
                     for (int j = 0; j < apply_stamps.size(); j++) {
                         if (apply_stamps.get(j).getName().equals(settings.get(i).getName())) {
