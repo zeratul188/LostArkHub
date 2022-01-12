@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -125,6 +126,9 @@ public class SkillAdapter extends BaseAdapter {
         TextView txtRune = convertView.findViewById(R.id.txtRune);
         ImageView imgRune = convertView.findViewById(R.id.imgRune);
         ImageView imgRuneBackground = convertView.findViewById(R.id.imgRuneBackground);
+        ImageView imgStrike = convertView.findViewById(R.id.imgStrike);
+        ImageView imgDestroy = convertView.findViewById(R.id.imgDestroy);
+        ImageView imgCounter = convertView.findViewById(R.id.imgCounter);
         for (int i = 0; i < imgTripods.length; i++) imgTripods[i] = convertView.findViewById(context.getResources().getIdentifier("imgTripod"+(i+1), "id", context.getPackageName()));
 
         if (bitmaps != null) imgSkill.setImageBitmap(bitmaps[position]);
@@ -139,6 +143,13 @@ public class SkillAdapter extends BaseAdapter {
         else if (skills.get(position).getLevel() == 9) need_point = 12;
         else if (getBetween(skills.get(position).getLevel(), 10, 12)) need_point = 6;
         else need_point = 9999;
+
+        if (!skills.get(position).getStrike().equals("-")) imgStrike.setVisibility(View.VISIBLE);
+        else imgStrike.setVisibility(View.GONE);
+        if (!skills.get(position).getDestroy_level().equals("-")) imgDestroy.setVisibility(View.VISIBLE);
+        else imgDestroy.setVisibility(View.GONE);
+        if (skills.get(position).getAttack_type().indexOf("카운터") != -1) imgCounter.setVisibility(View.VISIBLE);
+        else imgCounter.setVisibility(View.GONE);
 
         if (need_point == 9999 || (skills.get(position).getMax_level() == 10 && skills.get(position).getLevel() == 10)) txtNeedSkillPoint.setText("MAX");
         else txtNeedSkillPoint.setText(Integer.toString(need_point));

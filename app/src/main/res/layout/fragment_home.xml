@@ -434,7 +434,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
-                android:textColor="#aaaaaa"/>
+                android:textColor="#ffffff"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -558,7 +558,7 @@
                         android:id="@+id/txtStartBoss1"
                         android:text="-"
                         android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
+                        android:textColor="#ffffff"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -569,14 +569,14 @@
                             android:layout_height="wrap_content"
                             android:text="~ "
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtEndBoss1"
                             android:text="-"
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -592,7 +592,7 @@
                         android:id="@+id/txtStartBoss2"
                         android:text="-"
                         android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
+                        android:textColor="#ffffff"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -603,14 +603,14 @@
                             android:layout_height="wrap_content"
                             android:text="~ "
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtEndBoss2"
                             android:text="-"
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -626,7 +626,7 @@
                         android:id="@+id/txtStartBoss3"
                         android:text="-"
                         android:textSize="14sp"
-                        android:textColor="#AAAAAA"/>
+                        android:textColor="#ffffff"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -637,14 +637,14 @@
                             android:layout_height="wrap_content"
                             android:text="~ "
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtEndBoss3"
                             android:text="-"
                             android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textColor="#ffffff"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -713,14 +713,14 @@
                     android:text="-"
                     android:textSize="16sp"
                     android:gravity="right"
-                    android:textColor="#AAAAAA"/>
+                    android:textColor="#ffffff"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" ~ "
                     android:textSize="16sp"
                     android:gravity="right"
-                    android:textColor="#AAAAAA"/>
+                    android:textColor="#ffffff"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -728,7 +728,7 @@
                     android:id="@+id/txtEndDungeon"
                     android:text="-"
                     android:textSize="16sp"
-                    android:textColor="#AAAAAA"/>
+                    android:textColor="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
         <TextView

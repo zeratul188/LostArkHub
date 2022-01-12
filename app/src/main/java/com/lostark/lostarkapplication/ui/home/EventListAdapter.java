@@ -23,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.lostark.lostarkapplication.WebActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private ArrayList<Event> events;
@@ -52,6 +53,21 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         String date = events.get(position).getStartdate()+" ~ "+events.get(position).getEnddate();
         holder.txtDate.setText(date);
         holder.setClickAction(position);
+        Calendar now = Calendar.getInstance();
+        Calendar end_cal = Calendar.getInstance();
+
+        end_cal.set(Calendar.YEAR, events.get(position).getYear());
+        end_cal.set(Calendar.MONTH, events.get(position).getMonth());
+        end_cal.set(Calendar.DAY_OF_MONTH, events.get(position).getDay());
+        end_cal.set(Calendar.HOUR_OF_DAY, 6);
+        end_cal.set(Calendar.MINUTE, 0);
+        end_cal.set(Calendar.SECOND, 0);
+
+        if (now.getTime().getTime() > end_cal.getTime().getTime()) {
+            holder.txtEnd.setVisibility(View.VISIBLE);
+        } else {
+            holder.txtEnd.setVisibility(View.GONE);
+        }
 
         if (events.get(position).isFail()) holder.imgEvent.setImageResource(R.drawable.noemptyboss);
         else if (events.get(position).getBitmap() == null) holder.imgEvent.setImageResource(R.drawable.emptyboss);
@@ -85,7 +101,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtDate;
+        public TextView txtDate, txtEnd;
         public ImageView imgEvent;
         public int position = 9999;
 
@@ -94,6 +110,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
             txtDate = itemVIew.findViewById(R.id.txtDate);
             imgEvent = itemVIew.findViewById(R.id.imgEvent);
+            txtEnd = itemVIew.findViewById(R.id.txtEnd);
 
             //GradientDrawable round_drawable = (GradientDrawable) context.getDrawable(R.drawable.roundimage);
             //imgEvent.setClipToOutline(true);

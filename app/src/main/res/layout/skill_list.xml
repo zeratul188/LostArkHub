@@ -23,15 +23,45 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/imagetool" />
         </FrameLayout>
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSkillName"
-            android:layout_gravity="center|left"
-            android:text="Skill Name"
-            android:textSize="18sp"
-            android:textColor="#ffffff"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSkillName"
+                android:layout_gravity="center|left"
+                android:text="Skill Name"
+                android:textSize="18sp"
+                android:textColor="#ffffff"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imgStrike"
+                    android:src="@drawable/strike_icon"
+                    android:layout_marginRight="5dp"/>
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imgDestroy"
+                    android:src="@drawable/destroy_icon"
+                    android:layout_marginRight="5dp"/>
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imgCounter"
+                    android:src="@drawable/counter_icon"/>
+            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
