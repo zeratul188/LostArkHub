@@ -56,9 +56,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         Calendar now = Calendar.getInstance();
         Calendar end_cal = Calendar.getInstance();
 
-        end_cal.set(Calendar.YEAR, events.get(position).getYear());
-        end_cal.set(Calendar.MONTH, events.get(position).getMonth());
-        end_cal.set(Calendar.DAY_OF_MONTH, events.get(position).getDay());
+        end_cal.set(Calendar.YEAR, events.get(position).getEnd_year());
+        end_cal.set(Calendar.MONTH, events.get(position).getEnd_month()-1);
+        end_cal.set(Calendar.DAY_OF_MONTH, events.get(position).getEnd_day());
         end_cal.set(Calendar.HOUR_OF_DAY, 6);
         end_cal.set(Calendar.MINUTE, 0);
         end_cal.set(Calendar.SECOND, 0);
