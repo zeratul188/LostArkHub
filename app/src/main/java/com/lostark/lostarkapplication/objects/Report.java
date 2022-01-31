@@ -2,10 +2,10 @@ package com.lostark.lostarkapplication.objects;
 
 public class Report {
     private long number;
-    private String date, version, device, os, content;
-    private boolean isRead;
+    private String date, version, device, os, content, id;
+    private boolean isRead, isAnswer;
 
-    public Report(long number, String date, String version, String device, String os, String content, boolean isRead) {
+    public Report(long number, String date, String version, String device, String os, String content, boolean isRead, String id, boolean isAnswer) {
         this.number = number;
         this.date = date;
         this.version = version;
@@ -13,6 +13,24 @@ public class Report {
         this.os = os;
         this.content = content;
         this.isRead = isRead;
+        this.id = id;
+        this.isAnswer = isAnswer;
+    }
+
+    public boolean isAnswer() {
+        return isAnswer;
+    }
+
+    public void setAnswer(boolean answer) {
+        isAnswer = answer;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean isRead() {

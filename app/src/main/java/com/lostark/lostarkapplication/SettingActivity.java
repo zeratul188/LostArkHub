@@ -276,7 +276,7 @@ public class SettingActivity extends AppCompatActivity {
                         String content = edtReport.getText().toString();
 
                         try {
-                            reportRef.child("report"+number).setValue(new Report(number, date, version, device, os, content, false));
+                            reportRef.child("report"+number).setValue(new Report(number, date, version, device, os, content, false, pref.getString("app_id", "null"), false));
                             customToast.createToast("메시지를 보내는데 성공하였습니다.", Toast.LENGTH_SHORT);
                             customToast.show();
                             editor.putInt("report_count", pref.getInt("report_count", 0)+1);

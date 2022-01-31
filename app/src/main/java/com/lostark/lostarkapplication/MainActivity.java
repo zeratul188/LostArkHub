@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference mReference, reportReference;
 
     private AlertDialog alertDialog = null;
 
@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
         customToast = new CustomToast(getApplicationContext());
         historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
         homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
+
+        reportReference = mDatabase.getReference("report");
 
         historyCountDBAdapter.open();
         int count = historyCountDBAdapter.getQueryCount("접속");
@@ -441,6 +443,60 @@ public class MainActivity extends AppCompatActivity {
 
             startAlarm(now_cal);
         }
+
+
+        reportReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (pref.getString("app_id", "null").equals("null")) return;
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String content = "", id = "null";
+                    boolean isAnswer = false;
+                    for (DataSnapshot dinoData : data.getChildren()) {
+                        switch (dinoData.getKey()) {
+                            case "request":
+                                content = dinoData.getValue().toString();
+                                break;
+                            case "id":
+                                id = dinoData.getValue().toString();
+                                break;
+                            case "isAnswer":
+                                isAnswer = Boolean.parseBoolean(dinoData.getValue().toString());
+                                break;
+                        }
+                    }
+                    if (id.equals(pref.getString("app_id", "null")) && isAnswer) {
+                        View view = getLayoutInflater().inflate(R.layout.answer_dialog, null);
+
+                        TextView txtContent = view.findViewById(R.id.txtContent);
+                        Button btnOK = view.findViewById(R.id.btnOK);
+
+                        txtContent.setText(content);
+
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setView(view);
+
+                        alertDialog = builder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog.show();
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void bundleCroring(String chracter, String id, String name, int index) throws IOException {
