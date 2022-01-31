@@ -291,6 +291,29 @@ public class MainActivity extends AppCompatActivity {
             navigationView.setBackgroundResource(R.drawable.jbb_none);
         }
         chracterListDBAdapter.close();
+
+        //editor.remove("app_id");
+        if (pref.getString("app_id", "null").equals("null")) {
+            String id = "";
+            for (int i = 0; i < 4; i++) {
+                String value = Integer.toString((int)(Math.random()*1234567)%10000);
+                if (value.length() != 4) {
+                    int repeat = 4 - value.length();
+                    String temp = "";
+                    for (int j = 0; j < repeat; j++) {
+                        temp += "0";
+                    }
+                    temp += value;
+                    value = temp;
+                }
+                id += value;
+                if (i != 3) id += "-";
+            }
+            editor.putString("app_id", id);
+            editor.commit();
+            customToast.createToast("새로운 아이디가 생성되었습니다.", Toast.LENGTH_SHORT);
+            customToast.show();
+        }
     }
 
     @Override

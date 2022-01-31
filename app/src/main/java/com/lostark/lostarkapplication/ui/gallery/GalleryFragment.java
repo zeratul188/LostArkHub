@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -47,6 +48,7 @@ public class GalleryFragment extends Fragment {
     private ImageView[] imgSecond = new ImageView[10];
     private ImageView[] imgThird = new ImageView[10];
     private LinearLayout layoutHistory;
+    private CheckBox chkKeep;
 
     private StampDBAdapter stampDBAdapter;
     private StoneDBAdapter stoneDBAdapter;
@@ -102,6 +104,7 @@ public class GalleryFragment extends Fragment {
         btnConfirm = root.findViewById(R.id.btnConfirm);
         btnReset = root.findViewById(R.id.btnReset);
         listView = root.findViewById(R.id.listView);
+        chkKeep = root.findViewById(R.id.chkKeep);
         layoutHistory = root.findViewById(R.id.layoutHistory);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
@@ -688,30 +691,44 @@ public class GalleryFragment extends Fragment {
     }
 
     private void reset() {
-        imgStone.setImageResource(R.drawable.none_stone);
-        txtTitle.setText("스톤을 선택하세요");
-        txtGrade.setText("");
-        imgBurf1.setImageResource(R.drawable.none_stamp);
-        imgBurf2.setImageResource(R.drawable.none_stamp);
-        imgDeburf.setImageResource(R.drawable.none_stamp);
-        for (int i = 0; i < 10; i++) {
-            imgFirst[i].setVisibility(View.INVISIBLE);
-            imgFirst[i].setImageResource(R.drawable.none);
-            imgSecond[i].setVisibility(View.INVISIBLE);
-            imgSecond[i].setImageResource(R.drawable.none);
-            imgThird[i].setVisibility(View.INVISIBLE);
-            imgThird[i].setImageResource(R.drawable.deburf_none);
+        if (!chkKeep.isChecked()) {
+            imgStone.setImageResource(R.drawable.none_stone);
+            txtTitle.setText("스톤을 선택하세요");
+            txtGrade.setText("");
+            imgBurf1.setImageResource(R.drawable.none_stamp);
+            imgBurf2.setImageResource(R.drawable.none_stamp);
+            imgDeburf.setImageResource(R.drawable.none_stamp);
+            txtBurf1.setText("-");
+            txtBurf2.setText("-");
+            txtDeburf.setText("-");
+
+            btnConfirm.setEnabled(false);
+            btnReset.setEnabled(false);
+            btnChange.setEnabled(true);
+
+            for (int i = 0; i < 10; i++) {
+                imgFirst[i].setVisibility(View.INVISIBLE);
+                imgFirst[i].setImageResource(R.drawable.none);
+                imgSecond[i].setVisibility(View.INVISIBLE);
+                imgSecond[i].setImageResource(R.drawable.none);
+                imgThird[i].setVisibility(View.INVISIBLE);
+                imgThird[i].setImageResource(R.drawable.deburf_none);
+            }
+        } else {
+            btnBurf1.setEnabled(true);
+            btnBurf2.setEnabled(true);
+            btnDeburf.setEnabled(true);
+
+            for (int i = 0; i < 10; i++) {
+                imgFirst[i].setImageResource(R.drawable.none);
+                imgSecond[i].setImageResource(R.drawable.none);
+                imgThird[i].setImageResource(R.drawable.deburf_none);
+            }
         }
-        txtBurf1.setText("-");
-        txtBurf2.setText("-");
-        txtDeburf.setText("-");
-        btnConfirm.setEnabled(false);
-        btnReset.setEnabled(false);
         txtPercent.setText("75");
         txtCount1.setText("0");
         txtCount2.setText("0");
         txtCount3.setText("0");
-        btnChange.setEnabled(true);
 
         burf1 = 0;
         burf2 = 0;

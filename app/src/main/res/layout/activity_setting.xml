@@ -491,6 +491,19 @@
                 android:id="@+id/btnResetDate"
                 android:gravity="left"
                 android:textColor="#ffffff"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_id_reset_24"
+                android:drawablePadding="20dp"
+                android:background="@drawable/settingbuttonstyle"
+                android:padding="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="앱 ID 변경"
+                android:textSize="18sp"
+                android:id="@+id/btnResetID"
+                android:gravity="left"
+                android:textColor="#ffffff"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -505,6 +518,14 @@
                 android:text="다음 초기화 날짜 : 0년 0월 0일 오전 6시"
                 android:padding="15dp"
                 android:id="@+id/txtResetDate"
+                android:textColor="#ffffff"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="앱 ID : 아이디 없음"
+                android:padding="15dp"
+                android:id="@+id/txtID"
                 android:textColor="#ffffff"
                 android:textSize="16sp"/>
         </LinearLayout>
