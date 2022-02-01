@@ -62,7 +62,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -451,7 +453,8 @@ public class MainActivity extends AppCompatActivity {
                 if (pref.getString("app_id", "null").equals("null")) return;
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String content = "", id = "null";
-                    boolean isAnswer = false;
+                    long number = -1;
+                    boolean isAnswer = false, isCheck = false;
                     for (DataSnapshot dinoData : data.getChildren()) {
                         switch (dinoData.getKey()) {
                             case "request":
@@ -460,12 +463,18 @@ public class MainActivity extends AppCompatActivity {
                             case "id":
                                 id = dinoData.getValue().toString();
                                 break;
-                            case "isAnswer":
-                                isAnswer = Boolean.parseBoolean(dinoData.getValue().toString());
+                            case "answer":
+                                isAnswer = (boolean) dinoData.getValue();
+                                break;
+                            case "check":
+                                isCheck = (boolean) dinoData.getValue();
+                                break;
+                            case "number":
+                                number = Long.parseLong(dinoData.getValue().toString());
                                 break;
                         }
                     }
-                    if (id.equals(pref.getString("app_id", "null")) && isAnswer) {
+                    if (id.equals(pref.getString("app_id", "null")) && isAnswer && !isCheck) {
                         View view = getLayoutInflater().inflate(R.layout.answer_dialog, null);
 
                         TextView txtContent = view.findViewById(R.id.txtContent);
@@ -473,9 +482,13 @@ public class MainActivity extends AppCompatActivity {
 
                         txtContent.setText(content);
 
+                        final long final_number = number;
                         btnOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Map<String, Object> taskMaps = new HashMap<>();
+                                taskMaps.put("report"+final_number+"/check", true);
+                                reportReference.updateChildren(taskMaps);
                                 alertDialog.dismiss();
                             }
                         });
