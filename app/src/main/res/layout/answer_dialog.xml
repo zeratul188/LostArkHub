@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#2a2c35">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="건의사항 답변"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@drawable/dialogtitlestyle"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#3581DF"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[Dialog Content]"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:padding="15dp"
+        android:id="@+id/txtContent"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnOK"
+        android:background="@drawable/yesbuttonstyle"
+        android:text="확인"
+        android:padding="15dp"
+        android:textSize="18sp"
+        android:textColor="#ffffff"/>
+</LinearLayout>

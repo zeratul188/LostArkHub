@@ -67,10 +67,10 @@ import java.util.Date;
 public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
-    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnReview;
+    private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnReview, btnResetID;
     private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
     private Spinner sprAlarm, sprLimitStack;
-    private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue;
+    private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue, txtID;
     private ClearEditText edtReport;
 
     private NeckDBAdapter neckDBAdapter;
@@ -129,6 +129,8 @@ public class SettingActivity extends AppCompatActivity {
         btnDeleteStack = findViewById(R.id.btnDeleteStack);
         sprLimitStack = findViewById(R.id.sprLimitStack);
         btnReview = findViewById(R.id.btnReview);
+        txtID = findViewById(R.id.txtID);
+        btnResetID = findViewById(R.id.btnResetID);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -152,6 +154,68 @@ public class SettingActivity extends AppCompatActivity {
         editor = pref.edit();
         chkStoneHistory.setChecked(pref.getBoolean("stone_history", false));
         chkStampListOpen.setChecked(pref.getBoolean("stamp_open", false));
+
+        if (!pref.getString("app_id", "null").equals("null")) {
+            String content = "앱 ID : "+pref.getString("app_id", "null");
+            txtID.setText(content);
+        }
+
+        btnResetID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                TextView txtContent = view.findViewById(R.id.txtContent);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                Button btnOK = view.findViewById(R.id.btnOK);
+
+                txtContent.setText("앱 아이디를 변경하시겠습니까?\n아이디가 변경되던 이전 아이디의 건의사항 답변이나 기타 내용을 확인이 불가능해집니다.");
+                btnOK.setText("변경");
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String id = "";
+                        for (int i = 0; i < 4; i++) {
+                            String value = Integer.toString((int)(Math.random()*1234567)%10000);
+                            if (value.length() != 4) {
+                                int repeat = 4 - value.length();
+                                String temp = "";
+                                for (int j = 0; j < repeat; j++) {
+                                    temp += "0";
+                                }
+                                temp += value;
+                                value = temp;
+                            }
+                            id += value;
+                            if (i != 3) id += "-";
+                        }
+                        editor.putString("app_id", id);
+                        editor.commit();
+                        customToast.createToast("아이디가 변경되었습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        String content = "앱 ID : "+pref.getString("app_id", "null");
+                        txtID.setText(content);
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference();
@@ -212,7 +276,7 @@ public class SettingActivity extends AppCompatActivity {
                         String content = edtReport.getText().toString();
 
                         try {
-                            reportRef.child("report"+number).setValue(new Report(number, date, version, device, os, content, false));
+                            reportRef.child("report"+number).setValue(new Report(number, date, version, device, os, content, false, pref.getString("app_id", "null"), false));
                             customToast.createToast("메시지를 보내는데 성공하였습니다.", Toast.LENGTH_SHORT);
                             customToast.show();
                             editor.putInt("report_count", pref.getInt("report_count", 0)+1);

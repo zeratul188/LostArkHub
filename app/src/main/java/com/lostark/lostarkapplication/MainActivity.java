@@ -62,14 +62,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference mReference, reportReference;
 
     private AlertDialog alertDialog = null;
 
@@ -161,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
         customToast = new CustomToast(getApplicationContext());
         historyDBAdapter = new HistoryDBAdapter(getApplicationContext());
         homeworkStatueDBAdapter = new HomeworkStatueDBAdapter(getApplicationContext());
+
+        reportReference = mDatabase.getReference("report");
 
         historyCountDBAdapter.open();
         int count = historyCountDBAdapter.getQueryCount("접속");
@@ -291,6 +295,29 @@ public class MainActivity extends AppCompatActivity {
             navigationView.setBackgroundResource(R.drawable.jbb_none);
         }
         chracterListDBAdapter.close();
+
+        //editor.remove("app_id");
+        if (pref.getString("app_id", "null").equals("null")) {
+            String id = "";
+            for (int i = 0; i < 4; i++) {
+                String value = Integer.toString((int)(Math.random()*1234567)%10000);
+                if (value.length() != 4) {
+                    int repeat = 4 - value.length();
+                    String temp = "";
+                    for (int j = 0; j < repeat; j++) {
+                        temp += "0";
+                    }
+                    temp += value;
+                    value = temp;
+                }
+                id += value;
+                if (i != 3) id += "-";
+            }
+            editor.putString("app_id", id);
+            editor.commit();
+            customToast.createToast("새로운 아이디가 생성되었습니다.", Toast.LENGTH_SHORT);
+            customToast.show();
+        }
     }
 
     @Override
@@ -418,6 +445,71 @@ public class MainActivity extends AppCompatActivity {
 
             startAlarm(now_cal);
         }
+
+
+        reportReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (pref.getString("app_id", "null").equals("null")) return;
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String content = "", id = "null";
+                    long number = -1;
+                    boolean isAnswer = false, isCheck = false;
+                    for (DataSnapshot dinoData : data.getChildren()) {
+                        switch (dinoData.getKey()) {
+                            case "request":
+                                content = dinoData.getValue().toString();
+                                break;
+                            case "id":
+                                id = dinoData.getValue().toString();
+                                break;
+                            case "answer":
+                                isAnswer = (boolean) dinoData.getValue();
+                                break;
+                            case "check":
+                                isCheck = (boolean) dinoData.getValue();
+                                break;
+                            case "number":
+                                number = Long.parseLong(dinoData.getValue().toString());
+                                break;
+                        }
+                    }
+                    if (id.equals(pref.getString("app_id", "null")) && isAnswer && !isCheck) {
+                        View view = getLayoutInflater().inflate(R.layout.answer_dialog, null);
+
+                        TextView txtContent = view.findViewById(R.id.txtContent);
+                        Button btnOK = view.findViewById(R.id.btnOK);
+
+                        txtContent.setText(content);
+
+                        final long final_number = number;
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Map<String, Object> taskMaps = new HashMap<>();
+                                taskMaps.put("report"+final_number+"/check", true);
+                                reportReference.updateChildren(taskMaps);
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setView(view);
+
+                        alertDialog = builder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog.show();
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void bundleCroring(String chracter, String id, String name, int index) throws IOException {

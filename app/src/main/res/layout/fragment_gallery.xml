@@ -640,6 +640,22 @@
             android:enabled="false"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="#FE6E0E"
+        android:id="@+id/chkKeep"
+        android:text="각인, 스톤 정보 유지"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textColor="#ffffff"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="다른 스톤으로 변경하고 싶을 경우 위 체크를 해제하고 &#34;포기&#34; 또는 &#34;결정&#34;을 누르십시오."
+        android:textColor="#FF8888"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
