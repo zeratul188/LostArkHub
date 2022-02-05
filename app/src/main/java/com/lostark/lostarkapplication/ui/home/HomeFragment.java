@@ -10,13 +10,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ImageDecoder;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,7 +44,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.lostark.lostarkapplication.AlertReceiver;
 import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.IslandAwardToast;
 import com.lostark.lostarkapplication.R;
@@ -58,6 +54,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lostark.lostarkapplication.WebActivity;
 import com.lostark.lostarkapplication.database.ChracterDBAdapter;
+import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
+import com.lostark.lostarkapplication.ui.home.objects.Event;
+import com.lostark.lostarkapplication.ui.home.objects.Homework;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -106,10 +105,13 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> update_dates;
     private ArrayAdapter updateAdapter;
 
-    private RecyclerView listEvent;
+    private LinearLayout layoutHomework;
+    private RecyclerView listEvent, listHomework;
     private EventListAdapter eventAdapter;
     private ArrayList<Event> events;
-    private CircleIndicator2 indicator;
+    private CircleIndicator2 indicator, indicatorHomework;
+    private ArrayList<Homework> homeworks;
+    private HomeworkListAdapter homeworkAdapter;
 
     private TextView txtAlarm;
 
@@ -119,8 +121,10 @@ public class HomeFragment extends Fragment {
     private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
 
     private CustomToast customToast;
-    private SharedPreferences pref;
+    private SharedPreferences pref, settingPref;
     private SharedPreferences.Editor editor;
+
+    private ChracterListDBAdapter chracterListDBAdapter;
 
     @Override
     public void onResume() {
@@ -417,6 +421,53 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        if (settingPref.getBoolean("show_homework", true)) {
+            layoutHomework.setVisibility(View.VISIBLE);
+        } else {
+            layoutHomework.setVisibility(View.GONE);
+        }
+        homeworks.clear();
+        chracterListDBAdapter.open();
+        Cursor cursor = chracterListDBAdapter.fetchAllData();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(1);
+            int dungeon = 0, boss = 0, quest = 0, now_value = 0, max_value = 0;
+            ChracterDBAdapter chracterDBAdapter = new ChracterDBAdapter(getActivity(), "CHRACTER"+chracterListDBAdapter.getRowID(name));
+            chracterDBAdapter.open();
+            Cursor cursor2 = chracterDBAdapter.fetchAllData();
+            cursor2.moveToFirst();
+            while (!cursor2.isAfterLast()) {
+                if (cursor2.getString(2).equals("일일")) {
+                    switch (cursor2.getString(1)) {
+                        case "카오스 던전":
+                            dungeon = cursor2.getInt(3);
+                            break;
+                        case "가디언 토벌":
+                            boss = cursor2.getInt(3);
+                            break;
+                        case "에포나 일일 의뢰":
+                            quest = cursor2.getInt(3);
+                            break;
+                    }
+                    if (Boolean.parseBoolean(cursor2.getString(5))) {
+                        now_value += cursor2.getInt(3);
+                        max_value += cursor2.getInt(4);
+                    }
+                }
+                cursor2.moveToNext();
+            }
+            chracterDBAdapter.close();
+            String job = cursor.getString(2);
+            String server = cursor.getString(5);
+            int level = cursor.getInt(3);
+            homeworks.add(new Homework(name, job, server, level, dungeon, boss, quest, now_value, max_value));
+            cursor.moveToNext();
+        }
+        chracterListDBAdapter.close();
+        Collections.sort(homeworks);
+        homeworkAdapter.notifyDataSetChanged();
+
         andReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -449,6 +500,7 @@ public class HomeFragment extends Fragment {
 
         handler = new Handler();
         pref = getActivity().getSharedPreferences("island_file", MODE_PRIVATE);
+        settingPref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
 
         txtIslandDate = root.findViewById(R.id.txtIslandDate);
@@ -545,10 +597,27 @@ public class HomeFragment extends Fragment {
         EventDecoration decoration = new EventDecoration();
         listEvent.addItemDecoration(decoration);
 
+        layoutHomework = root.findViewById(R.id.layoutHomework);
+        listHomework = root.findViewById(R.id.listHomework);
+        indicatorHomework = root.findViewById(R.id.indicatorHomework);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        listHomework.setLayoutManager(layoutManager2);
+        homeworks = new ArrayList<>();
+        homeworkAdapter = new HomeworkListAdapter(homeworks, getActivity());
+        listHomework.setAdapter(homeworkAdapter);
+        listHomework.addItemDecoration(decoration);
+
+        chracterListDBAdapter = new ChracterListDBAdapter(getActivity());
+
         PagerSnapHelper helper = new PagerSnapHelper();
         helper.attachToRecyclerView(listEvent);
         indicator.attachToRecyclerView(listEvent, helper);
         eventAdapter.registerAdapterDataObserver(indicator.getAdapterDataObserver());
+
+        PagerSnapHelper helper2 = new PagerSnapHelper();
+        helper2.attachToRecyclerView(listHomework);
+        indicatorHomework.attachToRecyclerView(listHomework, helper2);
+        homeworkAdapter.registerAdapterDataObserver(indicatorHomework.getAdapterDataObserver());
 
         txtAlarm = root.findViewById(R.id.txtAlarm);
 

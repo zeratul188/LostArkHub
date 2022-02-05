@@ -1,4 +1,4 @@
-package com.lostark.lostarkapplication.ui.home;
+package com.lostark.lostarkapplication.ui.home.objects;
 
 import android.graphics.Bitmap;
 

@@ -2,7 +2,6 @@ package com.lostark.lostarkapplication.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.lostark.lostarkapplication.WebActivity;
+import com.lostark.lostarkapplication.ui.home.objects.Event;
 
 import java.util.ArrayList;
 import java.util.Calendar;
