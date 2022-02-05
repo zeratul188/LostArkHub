@@ -68,7 +68,7 @@ public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnReview, btnResetID;
-    private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework;
+    private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework, chkShowHomework;
     private Spinner sprAlarm, sprLimitStack;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue, txtID;
     private ClearEditText edtReport;
@@ -131,6 +131,7 @@ public class SettingActivity extends AppCompatActivity {
         btnReview = findViewById(R.id.btnReview);
         txtID = findViewById(R.id.txtID);
         btnResetID = findViewById(R.id.btnResetID);
+        chkShowHomework = findViewById(R.id.chkShowHomework);
 
         customToast = new CustomToast(getApplicationContext());
 
@@ -334,6 +335,15 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("progress_homework", isChecked);
+                editor.commit();
+            }
+        });
+
+        chkShowHomework.setChecked(pref.getBoolean("show_homework", true));
+        chkShowHomework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("show_homework", isChecked);
                 editor.commit();
             }
         });

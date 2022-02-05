@@ -13,6 +13,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutHomework"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캐릭터 진행 상황"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#FFFFFF"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listHomework"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:scrollbarSize="0dp"
+                android:scrollbars="horizontal"/>
+            <me.relex.circleindicator.CircleIndicator2
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center|bottom"
+                app:ci_height="5dp"
+                app:ci_width="5dp"
+                app:ci_drawable="@drawable/indicator_select_shape"
+                app:ci_drawable_unselected="@drawable/indicator_shape"
+                android:id="@+id/indicatorHomework"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
