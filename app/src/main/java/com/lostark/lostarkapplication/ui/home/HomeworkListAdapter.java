@@ -57,8 +57,23 @@ public class HomeworkListAdapter extends RecyclerView.Adapter<HomeworkListAdapte
         holder.txtServer.setText(homeworks.get(position).getServer());
         holder.txtLevel.setText(Integer.toString(homeworks.get(position).getLevel()));
         holder.txtDungeon.setText(homeworks.get(position).getDungeon()+"/2");
+        if (homeworks.get(position).getDungeon() >= 2) {
+            holder.txtDungeon.setTextColor(Color.parseColor("#92C52D"));
+        } else {
+            holder.txtDungeon.setTextColor(Color.parseColor("#FFFFFF"));
+        }
         holder.txtBoss.setText(homeworks.get(position).getBoss()+"/2");
+        if (homeworks.get(position).getBoss() >= 2) {
+            holder.txtBoss.setTextColor(Color.parseColor("#92C52D"));
+        } else {
+            holder.txtBoss.setTextColor(Color.parseColor("#FFFFFF"));
+        }
         holder.txtQuest.setText(homeworks.get(position).getQuest()+"/3");
+        if (homeworks.get(position).getQuest() >= 3) {
+            holder.txtQuest.setTextColor(Color.parseColor("#92C52D"));
+        } else {
+            holder.txtQuest.setTextColor(Color.parseColor("#FFFFFF"));
+        }
         int percent = (int) ((double) homeworks.get(position).getNow() / (double) homeworks.get(position).getMax()*100);
         if (percent == 100) {
             holder.txtProgress.setText("숙제 완료");

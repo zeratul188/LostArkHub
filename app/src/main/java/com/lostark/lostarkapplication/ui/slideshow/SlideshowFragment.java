@@ -232,6 +232,55 @@ public class SlideshowFragment extends Fragment {
         equipmentDBAdapter = new EquipmentDBAdapter(getActivity());
         statDBAdapter = new StatDBAdapter(getActivity());
 
+        for (int i = 0; i < imgNecks.length; i++) {
+            final int final_index = i;
+            imgNecks[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprNecks[final_index].performClick();
+                }
+            });
+            imgEarring1s[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprEarring1s[final_index].performClick();
+                }
+            });
+            imgEarring2s[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprEarring2s[final_index].performClick();
+                }
+            });
+            imgRing1s[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprRing1s[final_index].performClick();
+                }
+            });
+            imgRing2s[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprRing2s[final_index].performClick();
+                }
+            });
+            imgStones[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprStones[final_index].performClick();
+                }
+            });
+        }
+        for (int i = 0; i < imgStats.length; i++) {
+            final int final_index = i;
+            imgStats[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sprStats[final_index].performClick();
+                }
+            });
+        }
+
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

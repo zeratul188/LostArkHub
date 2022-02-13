@@ -1,5 +1,8 @@
 package com.lostark.lostarkapplication.ui.stamp;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -43,6 +46,7 @@ public class StampFragment extends Fragment {
     private ArrayList<Filter> filters;
     private FilterAdapter filterAdapter;
 
+    private SharedPreferences pref;
     private StampViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,6 +61,7 @@ public class StampFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+        pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
 
         imgbtnFilter = root.findViewById(R.id.imgbtnFilter);
         imgbtnSearch = root.findViewById(R.id.imgbtnSearch);
@@ -253,6 +258,15 @@ public class StampFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (pref.getBoolean("stamp_open", false)) {
+            for (StampList stampList : stampLists) {
+                stampList.setOpen(true);
+            }
+        } else {
+            for (StampList stampList : stampLists) {
+                stampList.setOpen(false);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 }

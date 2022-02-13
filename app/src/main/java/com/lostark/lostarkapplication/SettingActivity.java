@@ -68,7 +68,7 @@ public class SettingActivity extends AppCompatActivity {
     private final int REPORT_LIMIT = 3;
 
     private Button btnDeleteStone, btnDeletePreset, btnCheckUpdate, btnResetDate, btnDeleteSkillPreset, btnReportSubmit, btnDeleteStat, btnDeleteStack, btnReview, btnResetID;
-    private Switch chkStoneHistory, chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework, chkShowHomework;
+    private Switch chkStampListOpen, chkAlarm, chkHomeworkAlarm, chkUpdateAlarm, chkAutoCreateHomework, chkAutoLevelSetting, chkProgressHomework, chkShowHomework;
     private Spinner sprAlarm, sprLimitStack;
     private TextView txtResetDate, txtVersion, txtReportLimit, txtReportStatue, txtID;
     private ClearEditText edtReport;
@@ -107,7 +107,6 @@ public class SettingActivity extends AppCompatActivity {
         
         btnDeletePreset = findViewById(R.id.btnDeletePreset);
         btnDeleteStone = findViewById(R.id.btnDeleteStone);
-        chkStoneHistory = findViewById(R.id.chkStoneHistory);
         chkStampListOpen = findViewById(R.id.chkStampListOpen);
         btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
         chkAlarm = findViewById(R.id.chkAlarm);
@@ -153,7 +152,6 @@ public class SettingActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         editor = pref.edit();
-        chkStoneHistory.setChecked(pref.getBoolean("stone_history", false));
         chkStampListOpen.setChecked(pref.getBoolean("stamp_open", false));
 
         if (!pref.getString("app_id", "null").equals("null")) {
@@ -582,14 +580,6 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-            }
-        });
-
-        chkStoneHistory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean("stone_history", isChecked);
-                editor.commit();
             }
         });
 

@@ -37,25 +37,6 @@
                 android:textSize="18sp"
                 android:gravity="left"
                 android:textColor="#ffffff"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="스톤 내역 사용 안함"
-                    android:textSize="18sp"
-                    android:textColor="#ffffff"/>
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:thumbTint="#FE6E0E"
-                    android:track="@drawable/switch_track_style"
-                    android:id="@+id/chkStoneHistory"/>
-            </LinearLayout>
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
