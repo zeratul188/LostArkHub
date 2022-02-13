@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtWarning"
-            android:text="로스트아크 홈페이지가 점검중엔 자동 설정이 작동하지 않습니다."
+            android:text="- 인게임 닉네임과 동일하게 입력해주세요.\n- 로스트아크 홈페이지가 점검중엔 자동 설정이 작동하지 않습니다."
             android:textColor="#FF8888"
             android:visibility="gone"
             android:textSize="12sp"

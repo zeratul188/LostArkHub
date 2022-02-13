@@ -42,6 +42,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.lostark.lostarkapplication.CustomToast;
@@ -89,6 +90,7 @@ public class HomeFragment extends Fragment {
     private TextView txtTime, txtEventCount;
     public static Switch swtIslandAlarm;
     private Handler handler;
+    private FloatingActionButton fabDiscord;
 
     private DisplayImageView[] imgBoss = new DisplayImageView[BOSS_LENGTH];
     private TextView[] txtBoss = new TextView[BOSS_LENGTH];
@@ -497,6 +499,15 @@ public class HomeFragment extends Fragment {
         GradientDrawable round_drawable = (GradientDrawable) getActivity().getDrawable(R.drawable.roundimage);
 
         scrollView = root.findViewById(R.id.scrollView);
+        fabDiscord = root.findViewById(R.id.fabDiscord);
+
+        fabDiscord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/ytgcYN4Qd2"));
+                startActivity(intent);
+            }
+        });
 
         handler = new Handler();
         pref = getActivity().getSharedPreferences("island_file", MODE_PRIVATE);

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtJob"
                 android:text="버서커"
-                android:textColor="#AAAAAA"
+                android:textColor="#FFFFFF"
                 android:layout_marginRight="10dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                 android:text="숙제 진행도"
                 android:textSize="14dp"
                 android:textColor="#AAAAAA"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="10dp"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

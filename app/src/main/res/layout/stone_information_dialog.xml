@@ -39,12 +39,14 @@
             android:paddingRight="10dp"
             android:textColor="#FFFFFF"
             android:text="Stone Name"/>
-        <Spinner
-            android:layout_width="70dp"
+        <Button
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:spinnerMode="dropdown"
-            android:background="#00000000"
-            android:id="@+id/sprSecond"/>
+            android:id="@+id/btnDelete"
+            android:text="삭제"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/nobuttonstyle"/>
         <Button
             android:layout_width="80dp"
             android:layout_height="match_parent"

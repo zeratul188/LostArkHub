@@ -87,6 +87,21 @@ public class StoneDBAdapter {
     public void close() {
         myDBHelper.close();
     }
+
+    public int getLastRowID() {
+        int rowID = 0;
+        Cursor cursor = sqlDB.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_GRADE, KEY_STAMP1, KEY_STAMP2, KEY_STAMP3, KEY_CNT1, KEY_CNT2, KEY_CNT3, KEY_HISTORY}, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int id = cursor.getInt(0);
+            if (rowID < id) {
+                rowID = id;
+            }
+            cursor.moveToNext();
+        }
+        rowID++;
+        return rowID;
+    }
     
     public long insertData(Stone stone) {
         String[] stamps = stone.getStamp();
