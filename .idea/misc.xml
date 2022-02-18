@@ -32,6 +32,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_delete_black_24dp.xml" value="0.15574324324324323" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_remove_black_24dp.xml" value="0.15574324324324323" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/ic_streetview_black_24dp.xml" value="0.17090301003344482" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/image_hammer.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_left.xml" value="0.14358108108108109" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/imageopacitygradientstyle_left_black.xml" value="0.20555555555555555" />
@@ -49,6 +50,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/progress_style.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/rest_progress_image_xml.xml" value="0.14358108108108109" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/rest_progress_style.xml" value="0.14358108108108109" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/stone_button.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/stonehistorystyle1.xml" value="0.21597222222222223" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/switch_track_style.xml" value="0.21458333333333332" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tablelayoutstyle.xml" value="0.1951388888888889" />
@@ -61,6 +63,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_background.xml" value="0.20347222222222222" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_checked_content_background.xml" value="0.20347222222222222" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/tripod_content_background.xml" value="0.20347222222222222" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/drawable/yesbuttonstyle.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/abilitystonehistoryitem.xml" value="0.1331081081081081" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/abilitystoneitem.xml" value="0.16180555555555556" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/activity_checklist.xml" value="0.2" />

@@ -11,13 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +30,7 @@ import com.lostark.lostarkapplication.database.StampDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,11 +39,11 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private ImageView imgStone, imgBurf1, imgBurf2, imgDeburf;
     private TextView txtTitle, txtGrade, txtBurf1, txtBurf2, txtDeburf, txtPercent, txtCount1, txtCount2, txtCount3;
-    private Button btnChange, btnBurf1, btnBurf2, btnDeburf, btnConfirm, btnReset;
+    private Button btnConfirm, btnReset;
+    private ImageButton btnBurf1, btnBurf2, btnDeburf;
     private ImageView[] imgFirst = new ImageView[10];
     private ImageView[] imgSecond = new ImageView[10];
     private ImageView[] imgThird = new ImageView[10];
-    private CheckBox chkKeep;
     private FloatingActionButton fabList;
 
     private StampDBAdapter stampDBAdapter;
@@ -62,11 +57,18 @@ public class GalleryFragment extends Fragment {
 
     private SharedPreferences pref;
 
-    private int max = 0;
+    private int max = 0, type = 0;
     private int burf1 = 0, burf2 = 0, deburf = 0;
     private int burf1_cnt = 0, burf2_cnt = 0, deburf_cnt = 0;
     private int percent = 75;
     private String history = "";
+
+    private boolean isStop() {
+        if (burf1_cnt == 0 && burf2_cnt == 0 && deburf_cnt == 0) {
+            return true;
+        }
+        return false;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -95,7 +97,6 @@ public class GalleryFragment extends Fragment {
         txtBurf2 = root.findViewById(R.id.txtBurf2);
         txtDeburf = root.findViewById(R.id.txtDeburf);
         txtPercent = root.findViewById(R.id.txtPercent);
-        btnChange = root.findViewById(R.id.btnChange);
         btnBurf1 = root.findViewById(R.id.btnBurf1);
         btnBurf2 = root.findViewById(R.id.btnBurf2);
         btnDeburf = root.findViewById(R.id.btnDeburf);
@@ -104,7 +105,6 @@ public class GalleryFragment extends Fragment {
         txtCount3 = root.findViewById(R.id.txtCount3);
         btnConfirm = root.findViewById(R.id.btnConfirm);
         btnReset = root.findViewById(R.id.btnReset);
-        chkKeep = root.findViewById(R.id.chkKeep);
         fabList = root.findViewById(R.id.fabList);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
@@ -281,304 +281,250 @@ public class GalleryFragment extends Fragment {
         pref = getActivity().getSharedPreferences("setting_file", MODE_PRIVATE);
         stoneDBAdapter = new StoneDBAdapter(getActivity());
 
-        btnChange.setOnClickListener(new View.OnClickListener() {
+        txtTitle.setText("비상의 돌");
+        txtGrade.setText("희귀");
+        txtGrade.setTextColor(Color.parseColor("#2093A8"));
+        imgStone.setImageResource(R.drawable.stone1);
+        max = 6;
+
+        for (int i = 0; i < imgFirst.length; i++) {
+            if (i >= max) {
+                imgFirst[i].setVisibility(View.INVISIBLE);
+                imgSecond[i].setVisibility(View.INVISIBLE);
+                imgThird[i].setVisibility(View.INVISIBLE);
+            } else {
+                imgFirst[i].setVisibility(View.VISIBLE);
+                imgSecond[i].setVisibility(View.VISIBLE);
+                imgThird[i].setVisibility(View.VISIBLE);
+            }
+        }
+
+        imgStone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.selectstampdialog, null);
+                if (!isStop()) {
+                    customToast.createToast("이미 스톤이 세공중입니다. 스톤 세공을 취소 또는 완료 후 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+                if (type == 3) {
+                    type = 0;
+                } else {
+                    type++;
+                }
+                switch (type) {
+                    case 0:
+                        txtTitle.setText("비상의 돌");
+                        txtGrade.setText("희귀");
+                        txtGrade.setTextColor(Color.parseColor("#2093A8"));
+                        imgStone.setImageResource(R.drawable.stone1);
+                        max = 6;
+                        break;
+                    case 1:
+                        txtTitle.setText("뛰어난 비상의 돌");
+                        txtGrade.setText("영웅");
+                        txtGrade.setTextColor(Color.parseColor("#9B53D2"));
+                        imgStone.setImageResource(R.drawable.stone2);
+                        max = 8;
+                        break;
+                    case 2:
+                        txtTitle.setText("강력한 비상의 돌");
+                        txtGrade.setText("전설");
+                        txtGrade.setTextColor(Color.parseColor("#C2873B"));
+                        imgStone.setImageResource(R.drawable.stone3);
+                        max = 9;
+                        break;
+                    case 3:
+                        txtTitle.setText("고고한 비상의 돌");
+                        txtGrade.setText("유물");
+                        txtGrade.setTextColor(Color.parseColor("#BF5700"));
+                        imgStone.setImageResource(R.drawable.stone4);
+                        max = 10;
+                        break;
+                }
+                for (int i = 0; i < imgFirst.length; i++) {
+                    if (i >= max) {
+                        imgFirst[i].setVisibility(View.INVISIBLE);
+                        imgSecond[i].setVisibility(View.INVISIBLE);
+                        imgThird[i].setVisibility(View.INVISIBLE);
+                    } else {
+                        imgFirst[i].setVisibility(View.VISIBLE);
+                        imgSecond[i].setVisibility(View.VISIBLE);
+                        imgThird[i].setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
 
-                ImageView imgSelectStone = view.findViewById(R.id.imgSelectStone);
-                TextView txtName = view.findViewById(R.id.txtName);
-                Spinner sprGrade = view.findViewById(R.id.sprGrade);
-                ImageView imgSelectBurf1 = view.findViewById(R.id.imgSelectBurf1);
-                TextView txtSelectBurf1 = view.findViewById(R.id.txtSelectBurf1);
-                ImageView imgSelectBurf2 = view.findViewById(R.id.imgSelectBurf2);
-                TextView txtSelectBurf2 = view.findViewById(R.id.txtSelectBurf2);
-                ImageView imgSelectDeburf = view.findViewById(R.id.imgSelectDeburf);
-                TextView txtSelectDeburf = view.findViewById(R.id.txtSelectDeburf);
+        imgBurf1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isStop()) {
+                    customToast.createToast("이미 스톤이 세공중입니다. 스톤 세공을 취소 또는 완료 후 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+                View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
+
+                ListView listView = view.findViewById(R.id.listView);
                 Button btnCancel = view.findViewById(R.id.btnCancel);
-                Button btnOK = view.findViewById(R.id.btnOK);
 
-                List<String> grades = Arrays.asList(getActivity().getResources().getStringArray(R.array.ability_stone));
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.abilitystoneitem, grades);
-                adapter.setDropDownViewResource(R.layout.abilitystoneitem);
-                sprGrade.setAdapter(adapter);
+                ArrayList<Stamp> stamps = new ArrayList<>();
+                for (int i = 0; i < 87; i++) {
+                    String[] arr = stampDBAdapter.readData(i);
+                    Stamp stamp = new Stamp(arr[0], arr[1]);
+                    if (!stamp.getName().equals(txtBurf1.getText().toString())) stamps.add(stamp);
+                }
 
-                sprGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        imgSelectStone.setImageResource(getActivity().getResources().getIdentifier("stone"+(position+1), "drawable", getActivity().getPackageName()));
-                        //String[] names = {"비상의 돌", "뛰어난 비상의 돌", "강력한 비상의 돌", "고고한 비상의 돌"};
-                        switch (grades.get(position)) {
-                            case "희귀":
-                                txtName.setText("비상의 돌");
-                                txtName.setTextColor(Color.parseColor("#2093A8"));
-                                break;
-                            case "영웅":
-                                txtName.setText("뛰어난 비상의 돌");
-                                txtName.setTextColor(Color.parseColor("#9B53D2"));
-                                break;
-                            case "전설":
-                                txtName.setText("강력한 비상의 돌");
-                                txtName.setTextColor(Color.parseColor("#C2873B"));
-                                break;
-                            case "유물":
-                                txtName.setText("고고한 비상의 돌");
-                                txtName.setTextColor(Color.parseColor("#BF5700"));
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-                btnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch (sprGrade.getSelectedItem().toString()) {
-                            case "희귀":
-                                txtTitle.setText("비상의 돌");
-                                txtGrade.setText("희귀");
-                                txtGrade.setTextColor(Color.parseColor("#2093A8"));
-                                imgStone.setImageResource(R.drawable.stone1);
-                                max = 6;
-                                break;
-                            case "영웅":
-                                txtTitle.setText("뛰어난 비상의 돌");
-                                txtGrade.setText("영웅");
-                                txtGrade.setTextColor(Color.parseColor("#9B53D2"));
-                                imgStone.setImageResource(R.drawable.stone2);
-                                max = 8;
-                                break;
-                            case "전설":
-                                txtTitle.setText("강력한 비상의 돌");
-                                txtGrade.setText("전설");
-                                txtGrade.setTextColor(Color.parseColor("#C2873B"));
-                                imgStone.setImageResource(R.drawable.stone3);
-                                max = 9;
-                                break;
-                            case "유물":
-                                txtTitle.setText("고고한 비상의 돌");
-                                txtGrade.setText("유물");
-                                txtGrade.setTextColor(Color.parseColor("#BF5700"));
-                                imgStone.setImageResource(R.drawable.stone4);
-                                max = 10;
-                                break;
-                        }
-
-                        String[] arr1 = stampDBAdapter.readData(txtSelectBurf1.getText().toString());
-                        String[] arr2 = stampDBAdapter.readData(txtSelectBurf2.getText().toString());
-                        String[] arr3 = stampDBAdapter.readData(txtSelectDeburf.getText().toString());
-
-                        imgBurf1.setImageResource(getActivity().getResources().getIdentifier(arr1[1], "drawable", getActivity().getPackageName()));
-                        imgBurf2.setImageResource(getActivity().getResources().getIdentifier(arr2[1], "drawable", getActivity().getPackageName()));
-                        imgDeburf.setImageResource(getActivity().getResources().getIdentifier(arr3[1], "drawable", getActivity().getPackageName()));
-                        txtBurf1.setText(arr1[0]);
-                        txtBurf2.setText(arr2[0]);
-                        txtDeburf.setText(arr3[0]);
-
-                        for (int i = 0; i < max; i++) {
-                            imgFirst[i].setVisibility(View.VISIBLE);
-                            imgSecond[i].setVisibility(View.VISIBLE);
-                            imgThird[i].setVisibility(View.VISIBLE);
-                        }
-                        for (int i = max; i < imgFirst.length; i++) {
-                            imgFirst[i].setVisibility(View.INVISIBLE);
-                            imgSecond[i].setVisibility(View.INVISIBLE);
-                            imgThird[i].setVisibility(View.INVISIBLE);
-                        }
-
-                        btnBurf1.setEnabled(true);
-                        btnBurf2.setEnabled(true);
-                        btnDeburf.setEnabled(true);
-                        btnChange.setEnabled(false);
-                        btnReset.setEnabled(true);
-
-                        alertDialog.dismiss();
-                    }
-                });
+                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                listView.setAdapter(stampAdapter);
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                txtSelectBurf1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
-
-                        ListView listView = view.findViewById(R.id.listView);
-                        Button btnCancel = view.findViewById(R.id.btnCancel);
-
-                        ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 0; i < 87; i++) {
-                            String[] arr = stampDBAdapter.readData(i);
-                            Stamp stamp = new Stamp(arr[0], arr[1]);
-                            if (!stamp.getName().equals(txtSelectBurf2.getText().toString())) stamps.add(stamp);
-                        }
-
-                        StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
-                        listView.setAdapter(stampAdapter);
-
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dn.setContent("");
-                                stampDialog.dismiss();
-                            }
-                        });
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setView(view);
-
-                        stampDialog = builder.create();
-
-                        stampAdapter.setAlertDialog(stampDialog);
-                        stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                if (!dn.getContent().equals("")) {
-                                    String[] arr = stampDBAdapter.readData(dn.getContent());
-                                    imgSelectBurf1.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
-                                    txtSelectBurf1.setText(arr[0]);
-                                }
-                            }
-                        });
-
-                        stampDialog.setCancelable(false);
-                        stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        stampDialog.show();
-                    }
-                });
-
-                txtSelectBurf2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
-
-                        ListView listView = view.findViewById(R.id.listView);
-                        Button btnCancel = view.findViewById(R.id.btnCancel);
-
-                        ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 0; i < 87; i++) {
-                            String[] arr = stampDBAdapter.readData(i);
-                            Stamp stamp = new Stamp(arr[0], arr[1]);
-                            if (!stamp.getName().equals(txtSelectBurf1.getText().toString())) stamps.add(stamp);
-                        }
-
-                        StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
-                        listView.setAdapter(stampAdapter);
-
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
-                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
-                                customToast.show();
-                            }
-                        });
-
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dn.setContent("");
-                                stampDialog.dismiss();
-                            }
-                        });
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setView(view);
-
-                        stampDialog = builder.create();
-
-                        stampAdapter.setAlertDialog(stampDialog);
-                        stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                if (!dn.getContent().equals("")) {
-                                    String[] arr = stampDBAdapter.readData(dn.getContent());
-                                    imgSelectBurf2.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
-                                    txtSelectBurf2.setText(arr[0]);
-                                }
-                            }
-                        });
-
-                        stampDialog.setCancelable(false);
-                        stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        stampDialog.show();
-                    }
-                });
-
-                txtSelectDeburf.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
-
-                        ListView listView = view.findViewById(R.id.listView);
-                        Button btnCancel = view.findViewById(R.id.btnCancel);
-
-                        ArrayList<Stamp> stamps = new ArrayList<>();
-                        for (int i = 87; i < 91; i++) {
-                            String[] arr = stampDBAdapter.readData(i);
-                            Stamp stamp = new Stamp(arr[0], arr[1]);
-                            stamps.add(stamp);
-                        }
-
-                        StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
-                        listView.setAdapter(stampAdapter);
-
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
-                                customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
-                                customToast.show();
-                            }
-                        });
-
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dn.setContent("");
-                                stampDialog.dismiss();
-                            }
-                        });
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setView(view);
-
-                        stampDialog = builder.create();
-
-                        stampAdapter.setAlertDialog(stampDialog);
-                        stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                if (!dn.getContent().equals("")) {
-                                    String[] arr = stampDBAdapter.readData(dn.getContent());
-                                    imgSelectDeburf.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
-                                    txtSelectDeburf.setText(arr[0]);
-                                }
-                            }
-                        });
-
-                        stampDialog.setCancelable(false);
-                        stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        stampDialog.show();
+                        dn.setContent("");
+                        stampDialog.dismiss();
                     }
                 });
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(view);
 
-                alertDialog = builder.create();
-                alertDialog.setCancelable(false);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
+                stampDialog = builder.create();
+
+                stampAdapter.setAlertDialog(stampDialog);
+                stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (!dn.getContent().equals("")) {
+                            String[] arr = stampDBAdapter.readData(dn.getContent());
+                            imgBurf1.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
+                            txtBurf1.setText(arr[0]);
+                        }
+                    }
+                });
+
+                stampDialog.setCancelable(false);
+                stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                stampDialog.show();
+            }
+        });
+
+        imgBurf2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isStop()) {
+                    customToast.createToast("이미 스톤이 세공중입니다. 스톤 세공을 취소 또는 완료 후 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+                View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
+
+                ListView listView = view.findViewById(R.id.listView);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+
+                ArrayList<Stamp> stamps = new ArrayList<>();
+                for (int i = 0; i < 87; i++) {
+                    String[] arr = stampDBAdapter.readData(i);
+                    Stamp stamp = new Stamp(arr[0], arr[1]);
+                    if (!stamp.getName().equals(txtBurf2.getText().toString())) stamps.add(stamp);
+                }
+
+                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                listView.setAdapter(stampAdapter);
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dn.setContent("");
+                        stampDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                stampDialog = builder.create();
+
+                stampAdapter.setAlertDialog(stampDialog);
+                stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (!dn.getContent().equals("")) {
+                            String[] arr = stampDBAdapter.readData(dn.getContent());
+                            imgBurf2.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
+                            txtBurf2.setText(arr[0]);
+                        }
+                    }
+                });
+
+                stampDialog.setCancelable(false);
+                stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                stampDialog.show();
+            }
+        });
+
+        imgDeburf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isStop()) {
+                    customToast.createToast("이미 스톤이 세공중입니다. 스톤 세공을 취소 또는 완료 후 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+
+                View view = getLayoutInflater().inflate(R.layout.stamplistlayout, null);
+
+                ListView listView = view.findViewById(R.id.listView);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+
+                ArrayList<Stamp> stamps = new ArrayList<>();
+                for (int i = 87; i < 91; i++) {
+                    String[] arr = stampDBAdapter.readData(i);
+                    Stamp stamp = new Stamp(arr[0], arr[1]);
+                    if (!stamp.getName().equals(txtDeburf.getText().toString())) stamps.add(stamp);
+                }
+
+                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                listView.setAdapter(stampAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
+                        customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
+                        customToast.show();
+                    }
+                });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dn.setContent("");
+                        stampDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                stampDialog = builder.create();
+
+                stampAdapter.setAlertDialog(stampDialog);
+                stampDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (!dn.getContent().equals("")) {
+                            String[] arr = stampDBAdapter.readData(dn.getContent());
+                            imgDeburf.setImageResource(getActivity().getResources().getIdentifier(arr[1], "drawable", getActivity().getPackageName()));
+                            txtDeburf.setText(arr[0]);
+                        }
+                    }
+                });
+
+                stampDialog.setCancelable(false);
+                stampDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                stampDialog.show();
             }
         });
 
@@ -604,7 +550,6 @@ public class GalleryFragment extends Fragment {
                 if (burf1 == max) btnBurf1.setEnabled(false);
                 if (allMax()) {
                     btnConfirm.setEnabled(true);
-                    btnReset.setEnabled(true);
                 }
                 if (!history.equals("")) history += "|";
                 history += "1/\""+txtBurf1.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
@@ -633,7 +578,6 @@ public class GalleryFragment extends Fragment {
                 if (burf2 == max) btnBurf2.setEnabled(false);
                 if (allMax()) {
                     btnConfirm.setEnabled(true);
-                    btnReset.setEnabled(true);
                 }
                 if (!history.equals("")) history += "|";
                 history += "2/\""+txtBurf2.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
@@ -662,7 +606,6 @@ public class GalleryFragment extends Fragment {
                 if (deburf == max) btnDeburf.setEnabled(false);
                 if (allMax()) {
                     btnConfirm.setEnabled(true);
-                    btnReset.setEnabled(true);
                 }
                 if (!history.equals("")) history += "|";
                 history += "3/\""+txtDeburf.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
@@ -707,40 +650,12 @@ public class GalleryFragment extends Fragment {
     }
 
     private void reset() {
-        if (!chkKeep.isChecked()) {
-            imgStone.setImageResource(R.drawable.none_stone);
-            txtTitle.setText("스톤을 선택하세요");
-            txtGrade.setText("");
-            imgBurf1.setImageResource(R.drawable.none_stamp);
-            imgBurf2.setImageResource(R.drawable.none_stamp);
-            imgDeburf.setImageResource(R.drawable.none_stamp);
-            txtBurf1.setText("-");
-            txtBurf2.setText("-");
-            txtDeburf.setText("-");
+        btnConfirm.setEnabled(false);
 
-            btnConfirm.setEnabled(false);
-            btnReset.setEnabled(false);
-            btnChange.setEnabled(true);
+        btnBurf1.setEnabled(true);
+        btnBurf2.setEnabled(true);
+        btnDeburf.setEnabled(true);
 
-            for (int i = 0; i < 10; i++) {
-                imgFirst[i].setVisibility(View.INVISIBLE);
-                imgFirst[i].setImageResource(R.drawable.none);
-                imgSecond[i].setVisibility(View.INVISIBLE);
-                imgSecond[i].setImageResource(R.drawable.none);
-                imgThird[i].setVisibility(View.INVISIBLE);
-                imgThird[i].setImageResource(R.drawable.deburf_none);
-            }
-        } else {
-            btnBurf1.setEnabled(true);
-            btnBurf2.setEnabled(true);
-            btnDeburf.setEnabled(true);
-
-            for (int i = 0; i < 10; i++) {
-                imgFirst[i].setImageResource(R.drawable.none);
-                imgSecond[i].setImageResource(R.drawable.none);
-                imgThird[i].setImageResource(R.drawable.deburf_none);
-            }
-        }
         txtPercent.setText("75");
         txtCount1.setText("0");
         txtCount2.setText("0");
@@ -754,6 +669,12 @@ public class GalleryFragment extends Fragment {
         burf2_cnt = 0;
         deburf_cnt = 0;
         history = "";
+
+        for (int i = 0; i < 10; i++) {
+            imgFirst[i].setImageResource(R.drawable.none);
+            imgSecond[i].setImageResource(R.drawable.none);
+            imgThird[i].setImageResource(R.drawable.deburf_none);
+        }
     }
 
     private boolean allMax() {
