@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,16 +38,26 @@ import java.util.Collections;
 import static android.content.Context.MODE_PRIVATE;
 
 public class GalleryFragment extends Fragment {
+    private static final int AI_LENGTH = 3;
 
     private GalleryViewModel galleryViewModel;
     private ImageView imgStone, imgBurf1, imgBurf2, imgDeburf;
-    private TextView txtTitle, txtGrade, txtBurf1, txtBurf2, txtDeburf, txtPercent, txtCount1, txtCount2, txtCount3;
+    private TextView txtTitle, txtGrade, txtBurf1, txtBurf2, txtDeburf, txtPercent, txtCount1, txtCount2, txtCount3, txtFail;
     private Button btnConfirm, btnReset;
     private ImageButton btnBurf1, btnBurf2, btnDeburf;
     private ImageView[] imgFirst = new ImageView[10];
     private ImageView[] imgSecond = new ImageView[10];
     private ImageView[] imgThird = new ImageView[10];
     private FloatingActionButton fabList;
+    private Switch swtAI, swtSF;
+    private LinearLayout layoutAI;
+    private TextView[] txtAInumber = new TextView[AI_LENGTH];
+    private Button[] btnAIup = new Button[AI_LENGTH];
+    private Button[] btnAIdown = new Button[AI_LENGTH];
+    private TextView[] txtPick = new TextView[AI_LENGTH];
+    private LinearLayout[] layoutButtons = new LinearLayout[AI_LENGTH];
+    private Button[] btnSuccess = new Button[AI_LENGTH];
+    private Button[] btnFail = new Button[AI_LENGTH];
 
     private StampDBAdapter stampDBAdapter;
     private StoneDBAdapter stoneDBAdapter;
@@ -54,6 +67,7 @@ public class GalleryFragment extends Fragment {
     private ArrayList<Stone> stones;
     private CustomToast customToast;
     private Thread th = null;
+    private StoneAI ai;
 
     private SharedPreferences pref;
 
@@ -86,6 +100,7 @@ public class GalleryFragment extends Fragment {
         dn = new DataNetwork();
         stones = new ArrayList<>();
         customToast = new CustomToast(getActivity());
+        ai = new StoneAI();
 
         imgStone = root.findViewById(R.id.imgStone);
         imgBurf1 = root.findViewById(R.id.imgBurf1);
@@ -106,14 +121,191 @@ public class GalleryFragment extends Fragment {
         btnConfirm = root.findViewById(R.id.btnConfirm);
         btnReset = root.findViewById(R.id.btnReset);
         fabList = root.findViewById(R.id.fabList);
+        swtAI = root.findViewById(R.id.swtAI);
+        layoutAI = root.findViewById(R.id.layoutAI);
+        swtSF = root.findViewById(R.id.swtSF);
+        txtFail = root.findViewById(R.id.txtFail);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
             imgSecond[i] = root.findViewById(getActivity().getResources().getIdentifier("imgSecond"+(i+1), "id", getActivity().getPackageName()));
             imgThird[i] = root.findViewById(getActivity().getResources().getIdentifier("imgThird"+(i+1), "id", getActivity().getPackageName()));
         }
+        for (int i = 0; i < AI_LENGTH; i++) {
+            txtAInumber[i] = root.findViewById(getActivity().getResources().getIdentifier("txtAInumber"+(i+1), "id", getActivity().getPackageName()));
+            btnAIup[i] = root.findViewById(getActivity().getResources().getIdentifier("btnAIup"+(i+1), "id", getActivity().getPackageName()));
+            btnAIdown[i] = root.findViewById(getActivity().getResources().getIdentifier("btnAIdown"+(i+1), "id", getActivity().getPackageName()));
+            final int position = i;
+            btnAIup[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ai.targetUp(position);
+                    if (ai.getTarget(position) >= max) {
+                        btnAIup[position].setEnabled(false);
+                    }
+                    txtAInumber[position].setText(Integer.toString(ai.getTarget(position)));
+                    btnAIdown[position].setEnabled(true);
+                }
+            });
+            btnAIdown[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ai.targetDown(position);
+                    if (ai.getTarget(position) <= 0) {
+                        btnAIdown[position].setEnabled(false);
+                    }
+                    txtAInumber[position].setText(Integer.toString(ai.getTarget(position)));
+                    btnAIup[position].setEnabled(true);
+                }
+            });
+            txtPick[i] = root.findViewById(getActivity().getResources().getIdentifier("txtPick"+(i+1), "id", getActivity().getPackageName()));
+            layoutButtons[i] = root.findViewById(getActivity().getResources().getIdentifier("layoutButtons"+(i+1), "id", getActivity().getPackageName()));
+            btnSuccess[i] = root.findViewById(getActivity().getResources().getIdentifier("btnSuccess"+(i+1), "id", getActivity().getPackageName()));
+            btnFail[i] = root.findViewById(getActivity().getResources().getIdentifier("btnFail"+(i+1), "id", getActivity().getPackageName()));
+            btnSuccess[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String result = "success";
+                    int now_percent = percent;
+                    if (position == 0) {
+                        imgFirst[burf1].setImageResource(R.drawable.success);
+                        burf1++;
+                        burf1_cnt++;
+                        txtCount1.setText(Integer.toString(burf1_cnt));
+                        if (burf1 == max) {
+                            btnBurf1.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "1/\""+txtBurf1.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    } else if (position == 1) {
+                        imgSecond[burf2].setImageResource(R.drawable.success);
+                        burf2++;
+                        burf2_cnt++;
+                        txtCount2.setText(Integer.toString(burf2_cnt));
+                        if (burf2 == max) {
+                            btnBurf2.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "2/\""+txtBurf2.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    } else {
+                        imgThird[deburf].setImageResource(R.drawable.deburf_success);
+                        deburf++;
+                        deburf_cnt++;
+                        txtCount3.setText(Integer.toString(deburf_cnt));
+                        if (deburf == max) {
+                            btnDeburf.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "3/\""+txtDeburf.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    }
+                    if (percent > 25) percent -= 10;
+                    ai.upNow(position);
+                    ai.upCnt(position);
+                    txtPercent.setText(Integer.toString(percent));
+
+                    if (allMax()) {
+                        btnConfirm.setEnabled(true);
+                    }
+
+                    asyncAI();
+                }
+            });
+            btnFail[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String result = "fail";
+                    int now_percent = percent;
+                    if (position == 0) {
+                        imgFirst[burf1].setImageResource(R.drawable.fail);
+                        burf1++;
+                        txtCount1.setText(Integer.toString(burf1_cnt));
+                        if (burf1 == max) {
+                            btnBurf1.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "1/\""+txtBurf1.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    } else if (position == 1) {
+                        imgSecond[burf2].setImageResource(R.drawable.fail);
+                        burf2++;
+                        txtCount2.setText(Integer.toString(burf2_cnt));
+                        if (burf2 == max) {
+                            btnBurf2.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "2/\""+txtBurf2.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    } else {
+                        imgThird[deburf].setImageResource(R.drawable.deburf_fail);
+                        deburf++;
+                        txtCount3.setText(Integer.toString(deburf_cnt));
+                        if (deburf == max) {
+                            btnDeburf.setEnabled(false);
+                            btnSuccess[position].setEnabled(false);
+                            btnFail[position].setEnabled(false);
+                        }
+                        if (!history.equals("")) history += "|";
+                        history += "3/\""+txtDeburf.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                    }
+                    if (percent < 75) percent += 10;
+                    ai.upCnt(position);
+                    txtPercent.setText(Integer.toString(percent));
+
+                    if (allMax()) {
+                        btnConfirm.setEnabled(true);
+                    }
+
+                    asyncAI();
+                }
+            });
+        }
 
         stampDBAdapter = new StampDBAdapter(getActivity());
         stoneAdapter = new StoneAdapter(stones, getActivity());
+
+        swtAI.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layoutAI.setVisibility(View.VISIBLE);
+                    asyncAI();
+                } else {
+                    layoutAI.setVisibility(View.GONE);
+                    txtFail.setVisibility(View.GONE);
+                    for (int i = 0; i < txtPick.length; i++) {
+                        txtPick[i].setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        swtSF.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int i = 0; i < layoutButtons.length; i++) {
+                        layoutButtons[i].setVisibility(View.VISIBLE);
+                    }
+                    btnBurf1.setVisibility(View.GONE);
+                    btnBurf2.setVisibility(View.GONE);
+                    btnDeburf.setVisibility(View.GONE);
+                } else {
+                    for (int i = 0; i < layoutButtons.length; i++) {
+                        layoutButtons[i].setVisibility(View.GONE);
+                    }
+                    btnBurf1.setVisibility(View.VISIBLE);
+                    btnBurf2.setVisibility(View.VISIBLE);
+                    btnDeburf.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         fabList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +534,18 @@ public class GalleryFragment extends Fragment {
                         max = 10;
                         break;
                 }
+                ai.setMax(max);
+                ai.resetTarget();
+                for (int i = 0; i < AI_LENGTH; i++) {
+                    txtAInumber[i].setText(Integer.toString(ai.getTarget(i)));
+                    if (i == AI_LENGTH-1) {
+                        btnAIup[i].setEnabled(true);
+                        btnAIdown[i].setEnabled(false);
+                    } else {
+                        btnAIup[i].setEnabled(false);
+                        btnAIdown[i].setEnabled(true);
+                    }
+                }
                 for (int i = 0; i < imgFirst.length; i++) {
                     if (i >= max) {
                         imgFirst[i].setVisibility(View.INVISIBLE);
@@ -540,12 +744,14 @@ public class GalleryFragment extends Fragment {
                     txtCount1.setText(Integer.toString(burf1_cnt));
                     if (percent > 25) percent -= 10;
                     result = "success";
+                    ai.upNow(0);
                 } else {
                     imgFirst[burf1].setImageResource(R.drawable.fail);
                     if (percent < 75) percent += 10;
                     result = "fail";
                 }
                 burf1++;
+                ai.upCnt(0);
                 txtPercent.setText(Integer.toString(percent));
                 if (burf1 == max) btnBurf1.setEnabled(false);
                 if (allMax()) {
@@ -553,6 +759,7 @@ public class GalleryFragment extends Fragment {
                 }
                 if (!history.equals("")) history += "|";
                 history += "1/\""+txtBurf1.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                asyncAI();
             }
         });
 
@@ -568,12 +775,14 @@ public class GalleryFragment extends Fragment {
                     txtCount2.setText(Integer.toString(burf2_cnt));
                     if (percent > 25) percent -= 10;
                     result = "success";
+                    ai.upNow(1);
                 } else {
                     imgSecond[burf2].setImageResource(R.drawable.fail);
                     if (percent < 75) percent += 10;
                     result = "fail";
                 }
                 burf2++;
+                ai.upCnt(1);
                 txtPercent.setText(Integer.toString(percent));
                 if (burf2 == max) btnBurf2.setEnabled(false);
                 if (allMax()) {
@@ -581,6 +790,7 @@ public class GalleryFragment extends Fragment {
                 }
                 if (!history.equals("")) history += "|";
                 history += "2/\""+txtBurf2.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                asyncAI();
             }
         });
 
@@ -596,12 +806,14 @@ public class GalleryFragment extends Fragment {
                     txtCount3.setText(Integer.toString(deburf_cnt));
                     if (percent > 25) percent -= 10;
                     result = "success";
+                    ai.upNow(2);
                 } else {
                     imgThird[deburf].setImageResource(R.drawable.deburf_fail);
                     if (percent < 75) percent += 10;
                     result = "fail";
                 }
                 deburf++;
+                ai.upCnt(2);
                 txtPercent.setText(Integer.toString(percent));
                 if (deburf == max) btnDeburf.setEnabled(false);
                 if (allMax()) {
@@ -609,6 +821,7 @@ public class GalleryFragment extends Fragment {
                 }
                 if (!history.equals("")) history += "|";
                 history += "3/\""+txtDeburf.getText().toString()+"\" 세공 ("+burf1_cnt+", "+burf2_cnt+", "+deburf_cnt+") - "+now_percent+"%/"+result;
+                asyncAI();
             }
         });
 
@@ -649,12 +862,46 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
+    private void asyncAI() {
+        if (!swtAI.isChecked()) return;
+        ai.setPercent(percent);
+        if (ai.logic() == 9) {
+            txtFail.setVisibility(View.VISIBLE);
+            for (int i = 0; i < txtPick.length; i++) {
+                txtPick[i].setVisibility(View.GONE);
+            }
+            return;
+        } else if (ai.logic() == 8) {
+            customToast.createToast("원하는 스톤을 세공하는데 성공하였습니다!", Toast.LENGTH_SHORT);
+            customToast.show();
+            for (int i = 0; i < txtPick.length; i++) {
+                txtPick[i].setVisibility(View.GONE);
+            }
+            return;
+        } else if (ai.logic() == 10) {
+            customToast.createToast("예상치 못한 상황 발생!!", Toast.LENGTH_SHORT);
+            customToast.show();
+            return;
+        }
+        for (int i = 0; i < txtPick.length; i++) {
+            if (ai.logic() == i) {
+                txtPick[i].setVisibility(View.VISIBLE);
+            } else {
+                txtPick[i].setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void reset() {
         btnConfirm.setEnabled(false);
 
         btnBurf1.setEnabled(true);
         btnBurf2.setEnabled(true);
         btnDeburf.setEnabled(true);
+        for (int i = 0; i < AI_LENGTH; i++) {
+            btnSuccess[i].setEnabled(true);
+            btnFail[i].setEnabled(true);
+        }
 
         txtPercent.setText("75");
         txtCount1.setText("0");
@@ -675,6 +922,10 @@ public class GalleryFragment extends Fragment {
             imgSecond[i].setImageResource(R.drawable.none);
             imgThird[i].setImageResource(R.drawable.deburf_none);
         }
+
+        ai.reset();
+        asyncAI();
+        txtFail.setVisibility(View.GONE);
     }
 
     private boolean allMax() {
