@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="3dp"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -71,26 +71,14 @@
                     android:textColor="#cccccc"
                     android:textSize="16sp" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="추천(Beta)"
-                    android:textSize="16sp"
-                    android:textColor="#ffffff"/>
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swtAI"
-                    android:layout_marginLeft="5dp"
-                    android:thumbTint="#FE6E0E"
-                    android:layout_marginRight="5dp"
-                    android:track="@drawable/switch_track_style"/>
-            </LinearLayout>
+            <Button
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/titlebuttonstyle"
+                android:text="프리셋"
+                android:textSize="18sp"
+                android:id="@+id/btnPreset"
+                android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -934,24 +922,48 @@
                 android:textSize="16sp" />
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-            <Switch
-                android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/swtSF"
-                android:layout_marginLeft="5dp"
-                android:thumbTint="#FE6E0E"
-                android:layout_marginRight="5dp"
-                android:track="@drawable/switch_track_style"/>
-            <TextView
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swtAI"
+                    android:thumbTint="#FE6E0E"
+                    android:layout_marginRight="5dp"
+                    android:track="@drawable/switch_track_style"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추천받기(Beta)"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="성공/실패로 바꾸기"
-                android:textSize="16sp"
-                android:textColor="#ffffff"/>
+                android:orientation="horizontal">
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swtSF"
+                    android:thumbTint="#FE6E0E"
+                    android:layout_marginRight="5dp"
+                    android:track="@drawable/switch_track_style"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성공/실패"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

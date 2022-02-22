@@ -31,6 +31,7 @@ import com.lostark.lostarkapplication.CustomToast;
 import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.StampDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
+import com.lostark.lostarkapplication.database.StonePresetDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private ImageView imgStone, imgBurf1, imgBurf2, imgDeburf;
     private TextView txtTitle, txtGrade, txtBurf1, txtBurf2, txtDeburf, txtPercent, txtCount1, txtCount2, txtCount3, txtFail;
-    private Button btnConfirm, btnReset;
+    private Button btnConfirm, btnReset, btnPreset;
     private ImageButton btnBurf1, btnBurf2, btnDeburf;
     private ImageView[] imgFirst = new ImageView[10];
     private ImageView[] imgSecond = new ImageView[10];
@@ -68,6 +69,9 @@ public class GalleryFragment extends Fragment {
     private CustomToast customToast;
     private Thread th = null;
     private StoneAI ai;
+    private StonePresetDBAdapter presetDBAdapter;
+    private StonePresetAdapter presetAdapter;
+    private ArrayList<Preset> presets;
 
     private SharedPreferences pref;
 
@@ -125,6 +129,7 @@ public class GalleryFragment extends Fragment {
         layoutAI = root.findViewById(R.id.layoutAI);
         swtSF = root.findViewById(R.id.swtSF);
         txtFail = root.findViewById(R.id.txtFail);
+        btnPreset = root.findViewById(R.id.btnPreset);
         for (int i = 0; i < imgFirst.length; i++) {
             imgFirst[i] = root.findViewById(getActivity().getResources().getIdentifier("imgFirst"+(i+1), "id", getActivity().getPackageName()));
             imgSecond[i] = root.findViewById(getActivity().getResources().getIdentifier("imgSecond"+(i+1), "id", getActivity().getPackageName()));
@@ -266,6 +271,150 @@ public class GalleryFragment extends Fragment {
                 }
             });
         }
+
+        presetDBAdapter = new StonePresetDBAdapter(getActivity());
+        btnPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isStop()) {
+                    customToast.createToast("이미 스톤이 세공중입니다. 스톤 세공을 취소 또는 완료 후 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+
+                View view = getLayoutInflater().inflate(R.layout.stone_preset_layout, null);
+
+                TextView txtLimit = view.findViewById(R.id.txtLimit);
+                ListView listView = view.findViewById(R.id.listView);
+                Button btnSave = view.findViewById(R.id.btnSave);
+
+                presets = new ArrayList<>();
+                presetDBAdapter.open();
+                txtLimit.setText("("+presetDBAdapter.getCount()+"/20");
+                Cursor cursor = presetDBAdapter.fetchAllData();
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    int id = cursor.getInt(0);
+                    String name = cursor.getString(1);
+                    String grade = cursor.getString(2);
+                    String[] stamps = cursor.getString(3).split(",");
+
+                    presets.add(new Preset(id, name, grade, stamps));
+                    cursor.moveToNext();
+                }
+                presetDBAdapter.close();
+
+                presetAdapter = new StonePresetAdapter(getActivity(), presets, getActivity());
+                listView.setAdapter(presetAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        switch (presets.get(position).getName()) {
+                            case "비상의 돌":
+                                txtTitle.setText("비상의 돌");
+                                txtGrade.setText("희귀");
+                                txtGrade.setTextColor(Color.parseColor("#2093A8"));
+                                imgStone.setImageResource(R.drawable.stone1);
+                                type = 0;
+                                max = 6;
+                                break;
+                            case "뛰어난 비상의 돌":
+                                txtTitle.setText("뛰어난 비상의 돌");
+                                txtGrade.setText("영웅");
+                                txtGrade.setTextColor(Color.parseColor("#9B53D2"));
+                                imgStone.setImageResource(R.drawable.stone2);
+                                type = 1;
+                                max = 8;
+                                break;
+                            case "강력한 비상의 돌":
+                                txtTitle.setText("강력한 비상의 돌");
+                                txtGrade.setText("전설");
+                                txtGrade.setTextColor(Color.parseColor("#C2873B"));
+                                imgStone.setImageResource(R.drawable.stone3);
+                                type = 2;
+                                max = 9;
+                                break;
+                            case "고고한 비상의 돌":
+                                txtTitle.setText("고고한 비상의 돌");
+                                txtGrade.setText("유물");
+                                txtGrade.setTextColor(Color.parseColor("#BF5700"));
+                                imgStone.setImageResource(R.drawable.stone4);
+                                type = 3;
+                                max = 10;
+                                break;
+                        }
+                        ai.setMax(max);
+                        ai.resetTarget();
+                        for (int i = 0; i < AI_LENGTH; i++) {
+                            txtAInumber[i].setText(Integer.toString(ai.getTarget(i)));
+                            if (i == AI_LENGTH-1) {
+                                btnAIup[i].setEnabled(true);
+                                btnAIdown[i].setEnabled(false);
+                            } else {
+                                btnAIup[i].setEnabled(false);
+                                btnAIdown[i].setEnabled(true);
+                            }
+                        }
+                        for (int i = 0; i < imgFirst.length; i++) {
+                            if (i >= max) {
+                                imgFirst[i].setVisibility(View.INVISIBLE);
+                                imgSecond[i].setVisibility(View.INVISIBLE);
+                                imgThird[i].setVisibility(View.INVISIBLE);
+                            } else {
+                                imgFirst[i].setVisibility(View.VISIBLE);
+                                imgSecond[i].setVisibility(View.VISIBLE);
+                                imgThird[i].setVisibility(View.VISIBLE);
+                            }
+                        }
+                        String[] arr1 = stampDBAdapter.readData(presets.get(position).getStamps()[0]);
+                        imgBurf1.setImageResource(getActivity().getResources().getIdentifier(arr1[1], "drawable", getActivity().getPackageName()));
+                        txtBurf1.setText(arr1[0]);
+                        String[] arr2 = stampDBAdapter.readData(presets.get(position).getStamps()[1]);
+                        imgBurf2.setImageResource(getActivity().getResources().getIdentifier(arr2[1], "drawable", getActivity().getPackageName()));
+                        txtBurf2.setText(arr2[0]);
+                        String[] arr3 = stampDBAdapter.readData(presets.get(position).getStamps()[2]);
+                        imgDeburf.setImageResource(getActivity().getResources().getIdentifier(arr3[1], "drawable", getActivity().getPackageName()));
+                        txtDeburf.setText(arr3[0]);
+
+                        customToast.createToast("프리셋을 적용하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = txtTitle.getText().toString();
+                        String grade = txtGrade.getText().toString();
+                        String[] stamps = new String[3];
+                        stamps[0] = txtBurf1.getText().toString();
+                        stamps[1] = txtBurf2.getText().toString();
+                        stamps[2] = txtDeburf.getText().toString();
+                        presetDBAdapter.open();
+                        int id = presetDBAdapter.getNextID();
+
+                        Preset preset = new Preset(id, name, grade, stamps);
+                        presets.add(preset);
+                        presetDBAdapter.insertData(preset);
+                        txtLimit.setText("("+presetDBAdapter.getCount()+"/20");
+                        presetDBAdapter.close();
+
+                        customToast.createToast("프리셋을 추가하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        presetAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
 
         stampDBAdapter = new StampDBAdapter(getActivity());
         stoneAdapter = new StoneAdapter(stones, getActivity());
