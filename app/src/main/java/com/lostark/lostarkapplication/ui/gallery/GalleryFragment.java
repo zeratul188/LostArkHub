@@ -386,13 +386,20 @@ public class GalleryFragment extends Fragment {
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        presetDBAdapter.open();
+                        if (presetAdapter.getCount() >= 20) {
+                            customToast.createToast("프리셋 저장 가능한 갯수가 부족합니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                            presetDBAdapter.close();
+                            return;
+                        }
+
                         String name = txtTitle.getText().toString();
                         String grade = txtGrade.getText().toString();
                         String[] stamps = new String[3];
                         stamps[0] = txtBurf1.getText().toString();
                         stamps[1] = txtBurf2.getText().toString();
                         stamps[2] = txtDeburf.getText().toString();
-                        presetDBAdapter.open();
                         int id = presetDBAdapter.getNextID();
 
                         Preset preset = new Preset(id, name, grade, stamps);

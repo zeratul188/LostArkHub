@@ -120,13 +120,15 @@ public class HomeFragment extends Fragment {
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private FirebaseDatabase mDatabase;
-    private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference;
+    private DatabaseReference islandReference, bossReference, dungeonReference, updateReference, eventReference, andReference, discordReference;
 
     private CustomToast customToast;
     private SharedPreferences pref, settingPref;
     private SharedPreferences.Editor editor;
 
     private ChracterListDBAdapter chracterListDBAdapter;
+
+    private String discord_url = "";
 
     @Override
     public void onResume() {
@@ -488,6 +490,24 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        discordReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        discord_url = data.getValue().toString();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -504,7 +524,12 @@ public class HomeFragment extends Fragment {
         fabDiscord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/ytgcYN4Qd2"));
+                if (discord_url.equals("")) {
+                    customToast.createToast("인터넷 연결이 안 되어 있는지 확인하시고 다시 시도해주세요.", Toast.LENGTH_SHORT);
+                    customToast.show();
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(discord_url));
                 startActivity(intent);
             }
         });
@@ -641,6 +666,7 @@ public class HomeFragment extends Fragment {
         updateReference = mDatabase.getReference("update");
         eventReference = mDatabase.getReference("event");
         andReference = mDatabase.getReference("Andsoon");
+        discordReference = mDatabase.getReference("Discord");
 
         customToast = new CustomToast(getActivity());
         timer = new TimerThread(txtTime, handler);
