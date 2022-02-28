@@ -15,6 +15,31 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#3581DF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1d2026"
+        android:orientation="horizontal">
+        <com.lostark.lostarkapplication.ui.stamp.ClearEditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/edtSearch"
+            android:background="@drawable/customeditstyle"
+            android:hint="각인 이름을 입력하세요."
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"/>
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgbtnSearch"
+            android:src="@drawable/ic_search_black_24dp"
+            android:scaleType="centerCrop"
+            android:padding="12dp"
+            android:background="@drawable/settingbuttonstyle"/>
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="500dp"

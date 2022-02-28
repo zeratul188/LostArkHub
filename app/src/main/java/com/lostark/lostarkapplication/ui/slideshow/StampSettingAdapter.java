@@ -15,11 +15,28 @@ import java.util.ArrayList;
 
 public class StampSettingAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<StampSetting> stamps;
+    private ArrayList<StampSetting> stamps, main;
 
     public StampSettingAdapter(Context context, ArrayList<StampSetting> stamps) {
         this.context = context;
         this.stamps = stamps;
+        this.main = stamps;
+    }
+
+    public ArrayList<StampSetting> getStamps() {
+        return stamps;
+    }
+
+    public void setStamps(ArrayList<StampSetting> stamps) {
+        this.stamps = stamps;
+    }
+
+    public void changeMain() {
+        stamps = main;
+    }
+
+    public ArrayList<StampSetting> getMain() {
+        return main;
     }
 
     @Override
@@ -61,8 +78,17 @@ public class StampSettingAdapter extends BaseAdapter {
         chkSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stamps.get(position).setActivate(((CheckBox)v).isChecked());
+                for (int i = 0; i < main.size(); i++) {
+                    if (main.get(i).getName().equals(stamps.get(position).getName())) {
+                        main.get(i).setActivate(((CheckBox)v).isChecked());
+                        break;
+                    }
+                }
+                /*
                 if (((CheckBox)v).isChecked()) stamps.get(position).setActivate(true);
                 else stamps.get(position).setActivate(false);
+                 */
             }
         });
 
