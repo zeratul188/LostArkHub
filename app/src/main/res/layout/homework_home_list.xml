@@ -86,6 +86,7 @@
                         android:id="@+id/txtDungeon"
                         android:text="0/3"
                         android:textSize="16dp"
+                        android:layout_gravity="center"
                         android:textColor="#FFFFFF"/>
                 </LinearLayout>
                 <LinearLayout
@@ -102,6 +103,7 @@
                         android:id="@+id/txtBoss"
                         android:text="0/3"
                         android:textSize="16dp"
+                        android:layout_gravity="center"
                         android:textColor="#FFFFFF"/>
                 </LinearLayout>
                 <LinearLayout
@@ -118,6 +120,7 @@
                         android:id="@+id/txtQuest"
                         android:text="0/3"
                         android:textSize="16dp"
+                        android:layout_gravity="center"
                         android:textColor="#FFFFFF"/>
                 </LinearLayout>
             </TableRow>

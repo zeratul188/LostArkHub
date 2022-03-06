@@ -17,15 +17,19 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".StatActivity"
+            android:configChanges="screenSize|orientation"
             android:exported="false" />
         <activity
             android:name=".WebActivity"
             android:exported="false" />
         <activity android:name=".ui.commander.ChecklistActivity"
+            android:configChanges="screenSize|orientation"
             android:theme="@style/CustomActionBarTheme"/>
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingActivity"
+            android:configChanges="screenSize|orientation"/>
         <activity
             android:name=".MainActivity"
+            android:configChanges="screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
