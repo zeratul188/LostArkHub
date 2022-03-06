@@ -29,6 +29,14 @@ public class StampAdapter extends BaseAdapter {
         this.dn = dn;
     }
 
+    public ArrayList<Stamp> getStamps() {
+        return stamps;
+    }
+
+    public void setStamps(ArrayList<Stamp> stamps) {
+        this.stamps = stamps;
+    }
+
     @Override
     public int getCount() {
         return stamps.size();

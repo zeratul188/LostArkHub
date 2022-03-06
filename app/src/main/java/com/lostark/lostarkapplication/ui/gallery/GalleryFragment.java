@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.lostark.lostarkapplication.R;
 import com.lostark.lostarkapplication.database.StampDBAdapter;
 import com.lostark.lostarkapplication.database.StoneDBAdapter;
 import com.lostark.lostarkapplication.database.StonePresetDBAdapter;
+import com.lostark.lostarkapplication.ui.stamp.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,6 +74,8 @@ public class GalleryFragment extends Fragment {
     private StonePresetDBAdapter presetDBAdapter;
     private StonePresetAdapter presetAdapter;
     private ArrayList<Preset> presets;
+    private StampAdapter stampAdapter;
+    private ArrayList<Stamp> stamps;
 
     private SharedPreferences pref;
 
@@ -82,7 +86,7 @@ public class GalleryFragment extends Fragment {
     private String history = "";
 
     private boolean isStop() {
-        if (burf1_cnt == 0 && burf2_cnt == 0 && deburf_cnt == 0) {
+        if (burf1 == 0 && burf2 == 0 && deburf == 0) {
             return true;
         }
         return false;
@@ -728,15 +732,36 @@ public class GalleryFragment extends Fragment {
 
                 ListView listView = view.findViewById(R.id.listView);
                 Button btnCancel = view.findViewById(R.id.btnCancel);
+                ClearEditText edtSearch = view.findViewById(R.id.edtSearch);
+                ImageButton imgbtnSearch = view.findViewById(R.id.imgbtnSearch);
 
-                ArrayList<Stamp> stamps = new ArrayList<>();
+                edtSearch.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                searchProcess(edtSearch.getText().toString(), stamps);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                imgbtnSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchProcess(edtSearch.getText().toString(), stamps);
+                    }
+                });
+
+                stamps = new ArrayList<>();
                 for (int i = 0; i < 87; i++) {
                     String[] arr = stampDBAdapter.readData(i);
                     Stamp stamp = new Stamp(arr[0], arr[1]);
                     if (!stamp.getName().equals(txtBurf1.getText().toString())) stamps.add(stamp);
                 }
 
-                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                stampAdapter = new StampAdapter(stamps, getActivity(), dn);
                 listView.setAdapter(stampAdapter);
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -782,15 +807,36 @@ public class GalleryFragment extends Fragment {
 
                 ListView listView = view.findViewById(R.id.listView);
                 Button btnCancel = view.findViewById(R.id.btnCancel);
+                ClearEditText edtSearch = view.findViewById(R.id.edtSearch);
+                ImageButton imgbtnSearch = view.findViewById(R.id.imgbtnSearch);
 
-                ArrayList<Stamp> stamps = new ArrayList<>();
+                edtSearch.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                searchProcess(edtSearch.getText().toString(), stamps);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                imgbtnSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchProcess(edtSearch.getText().toString(), stamps);
+                    }
+                });
+
+                stamps = new ArrayList<>();
                 for (int i = 0; i < 87; i++) {
                     String[] arr = stampDBAdapter.readData(i);
                     Stamp stamp = new Stamp(arr[0], arr[1]);
                     if (!stamp.getName().equals(txtBurf2.getText().toString())) stamps.add(stamp);
                 }
 
-                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                stampAdapter = new StampAdapter(stamps, getActivity(), dn);
                 listView.setAdapter(stampAdapter);
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -837,25 +883,37 @@ public class GalleryFragment extends Fragment {
 
                 ListView listView = view.findViewById(R.id.listView);
                 Button btnCancel = view.findViewById(R.id.btnCancel);
+                ClearEditText edtSearch = view.findViewById(R.id.edtSearch);
+                ImageButton imgbtnSearch = view.findViewById(R.id.imgbtnSearch);
 
-                ArrayList<Stamp> stamps = new ArrayList<>();
+                edtSearch.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                searchProcess(edtSearch.getText().toString(), stamps);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                imgbtnSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchProcess(edtSearch.getText().toString(), stamps);
+                    }
+                });
+
+                stamps = new ArrayList<>();
                 for (int i = 87; i < 91; i++) {
                     String[] arr = stampDBAdapter.readData(i);
                     Stamp stamp = new Stamp(arr[0], arr[1]);
                     if (!stamp.getName().equals(txtDeburf.getText().toString())) stamps.add(stamp);
                 }
 
-                StampAdapter stampAdapter = new StampAdapter(stamps, getActivity(), dn);
+                stampAdapter = new StampAdapter(stamps, getActivity(), dn);
                 listView.setAdapter(stampAdapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Toast.makeText(getActivity(), stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG).show();
-                        customToast.createToast(stamps.get(position).getName()+"/"+stamps.get(position).getImage(), Toast.LENGTH_LONG);
-                        customToast.show();
-                    }
-                });
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1111,6 +1169,26 @@ public class GalleryFragment extends Fragment {
         }
         Collections.reverse(stones);
         stoneDBAdapter.close();
+    }
+
+    private void searchProcess(String value, ArrayList<Stamp> stamps) {
+        if (value.equals("")) {
+            stampAdapter.setStamps(stamps);
+        } else {
+            ArrayList<Stamp> results = (ArrayList<Stamp>) stamps.clone();
+            String[] args = value.split(" ");
+            for (int i = 0; i < results.size(); i++) {
+                for (String arg : args) {
+                    if (results.get(i).getName().indexOf(arg) == -1) {
+                        results.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            stampAdapter.setStamps(results);
+        }
+        stampAdapter.notifyDataSetChanged();
     }
 
     @Override

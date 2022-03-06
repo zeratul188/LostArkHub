@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -100,6 +102,8 @@ public class SlideshowFragment extends Fragment {
     private EquipmentStoneDBAdapter equipmentStoneDBAdapter;
     private EquipmentDBAdapter equipmentDBAdapter;
     private StatDBAdapter statDBAdapter;
+    private ArrayList<StampSetting> settings;
+    private StampSettingAdapter settingAdapter;
 
     private AlertDialog alertDialog, alertDialog2;
     private CustomToast customToast;
@@ -355,8 +359,29 @@ public class SlideshowFragment extends Fragment {
                 ListView listStamps = view.findViewById(R.id.listStamps);
                 Button btnOK = view.findViewById(R.id.btnOK);
                 Button btnReset = view.findViewById(R.id.btnReset);
+                ClearEditText edtSearch = view.findViewById(R.id.edtSearch);
+                ImageButton imgbtnSearch = view.findViewById(R.id.imgbtnSearch);
 
-                ArrayList<StampSetting> settings = new ArrayList<>();
+                edtSearch.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                searchProcess(edtSearch.getText().toString(), settings);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                imgbtnSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchProcess(edtSearch.getText().toString(), settings);
+                    }
+                });
+
+                settings = new ArrayList<>();
                 for (int i = 0; i < 87; i++) settings.add(new StampSetting(stampDBAdapter.readData(i)[0], stampDBAdapter.readData(i)[1], false));
                 for (int i = 0; i < settings.size(); i++) {
                     for (int j = 0; j < apply_stamps.size(); j++) {
@@ -365,7 +390,7 @@ public class SlideshowFragment extends Fragment {
                         }
                     }
                 }
-                StampSettingAdapter settingAdapter = new StampSettingAdapter(getActivity(), settings);
+                settingAdapter = new StampSettingAdapter(getActivity(), settings);
                 listStamps.setAdapter(settingAdapter);
 
                 btnReset.setOnClickListener(new View.OnClickListener() {
@@ -387,7 +412,7 @@ public class SlideshowFragment extends Fragment {
                         ArrayList<String> stamp_names = new ArrayList<>();
                         stamp_names.add("없음");
                         apply_stamps.clear();
-                        for (StampSetting setting : settings) {
+                        for (StampSetting setting : settingAdapter.getMain()) {
                             if (setting.isActivate()) {
                                 apply_stamps.add(new Stamp(setting.getName(), setting.getImage()));
                                 stamp_names.add(setting.getName());
@@ -1386,6 +1411,26 @@ public class SlideshowFragment extends Fragment {
         }
         equipmentDBAdapter.close();
         presetAdapter.notifyDataSetChanged();
+    }
+
+    private void searchProcess(String value, ArrayList<StampSetting> settings) {
+        if (value.equals("")) {
+            settingAdapter.changeMain();
+        } else {
+            ArrayList<StampSetting> results = (ArrayList<StampSetting>) settings.clone();
+            String[] args = value.split(" ");
+            for (int i = 0; i < results.size(); i++) {
+                for (String arg : args) {
+                    if (results.get(i).getName().indexOf(arg) == -1) {
+                        results.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            settingAdapter.setStamps(results);
+        }
+        settingAdapter.notifyDataSetChanged();
     }
     
     private String getGrade(int index) {
