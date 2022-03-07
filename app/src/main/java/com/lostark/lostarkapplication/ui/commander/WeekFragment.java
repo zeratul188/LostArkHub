@@ -21,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lostark.lostarkapplication.CustomToast;
@@ -31,14 +34,14 @@ import com.lostark.lostarkapplication.database.ChracterListDBAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class WeekFragment extends Fragment {
     private ListView listView;
-    //private FloatingActionButton fabAdd;
-    private LinearLayout layoutAdd;
+    private LinearLayout layoutAdd, layoutPosition;
 
     private ChracterDBAdapter chracterDBAdapter;
     private ChracterListDBAdapter chracterListDBAdapter;
@@ -46,6 +49,9 @@ public class WeekFragment extends Fragment {
     private HomeworkAdapter homeworkAdapter;
     private AlertDialog alertDialog;
     private CustomToast customToast;
+    private ChecklistPositionAdapter positionAdapter;
+    private ItemTouchHelper helper;
+    private ArrayList<Checklist> lists;
     String name;
 
     private SharedPreferences pref;
@@ -65,8 +71,8 @@ public class WeekFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_week, container, false);
 
         listView = root.findViewById(R.id.listView);
-        //fabAdd = root.findViewById(R.id.fabAdd);
         layoutAdd = root.findViewById(R.id.layoutAdd);
+        layoutPosition = root.findViewById(R.id.layoutPosition);
 
         customToast = new CustomToast(getActivity());
 
@@ -78,6 +84,66 @@ public class WeekFragment extends Fragment {
         checklists = new ArrayList<>();
         homeworkAdapter = new HomeworkAdapter(checklists, getActivity(), chracterDBAdapter, getActivity(), false, name);
         listView.setAdapter(homeworkAdapter);
+
+
+
+        layoutPosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getActivity().getLayoutInflater().inflate(R.layout.edit_position_homework_dialog, null);
+
+                RecyclerView listView = view.findViewById(R.id.listView);
+                Button btnEdit = view.findViewById(R.id.btnEdit);
+
+                lists = new ArrayList<>();
+                lists = (ArrayList<Checklist>) checklists.clone();
+                for (int i = 0; i < lists.size(); i++) {
+                    if (lists.get(i).getType().equals("휴식게이지")) {
+                        lists.remove(i);
+                        i--;
+                    }
+                }
+
+                listView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), false);
+
+                helper = new ItemTouchHelper(new ChecklistItemTouchHelperCallback(positionAdapter));
+                helper.attachToRecyclerView(listView);
+
+                listView.setAdapter(positionAdapter);
+                ChecklistDecoration decoration = new ChecklistDecoration();
+                listView.addItemDecoration(decoration);
+
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 0; i < lists.size(); i++) {
+                            for (Checklist checklist : checklists) {
+                                if (checklist.getName().equals(lists.get(i).getName())) {
+                                    checklist.setPosition(i);
+                                    chracterDBAdapter.open();
+                                    chracterDBAdapter.changePosition(checklist.getName(), i);
+                                    chracterDBAdapter.close();
+                                    break;
+                                }
+                            }
+                        }
+                        customToast.createToast("순서를 변경하였습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        Collections.sort(checklists);
+                        homeworkAdapter.notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
 
         layoutAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,11 +291,15 @@ public class WeekFragment extends Fragment {
                 int max = cursor.getInt(4);
                 int history = cursor.getInt(7);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
-                checklists.add(new Checklist(name, type, content, now, max, isAlarm, history));
+                int position = cursor.getInt(9);
+                Checklist checklist = new Checklist(name, type, content, now, max, isAlarm, history);
+                checklist.setPosition(position);
+                checklists.add(checklist);
             }
             cursor.moveToNext();
         }
         chracterDBAdapter.close();
+        Collections.sort(checklists);
         homeworkAdapter.notifyDataSetChanged();
     }
 }

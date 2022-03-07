@@ -2,9 +2,9 @@ package com.lostark.lostarkapplication.ui.commander;
 
 import androidx.annotation.Nullable;
 
-public class Checklist {
+public class Checklist implements Comparable<Checklist> {
     private String name, type, content;
-    private int now, max, history;
+    private int now, max, history, position;
     private boolean isAlarm;
 
     public Checklist(String name, String type, String content, int now, int max, boolean isAlarm, int history) {
@@ -15,6 +15,15 @@ public class Checklist {
         this.max = max;
         this.isAlarm = isAlarm;
         this.history = history;
+        position = 9999;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public int getHistory() {
@@ -80,5 +89,12 @@ public class Checklist {
     @Override
     public boolean equals(@Nullable Object obj) {
         return name.equals(((Checklist)obj).getName());
+    }
+
+    @Override
+    public int compareTo(Checklist o) {
+        if (position > o.getPosition()) return 1;
+        else if (position == o.getPosition()) return 0;
+        else return -1;
     }
 }
