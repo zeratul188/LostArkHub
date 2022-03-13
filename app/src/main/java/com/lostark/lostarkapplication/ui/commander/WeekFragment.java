@@ -210,12 +210,14 @@ public class WeekFragment extends Fragment {
                         }
                         int max = Integer.parseInt(edtCount.getText().toString());
                         Checklist checklist = new Checklist(name, "주간", "", 0, max, true, 0);
+                        checklist.setPosition(chracterDBAdapter.getLastRowID());
                         checklists.add(checklist);
                         chracterDBAdapter.insertData(checklist);
                         chracterDBAdapter.close();
                         //Toast.makeText(getActivity(), name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT).show();
                         customToast.createToast(name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
+                        Collections.sort(checklists);
                         homeworkAdapter.notifyDataSetChanged();
                         alertDialog.dismiss();
                     }

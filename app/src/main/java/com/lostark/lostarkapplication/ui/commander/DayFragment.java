@@ -280,27 +280,32 @@ public class DayFragment extends Fragment {
                             }
                             checklist = new Checklist(name, "일일", content, 0, max, !pref.getBoolean("homework_alarm", false), 0);
                         } else checklist = new Checklist(name, "일일", "", 0, max, !pref.getBoolean("homework_alarm", false), 0);
+                        checklist.setPosition(chracterDBAdapter.getLastRowID());
                         checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
                         if (name.equals("카오스 던전")) {
                             int progress = seekRest.getProgress();
                             Checklist restList = new Checklist("카던 휴식", "휴식게이지", "", progress, 10, false, 0);
+                            checklist.setPosition(9998);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("가디언 토벌")) {
                             int progress = seekRest.getProgress();
                             Checklist restList = new Checklist("가디언 휴식", "휴식게이지", "", progress, 10, false, 0);
+                            checklist.setPosition(9998);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         } else if (name.equals("에포나 일일 의뢰")) {
                             int progress = seekRest.getProgress();
                             Checklist restList = new Checklist("에포나 휴식", "휴식게이지", "", progress, 10, false, 0);
+                            checklist.setPosition(9998);
                             checklists.add(restList);
                             chracterDBAdapter.insertData(restList);
                         }
                         chracterDBAdapter.close();
                         customToast.createToast(name+" 숙제를 추가하였습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
+                        Collections.sort(checklists);
                         homeworkAdapter.notifyDataSetChanged();
                         alertDialog.dismiss();
                     }

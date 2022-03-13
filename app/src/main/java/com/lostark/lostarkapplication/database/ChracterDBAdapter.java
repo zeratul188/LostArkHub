@@ -54,7 +54,7 @@ public class ChracterDBAdapter {
             this.mCtx = context;
             this.table = table;
             create = "create table "+table+" (_id integer primary key, " +
-                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null);";
+                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null, POSITION integer not null);";
         }
 
         @Override
@@ -209,6 +209,21 @@ public class ChracterDBAdapter {
         return true;
     }
 
+    public int getLastRowID() {
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+        cursor.moveToFirst();
+        int result = 0;
+        while (!cursor.isAfterLast()) {
+            int rowID = cursor.getInt(0);
+            if (result < rowID) {
+                result = rowID;
+            }
+            cursor.moveToNext();
+        }
+        result++;
+        return result;
+    }
+
     public boolean changeRest(String name, int value) {
         ContentValues values = new ContentValues();
         values.put(KEY_NOW, value);
@@ -226,6 +241,7 @@ public class ChracterDBAdapter {
         values.put(KEY_CONTENT, checklist.getContent());
         values.put(KEY_HISTORY, checklist.getHistory());
         values.put(KEY_RESTCOUNT, 0);
+        values.put(KEY_POSITION, checklist.getPosition());
         return sqlDB.insert(databaseTable, null, values);
     }
 
