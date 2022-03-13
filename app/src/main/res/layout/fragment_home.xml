@@ -273,13 +273,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#40aaaaaa"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"/>
-
                     <!--Island2-->
                     <LinearLayout
                         android:layout_width="0dp"
@@ -346,14 +339,6 @@
                                 android:id="@+id/imgIsland2_8"/>
                         </LinearLayout>
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#40aaaaaa"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"/>
-
                     <!--Island3-->
                     <LinearLayout
                         android:layout_width="0dp"

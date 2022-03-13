@@ -37,48 +37,83 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtName"
-                    android:text="캐릭터 이름"
-                    android:textColor="#ffffff"
-                    android:textSize="17dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtServer"
-                    android:text="서버"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="#fe6e0e"
-                    android:textSize="12dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Level : "
-                    android:textColor="#aaaaaa"
-                    android:textSize="12dp"/>
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtLevel"
-                    android:text="9999"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14dp"/>
-                <TextView
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtName"
+                            android:text="캐릭터 이름"
+                            android:textColor="#ffffff"
+                            android:textSize="17dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtServer"
+                            android:text="서버"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#fe6e0e"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtJob"
+                            android:text="직업"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12dp"/>
+                        <!--<ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/middle_point"
+                            android:layout_gravity="center"
+                            android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="아이템 레벨 : "
+                            android:textColor="#aaaaaa"
+                            android:textSize="14dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtLevel"
+                            android:text="9999"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14dp"/>-->
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtJob"
-                    android:text="직업"
-                    android:textColor="#92C52D"
-                    android:textSize="14dp"/>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtLevel"
+                        android:text="9999"
+                        android:textColor="#FE6E0E"
+                        android:textSize="20dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Level"
+                        android:textColor="#AAAAAA"
+                        android:layout_gravity="center"
+                        android:textSize="10dp"/>
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_width="1dp"
