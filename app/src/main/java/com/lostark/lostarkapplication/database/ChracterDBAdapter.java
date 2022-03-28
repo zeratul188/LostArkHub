@@ -25,15 +25,16 @@ public class ChracterDBAdapter {
     public static final String KEY_HISTORY = "HISTORY";
     public static final String KEY_RESTCOUNT = "RESTCOUNT";
     public static final String KEY_POSITION = "POSITION";
+    public static final String KEY_ICON = "ICON";
 
     private String databaseName;
     private String databaseTable;
 
     private String databaseCreate = "create table "+databaseTable+" (_id integer primary key, " +
             "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, "+
-            "CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null, POSITION integer not null);";
+            "CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null, POSITION integer not null, ICON integer not null);";
 
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private Context mCtx;
 
     private DatabaseHelper myDBHelper;
@@ -54,7 +55,7 @@ public class ChracterDBAdapter {
             this.mCtx = context;
             this.table = table;
             create = "create table "+table+" (_id integer primary key, " +
-                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null, POSITION integer not null);";
+                    "NAME text not null, TYPE text not null, NOW integer not null, MAX integer not null, ALARM text not null, CONTENT text not null, HISTORY integer not null, RESTCOUNT integer not null, POSITION integer not null, ICON integer not null);";
         }
 
         @Override
@@ -82,18 +83,28 @@ public class ChracterDBAdapter {
                 if (oldVersion < 7) {
                     resortPosition(db);
                 }
+                if (oldVersion < 8) {
+                    updateIconColumn(db);
+                }
             } catch (SQLException e) {
                 db.execSQL("DROP TABLE IF EXISTS "+table);
                 onCreate(db);
             }
             
         }
+        
+        /*
+         * ICON 칼럼 추가
+         */
+        private void updateIconColumn(SQLiteDatabase a_db) {
+            a_db.execSQL("ALTER TABLE " + table + " " + "ADD COLUMN " + "ICON" + " " + "integer not null DEFAULT " + "0");
+        }
 
         /*
          * Position 재배열
          */
         private void resortPosition(SQLiteDatabase a_db) {
-            Cursor cursor = a_db.query(table, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+            Cursor cursor = a_db.query(table, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, null, null, null, null, null);
             cursor.moveToFirst();
             int index = 0;
             while (!cursor.isAfterLast()) {
@@ -116,7 +127,7 @@ public class ChracterDBAdapter {
          */
         private void updatePositionColumn(SQLiteDatabase a_db) {
             a_db.execSQL("ALTER TABLE " + table + " " + "ADD COLUMN " + "POSITION" + " " + "integer not null DEFAULT " + "9999");
-            Cursor cursor = a_db.query(table, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+            Cursor cursor = a_db.query(table, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, null, null, null, null, null);
             cursor.moveToFirst();
             int index = 0;
             while (!cursor.isAfterLast()) {
@@ -182,14 +193,14 @@ public class ChracterDBAdapter {
     }
 
     public int getRestCount(String name) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME = '"+name+"'", null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME = '"+name+"'", null, null, null, null);
         cursor.moveToFirst();
         if (cursor.getCount() != 0) return cursor.getInt(8);
         else return -1;
     }
 
     public int getRest(String name) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME = '"+name+"'", null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME = '"+name+"'", null, null, null, null);
         cursor.moveToFirst();
         if (cursor.getCount() != 0) return cursor.getInt(3);
         else return -1;
@@ -210,7 +221,7 @@ public class ChracterDBAdapter {
     }
 
     public int getLastRowID() {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, null, null, null, null, null);
         cursor.moveToFirst();
         int result = 0;
         while (!cursor.isAfterLast()) {
@@ -227,6 +238,13 @@ public class ChracterDBAdapter {
     public boolean changeRest(String name, int value) {
         ContentValues values = new ContentValues();
         values.put(KEY_NOW, value);
+        sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
+        return true;
+    }
+
+    public boolean changeIcon(String name, int value) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_ICON, value);
         sqlDB.update(databaseTable, values, "NAME = ?", new String[] {name});
         return true;
     }
@@ -254,7 +272,7 @@ public class ChracterDBAdapter {
 
     public boolean resetData(String type, int day) {
         day--;
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String name = cursor.getString(1);
@@ -262,7 +280,7 @@ public class ChracterDBAdapter {
             int max = cursor.getInt(4);
             if (name.equals("카오스 던전")) {
                 if (max-now > 0) {
-                    Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME='카던 휴식'", null, null, null, null);
+                    Cursor dungeonCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME='카던 휴식'", null, null, null, null);
                     dungeonCursor.moveToFirst();
                     if (dungeonCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -286,7 +304,7 @@ public class ChracterDBAdapter {
                 }
             } else if (name.equals("가디언 토벌")) {
                 if (max-now > 0) {
-                    Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME='가디언 휴식'", null, null, null, null);
+                    Cursor bossCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME='가디언 휴식'", null, null, null, null);
                     bossCursor.moveToFirst();
                     if (bossCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -310,7 +328,7 @@ public class ChracterDBAdapter {
                 }
             } else if (name.equals("에포나 일일 의뢰")) {
                 if (max-now > 0) {
-                    Cursor questCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME='에포나 휴식'", null, null, null, null);
+                    Cursor questCursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME='에포나 휴식'", null, null, null, null);
                     questCursor.moveToFirst();
                     if (questCursor.getCount() == 0) {
                         ContentValues values = new ContentValues();
@@ -349,7 +367,7 @@ public class ChracterDBAdapter {
     }
 
     public boolean isSame(String name, String type) {
-        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "TYPE='"+type+"'", null, null, null, null);
+        Cursor cursor = sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "TYPE='"+type+"'", null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String find = cursor.getString(1);
@@ -387,7 +405,7 @@ public class ChracterDBAdapter {
     }
 
     public Cursor fetchData(String name) {
-        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "NAME = '"+name+"'", null, null, null, null);
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "NAME = '"+name+"'", null, null, null, null);
     }
 
     public boolean resetHistory() {
@@ -398,11 +416,11 @@ public class ChracterDBAdapter {
     }
 
     public Cursor fetchAllData() {
-        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, null, null, null, null, null);
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, null, null, null, null, null);
     }
 
         public Cursor fetchData(int rowID) {
-        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION}, "_id = "+rowID, null, null, null, null);
+        return sqlDB.query(databaseTable, new String[] {KEY_ROWID, KEY_NAME, KEY_TYPE, KEY_NOW, KEY_MAX, KEY_ALARM, KEY_CONTENT, KEY_HISTORY, KEY_RESTCOUNT, KEY_POSITION, KEY_ICON}, "_id = "+rowID, null, null, null, null);
     }
 
     public boolean deleteAllData() {

@@ -211,6 +211,7 @@ public class WeekFragment extends Fragment {
                         int max = Integer.parseInt(edtCount.getText().toString());
                         Checklist checklist = new Checklist(name, "주간", "", 0, max, true, 0);
                         checklist.setPosition(chracterDBAdapter.getLastRowID());
+                        checklist.setIcon(0);
                         checklists.add(checklist);
                         chracterDBAdapter.insertData(checklist);
                         chracterDBAdapter.close();
@@ -294,8 +295,10 @@ public class WeekFragment extends Fragment {
                 int history = cursor.getInt(7);
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
                 int position = cursor.getInt(9);
+                int icon = cursor.getInt(10);
                 Checklist checklist = new Checklist(name, type, content, now, max, isAlarm, history);
                 checklist.setPosition(position);
+                checklist.setIcon(icon);
                 checklists.add(checklist);
             }
             cursor.moveToNext();

@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 public class Checklist implements Comparable<Checklist> {
     private String name, type, content;
-    private int now, max, history, position;
+    private int now, max, history, position, icon;
     private boolean isAlarm;
 
     public Checklist(String name, String type, String content, int now, int max, boolean isAlarm, int history) {
@@ -27,6 +27,14 @@ public class Checklist implements Comparable<Checklist> {
         this.history = history;
         this.position = position;
         this.isAlarm = isAlarm;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
     public int getPosition() {
