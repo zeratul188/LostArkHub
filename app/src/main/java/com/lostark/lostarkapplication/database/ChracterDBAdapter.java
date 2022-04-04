@@ -260,6 +260,7 @@ public class ChracterDBAdapter {
         values.put(KEY_HISTORY, checklist.getHistory());
         values.put(KEY_RESTCOUNT, 0);
         values.put(KEY_POSITION, checklist.getPosition());
+        values.put(KEY_ICON, checklist.getIcon());
         return sqlDB.insert(databaseTable, null, values);
     }
 

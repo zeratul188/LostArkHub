@@ -29,6 +29,18 @@ public class Checklist implements Comparable<Checklist> {
         this.isAlarm = isAlarm;
     }
 
+    public Checklist(String name, String type, String content, int now, int max, boolean isAlarm, int history, int position, int icon) {
+        this.name = name;
+        this.type = type;
+        this.content = content;
+        this.now = now;
+        this.max = max;
+        this.history = history;
+        this.position = position;
+        this.isAlarm = isAlarm;
+        this.icon = icon;
+    }
+
     public int getIcon() {
         return icon;
     }

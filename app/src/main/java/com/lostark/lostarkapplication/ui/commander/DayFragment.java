@@ -41,7 +41,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class DayFragment extends Fragment {
+public class DayFragment extends Fragment implements ChecklistPositionAdapter.OnStartDragListener{
     private ListView listView;
     private LinearLayout layoutAdd, layoutPosition;
 
@@ -108,7 +108,7 @@ public class DayFragment extends Fragment {
                 }
 
                 listView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), true);
+                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), true, DayFragment.this);
 
                 helper = new ItemTouchHelper(new ChecklistItemTouchHelperCallback(positionAdapter));
                 helper.attachToRecyclerView(listView);
@@ -369,5 +369,10 @@ public class DayFragment extends Fragment {
         chracterDBAdapter.close();
         Collections.sort(checklists);
         homeworkAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStartDrag(ChecklistPositionAdapter.ViewHolder viewHolder) {
+        helper.startDrag(viewHolder);
     }
 }

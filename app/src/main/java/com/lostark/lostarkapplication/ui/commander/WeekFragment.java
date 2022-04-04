@@ -39,7 +39,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class WeekFragment extends Fragment {
+public class WeekFragment extends Fragment implements ChecklistPositionAdapter.OnStartDragListener {
     private ListView listView;
     private LinearLayout layoutAdd, layoutPosition;
 
@@ -105,7 +105,7 @@ public class WeekFragment extends Fragment {
                 }
 
                 listView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), false);
+                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), false, WeekFragment.this);
 
                 helper = new ItemTouchHelper(new ChecklistItemTouchHelperCallback(positionAdapter));
                 helper.attachToRecyclerView(listView);
@@ -306,5 +306,10 @@ public class WeekFragment extends Fragment {
         chracterDBAdapter.close();
         Collections.sort(checklists);
         homeworkAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStartDrag(ChecklistPositionAdapter.ViewHolder viewHolder) {
+        helper.startDrag(viewHolder);
     }
 }

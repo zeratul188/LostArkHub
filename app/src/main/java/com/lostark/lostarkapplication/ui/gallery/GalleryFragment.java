@@ -1,5 +1,6 @@
 package com.lostark.lostarkapplication.ui.gallery;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -477,6 +478,7 @@ public class GalleryFragment extends Fragment {
                 listView.setAdapter(stoneAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @SuppressLint("WrongConstant")
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         View dialog_view = getActivity().getLayoutInflater().inflate(R.layout.stone_information_dialog, null);
@@ -546,12 +548,12 @@ public class GalleryFragment extends Fragment {
                         }
 
                         for (int i = 0; i < imgFirst.length; i++) {
-                            if (i < counts[0]) imgFirst[i].setVisibility(View.VISIBLE);
-                            else imgFirst[i].setVisibility(View.INVISIBLE);
-                            if (i < counts[1]) imgSecond[i].setVisibility(View.VISIBLE);
-                            else imgSecond[i].setVisibility(View.INVISIBLE);
-                            if (i < counts[2]) imgThird[i].setVisibility(View.VISIBLE);
-                            else imgThird[i].setVisibility(View.INVISIBLE);
+                            if (i < counts[0]) imgFirst[i].setImageResource(R.drawable.success);
+                            else imgFirst[i].setImageResource(R.drawable.none);
+                            if (i < counts[1]) imgSecond[i].setImageResource(R.drawable.success);
+                            else imgSecond[i].setImageResource(R.drawable.none);
+                            if (i < counts[2]) imgThird[i].setImageResource(R.drawable.deburf_success);
+                            else imgThird[i].setImageResource(R.drawable.deburf_none);
                         }
 
                         ArrayList<StoneHistory> histories = new ArrayList<>();
