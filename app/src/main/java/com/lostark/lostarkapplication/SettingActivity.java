@@ -401,7 +401,7 @@ public class SettingActivity extends AppCompatActivity {
                 Button btnCancel = view.findViewById(R.id.btnCancel);
                 Button btnOK = view.findViewById(R.id.btnOK);
 
-                txtContent.setText("정말로 다음 초기화 날짜를 오늘로 초기화하시겠습니까?\n초기화하게되면 숙제가 모두 횟수가 0으로 초기화가 될것입니다.");
+                txtContent.setText("자동 초기화가 되지 않을 경우 수동으로 초기화하는 기능입니다.\n정말로 초기화하시겠습니까?");
                 btnOK.setText("초기화");
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {

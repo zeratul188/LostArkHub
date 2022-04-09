@@ -549,11 +549,11 @@ public class GalleryFragment extends Fragment {
 
                         for (int i = 0; i < imgFirst.length; i++) {
                             if (i < counts[0]) imgFirst[i].setImageResource(R.drawable.success);
-                            else imgFirst[i].setImageResource(R.drawable.none);
+                            else imgFirst[i].setImageResource(R.drawable.empty_crystal);
                             if (i < counts[1]) imgSecond[i].setImageResource(R.drawable.success);
-                            else imgSecond[i].setImageResource(R.drawable.none);
+                            else imgSecond[i].setImageResource(R.drawable.empty_crystal);
                             if (i < counts[2]) imgThird[i].setImageResource(R.drawable.deburf_success);
-                            else imgThird[i].setImageResource(R.drawable.deburf_none);
+                            else imgThird[i].setImageResource(R.drawable.empty_crystal);
                         }
 
                         ArrayList<StoneHistory> histories = new ArrayList<>();
