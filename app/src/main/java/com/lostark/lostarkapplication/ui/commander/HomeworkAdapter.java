@@ -96,14 +96,15 @@ public class HomeworkAdapter extends BaseAdapter {
         ImageButton imgbtnAlarm = convertView.findViewById(R.id.imgbtnAlarm);
         TextView txtName = convertView.findViewById(R.id.txtName);
         TextView txtNow = convertView.findViewById(R.id.txtNow);
-        TextView txtMax = convertView.findViewById(R.id.txtMax);
+        TextView txtNowInfo = convertView.findViewById(R.id.txtNowInfo);
+        //TextView txtMax = convertView.findViewById(R.id.txtMax);
         ImageButton imgbtnUp = convertView.findViewById(R.id.imgbtnUp);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
         ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
         TextView txtContent = convertView.findViewById(R.id.txtContent);
-        TextView txtRest = convertView.findViewById(R.id.txtRest);
+        //TextView txtRest = convertView.findViewById(R.id.txtRest);
         ProgressBar progressRest = convertView.findViewById(R.id.progressRest);
-        LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
+        //LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
         ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
         LinearLayout layoutAdd = convertView.findViewById(R.id.layoutAdd);
 
@@ -203,8 +204,14 @@ public class HomeworkAdapter extends BaseAdapter {
         });
 
         txtName.setText(checklists.get(position).getName());
-        txtNow.setText(Integer.toString(checklists.get(position).getNow()));
-        txtMax.setText(Integer.toString(checklists.get(position).getMax()));
+        if (checklists.get(position).getMax()-checklists.get(position).getNow() <= 0) {
+            txtNow.setText("완료");
+            txtNowInfo.setVisibility(View.GONE);
+        } else {
+            txtNow.setText(Integer.toString(checklists.get(position).getMax()-checklists.get(position).getNow()));
+            txtNowInfo.setVisibility(View.VISIBLE);
+        }
+        //txtMax.setText(Integer.toString(checklists.get(position).getMax()));
         if (checklists.get(position).isAlarm()) imgbtnAlarm.setImageResource(R.drawable.ic_notifications_black_24dp);
         else imgbtnAlarm.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         if (checklists.get(position).getNow() >= checklists.get(position).getMax()) {
@@ -226,43 +233,40 @@ public class HomeworkAdapter extends BaseAdapter {
         int progress;
         switch (checklists.get(position).getName()) {
             case "카오스 던전":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("카던 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             case "가디언 토벌":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("가디언 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             case "에포나 일일 의뢰":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("에포나 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             default:
-                layoutRest.setVisibility(View.GONE);
+                progressRest.setVisibility(View.GONE);
         }
 
 
