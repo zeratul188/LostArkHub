@@ -28,32 +28,34 @@
                 android:text="Chracter Name"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtServer"
-                android:text="Server"
-                android:textSize="14sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#FE6E0E"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Level : "
-                android:textSize="16sp"
-                android:textColor="#AAAAAA"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtLevel"
                 android:text="9999"
                 android:textSize="16sp"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#AAAAAA"/>
+            <ImageView
+                android:layout_width="16sp"
+                android:layout_height="16sp"
+                android:src="@drawable/ic_point"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:padding="6sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtServer"
+                android:text="Server"
+                android:textSize="16sp"
+                android:textColor="#AAAAAA"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

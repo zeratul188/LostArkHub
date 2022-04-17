@@ -81,7 +81,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@drawable/yesbuttonstyle"
-            android:text="재설정"
+            android:text="새로고침"
             android:textSize="18sp"
             android:id="@+id/fabRefresh"
             android:textColor="#ffffff"/>

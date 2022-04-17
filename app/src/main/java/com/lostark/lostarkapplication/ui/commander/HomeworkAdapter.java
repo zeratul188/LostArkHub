@@ -206,9 +206,11 @@ public class HomeworkAdapter extends BaseAdapter {
         txtName.setText(checklists.get(position).getName());
         if (checklists.get(position).getMax()-checklists.get(position).getNow() <= 0) {
             txtNow.setText("완료");
+            txtNow.setTextColor(Color.parseColor("#92C52D"));
             txtNowInfo.setVisibility(View.GONE);
         } else {
             txtNow.setText(Integer.toString(checklists.get(position).getMax()-checklists.get(position).getNow()));
+            txtNow.setTextColor(Color.parseColor("#FFFFFF"));
             txtNowInfo.setVisibility(View.VISIBLE);
         }
         //txtMax.setText(Integer.toString(checklists.get(position).getMax()));

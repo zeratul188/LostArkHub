@@ -20,7 +20,7 @@
             android:padding="15dp"
             android:textColor="#FFFFFF"/>
         <Button
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:background="@drawable/titlebuttonstyle"
             android:text="프리셋"
@@ -68,10 +68,10 @@
             </LinearLayout>
         </FrameLayout>
         <Button
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:background="@drawable/yesbuttonstyle"
-            android:text="설정"
+            android:text="포인트 설정"
             android:textSize="18sp"
             android:id="@+id/btnSkillSetting"
             android:textColor="#ffffff"/>

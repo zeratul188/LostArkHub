@@ -38,7 +38,7 @@
                     android:id="@+id/txtServer"
                     android:text="Server"
                     android:textColor="#FE6E0E"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textSize="14sp"/>
             </LinearLayout>
             <LinearLayout
@@ -48,24 +48,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Level : "
-                    android:textColor="#aaaaaa"
-                    android:textSize="12dp"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
                     android:id="@+id/txtLevel"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#AAAAAA"
                     android:textSize="14sp"
                     android:text="0"/>
+                <ImageView
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:src="@drawable/ic_point"
+                    android:layout_gravity="center"
+                    android:padding="5sp"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtJob"
                     android:text="직업"
-                    android:textColor="#92C52D"
-                    android:textSize="14dp"/>
+                    android:textColor="#AAAAAA"
+                    android:textSize="14sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -77,30 +78,29 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#343945"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:padding="5dp"
+            android:orientation="horizontal">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/hwid2"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="카오스 던전"
+                android:text="카던"
+                android:textSize="10dp"
                 android:textColor="#AAAAAA"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp"/>
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="bottom"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtDungeon"
                 android:text="0"
                 android:textSize="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="bottom"
+                android:gravity="right"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
@@ -108,31 +108,30 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#343945"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:padding="5dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/hwid1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="가디언 토벌"
+                android:text="가디언"
+                android:textSize="10dp"
+                android:layout_marginLeft="2dp"
                 android:textColor="#AAAAAA"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp"/>
+                android:layout_gravity="bottom"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtBoss"
                 android:text="0"
                 android:textSize="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="bottom"
+                android:gravity="right"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
@@ -140,30 +139,30 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#343945"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
+            android:padding="5dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/hwid3"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="에포나 의뢰"
+                android:text="에포나"
+                android:textSize="10dp"
                 android:textColor="#AAAAAA"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp"/>
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="bottom"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtQuest"
                 android:text="0"
                 android:textSize="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="bottom"
+                android:gravity="right"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>

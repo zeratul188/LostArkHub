@@ -25,14 +25,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="캐릭터 진행 상황"
+                    android:text="숙제"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp"
                     android:textColor="#FFFFFF"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listHomework"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp"
+                    android:layout_height="150dp"
                     android:scrollbarSize="0dp"
                     android:scrollbars="horizontal"/>
                 <me.relex.circleindicator.CircleIndicator2
@@ -57,13 +57,15 @@
                     android:layout_height="wrap_content"
                     android:text="이벤트"
                     android:textSize="20sp"
+                    android:layout_gravity="bottom"
                     android:textColor="#FFFFFF"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="진행 중인 이벤트 "
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
+                    android:text="진행 중인 이벤트"
+                    android:textSize="10sp"
+                    android:layout_marginRight="3sp"
+                    android:layout_gravity="bottom"
                     android:textColor="#AAAAAA"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,16 +73,16 @@
                     android:id="@+id/txtEventCount"
                     android:text="0개"
                     android:textSize="16sp"
-                    android:textColor="#AAAAAA"
-                    android:layout_gravity="center"/>
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="bottom"/>
             </LinearLayout>
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="214dp">
+                android:layout_height="178dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listEvent"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="154dp"
                     android:scrollbarSize="0dp"
                     android:scrollbars="horizontal"/>
                 <me.relex.circleindicator.CircleIndicator2
@@ -96,8 +98,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:padding="15dp"
+                android:background="#191b20"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <TextView
@@ -471,12 +473,13 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="도전 가디언 토벌"
                 android:textSize="20sp"
+                android:background="#191b20"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
+                android:padding="15dp"
                 android:textColor="#FFFFFF"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -667,12 +670,13 @@
                 </LinearLayout>
             </LinearLayout>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="도전 어비스 던전"
                 android:textSize="20sp"
+                android:padding="15dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
+                android:background="#191b20"
                 android:textColor="#FFFFFF"/>
             <LinearLayout
                 android:layout_width="match_parent"
