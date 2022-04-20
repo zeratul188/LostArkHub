@@ -16,21 +16,27 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtName"
                 android:text="Preset Name"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF"/>
+            <ImageView
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/ic_point"
+                android:padding="8sp"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:layout_gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtGrade"
-                android:layout_marginLeft="10dp"
                 android:text="Grade"
                 android:textSize="20sp"
-                android:textColor="#92C52D"/>
+                android:textColor="#AAAAAA"/>
 
         </LinearLayout>
         <LinearLayout

@@ -44,6 +44,13 @@
                 android:text="9999"
                 android:textSize="14sp"
                 android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="level"
+                android:textSize="10sp"
+                android:layout_marginLeft="2sp"
+                android:textColor="#888888"/>
             <ImageView
                 android:layout_width="14sp"
                 android:layout_height="14sp"
@@ -58,7 +65,7 @@
                 android:id="@+id/txtJob"
                 android:text="직업"
                 android:textColor="#AAAAAA"
-                android:textSize="14dp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

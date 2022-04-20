@@ -32,14 +32,7 @@
                     android:text="Chracter Name"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtServer"
-                    android:text="Server"
-                    android:textColor="#FE6E0E"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="14sp"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,6 +45,13 @@
                     android:textColor="#AAAAAA"
                     android:textSize="14sp"
                     android:text="0"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#888888"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="2sp"
+                    android:text="level"/>
                 <ImageView
                     android:layout_width="14sp"
                     android:layout_height="14sp"
@@ -65,6 +65,21 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/txtJob"
                     android:text="직업"
+                    android:textColor="#AAAAAA"
+                    android:textSize="14sp"/>
+                <ImageView
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:src="@drawable/ic_point"
+                    android:layout_gravity="center"
+                    android:padding="5sp"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"/>
+                <TextView
+                    android:id="@+id/txtServer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Server"
                     android:textColor="#AAAAAA"
                     android:textSize="14sp"/>
             </LinearLayout>

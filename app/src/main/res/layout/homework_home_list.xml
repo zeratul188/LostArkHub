@@ -43,6 +43,13 @@
                 android:text="1480"
                 android:textSize="14dp"
                 android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="level"
+                android:textSize="10dp"
+                android:layout_marginLeft="2dp"
+                android:textColor="#888888"/>
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
