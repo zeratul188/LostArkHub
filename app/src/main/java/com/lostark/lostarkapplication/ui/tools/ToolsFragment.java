@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,14 +40,14 @@ public class ToolsFragment extends Fragment {
         bottomNavigationView = root.findViewById(R.id.bottomNavigationView);
         layoutFrame = root.findViewById(R.id.layoutFrame);
 
-        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager = getChildFragmentManager();
         bingoFragment = new BingoFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragments = new ArrayList<>();
         fragments.add(bingoFragment);
         toolsPageViewAdapter = new ToolsPageViewAdapter(fragmentManager, fragments);
         layoutFrame.setAdapter(toolsPageViewAdapter);
-        layoutFrame.setOffscreenPageLimit(1);
+        layoutFrame.setOffscreenPageLimit(fragments.size());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,13 +63,5 @@ public class ToolsFragment extends Fragment {
         });
 
         return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((BingoFragment)(fragments.get(0))).refresh();
-        toolsPageViewAdapter.notifyDataSetChanged();
-        layoutFrame.setAdapter(toolsPageViewAdapter);
     }
 }

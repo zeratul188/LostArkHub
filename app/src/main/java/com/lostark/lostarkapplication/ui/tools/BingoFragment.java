@@ -34,6 +34,8 @@ public class BingoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_bingo, container, false);
 
+        customToast = new CustomToast(getActivity());
+
         txtInfo = root.findViewById(R.id.txtInfo);
         txtBomb = root.findViewById(R.id.txtBomb);
         btnRandom = root.findViewById(R.id.btnRandom);
