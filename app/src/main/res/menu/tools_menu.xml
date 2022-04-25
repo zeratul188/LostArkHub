@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_bingo"
+        android:enabled="true"
+        android:icon="@drawable/hwiw11"
+        android:checked="true"
+        android:title="쿠크세이튼 빙고"/>
+</menu>

@@ -82,7 +82,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/checklist_position_list.xml" value="0.18" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_add_dialog.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_edit_dialog.xml" value="0.2324074074074074" />
-        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list.xml" value="0.33" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list.xml" value="0.21" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_list_dialog.xml" value="0.14" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/chracter_select_list.xml" value="0.22" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/content_main.xml" value="0.2361111111111111" />
@@ -93,6 +93,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/equipment_preset_layout.xml" value="0.16041666666666668" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/equipment_preset_list.xml" value="0.18888888888888888" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/filterdialog.xml" value="0.18888888888888888" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_bingo.xml" value="0.33" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_chracter.xml" value="0.18888888888888888" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_commander.xml" value="0.18" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_day.xml" value="0.1331081081081081" />
@@ -102,6 +103,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_skill.xml" value="0.2" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_slideshow.xml" value="0.16597222222222222" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_stamp.xml" value="0.18888888888888888" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_tools.xml" value="0.25" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/fragment_week.xml" value="0.1331081081081081" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/history_chracter_list.xml" value="0.5" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/layout/history_list.xml" value="0.25" />
@@ -150,6 +152,7 @@
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/menu/checklist_main_menu.xml" value="0.2375" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/menu/checklist_menu.xml" value="0.2375" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/menu/main.xml" value="0.22804054054054054" />
+        <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/menu/tools_menu.xml" value="0.24351851851851852" />
         <entry key="..\:/Users/zerat/StudioProjects/LostArkHub/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14358108108108109" />
       </map>
     </option>
