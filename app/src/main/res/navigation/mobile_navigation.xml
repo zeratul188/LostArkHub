@@ -70,4 +70,10 @@
         android:name="com.lostark.lostarkapplication.ui.tools.ToolsFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
+
+    <fragment
+        android:id="@+id/nav_guild"
+        android:name="com.lostark.lostarkapplication.ui.guild.GuildFragment"
+        android:label="@string/menu_guild"
+        tools:layout="@layout/fragment_guild" />
 </navigation>

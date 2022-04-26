@@ -15,6 +15,7 @@
     <string name="menu_chracter">캐릭터 검색</string>
     <string name="menu_skill">스킬 시뮬레이션</string>
     <string name="menu_tools">도구</string>
+    <string name="menu_guild">길드 홍보</string>
 
     <string name="home_second">Home Second</string>
 </resources>
