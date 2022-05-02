@@ -205,7 +205,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이난나 사용 횟수"
+                android:text="빙고 횟수"
                 android:textSize="14sp"
                 android:layout_gravity="bottom"
                 android:textColor="#888888"/>
@@ -286,6 +286,16 @@
                     android:text="초기화"
                     android:gravity="left|center"
                     android:drawableLeft="@drawable/ic_id_reset_24"
+                    android:drawablePadding="10dp"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/btnHell"
+                    android:text="헬 모드 켜기"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/ic_baseline_castle_24"
                     android:drawablePadding="10dp"
                     android:textSize="14sp"
                     android:textColor="#FFFFFF"/>

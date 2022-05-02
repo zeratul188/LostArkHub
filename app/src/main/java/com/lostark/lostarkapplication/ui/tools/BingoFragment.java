@@ -21,17 +21,18 @@ import java.util.ArrayList;
 public class BingoFragment extends Fragment {
     private ImageView[][] imgBingo = new ImageView[5][5];
     private TextView txtInfo, txtBomb, txtPass;
-    private Button btnRandom, btnUndo, btnPass, btnInfinity, btnReset;
+    private Button btnRandom, btnUndo, btnPass, btnInfinity, btnReset, btnHell;
 
     int[][] out_lines = {{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {1, 4}, {2, 4}, {3, 4}, {1, 0}, {2, 0}, {3, 0}};
     int[][] in_lines = {{1, 1}, {2, 1}, {3, 1}, {1, 3}, {2, 3}, {3, 3}, {2, 1}, {2, 3}};
 
     private CustomToast customToast;
     private ArrayList<int[][]> historys;
+    private ArrayList<Integer> now_historys;
 
     private int[][] bingo = new int[5][5];
-    private int count = 0, start = 0, pass = 0, now = 0;
-    private boolean isEnd = false, isPass = false, isInfinity = false;
+    private int count = 0, start = 0, now = 0;
+    private boolean isEnd = false, isPass = false, isInfinity = false, isHell = false;
 
     public BingoFragment() {
     }
@@ -43,6 +44,7 @@ public class BingoFragment extends Fragment {
 
         customToast = new CustomToast(getActivity());
         historys = new ArrayList<>();
+        now_historys = new ArrayList<>();
 
         txtInfo = root.findViewById(R.id.txtInfo);
         txtBomb = root.findViewById(R.id.txtBomb);
@@ -52,6 +54,7 @@ public class BingoFragment extends Fragment {
         btnInfinity = root.findViewById(R.id.btnInfinity);
         btnReset = root.findViewById(R.id.btnReset);
         txtPass = root.findViewById(R.id.txtPass);
+        btnHell = root.findViewById(R.id.btnHell);
         for (int i = 0; i < imgBingo.length; i++) {
             for (int j = 0; j < imgBingo[i].length; j++) {
                 bingo[i][j] = 0;
@@ -63,8 +66,12 @@ public class BingoFragment extends Fragment {
                     public void onClick(View v) {
                         if (isEnd) return;
                         if (start < 2) {
-                            bingo[first][second] = 1;
-                            changeBingo(imgBingo[first][second], 1, false);
+                            if (start == 0 && isHell) {
+                                bingo[first][second] = 3;
+                            } else {
+                                bingo[first][second] = 1;
+                            }
+                            changeBingo(imgBingo[first][second], bingo[first][second], false);
                             start++;
                             if (start == 1) txtInfo.setText("두번째 지점을 선택하세요");
                             else txtInfo.setText("");
@@ -77,9 +84,12 @@ public class BingoFragment extends Fragment {
                             }
                         }
                         historys.add(0, clone_arr);
+                        now_historys.add(0, now);
                         if (first-1 >= 0) {
                             if (bingo[first-1][second] != 2) {
-                                if (bingo[first-1][second] == 1) {
+                                if (bingo[first-1][second] == 3) {
+                                    onHell();
+                                } else if (bingo[first-1][second] == 1) {
                                     bingo[first-1][second] = 0;
                                     changeBingo(imgBingo[first-1][second], 0, false);
                                 } else {
@@ -90,7 +100,9 @@ public class BingoFragment extends Fragment {
                         }
                         if (first+1 < 5) {
                             if (bingo[first+1][second] != 2) {
-                                if (bingo[first+1][second] == 1) {
+                                if (bingo[first+1][second] == 3) {
+                                    onHell();
+                                } else if (bingo[first+1][second] == 1) {
                                     bingo[first+1][second] = 0;
                                     changeBingo(imgBingo[first+1][second], 0, false);
                                 } else {
@@ -101,7 +113,9 @@ public class BingoFragment extends Fragment {
                         }
                         if (second-1 >= 0) {
                             if (bingo[first][second-1] != 2) {
-                                if (bingo[first][second-1] == 1) {
+                                if (bingo[first][second-1] == 3) {
+                                    onHell();
+                                } else if (bingo[first][second-1] == 1) {
                                     bingo[first][second-1] = 0;
                                     changeBingo(imgBingo[first][second-1], 0, false);
                                 } else {
@@ -112,7 +126,9 @@ public class BingoFragment extends Fragment {
                         }
                         if (second+1 < 5) {
                             if (bingo[first][second+1] != 2) {
-                                if (bingo[first][second+1] == 1) {
+                                if (bingo[first][second+1] == 3) {
+                                    onHell();
+                                } else if (bingo[first][second+1] == 1) {
                                     bingo[first][second+1] = 0;
                                     changeBingo(imgBingo[first][second+1], 0, false);
                                 } else {
@@ -122,7 +138,9 @@ public class BingoFragment extends Fragment {
                             }
                         }
                         if (bingo[first][second] != 2) {
-                            if (bingo[first][second] == 1) {
+                            if (bingo[first][second] == 3) {
+                                onHell();
+                            } else if (bingo[first][second] == 1) {
                                 bingo[first][second] = 0;
                                 changeBingo(imgBingo[first][second], 0, false);
                             } else {
@@ -133,7 +151,7 @@ public class BingoFragment extends Fragment {
                         count++;
                         if (count%3 == 2) {
                             txtInfo.setText("다음 폭탄 때 빙고 완성 못할 시 이난나 사용 권장");
-                        } else {
+                        } else if (!isEnd) {
                             txtInfo.setText("");
                         }
                         txtBomb.setText(Integer.toString(count));
@@ -151,6 +169,7 @@ public class BingoFragment extends Fragment {
                         if (isPass) {
                             isPass = false;
                         }
+                        txtPass.setText(Integer.toString(now/5));
                     }
                 });
             }
@@ -165,7 +184,9 @@ public class BingoFragment extends Fragment {
                     return;
                 }
                 bingo = historys.get(0).clone();
+                now = now_historys.get(0);
                 historys.remove(0);
+                now_historys.remove(0);
                 for (int i = 0; i < bingo.length; i++) {
                     for (int j = 0; j < bingo[i].length; j++) {
                         changeBingo(imgBingo[i][j], bingo[i][j], false);
@@ -179,6 +200,7 @@ public class BingoFragment extends Fragment {
                 } else {
                     txtInfo.setText("");
                 }
+                txtPass.setText(Integer.toString(now/5));
             }
         });
 
@@ -196,14 +218,43 @@ public class BingoFragment extends Fragment {
                     int in_ran = (int)(Math.random()*123456)%in_lines.length;
                     int[] first = out_lines[out_ran];
                     int[] second = in_lines[in_ran];
-                    bingo[first[0]][first[1]] = 1;
-                    bingo[second[0]][second[1]] = 1;
-                    changeBingo(imgBingo[first[0]][first[1]], 1, false);
-                    changeBingo(imgBingo[second[0]][second[1]], 1, false);
+                    if (isHell) {
+                        int ransu = (int)(Math.random()*123456)%2;
+                        if (ransu == 0) {
+                            changeBingo(imgBingo[first[0]][first[1]], 3, false);
+                            changeBingo(imgBingo[second[0]][second[1]], 1, false);
+                            bingo[first[0]][first[1]] = 3;
+                            bingo[second[0]][second[1]] = 1;
+                        } else {
+                            changeBingo(imgBingo[first[0]][first[1]], 1, false);
+                            changeBingo(imgBingo[second[0]][second[1]], 3, false);
+                            bingo[first[0]][first[1]] = 1;
+                            bingo[second[0]][second[1]] = 3;
+                        }
+                    } else {
+                        bingo[first[0]][first[1]] = 1;
+                        bingo[second[0]][second[1]] = 1;
+                        changeBingo(imgBingo[first[0]][first[1]], 1, false);
+                        changeBingo(imgBingo[second[0]][second[1]], 1, false);
+                    }
                     start = 2;
                     txtInfo.setText("");
                     customToast.createToast("2개를 자동으로 배치하였습니다.", Toast.LENGTH_SHORT);
                     customToast.show();
+                }
+            }
+        });
+
+        btnHell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isHell) {
+                    isHell = false;
+                    btnHell.setText("헬 모드 켜기");
+                    reset();
+                } else {
+                    isHell = true;
+                    btnHell.setText("헬 모드 끄기");
                 }
             }
         });
@@ -231,8 +282,6 @@ public class BingoFragment extends Fragment {
                 }
                 isPass = true;
                 txtInfo.setText("이난나를 사용하였습니다.");
-                pass++;
-                txtPass.setText(Integer.toString(pass));
             }
         });
 
@@ -257,13 +306,14 @@ public class BingoFragment extends Fragment {
         }
         count = 0;
         start = 0;
-        pass = 0;
+        now = 0;
         txtInfo.setText("첫번째 지점을 선택하세요");
         txtBomb.setText("0");
         txtPass.setText("0");
         isEnd = false;
         isPass = false;
         historys.clear();
+        now_historys.clear();
     }
 
     private boolean asyncBingo() {
@@ -272,7 +322,7 @@ public class BingoFragment extends Fragment {
         for (int i = 0; i < bingo.length; i++) {
             int cnt = 0;
             for (int j = 0; j < bingo[i].length; j++) {
-                if (bingo[i][j] >= 1) {
+                if (bingo[i][j] == 1 || bingo[i][j] == 2) {
                     cnt++;
                 }
             }
@@ -287,7 +337,7 @@ public class BingoFragment extends Fragment {
         for (int i = 0; i < bingo.length; i++) {
             int cnt = 0;
             for (int j = 0; j < bingo[i].length; j++) {
-                if (bingo[j][i] >= 1) {
+                if (bingo[j][i] == 1 || bingo[j][i] == 2) {
                     cnt++;
                 }
             }
@@ -301,10 +351,10 @@ public class BingoFragment extends Fragment {
         }
         int one_line = 0, two_line = 0;
         for (int i = 0; i < bingo.length; i++) {
-            if (bingo[i][i] >= 1) {
+            if (bingo[i][i] == 1 || bingo[i][i] == 2) {
                 one_line++;
             }
-            if (bingo[i][4-i] >= 1) {
+            if (bingo[i][4-i] == 1 || bingo[i][4-i] == 2) {
                 two_line++;
             }
         }
@@ -331,9 +381,16 @@ public class BingoFragment extends Fragment {
         } else {
             if (statue == 1) {
                 imgView.setImageResource(getActivity().getResources().getIdentifier("bingo_one_pick_block", "drawable", getActivity().getPackageName()));
+            } else if (statue == 3) {
+                imgView.setImageResource(getActivity().getResources().getIdentifier("bingo_hell_block", "drawable", getActivity().getPackageName()));
             } else {
                 imgView.setImageResource(getActivity().getResources().getIdentifier("bingo_disable_block", "drawable", getActivity().getPackageName()));
             }
         }
+    }
+
+    private void onHell() {
+        txtInfo.setText("특수 블럭에 해골이 생겨서 빙고를 실패하였습니다.");
+        isEnd = true;
     }
 }
