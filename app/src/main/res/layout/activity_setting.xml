@@ -35,7 +35,7 @@
                 android:id="@+id/btnDeleteStone"
                 android:text="어빌리티스톤 내역 삭제"
                 android:textSize="18sp"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
         </LinearLayout>
         <TextView
@@ -63,7 +63,7 @@
                 android:text="프리셋 전부 삭제"
                 android:textSize="18sp"
                 android:id="@+id/btnDeletePreset"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
         </LinearLayout>
         <TextView
@@ -274,7 +274,7 @@
                 android:text="프리셋 전부 삭제"
                 android:textSize="18sp"
                 android:id="@+id/btnDeleteSkillPreset"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
         </LinearLayout>
         <TextView
@@ -383,7 +383,7 @@
                 android:text="통계 기록 전부 삭제"
                 android:textSize="18sp"
                 android:id="@+id/btnDeleteStat"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
@@ -396,7 +396,7 @@
                 android:text="숙제 현황 기록 초기화"
                 android:textSize="18sp"
                 android:id="@+id/btnDeleteStack"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -463,7 +463,7 @@
                 android:text="평가하기"
                 android:textSize="18sp"
                 android:id="@+id/btnReview"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
@@ -476,7 +476,7 @@
                 android:text="업데이트 확인"
                 android:textSize="18sp"
                 android:id="@+id/btnCheckUpdate"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
@@ -486,10 +486,10 @@
                 android:background="@drawable/settingbuttonstyle"
                 android:padding="20dp"
                 style="?android:attr/borderlessButtonStyle"
-                android:text="날짜 초기화"
+                android:text="초기화 날짜 1일 감소"
                 android:textSize="18sp"
                 android:id="@+id/btnResetDate"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
@@ -502,7 +502,7 @@
                 android:text="앱 ID 변경"
                 android:textSize="18sp"
                 android:id="@+id/btnResetID"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:textColor="#ffffff"/>
             <TextView
                 android:layout_width="match_parent"

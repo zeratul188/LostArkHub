@@ -46,8 +46,10 @@ public class ChracterListAdapter extends BaseAdapter {
         TextView txtName = convertView.findViewById(R.id.txtName);
         TextView txtServer = convertView.findViewById(R.id.txtServer);
         TextView txtLevel = convertView.findViewById(R.id.txtLevel);
+        TextView txtJob = convertView.findViewById(R.id.txtJob);
 
         txtName.setText(lists.get(position).getName());
+        txtJob.setText(lists.get(position).getJob());
         txtServer.setText(lists.get(position).getServer());
         txtLevel.setText(Integer.toString(lists.get(position).getLevel()));
         List<String> jobs = Arrays.asList(context.getResources().getStringArray(R.array.job));

@@ -41,7 +41,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class DayFragment extends Fragment {
+public class DayFragment extends Fragment implements ChecklistPositionAdapter.OnStartDragListener{
     private ListView listView;
     private LinearLayout layoutAdd, layoutPosition;
 
@@ -108,7 +108,7 @@ public class DayFragment extends Fragment {
                 }
 
                 listView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), true);
+                positionAdapter = new ChecklistPositionAdapter(lists, getActivity(), true, DayFragment.this);
 
                 helper = new ItemTouchHelper(new ChecklistItemTouchHelperCallback(positionAdapter));
                 helper.attachToRecyclerView(listView);
@@ -281,6 +281,7 @@ public class DayFragment extends Fragment {
                             checklist = new Checklist(name, "일일", content, 0, max, !pref.getBoolean("homework_alarm", false), 0);
                         } else checklist = new Checklist(name, "일일", "", 0, max, !pref.getBoolean("homework_alarm", false), 0);
                         checklist.setPosition(chracterDBAdapter.getLastRowID());
+                        checklist.setIcon(0);
                         checklists.add(0, checklist);
                         chracterDBAdapter.insertData(checklist);
                         if (name.equals("카오스 던전")) {
@@ -353,8 +354,10 @@ public class DayFragment extends Fragment {
                 boolean isAlarm = Boolean.parseBoolean(cursor.getString(5));
                 int history = cursor.getInt(7);
                 int position = cursor.getInt(9);
+                int icon = cursor.getInt(10);
                 Checklist checklist = new Checklist(name, type, content, now, max, isAlarm, history);
                 checklist.setPosition(position);
+                checklist.setIcon(icon);
                 checklists.add(checklist);
                 /*
                 if (type.equals("일일")) checklists.add(0, new Checklist(name, type, content, now, max, isAlarm, history));
@@ -366,5 +369,10 @@ public class DayFragment extends Fragment {
         chracterDBAdapter.close();
         Collections.sort(checklists);
         homeworkAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStartDrag(ChecklistPositionAdapter.ViewHolder viewHolder) {
+        helper.startDrag(viewHolder);
     }
 }

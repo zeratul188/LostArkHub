@@ -283,6 +283,7 @@
                             android:paddingRight="10dp"
                             android:id="@+id/txtBurf1"
                             android:textSize="15sp"
+                            android:layout_gravity="center"
                             android:textColor="#ffffff"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -481,6 +482,7 @@
                             android:paddingRight="10dp"
                             android:id="@+id/txtBurf2"
                             android:textSize="15sp"
+                            android:layout_gravity="center"
                             android:textColor="#ffffff"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -689,6 +691,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:id="@+id/txtDeburf"
+                        android:layout_gravity="center"
                         android:textSize="15sp"
                         android:textColor="#ffffff"/>
                     <TextView

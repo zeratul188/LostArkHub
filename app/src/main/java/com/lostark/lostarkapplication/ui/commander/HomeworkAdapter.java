@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lostark.lostarkapplication.CustomToast;
@@ -52,6 +54,10 @@ public class HomeworkAdapter extends BaseAdapter {
     private SharedPreferences pref;
     private boolean isDay = true;
     private String chracter_name;
+    private ChecklistIconAdapter iconAdapter;
+
+    private final int MAX_DAY = 10;
+    private final int MAX_WEEK = 12;
 
     private AlertDialog alertDialog, diag_alertDialog;
 
@@ -90,48 +96,131 @@ public class HomeworkAdapter extends BaseAdapter {
         ImageButton imgbtnAlarm = convertView.findViewById(R.id.imgbtnAlarm);
         TextView txtName = convertView.findViewById(R.id.txtName);
         TextView txtNow = convertView.findViewById(R.id.txtNow);
-        TextView txtMax = convertView.findViewById(R.id.txtMax);
+        TextView txtNowInfo = convertView.findViewById(R.id.txtNowInfo);
+        //TextView txtMax = convertView.findViewById(R.id.txtMax);
         ImageButton imgbtnUp = convertView.findViewById(R.id.imgbtnUp);
         LinearLayout layoutMain = convertView.findViewById(R.id.layoutMain);
         ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
         TextView txtContent = convertView.findViewById(R.id.txtContent);
-        TextView txtRest = convertView.findViewById(R.id.txtRest);
+        //TextView txtRest = convertView.findViewById(R.id.txtRest);
         ProgressBar progressRest = convertView.findViewById(R.id.progressRest);
-        LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
+        //LinearLayout layoutRest = convertView.findViewById(R.id.layoutRest);
         ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
         LinearLayout layoutAdd = convertView.findViewById(R.id.layoutAdd);
 
         List<String> homeworks;
-        if (isDay) {
-            homeworks = Arrays.asList(context.getResources().getStringArray(R.array.day_homework));
-            switch (homeworks.indexOf(checklists.get(position).getName())) {
-                case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
-                    imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
-                    break;
-                default:
-                    imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+        if (checklists.get(position).getIcon() == 0) {
+            if (isDay) {
+                homeworks = Arrays.asList(context.getResources().getStringArray(R.array.day_homework));
+                switch (homeworks.indexOf(checklists.get(position).getName())) {
+                    case 0: case 1: case 2: case 3: case 4: case 5: case 7: case 8: case 9:
+                        imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
+                        break;
+                    default:
+                        imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+                }
+            } else {
+                homeworks = Arrays.asList(context.getResources().getStringArray(R.array.week_homework));
+                switch (homeworks.indexOf(checklists.get(position).getName())) {
+                    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
+                        imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
+                        break;
+                    default:
+                        imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+                }
             }
         } else {
-            homeworks = Arrays.asList(context.getResources().getStringArray(R.array.week_homework));
-            switch (homeworks.indexOf(checklists.get(position).getName())) {
-                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
-                    imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(homeworks.indexOf(checklists.get(position).getName())+1), "drawable", context.getPackageName()));
-                    break;
-                default:
-                    imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
+            if (checklists.get(position).getIcon() > 0 && checklists.get(position).getIcon() <= MAX_DAY) {
+                imgIcon.setImageResource(context.getResources().getIdentifier("hwid"+checklists.get(position).getIcon(), "drawable", context.getPackageName()));
+            } else if (checklists.get(position).getIcon() > MAX_DAY && checklists.get(position).getIcon() <= MAX_WEEK+MAX_DAY) {
+                imgIcon.setImageResource(context.getResources().getIdentifier("hwiw"+(checklists.get(position).getIcon()-MAX_DAY), "drawable", context.getPackageName()));
+            } else {
+                imgIcon.setImageResource(R.drawable.ic_assignment_black_24dp);
             }
         }
 
+        imgIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialog_view = activity.getLayoutInflater().inflate(R.layout.icon_add_dialog, null);
+
+                RecyclerView listView = dialog_view.findViewById(R.id.listView);
+                Button btnEdit = dialog_view.findViewById(R.id.btnEdit);
+                Button btnDelete = dialog_view.findViewById(R.id.btnDelete);
+
+                ArrayList<Icon> icons = new ArrayList<>();
+                for (int i = 1; i <= MAX_WEEK+MAX_DAY; i++) {
+                    if (i == 7) continue;
+                    icons.add(new Icon(i));
+                }
+
+                System.out.println(icons.size());
+                GridLayoutManager layoutManager = new GridLayoutManager(context, 5);
+                listView.setLayoutManager(layoutManager);
+                iconAdapter = new ChecklistIconAdapter(icons, context);
+                listView.setAdapter(iconAdapter);
+                iconAdapter.notifyDataSetChanged();
+
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (iconAdapter.getIndex() != 0) {
+                            chracterDBAdapter.open();
+                            chracterDBAdapter.changeIcon(checklists.get(position).getName(), iconAdapter.getIndex());
+                            chracterDBAdapter.close();
+                            checklists.get(position).setIcon(iconAdapter.getIndex());
+                            notifyDataSetChanged();
+                            customToast.createToast("아이콘을 변경하였습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                            alertDialog.dismiss();
+                        } else {
+                            customToast.createToast("변경할 아이콘을 선택하지 않았습니다.", Toast.LENGTH_SHORT);
+                            customToast.show();
+                        }
+                    }
+                });
+
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chracterDBAdapter.open();
+                        chracterDBAdapter.changeIcon(checklists.get(position).getName(), 0);
+                        chracterDBAdapter.close();
+                        checklists.get(position).setIcon(0);
+                        notifyDataSetChanged();
+                        customToast.createToast("아이콘이 기본값으로 초기화되었습니다.", Toast.LENGTH_SHORT);
+                        customToast.show();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setView(dialog_view);
+
+                alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.show();
+            }
+        });
+
         txtName.setText(checklists.get(position).getName());
-        txtNow.setText(Integer.toString(checklists.get(position).getNow()));
-        txtMax.setText(Integer.toString(checklists.get(position).getMax()));
+        if (checklists.get(position).getMax()-checklists.get(position).getNow() <= 0) {
+            txtNow.setText("완료");
+            txtNow.setTextColor(Color.parseColor("#92C52D"));
+            txtNowInfo.setVisibility(View.GONE);
+        } else {
+            txtNow.setText(Integer.toString(checklists.get(position).getMax()-checklists.get(position).getNow()));
+            txtNow.setTextColor(Color.parseColor("#FFFFFF"));
+            txtNowInfo.setVisibility(View.VISIBLE);
+        }
+        //txtMax.setText(Integer.toString(checklists.get(position).getMax()));
         if (checklists.get(position).isAlarm()) imgbtnAlarm.setImageResource(R.drawable.ic_notifications_black_24dp);
         else imgbtnAlarm.setImageResource(R.drawable.ic_notifications_off_black_24dp);
         if (checklists.get(position).getNow() >= checklists.get(position).getMax()) {
             imgbtnUp.setImageResource(R.drawable.ic_refresh_black_24dp);
             imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonresetstyle);
         } else {
-            imgbtnUp.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+            imgbtnUp.setImageResource(R.drawable.ic_baseline_check_24);
             imgbtnUp.setBackgroundResource(R.drawable.homeworkbuttonstyle);
         }
         progressBar.setMax(checklists.get(position).getMax());
@@ -146,43 +235,40 @@ public class HomeworkAdapter extends BaseAdapter {
         int progress;
         switch (checklists.get(position).getName()) {
             case "카오스 던전":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("카던 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             case "가디언 토벌":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("가디언 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             case "에포나 일일 의뢰":
-                layoutRest.setVisibility(View.VISIBLE);
+                progressRest.setVisibility(View.VISIBLE);
                 chracterDBAdapter.open();
                 cursor = chracterDBAdapter.fetchData("에포나 휴식");
                 cursor.moveToFirst();
                 chracterDBAdapter.close();
                 if (cursor.getCount() > 0) {
                     progress = cursor.getInt(3);
-                    txtRest.setText(Integer.toString(progress*10));
                     progressRest.setProgress(progress);
                 }
                 break;
             default:
-                layoutRest.setVisibility(View.GONE);
+                progressRest.setVisibility(View.GONE);
         }
 
 

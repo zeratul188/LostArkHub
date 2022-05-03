@@ -2,12 +2,14 @@ package com.lostark.lostarkapplication.ui.commander;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lostark.lostarkapplication.R;
@@ -19,15 +21,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChecklistPositionAdapter extends RecyclerView.Adapter<ChecklistPositionAdapter.ViewHolder>
-    implements ItemTouchHelperListener{
+        implements ItemTouchHelperListener { //ItemTouchHelperListener
     private ArrayList<Checklist> checklists;
     private Context context;
     private boolean isDay = true;
 
-    public ChecklistPositionAdapter(ArrayList<Checklist> checklists, Context context, boolean isDay) {
+    public interface OnStartDragListener {
+        void onStartDrag(ViewHolder viewHolder);
+    }
+
+    private OnStartDragListener listener;
+
+    public ChecklistPositionAdapter(ArrayList<Checklist> checklists, Context context, boolean isDay, OnStartDragListener listener) {
         this.checklists = checklists;
         this.context = context;
         this.isDay = isDay;
+        this.listener = listener;
     }
 
     @NonNull
@@ -60,6 +69,16 @@ public class ChecklistPositionAdapter extends RecyclerView.Adapter<ChecklistPosi
             }
         }
         holder.txtName.setText(checklists.get(position).getName());
+
+        holder.imgMenu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    listener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -75,7 +94,7 @@ public class ChecklistPositionAdapter extends RecyclerView.Adapter<ChecklistPosi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imgIcon;
+        public ImageView imgIcon, imgMenu;
         public TextView txtName;
 
         public ViewHolder(View itemView) {
@@ -83,6 +102,7 @@ public class ChecklistPositionAdapter extends RecyclerView.Adapter<ChecklistPosi
 
             imgIcon = itemView.findViewById(R.id.imgIcon);
             txtName = itemView.findViewById(R.id.txtName);
+            imgMenu = itemView.findViewById(R.id.imgMenu);
         }
     }
 }

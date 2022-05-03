@@ -401,8 +401,8 @@ public class SettingActivity extends AppCompatActivity {
                 Button btnCancel = view.findViewById(R.id.btnCancel);
                 Button btnOK = view.findViewById(R.id.btnOK);
 
-                txtContent.setText("정말로 다음 초기화 날짜를 오늘로 초기화하시겠습니까?\n초기화하게되면 숙제가 모두 횟수가 0으로 초기화가 될것입니다.");
-                btnOK.setText("초기화");
+                txtContent.setText("초기화 날짜를 하루씩 줄입니다. 초기화되지 않았을 때 초기화되지 않은 날짜만큼 반복하시면 됩니다.\n초기화되었는데 이를 수행하면 숙제 내용이 인게임 숙제와 달라질 수 있습니다.");
+                btnOK.setText("1일 줄이기");
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -414,13 +414,22 @@ public class SettingActivity extends AppCompatActivity {
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Calendar now = Calendar.getInstance();
-                        editor.putInt("year", now.get(Calendar.YEAR));
-                        editor.putInt("month", now.get(Calendar.MONTH)+1);
-                        editor.putInt("day", now.get(Calendar.DAY_OF_MONTH));
+                        int year = pref.getInt("year", -1);
+                        int month = pref.getInt("month", -1);
+                        int day = pref.getInt("day", -1);
+
+                        Calendar setting_calendar = Calendar.getInstance();
+                        setting_calendar.set(Calendar.YEAR, year);
+                        setting_calendar.set(Calendar.MONTH, month-1);
+                        setting_calendar.set(Calendar.DAY_OF_MONTH, day);
+                        setting_calendar.add(Calendar.DAY_OF_MONTH, -1);
+                        //Calendar now = Calendar.getInstance();
+                        editor.putInt("year", setting_calendar.get(Calendar.YEAR));
+                        editor.putInt("month", setting_calendar.get(Calendar.MONTH)+1);
+                        editor.putInt("day", setting_calendar.get(Calendar.DAY_OF_MONTH));
                         editor.commit();
                         //Toast.makeText(getApplicationContext(), "현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT).show();
-                        customToast.createToast("현재 날짜로 설정되었습니다. 숙제 초기화 주기가 바뀌었습니다.", Toast.LENGTH_SHORT);
+                        customToast.createToast("초기화 날짜가 하루 줄었습니다.", Toast.LENGTH_SHORT);
                         customToast.show();
                         txtResetDate.setText("다음 초기화 날짜 : "+pref.getInt("year", -1)+"년 "+pref.getInt("month", -1)+"월 "+pref.getInt("day", -1)+"일 오전 6시");
                         alertDialog.dismiss();

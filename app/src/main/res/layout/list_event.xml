@@ -21,15 +21,22 @@
             android:padding="10dp"
             android:textSize="18sp"
             android:textColor="#FF4444"/>
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|bottom"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/event_date_background"/>
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:text="2021년 4월 9일 ~ 2021년 5월 21일"
+            android:id="@+id/txtDate"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_gravity="right|bottom"
+            android:textColor="#ffffff"/>
     </FrameLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2021년 4월 9일 ~ 2021년 5월 21일"
-        android:id="@+id/txtDate"
-        android:padding="10dp"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:background="#1d2026"
-        android:textColor="#ffffff"/>
+
 </LinearLayout>

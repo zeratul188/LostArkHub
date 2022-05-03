@@ -10,11 +10,14 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.guild.AddGuildActivity"
+            android:exported="false" />
         <activity
             android:name=".StatActivity"
             android:configChanges="screenSize|orientation"
@@ -22,11 +25,13 @@
         <activity
             android:name=".WebActivity"
             android:exported="false" />
-        <activity android:name=".ui.commander.ChecklistActivity"
+        <activity
+            android:name=".ui.commander.ChecklistActivity"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/CustomActionBarTheme"/>
-        <activity android:name=".SettingActivity"
-            android:configChanges="screenSize|orientation"/>
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name=".SettingActivity"
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".MainActivity"
             android:configChanges="screenSize|orientation"
