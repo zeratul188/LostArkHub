@@ -218,8 +218,8 @@
                     android:background="@drawable/customeditstyle"
                     android:padding="10dp"
                     android:id="@+id/edtRequest"
-                    android:hint="0~100글자"
-                    android:maxLength="100"
+                    android:hint="ex) https://lostark.game.onstove.com/Main"
+                    android:maxLength="300"
                     android:textSize="16sp"
                     android:textColor="#ffffff"
                     android:layout_marginTop="5dp"
@@ -228,10 +228,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="링크를 적을 때 올바른 주소를 입력해주세요."
+                    android:text="링크를 적을 때 올바른 주소를 입력해주세요.\nex) https://lostark.game.onstove.com/Main"
                     android:textSize="14sp"
                     android:textColor="#AAAAAA"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="홍보 글 작성 시 주의 사항"
+                android:textSize="12sp"
+                android:textColor="#AAAAAA"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="- 홍보 글에 욕설 등 적절하지 않은 단어는 피해주세요\n- 같은 길드를 여러 번 작성할 경우 모두 삭제됩니다.\n- 가입 문의 링크에 가입 문의에 관련된 링크만 작성해주시기 바랍니다. ex)오픈 카카오톡, 디스코드 등"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"/>
+
         </LinearLayout>
     </ScrollView>
     <Button

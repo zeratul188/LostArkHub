@@ -207,6 +207,7 @@
                 android:layout_height="wrap_content"
                 android:text="빙고 횟수"
                 android:textSize="14sp"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="bottom"
                 android:textColor="#888888"/>
             <View

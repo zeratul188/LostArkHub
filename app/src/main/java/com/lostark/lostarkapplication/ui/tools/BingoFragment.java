@@ -149,10 +149,12 @@ public class BingoFragment extends Fragment {
                             }
                         }
                         count++;
-                        if (count%3 == 2) {
-                            txtInfo.setText("다음 폭탄 때 빙고 완성 못할 시 이난나 사용 권장");
-                        } else if (!isEnd) {
-                            txtInfo.setText("");
+                        if (!isEnd) {
+                            if (count%3 == 2) {
+                                txtInfo.setText("다음 폭탄 때 빙고 완성 못할 시 이난나 사용 권장");
+                            } else if (!isEnd) {
+                                txtInfo.setText("");
+                            }
                         }
                         txtBomb.setText(Integer.toString(count));
                         if (asyncBingo()) {

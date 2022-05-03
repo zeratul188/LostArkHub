@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
             List<String> jobs = Arrays.asList(getResources().getStringArray(R.array.job));
             imgJob.setImageResource(getResources().getIdentifier("jb"+(jobs.indexOf(job)+1), "drawable", getPackageName()));
-            navigationView.setBackgroundResource(getResources().getIdentifier("jbb"+(jobs.indexOf(job)+1), "drawable", getPackageName()));
+            //navigationView.setBackgroundResource(getResources().getIdentifier("jbb"+(jobs.indexOf(job)+1), "drawable", getPackageName()));
 
             layoutMain.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             imgJob.setImageResource(0);
             txtName.setText("대표 캐릭터를 선택하세요.");
             layoutMain.setOnClickListener(null);
-            navigationView.setBackgroundResource(R.drawable.jbb_none);
+            //navigationView.setBackgroundResource(R.drawable.jbb_none);
         }
         chracterListDBAdapter.close();
 
@@ -371,6 +371,10 @@ public class MainActivity extends AppCompatActivity {
         setting_calendar.set(Calendar.SECOND, 0);
 
         Calendar now = Calendar.getInstance();
+
+        System.out.println("information===============================\nnow : "+now.get(Calendar.YEAR)+"."+(now.get(Calendar.MONTH)+1)+"."+now.get(Calendar.DAY_OF_MONTH)+":"+now.get(Calendar.HOUR_OF_DAY)
+                +"\nsetting : "+setting_calendar.get(Calendar.YEAR)+"."+(setting_calendar.get(Calendar.MONTH)+1)+"."+setting_calendar.get(Calendar.DAY_OF_MONTH)+":"+setting_calendar.get(Calendar.HOUR_OF_DAY)
+                +"\nboolean : "+setting_calendar.compareTo(now));
 
         chracterListDBAdapter.open();
         if (year != -1) {

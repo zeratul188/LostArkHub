@@ -42,6 +42,8 @@ public class AddGuildActivity extends AppCompatActivity {
     private DatabaseReference reference;
 
     private int max = 0;
+    private boolean isEdit = false;
+    private Guild guild = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +71,50 @@ public class AddGuildActivity extends AppCompatActivity {
         pref = getSharedPreferences("setting_file", MODE_PRIVATE);
         mDatabase = FirebaseDatabase.getInstance();
         reference = mDatabase.getReference("guilds");
+        isEdit = intent.getBooleanExtra("isEdit", false);
 
         List<String> servers = Arrays.asList(getResources().getStringArray(R.array.servers));
         ArrayAdapter<String> serverAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.job_item, servers);
         sprServer.setAdapter(serverAdapter);
 
+        if (isEdit) {
+            guild = (Guild) intent.getSerializableExtra("guild");
+            btnCreate.setText("수정");
+            if (guild != null) {
+                setTitle(guild.getName()+"의 홍보글 수정");
+                edtName.setText(guild.getName());
+                edtBoss.setText(guild.getBoss());
+                edtLevel.setText(Integer.toString(guild.getLevel()));
+                edtMinLevel.setText(Integer.toString(guild.getMin()));
+                edtIF.setText(guild.getCondition());
+                edtContent.setText(guild.getContent());
+                if (!guild.getLink().equals("none")) {
+                    swtRequest.setChecked(true);
+                    edtRequest.setText(guild.getLink());
+                    layoutRequest.setVisibility(View.VISIBLE);
+                } else {
+                    swtRequest.setChecked(false);
+                    edtRequest.setText("");
+                    layoutRequest.setVisibility(View.GONE);
+                }
+                edtSolution.setText(guild.getSolution());
+                sprServer.setSelection(servers.indexOf(guild.getServer()));
+            } else {
+                toast.createToast("홍보글의 데이터를 가져오는데 문제가 발생하였습니다.", Toast.LENGTH_SHORT);
+                toast.show();
+                setTitle("길드 홍보 글 수정");
+                btnCreate.setEnabled(false);
+            }
+        }
+
         swtRequest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) layoutRequest.setVisibility(View.VISIBLE);
-                else layoutRequest.setVisibility(View.GONE);
+                else {
+                    layoutRequest.setVisibility(View.GONE);
+                    edtRequest.setText("");
+                }
             }
         });
 
@@ -114,13 +150,17 @@ public class AddGuildActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int number = 0;
-                        for (DataSnapshot data : snapshot.getChildren()) {
-                            if (data.getKey().equals("max")) continue;
-                            if (number < Integer.parseInt(data.child("number").getValue().toString())) {
-                                number = Integer.parseInt(data.child("number").getValue().toString());
+                        if (isEdit) {
+                            number = guild.getNumber();
+                        } else {
+                            for (DataSnapshot data : snapshot.getChildren()) {
+                                if (data.getKey().equals("max")) continue;
+                                if (number < Integer.parseInt(data.child("number").getValue().toString())) {
+                                    number = Integer.parseInt(data.child("number").getValue().toString());
+                                }
                             }
+                            number++;
                         }
-                        number++;
                         String id = pref.getString("app_id", "null");
                         String name = edtName.getText().toString();
                         String boss = edtBoss.getText().toString();
@@ -142,7 +182,8 @@ public class AddGuildActivity extends AppCompatActivity {
                         String server = sprServer.getSelectedItem().toString();
                         if (isLink) reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, link, level, min, index, 1, server));
                         else reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, level, min, index, 0, server));
-                        toast.createToast("길드 홍보글을 작성했습니다.", Toast.LENGTH_SHORT);
+                        if (isEdit) toast.createToast("길드 홍보글을 작성했습니다.", Toast.LENGTH_SHORT);
+                        else toast.createToast("길드 홍보글을 수정했습니다.", Toast.LENGTH_SHORT);
                         toast.show();
                         finish();
                     }

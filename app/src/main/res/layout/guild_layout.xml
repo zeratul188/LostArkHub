@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:id="@+id/layoutBackground"
     android:background="#1d2026">
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtName"
             android:text="길드이름"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:layout_gravity="bottom"
             android:textStyle="bold"
             android:textColor="#FFCA45"/>
@@ -33,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lv."
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:layout_gravity="bottom"
             android:textColor="#AAAAAA"/>
         <TextView
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtLevel"
             android:text="99"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:textColor="#FE6E0E"/>
     </LinearLayout>
     <LinearLayout
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtBoss"
             android:text="길드장ID"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:layout_gravity="bottom"
             android:textColor="#FFFFFF"/>
         <TextView
@@ -73,23 +74,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtMinLevel"
-            android:text="9999"
+            android:text="9999레벨 이상 가입 가능"
             android:layout_gravity="bottom"
             android:textSize="14dp"
-            android:textColor="#AAAAAA"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 레벨 이상 가입 가능"
-            android:textSize="14dp"
-            android:layout_gravity="bottom"
             android:textColor="#AAAAAA"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="길드소개"
-        android:textSize="12dp"
+        android:textSize="10dp"
         android:layout_marginTop="10dp"
         android:textColor="#AAAAAA"/>
     <TextView
@@ -99,5 +93,5 @@
         android:text="길드 소개 내용"
         android:textColor="#FFFFFF"
         android:layout_marginTop="5dp"
-        android:textSize="16dp"/>
+        android:textSize="14dp"/>
 </LinearLayout>

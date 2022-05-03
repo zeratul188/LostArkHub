@@ -486,7 +486,7 @@
                 android:background="@drawable/settingbuttonstyle"
                 android:padding="20dp"
                 style="?android:attr/borderlessButtonStyle"
-                android:text="숙제 수동 초기화"
+                android:text="초기화 날짜 1일 감소"
                 android:textSize="18sp"
                 android:id="@+id/btnResetDate"
                 android:gravity="left|center"

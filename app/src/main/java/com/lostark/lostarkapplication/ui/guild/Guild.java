@@ -1,6 +1,8 @@
 package com.lostark.lostarkapplication.ui.guild;
 
-public class Guild implements Comparable<Guild> {
+import java.io.Serializable;
+
+public class Guild implements Comparable<Guild>, Serializable {
     private String id, name, boss, condition, solution, content, date, link, server;
     private int level, min, index, number, statue;
 
