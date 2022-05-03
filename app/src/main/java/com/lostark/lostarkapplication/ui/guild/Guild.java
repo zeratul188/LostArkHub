@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Guild implements Comparable<Guild>, Serializable {
     private String id, name, boss, condition, solution, content, date, link, server;
-    private int level, min, index, number, statue;
+    private int level, min, index, number, statue, report;
 
-    public Guild(int number, String id, String name, String boss, String condition, String solution, String content, String date, int level, int min, int index, int statue, String server) {
+    public Guild(int number, String id, String name, String boss, String condition, String solution, String content, String date, int level, int min, int index, int statue, String server, int report) {
         this.number = number;
         this.id = id;
         this.name = name;
@@ -21,9 +21,10 @@ public class Guild implements Comparable<Guild>, Serializable {
         this.statue = statue;
         this.server = server;
         this.link = "none";
+        this.report = report;
     }
 
-    public Guild(int number, String id, String name, String boss, String condition, String solution, String content, String date, String link, int level, int min, int index, int statue, String server) {
+    public Guild(int number, String id, String name, String boss, String condition, String solution, String content, String date, String link, int level, int min, int index, int statue, String server, int report) {
         this.number = number;
         this.id = id;
         this.name = name;
@@ -38,6 +39,15 @@ public class Guild implements Comparable<Guild>, Serializable {
         this.index = index;
         this.statue = statue;
         this.server = server;
+        this.report = report;
+    }
+
+    public int getReport() {
+        return report;
+    }
+
+    public void setReport(int report) {
+        this.report = report;
     }
 
     public String getServer() {

@@ -186,6 +186,16 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:id="@+id/btnReport"
+            android:background="@drawable/nobuttonstyle"
+            android:text="신고"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:id="@+id/btnLink"
             android:background="@drawable/restbuttonstyle"
             android:text="문의 링크"

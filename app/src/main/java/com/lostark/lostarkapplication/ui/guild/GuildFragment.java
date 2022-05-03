@@ -129,12 +129,15 @@ public class GuildFragment extends Fragment {
                 Button btnDelete = dialogView.findViewById(R.id.btnDelete);
                 Button btnLink = dialogView.findViewById(R.id.btnLink);
                 Button btnClose = dialogView.findViewById(R.id.btnClose);
+                Button btnReport = dialogView.findViewById(R.id.btnReport);
                 LinearLayout layoutManager = dialogView.findViewById(R.id.layoutManager);
 
                 if (pref.getString("app_id", "null").equals(guilds.get(position).getId())) {
                     layoutManager.setVisibility(View.VISIBLE);
+                    btnReport.setVisibility(View.GONE);
                 } else {
                     layoutManager.setVisibility(View.GONE);
+                    btnReport.setVisibility(View.VISIBLE);
                 }
                 txtName.setText(guilds.get(position).getName());
                 txtLevel.setText(Integer.toString(guilds.get(position).getLevel()));
@@ -162,6 +165,43 @@ public class GuildFragment extends Fragment {
                 } else {
                     btnLink.setVisibility(View.GONE);
                 }
+                btnReport.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View dialogView2 = getLayoutInflater().inflate(R.layout.yesnodialog, null);
+
+                        Button btnCancel = dialogView2.findViewById(R.id.btnCancel);
+                        Button btnOK = dialogView2.findViewById(R.id.btnOK);
+                        TextView txtContent = dialogView2.findViewById(R.id.txtContent);
+
+                        txtContent.setText("해당 홍보글을 신고하시겠습니까?\n신고가 접수되면 관리자가 확인 후 삭제 대상이 되면 해당 홍보 글을 삭제합니다.");
+                        btnOK.setText("신고");
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                guilds.get(position).setReport(guilds.get(position).getReport()+1);
+                                reference.child("guild"+guilds.get(position).getNumber()).setValue(guilds.get(position));
+                                toast.createToast("신고가 완료되었습니다.", Toast.LENGTH_SHORT);
+                                toast.show();
+                                yesDialog.dismiss();
+                            }
+                        });
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                yesDialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+                        builder2.setView(dialogView2);
+
+                        yesDialog = builder2.create();
+                        yesDialog.setCancelable(true);
+                        yesDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        yesDialog.show();
+                    }
+                });
 
                 btnLink.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -309,11 +349,12 @@ public class GuildFragment extends Fragment {
                             String solution = data.child("solution").getValue().toString();
                             int statue = Integer.parseInt(data.child("statue").getValue().toString());
                             String server = data.child("server").getValue().toString();
+                            int report = Integer.parseInt(data.child("report").getValue().toString());
                             if (pref.getString("app_id", "null").equals(id) && index != 1) {
                                 index = 9;
                             }
                             if (sprFilter.getSelectedItem().toString().equals("전체") || sprFilter.getSelectedItem().toString().equals(server)) {
-                                guilds.add(new Guild(number, id, name, boss, condition, solution, content, date, link, level, min, index, statue, server));
+                                guilds.add(new Guild(number, id, name, boss, condition, solution, content, date, link, level, min, index, statue, server, report));
                             }
                             count++;
                         }

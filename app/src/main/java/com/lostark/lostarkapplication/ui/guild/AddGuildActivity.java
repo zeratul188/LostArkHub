@@ -149,9 +149,10 @@ public class AddGuildActivity extends AppCompatActivity {
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int number = 0;
+                        int number = 0, report = 0;
                         if (isEdit) {
                             number = guild.getNumber();
+                            report = guild.getReport();
                         } else {
                             for (DataSnapshot data : snapshot.getChildren()) {
                                 if (data.getKey().equals("max")) continue;
@@ -180,8 +181,8 @@ public class AddGuildActivity extends AppCompatActivity {
                         int index = 0;
                         boolean isLink = swtRequest.isChecked();
                         String server = sprServer.getSelectedItem().toString();
-                        if (isLink) reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, link, level, min, index, 1, server));
-                        else reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, level, min, index, 0, server));
+                        if (isLink) reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, link, level, min, index, 1, server, report));
+                        else reference.child("guild"+number).setValue(new Guild(number, id, name, boss, condition, solution, content, date, level, min, index, 0, server, report));
                         if (isEdit) toast.createToast("길드 홍보글을 작성했습니다.", Toast.LENGTH_SHORT);
                         else toast.createToast("길드 홍보글을 수정했습니다.", Toast.LENGTH_SHORT);
                         toast.show();
