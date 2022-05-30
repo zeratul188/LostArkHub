@@ -19,7 +19,7 @@ public class ToolsPageViewAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(0);
+        return fragments.get(position);
     }
 
     @Override
