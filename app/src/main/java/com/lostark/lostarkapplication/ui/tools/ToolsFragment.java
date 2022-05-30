@@ -26,6 +26,7 @@ public class ToolsFragment extends Fragment {
     private ToolsViewModel toolsViewModel;
 
     private BingoFragment bingoFragment;
+    private GoldFragment goldFragment;
     private ArrayList<Fragment> fragments;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -42,9 +43,11 @@ public class ToolsFragment extends Fragment {
 
         fragmentManager = getChildFragmentManager();
         bingoFragment = new BingoFragment();
+        goldFragment = new GoldFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragments = new ArrayList<>();
         fragments.add(bingoFragment);
+        fragments.add(goldFragment);
         toolsPageViewAdapter = new ToolsPageViewAdapter(fragmentManager, fragments);
         layoutFrame.setAdapter(toolsPageViewAdapter);
         layoutFrame.setOffscreenPageLimit(fragments.size());
@@ -57,8 +60,28 @@ public class ToolsFragment extends Fragment {
                         //setFrag(0);
                         layoutFrame.setCurrentItem(0);
                         break;
+                    case R.id.action_gold:
+                        layoutFrame.setCurrentItem(1);
+                        break;
                 }
                 return true;
+            }
+        });
+
+        layoutFrame.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
